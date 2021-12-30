@@ -6,14 +6,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C8B3789D-DDB9-4518-9677-38465F4FCA13}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Generator</RootNamespace>
-    <AssemblyName>Generator</AssemblyName>
+    <RootNamespace>ArfaViewer</RootNamespace>
+    <AssemblyName>ArfaViewer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>\\lodgeaccount.file.core.windows.net\lodgeant-fs\PUBLISH LOCATION\Generator\</PublishUrl>
+    <PublishUrl>\\lodgeaccount.file.core.windows.net\lodgeant-fs\PUBLISH LOCATION\ArfaViewer\</PublishUrl>
     <Install>false</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -23,8 +23,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>https://lodgeaccount.blob.core.windows.net/click-once/Generator/</InstallUrl>
-    <ApplicationRevision>23</ApplicationRevision>
+    <InstallUrl>https://lodgeaccount.blob.core.windows.net/click-once/ArfaViewer/</InstallUrl>
+    <ApplicationRevision>24</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
