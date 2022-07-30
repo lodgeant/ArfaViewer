@@ -13,6 +13,7 @@ namespace Generator
 {
     public class HelperFunctions
     {
+
         public static StringBuilder GenerateClipboardStringFromDataTable(DataGridView dg)
         {
             StringBuilder sb = new StringBuilder();

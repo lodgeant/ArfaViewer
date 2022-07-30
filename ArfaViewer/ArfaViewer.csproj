@@ -118,15 +118,15 @@
     <Compile Include="Screens\PartTickBackScreen.Designer.cs">
       <DependentUpon>PartTickBackScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Delegates.cs" />
+    <Compile Include="Classes\Delegates.cs" />
     <Compile Include="Screens\Generator.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Screens\Generator.Designer.cs">
       <DependentUpon>Generator.cs</DependentUpon>
     </Compile>
-    <Compile Include="Global_Variables.cs" />
-    <Compile Include="HelperFunctions.cs" />
+    <Compile Include="Classes\Global_Variables.cs" />
+    <Compile Include="Classes\HelperFunctions.cs" />
     <Compile Include="Screens\MainScreen.cs">
       <SubType>Form</SubType>
     </Compile>
