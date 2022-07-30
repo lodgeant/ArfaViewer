@@ -112,6 +112,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ImageLibrary.cs" />
+    <Compile Include="Classes\ImageType.cs" />
+    <Compile Include="Classes\StaticData.cs" />
     <Compile Include="Screens\PartTickBackScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,7 +129,6 @@
       <DependentUpon>Generator.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Global_Variables.cs" />
-    <Compile Include="Classes\HelperFunctions.cs" />
     <Compile Include="Screens\MainScreen.cs">
       <SubType>Form</SubType>
     </Compile>

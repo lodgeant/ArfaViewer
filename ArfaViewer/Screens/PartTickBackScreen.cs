@@ -1017,9 +1017,11 @@ namespace Generator
                     Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Updating parts list | Processing " + LDrawRef + "|" + LDrawColourID + " (" + nodeIndex + " of " + partListNodeList.Count + ")...");
 
                     // ** Get element & Partcolour images **
-                    Bitmap elementImage = Generator.GetElementImage(LDrawRef, LDrawColourID);                    
-                    Bitmap partColourImage = Generator.GetPartColourImage(LDrawColourID);
-                    
+                    //Bitmap elementImage = Generator.GetElementImage(LDrawRef, LDrawColourID);
+                    Bitmap elementImage = Generator.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+                    //Bitmap partColourImage = Generator.GetPartColourImage(LDrawColourID);
+                    Bitmap partColourImage = Generator.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
+
                     // ** Build row **
                     object[] row = new object[partListTable.Columns.Count];
                     //row[0] = elementImage;
@@ -1476,7 +1478,8 @@ namespace Generator
                     btn.Size = new Size(120, 120);
                     btn.TabIndex = 0;
                     btn.UseVisualStyleBackColor = true;
-                    btn.BackgroundImage = Generator.GetElementImage(LDrawRef, LDrawColourID);
+                    //btn.BackgroundImage = Generator.GetElementImage(LDrawRef, LDrawColourID);
+                    btn.BackgroundImage = Generator.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
                     btn.BackgroundImageLayout = ImageLayout.Zoom;
                     btn.Click += new System.EventHandler(Handle_TickBack_Button_Click);
                     gb.Controls.Add(btn);
@@ -1491,7 +1494,7 @@ namespace Generator
                     btn.TabIndex = 0;
                     //btn.Text = LDrawColourID.ToString();
                     btn.UseVisualStyleBackColor = true;
-                    btn.BackgroundImage = Generator.GetPartColourImage(LDrawColourID);
+                    btn.BackgroundImage = Generator.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });                    
                     btn.BackgroundImageLayout = ImageLayout.Zoom;
                     gb.Controls.Add(btn);
                     #endregion

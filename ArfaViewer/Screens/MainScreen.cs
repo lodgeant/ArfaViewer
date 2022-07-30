@@ -37,10 +37,10 @@ namespace Generator
                 string[] versionArray = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
                 this.Text = "Main Screen";
                 this.Text += " | " + "v" + versionArray[0] + "." + versionArray[1] + "." + versionArray[2];
-                log.Info(".......................................................................APPLICATION STARTED.......................................................................");
                 lblStatus.Text = "";
-
-
+                log.Info(".......................................................................APPLICATION STARTED.......................................................................");
+                
+                // ** Refresh static data **
                 RefreshStaticData();
 
             }
@@ -118,9 +118,12 @@ namespace Generator
         {
             try
             {               
-                await Generator.RefreshStaticData_BasePartCollection();
-                await Generator.RefreshStaticData_CompositePartCollection();
-                await Generator.RefreshStaticData_PartColourCollection();                
+                //await Generator.RefreshStaticData_BasePartCollection();
+                //await Generator.RefreshStaticData_CompositePartCollection();
+                //await Generator.RefreshStaticData_PartColourCollection();
+                await StaticData.RefreshStaticData(StaticData.Filename.BasePartCollection);
+                await StaticData.RefreshStaticData(StaticData.Filename.CompositePartCollection);
+                await StaticData.RefreshStaticData(StaticData.Filename.PartColourCollection);
             }
             catch (Exception ex)
             {
