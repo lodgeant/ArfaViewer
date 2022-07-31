@@ -21,7 +21,9 @@ namespace Generator
         public static XmlDocument BasePartCollectionXML = new XmlDocument();
         public static XmlDocument CompositePartCollectionXML = new XmlDocument();
         public static XmlDocument PartColourCollectionXML = new XmlDocument();
-        
+        public static Dictionary<StaticData.Filename, XmlDocument> StaticDataCollections = new Dictionary<StaticData.Filename, XmlDocument>();
+
+
         public static string LDrawImageInventoryUrl_Offical = "https://www.ldraw.org/library/official/images/parts/";
         public static string LDrawImageInventoryUrl_Unoffical = "https://www.ldraw.org/library/unofficial/images/parts/";
         public static string ElementURL = "https://m.rebrickable.com/media/parts/ldraw";
@@ -30,6 +32,8 @@ namespace Generator
 
         public static string RebrickableKey = "856437d0f14f81e4d3356d27bf1b419e";
 
+
+        public static APIProxy APIProxy;
 
     }
 

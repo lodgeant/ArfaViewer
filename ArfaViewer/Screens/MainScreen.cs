@@ -39,9 +39,12 @@ namespace Generator
                 this.Text += " | " + "v" + versionArray[0] + "." + versionArray[1] + "." + versionArray[2];
                 lblStatus.Text = "";
                 log.Info(".......................................................................APPLICATION STARTED.......................................................................");
-                
-                // ** Refresh static data **
-                RefreshStaticData();
+
+                // ** Generate Proxy API **
+                Global_Variables.APIProxy = new APIProxy(Global_Variables.AzureStorageConnString);
+
+                // ** Refresh static data **                
+                StaticData.RefreshStaticData_All();
 
             }
             catch (Exception ex)
@@ -112,25 +115,6 @@ namespace Generator
         }
 
         #endregion
-
-
-        private async Task RefreshStaticData()
-        {
-            try
-            {               
-                //await Generator.RefreshStaticData_BasePartCollection();
-                //await Generator.RefreshStaticData_CompositePartCollection();
-                //await Generator.RefreshStaticData_PartColourCollection();
-                await StaticData.RefreshStaticData(StaticData.Filename.BasePartCollection);
-                await StaticData.RefreshStaticData(StaticData.Filename.CompositePartCollection);
-                await StaticData.RefreshStaticData(StaticData.Filename.PartColourCollection);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
 
         #region ** UpdateLDrawStaticDataDetails FUNCTIONS **
         // NEED TO UPDATE THIS TO USE ASYNC & AWAIT

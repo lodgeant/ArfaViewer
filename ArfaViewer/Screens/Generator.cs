@@ -35,7 +35,8 @@ namespace Generator
         private XmlDocument fullSetXml;
         private Scintilla TextArea;
         private Scintilla TextArea2;        
-        private bool GetImages = true;
+        private bool GetImages_Element = false;
+        private bool GetImages_PartColour = true;
         private DataTable dgPartSummaryTable_Orig;
 
 
@@ -174,7 +175,9 @@ namespace Generator
                 log.Info("Set up Scintilla");
 
                 // ** REFRESH STATIC DATA **    
-                RefreshStaticData();
+                //RefreshStaticData();
+                StaticData.RefreshStaticData_All();
+                RefreshLDrawColourNameDropdown();
 
                 // ** UPDATE LABELS **                
                 //fldCurrentSetRef.Text = "621-1";
@@ -821,27 +824,35 @@ namespace Generator
 
         #region ** REFRESH STATIC DATA FUNCTIONS **
 
-        private async Task RefreshStaticData()
+        //private async Task RefreshStaticData()
+        private void RefreshStaticData()
         {
             try
             {
                 EnableControls_All(false);
-
-                lblStatus.Text = "Downloading BasePartCollection.xml from Azure...";
-                await StaticData.RefreshStaticData(StaticData.Filename.BasePartCollection);                
+                
+                //lblStatus.Text = "Downloading BasePartCollection.xml from Azure...";
+                //string xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.BasePartCollection.ToString());
+                //Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
                 //System.Threading.Thread.Sleep(2000);
 
-                lblStatus.Text = "Downloading CompositePartCollection.xml from Azure...";
-                await StaticData.RefreshStaticData(StaticData.Filename.CompositePartCollection);
+                //lblStatus.Text = "Downloading CompositePartCollection.xml from Azure...";
+                //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.CompositePartCollection.ToString());
+                //Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
                 //System.Threading.Thread.Sleep(2000);
 
-                lblStatus.Text = "Downloading PartColourCollection.xml from Azure...";
-                await StaticData.RefreshStaticData(StaticData.Filename.PartColourCollection);
+                //lblStatus.Text = "Downloading PartColourCollection.xml from Azure...";
+                //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.PartColourCollection.ToString());
+                //Global_Variables.PartColourCollectionXML.LoadXml(xmlString);
                 //System.Threading.Thread.Sleep(2000);
-                lblStatus.Text = "";
-                                
-                // ** Refresh the LDrawColour Name dropdown **
+
+                StaticData.RefreshStaticData_All();
                 RefreshLDrawColourNameDropdown();
+                //System.Threading.Thread.Sleep(5000);
+
+                // ** Update status **               
+                lblStatus.Text = "Static data last updated on " + DateTime.Now.ToString("dd-MMM-yyyy") + " @" + DateTime.Now.ToString("HH:mm:ss");
+                                
                 EnableControls_All(true);
             }
             catch (Exception ex)
@@ -892,7 +903,165 @@ namespace Generator
         #endregion
 
 
-       
+
+
+        #region ** SET FUNCTIONS (DONE) **
+
+        // **
+        private void LoadSet()
+        {
+            try
+            {
+                // ** Validation Checks **
+                if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
+
+                // ** Get Set details from API **
+                Set set = Global_Variables.APIProxy.GetSet(fldCurrentSetRef.Text);
+                if (set == null) throw new Exception("Set " + fldCurrentSetRef.Text + " not found...");
+                string setXML = set.SerializeToString(true);
+                currentSetXml = new XmlDocument();
+                currentSetXml.LoadXml(setXML);
+
+                // ** Tidy Up **
+                ClearAllFields();
+                RefreshScreen();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        // **
+        private void SaveSet()
+        {
+            try
+            {
+                // ** Validation Checks **
+                if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
+                if (currentSetXml == null) throw new Exception("No Set currently loaded...");
+
+                // ** Update Set details using API **
+                Set set = new Set().DeserialiseFromXMLString(currentSetXml.OuterXml);
+                Global_Variables.APIProxy.UpdateSet(set);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        // **
+        private void DeleteSet()
+        {
+            try
+            {
+                // ** Validation Checks **
+                string setRef = fldCurrentSetRef.Text;
+                if (setRef.Equals("")) throw new Exception("No Set Ref entered...");
+                if (currentSetXml == null) throw new Exception("No Set currently loaded...");
+                if (Global_Variables.APIProxy.CheckIfSetExists(setRef) == false) throw new Exception("Set " + setRef + " not found...");
+
+                // Make sure user wants to delete
+                DialogResult res = MessageBox.Show("Are you sure you want to Delete?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    // ** Delete Set using API **
+                    Global_Variables.APIProxy.DeleteSet(setRef);
+
+                    // ** Tidy up & refresh screen **
+                    currentSetXml = null;
+                    fullSetXml = null;
+                    ClearAllFields();
+                    RefreshScreen();
+
+                    // ** Show confirm **
+                    MessageBox.Show("Set " + setRef + " successfully deleted...");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        // **
+        private void AddSet()
+        {
+            try
+            {
+                // ** Validation checks **
+                if (currentSetXml != null) throw new Exception("Set already present...");
+
+                // ** Add Step to selected node **
+                Set newSet = new Set() { Ref = "NEW SET", Description = "NEW SET" };
+
+                // ** Update Set Xml object **
+                string setXmlString = newSet.SerializeToString(true);
+                currentSetXml = new XmlDocument();
+                currentSetXml.LoadXml(setXmlString);
+
+                // ** Tidy Up **
+                ClearAllFields();
+                RefreshScreen();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        // **
+        private void SetSaveNode()
+        {
+            try
+            {
+                // ** Validation Checks ** 
+                if (fldSetCurrentRef.Text.Equals("")) throw new Exception("No Set selected...");
+
+                // ** UPDATE XML DOC **
+                string oldSetRef = fldSetCurrentRef.Text;
+                string newSetRef = fldSetNewRef.Text;
+                currentSetXml.SelectSingleNode("//Set[@Ref='" + oldSetRef + "']/@Description").InnerXml = fldSetDescription.Text;
+                if (fldSetNewRef.Text != "") // UPDATE REF LAST SO REFS ABOVE WORK CORRECTLY
+                {
+                    currentSetXml.SelectSingleNode("//Set[@Ref='" + oldSetRef + "']/@Ref").InnerXml = newSetRef;
+                }
+
+                // ** Tidy Up **
+                RefreshScreen();
+                ClearAllFields();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        // **
+        private void ClearSet()
+        {
+            try
+            {
+                currentSetXml = null;
+                fullSetXml = null;
+                ClearAllFields();
+                RefreshScreen();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
+
+
+
+
+
+
 
 
 
@@ -1097,6 +1266,10 @@ namespace Generator
                 tvSetSummary.Nodes.Clear();
                 TextArea.Text = "";
                 TextArea2.Text = "";
+                dgPartListSummary.DataSource = null;
+                lblPartListCount.Text = "";
+                dgPartListWithMFsSummary.DataSource = null;
+                lblPartListWithMFsCount.Text = "";
 
                 // ** Run background to process functions **
                 bw_RefreshScreen = new BackgroundWorker
@@ -1157,42 +1330,15 @@ namespace Generator
                 {
                     List<string> nodeList = new List<string>();
 
-                    #region ** MERGE STANDALONE MINIFIG XML's INTO SET XML **   
-                    //TODO: Need to update this so that it more simple. Extract into a seperate function.
+                    // ** MERGE STANDALONE MINIFIG XML's INTO SET XML **   
                     fullSetXml = new XmlDocument();
-                    fullSetXml.LoadXml(currentSetXml.OuterXml);                    
-                    XmlNodeList MiniFigNodeList = currentSetXml.SelectNodes("//SubModel[@SubModelLevel='1' and @LDrawModelType='MINIFIG']");
-                    List<string> MiniFigSetList = MiniFigNodeList.Cast<XmlNode>()
-                                                   .Select(x => x.SelectSingleNode("@Description").InnerXml.Split('_')[0])
-                                                   .OrderBy(x => x).ToList();                   
-                    Dictionary<string, XmlDocument> MiniFigXMLDict = new Dictionary<string, XmlDocument>();
-                    foreach (string MiniFigRef in MiniFigSetList)
-                    {
-                        // ** Get the Set XML doc for the MiniFig **                   
-                        BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(MiniFigRef + ".xml");
-                        if (blob.Exists())
-                        {
-                            // ** Get MiniFig XML **
-                            XmlDocument MiniFigXmlDoc = new XmlDocument();
-                            byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                            using (var ms = new MemoryStream(fileContent))
-                            {
-                                blob.DownloadTo(ms);
-                            }
-                            string xmlString = Encoding.UTF8.GetString(fileContent);
-                            MiniFigXmlDoc.LoadXml(xmlString);
-                            if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false)
-                            {
-                                MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);
-                            }
-                        }
-                    }
+                    fullSetXml.LoadXml(currentSetXml.OuterXml);  //TODO: Maybe move this to when the Set is loaded...?
+                    Dictionary<string, XmlDocument> MiniFigXMLDict = GetMiniFigXMLDict(currentSetXml);
                     if (MiniFigXMLDict.Count > 0)
                     {
                         fullSetXml = Set.MergeMiniFigsIntoSetXML(fullSetXml, MiniFigXMLDict);
                     }
-                    #endregion
-
+                    
                     #region ** POPULATE Set DETAILS **                    
                     string SetRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;
                     string SetDescription = currentSetXml.SelectSingleNode("//Set/@Description").InnerXml;
@@ -1268,7 +1414,7 @@ namespace Generator
                 if (currentSetXml != null)
                 {
                     XmlNodeList partListNodeList = currentSetXml.SelectNodes("//PartListPart");
-                    DataTable partListTable = GeneratePartListTable(partListNodeList);
+                    DataTable partListTable = GeneratePartListTable(partListNodeList);      //TODO: This the bit that's slow the first time for the images.
                     partListTable.DefaultView.Sort = "LDraw Colour Name";
                     partListTable = partListTable.DefaultView.ToTable();                    
                     Delegates.DataGridView_SetDataSource(this, dgPartListSummary, partListTable);
@@ -1319,6 +1465,43 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
+
+
+        private Dictionary<string, XmlDocument> GetMiniFigXMLDict(XmlDocument currentSetxmlDoc)
+        {
+            Dictionary<string, XmlDocument> MiniFigXMLDict = new Dictionary<string, XmlDocument>();
+
+            XmlNodeList MiniFigNodeList = currentSetxmlDoc.SelectNodes("//SubModel[@SubModelLevel='1' and @LDrawModelType='MINIFIG']");
+            List<string> MiniFigSetList = MiniFigNodeList.Cast<XmlNode>()
+                                           .Select(x => x.SelectSingleNode("@Description").InnerXml.Split('_')[0])
+                                           .OrderBy(x => x).ToList();
+            foreach (string MiniFigRef in MiniFigSetList)
+            {
+                // ** Get the Set XML doc for the MiniFig **                   
+                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(MiniFigRef + ".xml");
+                if (blob.Exists())
+                {
+                    // ** Get MiniFig XML **
+                    XmlDocument MiniFigXmlDoc = new XmlDocument();
+                    byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
+                    using (var ms = new MemoryStream(fileContent))
+                    {
+                        blob.DownloadTo(ms);
+                    }
+                    string xmlString = Encoding.UTF8.GetString(fileContent);
+                    MiniFigXmlDoc.LoadXml(xmlString);
+                    if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false)
+                    {
+                        MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);
+                    }
+                }
+            }
+            return MiniFigXMLDict;
+        }
+
+
+             
+
 
         private void ClearAllFields()
         {
@@ -1535,10 +1718,7 @@ namespace Generator
                 {
                     // ** GET LDRAW VARIABLES **
                     string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
-                    //String LDrawColourName = (from r in Global_Variables.pcc.PartColourList
-                    //                          where r.LDrawColourID == LDrawColourID
-                    //                          select r.LDrawColourName).FirstOrDefault();
+                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);                   
                     string LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName").InnerXml;
                     int Qty = int.Parse(partNode.SelectSingleNode("@Qty").InnerXml);
                     string LDrawDescription = Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml;
@@ -1550,10 +1730,8 @@ namespace Generator
                     // ** Get element & Partcolour images **
                     Bitmap elementImage = null;
                     Bitmap partColourImage = null;
-                    //if (GetImages) elementImage = GetElementImage(LDrawRef, LDrawColourID);
-                    ////if (GetImages) partColourImage = GetPartColourImage(LDrawColourID);      
-                    if (GetImages) elementImage = GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() }); 
-                    if (GetImages) partColourImage = GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });      
+                    if (GetImages_Element) elementImage = GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() }); 
+                    if (GetImages_PartColour) partColourImage = GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });      
 
                     // ** Build row **
                     object[] row = new object[partListTable.Columns.Count];
@@ -1573,8 +1751,7 @@ namespace Generator
                 return partListTable;
             }
             catch (Exception ex)
-            {
-                //MessageBox.Show(ex.Message);
+            {                
                 MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
                 return null;
             }
@@ -1937,10 +2114,10 @@ namespace Generator
                     // ** GET ELEMENT & PARTCOLOUR IMAGES **
                     Bitmap elementImage = null;
                     //if (GetImages) elementImage = GetElementImage(LDrawRef, LDrawColourID);
-                    if (GetImages) elementImage = GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+                    if (GetImages_Element) elementImage = GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
                     Bitmap partColourImage = null;
                     //if (GetImages) partColourImage = GetPartColourImage(LDrawColourID);
-                    if (GetImages) partColourImage = GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
+                    if (GetImages_PartColour) partColourImage = GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
 
                     // ** Get Placement Movements **
                     string placementMovementString = "";
@@ -2064,29 +2241,17 @@ namespace Generator
 
         private void btnExpandAll_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (tvSetSummary.Nodes.Count > 0) tvSetSummary.Nodes[0].ExpandAll();                
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            if (tvSetSummary.Nodes.Count > 0) tvSetSummary.Nodes[0].ExpandAll();            
         }
 
         private void btnCollapseAll_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (tvSetSummary.Nodes.Count > 0) tvSetSummary.Nodes[0].Collapse(false);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            if (tvSetSummary.Nodes.Count > 0) tvSetSummary.Nodes[0].Collapse(false);
         }
 
         #endregion
+
+
 
 
         #region ** OPEN SET URLS & INSTRUCTION FUNCTIONS
@@ -2177,160 +2342,6 @@ namespace Generator
 
        
 
-
-        #region ** SET FUNCTIONS (DONE) **
-
-        // **
-        private void LoadSet()
-        {
-            try
-            {
-                // ** Validation Checks **
-                if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");                             
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(fldCurrentSetRef.Text + ".xml");
-                if (blob.Exists() == false) throw new Exception("Set " + fldCurrentSetRef.Text + " not found...");
-                
-                // ** Get Set XML from Azure Blob **   
-                //byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];                
-                //using (var ms = new MemoryStream(fileContent)) blob.DownloadTo(ms);                
-                //string xmlString = Encoding.UTF8.GetString(fileContent);     
-                currentSetXml = new XmlDocument();
-                //currentSetXml.LoadXml(xmlString);
-                currentSetXml.LoadXml(DownloadBlobToXMLString(blob));
-
-                // ** Tidy Up **
-                ClearAllFields();
-                RefreshScreen();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        // **
-        private void SaveSet()
-        {
-            try
-            {
-                // ** Validation Checks **
-                if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
-                
-                // ** Upload Set XML to Azure Blob **
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(fldCurrentSetRef.Text + ".xml");
-                //string flushedXML = new Set().DeserialiseFromXMLString(currentSetXml.OuterXml).SerializeToString(true);
-                //byte[] bytes = Encoding.UTF8.GetBytes(flushedXML);
-                //byte[] bytes = Encoding.UTF8.GetBytes(currentSetXml.OuterXml);
-                //using (var ms = new MemoryStream(bytes)) blob.Upload(ms, true);
-                UploadXMLStringToBlob(blob, currentSetXml.OuterXml);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        // **
-        private void DeleteSet()
-        {
-            try
-            {                
-                // ** Validation Checks **
-                if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");                
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(fldCurrentSetRef.Text + ".xml");
-                if (blob.Exists() == false) throw new Exception("Set " + fldCurrentSetRef.Text + " not found...");
-               
-                // Make sure user wants to delete
-                DialogResult res = MessageBox.Show("Are you sure you want to Delete?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (res == DialogResult.Yes)
-                {
-                    // ** Delete Set from Azure Blob **
-                    blob.Delete();
-                    currentSetXml = null;
-
-                    // ** Clear all fields **
-                    ClearAllFields();
-                    tvSetSummary.Nodes.Clear();
-
-                    // ** Show confirm **
-                    MessageBox.Show("Set " + fldCurrentSetRef.Text + " deleted...");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-        
-        // **
-        private void AddSet()
-        {
-            try
-            {
-                // ** Validation checks **
-                if (currentSetXml != null) throw new Exception("Set already present...");
-                
-                // ** Add Step to selected node **
-                Set newSet = new Set() {Ref="NEW SET", Description="NEW SET"};                
-
-                // ** Update Set Xml object **
-                string setXmlString = newSet.SerializeToString(true);
-                currentSetXml = new XmlDocument();
-                currentSetXml.LoadXml(setXmlString);
-
-                // ** Tidy Up **
-                ClearAllFields();
-                RefreshScreen();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        // **
-        private void SetSaveNode()
-        {
-            try
-            {
-                // ** Validation Checks ** 
-                if (fldSetCurrentRef.Text.Equals("")) throw new Exception("No Set selected...");
-                                
-                // ** UPDATE XML DOC **
-                string oldSetRef = fldSetCurrentRef.Text;
-                string newSetRef = fldSetNewRef.Text;
-                currentSetXml.SelectSingleNode("//Set[@Ref='" + oldSetRef + "']/@Description").InnerXml = fldSetDescription.Text;                
-                if (fldSetNewRef.Text != "") // UPDATE REF LAST SO REFS ABOVE WORK CORRECTLY
-                {
-                    currentSetXml.SelectSingleNode("//Set[@Ref='" + oldSetRef + "']/@Ref").InnerXml = newSetRef;
-                }
-
-                // ** Tidy Up **
-                RefreshScreen();
-                ClearAllFields();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        // **
-        private void ClearSet()
-        {
-            try
-            {               
-                currentSetXml = null;
-                ClearAllFields();                                
-                RefreshScreen();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        #endregion
 
         #region ** SUBSET FUNCTIONS **
 
@@ -3477,13 +3488,6 @@ namespace Generator
             }
             return image;
         }
-
-
-
-        
-
-
-
 
         #endregion
 
@@ -5843,15 +5847,13 @@ namespace Generator
 
                     // ** Get element & Partcolour images **
                     Bitmap elementImage = null;
-                    if (GetImages)
+                    if (GetImages_Element)
                     {
-                        //elementImage = GetElementImage(LDrawRef, LDrawColourID);
                         elementImage = GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
                     }
                     Bitmap partColourImage = null;
-                    if (GetImages)
+                    if (GetImages_PartColour)
                     {
-                        //partColourImage = GetPartColourImage(LDrawColourID);
                         partColourImage = GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });                        
                     }
 
@@ -5877,9 +5879,6 @@ namespace Generator
         }
 
         #endregion
-
-
-
 
         #region ** CONVERT TO LDR FUNCTIONS  **
 

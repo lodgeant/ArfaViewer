@@ -11,37 +11,46 @@ namespace Generator
 {
     public class StaticData
     {
+        //public static async Task RefreshStaticData(StaticData.Filename report)
+        //{
+        //    try
+        //    {
+        //        // ** LOAD BasePartCollection STATIC DATA FROM XML **
+        //        string url = "https://lodgeaccount.blob.core.windows.net/static-data/" + report + ".xml";
+        //        using (WebClient webClient = new WebClient())
+        //        {
+        //            webClient.DownloadProgressChanged += (s, e1) =>
+        //            {
+        //                //pbStatus.Value = e1.ProgressPercentage;
+        //                //lblStatus.Text = "Downloading BasePartCollection.xml from Azure | Downloaded " + e1.ProgressPercentage + "%";
+        //            };
+        //            webClient.DownloadDataCompleted += (s, e1) =>
+        //            {
+        //                //pbStatus.Value = 0;
+        //                //lblStatus.Text = "";
+        //            };
+        //            Task<byte[]> downloadTask = webClient.DownloadDataTaskAsync(new Uri(url));
+        //            byte[] result = await downloadTask;
+        //            string xmlString = Encoding.UTF8.GetString(result);
+        //            if (report.Equals(Filename.BasePartCollection)) Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
+        //            if (report.Equals(Filename.CompositePartCollection)) Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
+        //            if (report.Equals(Filename.PartColourCollection)) Global_Variables.PartColourCollectionXML.LoadXml(xmlString);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //MessageBox.Show(ex.Message);
+        //    }
+        //}
 
-        public static async Task RefreshStaticData(StaticData.Filename report)
-        {
-            try
-            {
-                // ** LOAD BasePartCollection STATIC DATA FROM XML **
-                string url = "https://lodgeaccount.blob.core.windows.net/static-data/" + report + ".xml";
-                using (WebClient webClient = new WebClient())
-                {
-                    webClient.DownloadProgressChanged += (s, e1) =>
-                    {
-                        //pbStatus.Value = e1.ProgressPercentage;
-                        //lblStatus.Text = "Downloading BasePartCollection.xml from Azure | Downloaded " + e1.ProgressPercentage + "%";
-                    };
-                    webClient.DownloadDataCompleted += (s, e1) =>
-                    {
-                        //pbStatus.Value = 0;
-                        //lblStatus.Text = "";
-                    };
-                    Task<byte[]> downloadTask = webClient.DownloadDataTaskAsync(new Uri(url));
-                    byte[] result = await downloadTask;
-                    string xmlString = Encoding.UTF8.GetString(result);
-                    if (report.Equals(Filename.BasePartCollection)) Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
-                    if (report.Equals(Filename.CompositePartCollection)) Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
-                    if (report.Equals(Filename.PartColourCollection)) Global_Variables.PartColourCollectionXML.LoadXml(xmlString);
-                }
-            }
-            catch (Exception ex)
-            {
-                //MessageBox.Show(ex.Message);
-            }
+        public static void RefreshStaticData_All()
+        {            
+            string xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.BasePartCollection.ToString());
+            Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
+            xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.CompositePartCollection.ToString());
+            Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
+            xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.PartColourCollection.ToString());
+            Global_Variables.PartColourCollectionXML.LoadXml(xmlString);
         }
 
         public enum Filename

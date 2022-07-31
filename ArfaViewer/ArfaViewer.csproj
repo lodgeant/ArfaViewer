@@ -112,7 +112,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\ImageLibrary.cs" />
+    <Compile Include="Classes\APIProxy.cs" />
     <Compile Include="Classes\ImageType.cs" />
     <Compile Include="Classes\StaticData.cs" />
     <Compile Include="Screens\PartTickBackScreen.cs">
