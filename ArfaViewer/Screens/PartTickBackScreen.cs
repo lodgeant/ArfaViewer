@@ -1018,9 +1018,9 @@ namespace Generator
 
                     // ** Get element & Partcolour images **
                     //Bitmap elementImage = Generator.GetElementImage(LDrawRef, LDrawColourID);
-                    Bitmap elementImage = Generator.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+                    Bitmap elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
                     //Bitmap partColourImage = Generator.GetPartColourImage(LDrawColourID);
-                    Bitmap partColourImage = Generator.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
+                    Bitmap partColourImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
 
                     // ** Build row **
                     object[] row = new object[partListTable.Columns.Count];
@@ -1479,7 +1479,7 @@ namespace Generator
                     btn.TabIndex = 0;
                     btn.UseVisualStyleBackColor = true;
                     //btn.BackgroundImage = Generator.GetElementImage(LDrawRef, LDrawColourID);
-                    btn.BackgroundImage = Generator.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+                    btn.BackgroundImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
                     btn.BackgroundImageLayout = ImageLayout.Zoom;
                     btn.Click += new System.EventHandler(Handle_TickBack_Button_Click);
                     gb.Controls.Add(btn);
@@ -1494,7 +1494,7 @@ namespace Generator
                     btn.TabIndex = 0;
                     //btn.Text = LDrawColourID.ToString();
                     btn.UseVisualStyleBackColor = true;
-                    btn.BackgroundImage = Generator.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });                    
+                    btn.BackgroundImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });                    
                     btn.BackgroundImageLayout = ImageLayout.Zoom;
                     gb.Controls.Add(btn);
                     #endregion

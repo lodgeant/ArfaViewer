@@ -21,12 +21,11 @@ namespace Generator
         public static XmlDocument BasePartCollectionXML = new XmlDocument();
         public static XmlDocument CompositePartCollectionXML = new XmlDocument();
         public static XmlDocument PartColourCollectionXML = new XmlDocument();
-        public static Dictionary<StaticData.Filename, XmlDocument> StaticDataCollections = new Dictionary<StaticData.Filename, XmlDocument>();
+        public static Dictionary<StaticData.Filename, XmlDocument> StaticDataCollections = new Dictionary<StaticData.Filename, XmlDocument>();    // NOT USED YET.
 
-
-        public static string LDrawImageInventoryUrl_Offical = "https://www.ldraw.org/library/official/images/parts/";
-        public static string LDrawImageInventoryUrl_Unoffical = "https://www.ldraw.org/library/unofficial/images/parts/";
-        public static string ElementURL = "https://m.rebrickable.com/media/parts/ldraw";
+        //public static string LDrawImageInventoryUrl_Offical = "https://www.ldraw.org/library/official/images/parts/";
+        //public static string LDrawImageInventoryUrl_Unoffical = "https://www.ldraw.org/library/unofficial/images/parts/";
+        //public static string ElementURL = "https://m.rebrickable.com/media/parts/ldraw";
         public static string UnityLegoPartPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";    // Used for SyncFBXFiles
         public static string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
 

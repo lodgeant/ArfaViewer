@@ -28,16 +28,14 @@ namespace Generator
     public partial class Generator : Form
     {
         // ** Variables **
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);        
-        private TreeNode lastSelectedNode;
-        private string lastSelectedNodeFullPath = "";
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private Scintilla TextArea;
+        private Scintilla TextArea2;
         private XmlDocument currentSetXml;
         private XmlDocument fullSetXml;
-        private Scintilla TextArea;
-        private Scintilla TextArea2;        
-        private bool GetImages_Element = false;
-        private bool GetImages_PartColour = true;
         private DataTable dgPartSummaryTable_Orig;
+        private TreeNode lastSelectedNode;
+        private string lastSelectedNodeFullPath = "";
 
 
 
@@ -94,20 +92,9 @@ namespace Generator
 
                                 btnOpenSetURLs,
                                 btnOpenSetInstructions,
-                                //toolStripSeparator7,
-
-                                //btnRecalculatePartList,
-                                //btnRecalculateUnityRefs,
-                                //toolStripSeparator22,
-
-                                //lblInstructionsSetRef,
-                                //fldInstructionsSetRef,
-                                //lblInstructions,
-                                //fldSetInstructions,
-                                //btnUploadInstructionsFromWeb,
-                                //toolStripSeparator23,
-
-                                //btnSyncFBXFiles,
+                                toolStripSeparator22,
+                                new ToolStripControlHost(chkShowPartcolourImages),
+                                new ToolStripControlHost(chkShowElementImages),
 
                                 });
                 #endregion
@@ -902,12 +889,8 @@ namespace Generator
 
         #endregion
 
-
-
-
-        #region ** SET FUNCTIONS (DONE) **
-
-        // **
+        #region ** SET FUNCTIONS **
+                
         private void LoadSet()
         {
             try
@@ -931,8 +914,7 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
-
-        // **
+               
         private void SaveSet()
         {
             try
@@ -950,8 +932,7 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
-
-        // **
+               
         private void DeleteSet()
         {
             try
@@ -984,8 +965,7 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
-
-        // **
+                
         private void AddSet()
         {
             try
@@ -1010,8 +990,7 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
-
-        // **
+               
         private void SetSaveNode()
         {
             try
@@ -1037,8 +1016,7 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
-
-        // **
+                
         private void ClearSet()
         {
             try
@@ -1056,6 +1034,80 @@ namespace Generator
 
         #endregion
 
+        #region ** OPEN SET URLS & INSTRUCTION FUNCTIONS
+
+        private void OpenSetURLs()
+        {
+            try
+            {
+                // ** Validation Checks **
+                if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
+                string setRef = fldCurrentSetRef.Text;
+
+                // ** Open urls **                
+                Process.Start("https://brickset.com/sets/" + setRef);
+                Process.Start("https://rebrickable.com/sets/" + setRef);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void OpenSetInstructions()
+        {
+            try
+            {
+                // ** VALIDATION **                 
+                if (currentSetXml == null) throw new Exception("No Set loaded...");
+                string setRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;
+
+                // ********** FS **********
+                string FSPath = Path.Combine(@"\\lodgeaccount.file.core.windows.net\lodgeant-fs\static-data\files-instructions", setRef + ".pdf");
+                if (File.Exists(FSPath) == false) throw new Exception("Cannot find Azure FS Instructions for " + setRef + ".pdf");
+                Process.Start(FSPath);
+
+                // ********** BLOB - NOT CURRENTLY USED **********
+                // ** Check if Instructions exist **                 
+                ////CloudBlockBlob blob = blobClient.GetContainerReference("files-instructions").GetBlockBlobReference(setRef + ".pdf");
+                //BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "files-instructions").GetBlobClient(setRef + ".pdf");
+                //if (blob.Exists() == false)
+                //{
+                //    throw new Exception("Cannot find Azure BLOB Instruction for " + setRef + ".pdf");
+                //}
+
+                //// ** Download & Open Instructions - NOT CURRENTLY USED **                
+                //// check if file is already in TEMP folder                    
+                //string insUrl = Path.Combine(Path.GetTempPath(), setRef + ".pdf");
+                //if (File.Exists(insUrl) == false)                    
+                //{
+                //    // ** Download file to TEMP & open **
+                //    string webUrl = "https://lodgeaccount.blob.core.windows.net/files-instructions/" + setRef + ".pdf";                        
+                //    using (WebClient webClient = new WebClient())
+                //    {
+                //        webClient.DownloadProgressChanged += (s, e1) =>
+                //        {
+                //            pbStatus.Value = e1.ProgressPercentage;                                
+                //            lblStatus.Text = "Open Set Instructions PDF | Downloading " + setRef + " from Azure | Downloaded " + e1.ProgressPercentage + "%";
+                //        };
+                //        webClient.DownloadFileCompleted += (s, e1) =>
+                //        {
+                //            pbStatus.Value = 0;
+                //            lblStatus.Text = "";
+                //        };
+                //        Task downloadTask = webClient.DownloadFileTaskAsync(new Uri(webUrl), insUrl);
+                //        await downloadTask;                            
+                //    }
+                //}
+                //Process.Start(insUrl);                 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
 
 
 
@@ -1405,7 +1457,7 @@ namespace Generator
                     Delegates.Scintilla_SetText(this, TextArea2, XDocument.Parse(fullSetXml.OuterXml).ToString());
 
                     // ** Update Set Image **
-                    pnlSetImage.BackgroundImage = GetImage(ImageType.SET, new string[] { SetRef });
+                    pnlSetImage.BackgroundImage = ArfaImage.GetImage(ImageType.SET, new string[] { SetRef });
                 }
                 #endregion
 
@@ -1510,9 +1562,7 @@ namespace Generator
                 // ** Set **
                 fldSetCurrentRef.Text = "";
                 fldSetNewRef.Text = "";
-                fldSetDescription.Text = "";
-                //fldSetInsBookCount.Text = "";
-                //fldSetInstructions.Text = "";
+                fldSetDescription.Text = "";               
                 pnlSetImage.BackgroundImage = null;
 
                 // ** SubSet **
@@ -1730,8 +1780,8 @@ namespace Generator
                     // ** Get element & Partcolour images **
                     Bitmap elementImage = null;
                     Bitmap partColourImage = null;
-                    if (GetImages_Element) elementImage = GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() }); 
-                    if (GetImages_PartColour) partColourImage = GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });      
+                    if (chkShowElementImages.Checked) elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() }); 
+                    if (chkShowPartcolourImages.Checked) partColourImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });      
 
                     // ** Build row **
                     object[] row = new object[partListTable.Columns.Count];
@@ -2113,11 +2163,9 @@ namespace Generator
 
                     // ** GET ELEMENT & PARTCOLOUR IMAGES **
                     Bitmap elementImage = null;
-                    //if (GetImages) elementImage = GetElementImage(LDrawRef, LDrawColourID);
-                    if (GetImages_Element) elementImage = GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+                    if (chkShowElementImages.Checked) elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
                     Bitmap partColourImage = null;
-                    //if (GetImages) partColourImage = GetPartColourImage(LDrawColourID);
-                    if (GetImages_PartColour) partColourImage = GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
+                    if (chkShowPartcolourImages.Checked) partColourImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
 
                     // ** Get Placement Movements **
                     string placementMovementString = "";
@@ -2254,90 +2302,7 @@ namespace Generator
 
 
 
-        #region ** OPEN SET URLS & INSTRUCTION FUNCTIONS
-
-        private void OpenSetURLs()
-        {
-            try
-            {
-                // ** Validation Checks **
-                if (fldCurrentSetRef.Text.Equals(""))
-                {
-                    throw new Exception("No Set Ref entered...");
-                }
-                string setRef = fldCurrentSetRef.Text;
-
-                // ** Open urls **                
-                Process.Start("https://brickset.com/sets/" + setRef);
-                Process.Start("https://rebrickable.com/sets/" + setRef);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void OpenSetInstructions()
-        {
-            try
-            {
-                // ** VALIDATION **                
-                if (currentSetXml == null)
-                {
-                    throw new Exception("No Set loaded...");
-                }
-                string setRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;
-
-                // ********** FS **********
-                string FSPath = Path.Combine(@"\\lodgeaccount.file.core.windows.net\lodgeant-fs\static-data\files-instructions", setRef + ".pdf");
-                if (File.Exists(FSPath) == false)
-                {
-                    throw new Exception("Cannot find Azure FS Instructions for " + setRef + ".pdf");
-                }
-                Process.Start(FSPath);
-
-                // ********** BLOB - NOT CURRENTLY USED **********
-                // ** Check if Instructions exist **                 
-                ////CloudBlockBlob blob = blobClient.GetContainerReference("files-instructions").GetBlockBlobReference(setRef + ".pdf");
-                //BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "files-instructions").GetBlobClient(setRef + ".pdf");
-                //if (blob.Exists() == false)
-                //{
-                //    throw new Exception("Cannot find Azure BLOB Instruction for " + setRef + ".pdf");
-                //}
-
-                //// ** Download & Open Instructions - NOT CURRENTLY USED **                
-                //// check if file is already in TEMP folder                    
-                //string insUrl = Path.Combine(Path.GetTempPath(), setRef + ".pdf");
-                //if (File.Exists(insUrl) == false)                    
-                //{
-                //    // ** Download file to TEMP & open **
-                //    string webUrl = "https://lodgeaccount.blob.core.windows.net/files-instructions/" + setRef + ".pdf";                        
-                //    using (WebClient webClient = new WebClient())
-                //    {
-                //        webClient.DownloadProgressChanged += (s, e1) =>
-                //        {
-                //            pbStatus.Value = e1.ProgressPercentage;                                
-                //            lblStatus.Text = "Open Set Instructions PDF | Downloading " + setRef + " from Azure | Downloaded " + e1.ProgressPercentage + "%";
-                //        };
-                //        webClient.DownloadFileCompleted += (s, e1) =>
-                //        {
-                //            pbStatus.Value = 0;
-                //            lblStatus.Text = "";
-                //        };
-                //        Task downloadTask = webClient.DownloadFileTaskAsync(new Uri(webUrl), insUrl);
-                //        await downloadTask;                            
-                //    }
-                //}
-                //Process.Start(insUrl);                 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        #endregion
-
+        
 
 
        
@@ -3133,7 +3098,7 @@ namespace Generator
 
                 // ** GET LDRAW IMAGE **
                 //fldLDrawImage.Image = GetLDrawImage(LDrawRef);
-                fldLDrawImage.Image = GetImage(ImageType.LDRAW, new string[] { LDrawRef });
+                fldLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { LDrawRef });
 
                 // ** POST LDRAW DETAILS **
                 if (Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']") != null)
@@ -3184,309 +3149,6 @@ namespace Generator
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        #endregion
-
-        #region ** GET IMAGES FROM AZURE OR WEB FUNCTIONS **
-               
-        //public static Bitmap GetPartColourImage_OLD(int LDrawColourID)
-        //{
-        //    Bitmap partColourImage = null;
-        //    if (Global_Variables.PartColourImage_Dict.ContainsKey(LDrawColourID))
-        //    {
-        //        partColourImage = Global_Variables.PartColourImage_Dict[LDrawColourID];
-        //    }
-        //    else
-        //    {
-        //        // ** Download element image from Azure - OLD **                        
-        //        //byte[] bytes = new byte[0];
-        //        //string AzureURL = "https://lodgeaccount.blob.core.windows.net/images-partcolour/" + LDrawColourID + ".png";
-        //        //try
-        //        //{
-        //        //    bytes = new WebClient().DownloadData(AzureURL);
-        //        //    using (var ms = new MemoryStream(bytes))
-        //        //    {
-        //        //        partColourImage = new Bitmap(ms);
-        //        //    }
-        //        //    Global_Variables.PartColourImage_Dict.Add(LDrawColourID, partColourImage);
-        //        //}
-        //        //catch
-        //        //{ }
-        //        BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-partcolour").GetBlobClient(LDrawColourID + ".png");
-        //        if (blob.Exists())
-        //        {
-        //            byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-        //            using (var ms = new MemoryStream(fileContent))
-        //            {
-        //                blob.DownloadTo(ms);
-        //                partColourImage = new Bitmap(ms);
-        //            }
-        //            Global_Variables.PartColourImage_Dict.Add(LDrawColourID, partColourImage);
-        //        }
-        //    }
-        //    return partColourImage;
-        //}
-
-        //public static Bitmap GetElementImage_OLD(string LDrawRef, int LDrawColourID)
-        //{            
-        //    Bitmap elementImage = null;
-        //    if (Global_Variables.ElementImage_Dict.ContainsKey(LDrawRef + "|" + LDrawColourID))
-        //    {
-        //        elementImage = Global_Variables.ElementImage_Dict[LDrawRef + "|" + LDrawColourID];
-        //    }
-        //    else
-        //    {
-        //        // ** Download element image from Azure - OLD **                        
-        //        //byte[] AzureImage = new byte[0];
-        //        //string AzureURL = "https://lodgeaccount.blob.core.windows.net/images-element/" + LDrawRef + "_" + LDrawColourID + ".png";
-        //        //try
-        //        //{
-        //        //    AzureImage = new WebClient().DownloadData(AzureURL);
-        //        //    using (var ms = new MemoryStream(AzureImage))
-        //        //    {
-        //        //        elementImage = new Bitmap(ms);
-        //        //    }
-        //        //    Global_Variables.ElementImage_Dict.Add(LDrawRef + "|" + LDrawColourID, elementImage);
-        //        //}
-        //        //catch
-        //        //{ }
-        //        BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-element").GetBlobClient(LDrawRef + "_" + LDrawColourID + ".png");
-        //        if (blob.Exists())
-        //        {
-        //            byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-        //            using (var ms = new MemoryStream(fileContent))
-        //            {
-        //                blob.DownloadTo(ms);
-        //                elementImage = new Bitmap(ms);
-        //            }
-        //            Global_Variables.ElementImage_Dict.Add(LDrawRef + "|" + LDrawColourID, elementImage);
-        //        }
-        //        else
-        //        {
-        //            // ** Download element image from source API **
-        //            byte[] imageb = new byte[0];
-        //            string imageUrl = Global_Variables.ElementURL + "//" + LDrawColourID + "/" + LDrawRef + ".png";
-        //            try
-        //            {
-        //                imageb = new WebClient().DownloadData(imageUrl);
-        //            }
-        //            catch
-        //            { }
-        //            if (imageb.Length > 0)
-        //            {
-        //                // ** Save the image to Azure **                        
-        //                BlobClient newBlob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-element").GetBlobClient(LDrawRef + "_" + LDrawColourID + ".png");
-        //                using (var ms = new MemoryStream(imageb))
-        //                {
-        //                    newBlob.Upload(ms, true);
-        //                    elementImage = new Bitmap(ms);
-        //                }
-        //                Global_Variables.ElementImage_Dict.Add(LDrawRef + "|" + LDrawColourID, elementImage);
-        //            }
-        //        }
-        //    }
-        //    return elementImage;
-        //}
-
-        //public static Bitmap GetLDrawImage_OLD(string LDrawRef)
-        //{
-        //    Bitmap LDrawImage = null;
-        //    if (Global_Variables.LDrawImage_Dict.ContainsKey(LDrawRef))
-        //    {
-        //        LDrawImage = Global_Variables.LDrawImage_Dict[LDrawRef];
-        //    }
-        //    else
-        //    {
-        //        // ** Download element image from Azure - OLD **                        
-        //        //byte[] AzureImage = new byte[0];
-        //        //string AzureURL = "https://lodgeaccount.blob.core.windows.net/images-ldraw/" + LDrawRef + ".png";
-        //        //try
-        //        //{
-        //        //    AzureImage = new WebClient().DownloadData(AzureURL);
-        //        //    using (var ms = new MemoryStream(AzureImage))
-        //        //    {
-        //        //        LDrawImage = new Bitmap(ms);
-        //        //    }
-        //        //    Global_Variables.LDrawImage_Dict.Add(LDrawRef, LDrawImage);
-        //        //}
-        //        //catch
-        //        //{ }
-        //        BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-ldraw").GetBlobClient(LDrawRef + ".png");
-        //        if (blob.Exists())
-        //        {
-        //            byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-        //            using (var ms = new MemoryStream(fileContent))
-        //            {
-        //                blob.DownloadTo(ms);
-        //                LDrawImage = new Bitmap(ms);
-        //            }
-        //            Global_Variables.LDrawImage_Dict.Add(LDrawRef, LDrawImage);
-        //        }
-        //        else
-        //        {
-        //            // ** Download element image from source API **
-        //            byte[] imageb = new byte[0];
-        //            string imageUrl = Global_Variables.LDrawImageInventoryUrl_Offical + LDrawRef + ".png";                    
-        //            try
-        //            {
-        //                imageb = new WebClient().DownloadData(imageUrl);
-        //            }
-        //            catch
-        //            {
-        //                imageUrl = Global_Variables.LDrawImageInventoryUrl_Unoffical + LDrawRef + ".png";
-        //                try
-        //                {
-        //                    imageb = new WebClient().DownloadData(imageUrl);
-        //                }
-        //                catch
-        //                {
-        //                }
-        //            }
-        //            if (imageb.Length > 0)
-        //            {
-        //                // ** Save the image to Azure **                        
-        //                BlobClient newBlob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-ldraw").GetBlobClient(LDrawRef + ".png");
-        //                using (var ms = new MemoryStream(imageb))
-        //                {
-        //                    newBlob.Upload(ms, true);
-        //                    LDrawImage = new Bitmap(ms);
-        //                }
-        //                Global_Variables.LDrawImage_Dict.Add(LDrawRef, LDrawImage);
-        //            }
-        //        }
-        //    }
-        //    return LDrawImage;
-        //}
-
-        //public static Bitmap GetSetImage_OLD(string SetRef)
-        //{
-        //    Bitmap image = null;
-        //    string imageUrl = "https://img.bricklink.com/ItemImage/ON/0/" + SetRef + ".png";    // Need to move this to a global variable
-        //    if (Global_Variables.SetImage_Dict.ContainsKey(SetRef))
-        //    {
-        //        // ** Cache already contains image so we don't have to download it again **
-        //        image = Global_Variables.SetImage_Dict[SetRef];
-        //    }
-        //    else
-        //    {     
-        //        // ** Check if the image is part of the Azure images already previously downloaded **
-        //        BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-set").GetBlobClient(SetRef + ".png");
-        //        if (blob.Exists())
-        //        {                    
-        //            image = DownloadBlobToImage(blob);
-        //            Global_Variables.SetImage_Dict.Add(SetRef, image);
-        //        }
-        //        else
-        //        {
-        //            // ** If the image was not already in the Azure images, upload it to Azure for use in future **
-        //            // ** Download element image from source API **                    
-        //            byte[] imageb = DownloadImageFromUrl(imageUrl);                    
-        //            if (imageb.Length > 0)
-        //            {
-        //                // ** Upload the image to Azure **                        
-        //                BlobClient newBlob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-set").GetBlobClient(SetRef + ".png");
-        //                using (var ms = new MemoryStream(imageb))
-        //                {
-        //                    newBlob.Upload(ms, true);
-        //                    image = new Bitmap(ms);
-        //                }
-        //                Global_Variables.SetImage_Dict.Add(SetRef, image);
-        //            }
-        //        }
-        //    }
-        //    return image;
-        //}
-
-        public static Bitmap GetImage(ImageType imageType, string[] _params)
-        {
-            // ** Determine variables **
-            Bitmap image = null;            
-            string itemRef = "";
-            List<string> imageUrlList = new List<string>();
-            if (imageType == ImageType.SET)
-            {
-                // params[0] = SetRef
-                itemRef = _params[0];
-                imageUrlList.Add("https://img.bricklink.com/ItemImage/ON/0/" + itemRef + ".png");
-            }
-            else if (imageType == ImageType.PARTCOLOUR)
-            {
-                // params[0] = LDrawColourID
-                itemRef = _params[0];
-                //imageUrl not used
-            }
-            else if (imageType == ImageType.ELEMENT)
-            {
-                // params[0] = LDrawRef
-                // params[1] = LDrawColourID, 
-                itemRef = _params[0] + "|" + _params[1];               
-                imageUrlList.Add(Global_Variables.ElementURL + "//" + _params[1] + "/" + _params[0] + ".png");
-            }
-            else if (imageType == ImageType.LDRAW)
-            {
-                // params[0] = LDrawRef
-                itemRef = _params[0];
-                imageUrlList.Add(Global_Variables.LDrawImageInventoryUrl_Offical + _params[0] + ".png");
-                imageUrlList.Add(Global_Variables.LDrawImageInventoryUrl_Unoffical + _params[0] + ".png");
-            }
-
-            // ** Check if base key is rpesent - if not, add it **
-            if (Global_Variables.ImageDict.ContainsKey(imageType) == false) Global_Variables.ImageDict.Add(imageType, new Dictionary<string, Bitmap>());
-            if (Global_Variables.ImageDict[imageType].Keys.Count > 0)
-            {
-                if (Global_Variables.ImageDict[imageType].Keys.Contains(itemRef))
-                {
-                    // ** Cache already contains image so we don't have to download it again **                    
-                    image = Global_Variables.ImageDict[imageType][itemRef];
-                }
-            }
-            if (image == null)
-            {
-                // ** Check if the image is part of the Azure images already previously downloaded **
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
-                if (blob.Exists())
-                {
-                    image = DownloadBlobToImage(blob);                   
-                    Global_Variables.ImageDict[imageType].Add(itemRef, image);
-                }
-                else
-                {
-                    // ** If the image was not already in the Azure images, upload it to Azure for use in future **
-                    // ** Download element image from source API **                    
-                    byte[] imageb = null;
-                    if (imageUrlList.Count == 0)
-                    {
-                        imageb = new WebClient().DownloadData(imageUrlList[0]);
-                    }
-                    else
-                    {
-                        foreach (string imageUrl in imageUrlList)
-                        {
-                            if (imageb == null)
-                            {
-                                try
-                                {
-                                    imageb = new WebClient().DownloadData(imageUrl);
-                                }
-                                catch { }
-                            }
-                        }
-                    }
-                    if (imageb.Length > 0)
-                    {
-                        // ** Upload the image to Azure **                        
-                        BlobClient newBlob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
-                        using (var ms = new MemoryStream(imageb))
-                        {
-                            newBlob.Upload(ms, true);
-                            image = new Bitmap(ms);
-                        }                        
-                        Global_Variables.ImageDict[imageType].Add(itemRef, image);
-                    }
-                }
-            }
-            return image;
         }
 
         #endregion
@@ -3957,7 +3619,7 @@ namespace Generator
                 if (LDrawRef != "")
                 {
                     //Bitmap LDrawImage = GetLDrawImage(LDrawRef);
-                    Bitmap LDrawImage = GetImage(ImageType.LDRAW, new string[] { LDrawRef });
+                    Bitmap LDrawImage = ArfaImage.GetImage(ImageType.LDRAW, new string[] { LDrawRef });
                     if (LDrawImage == null)
                     {
                         throw new Exception("LDraw image for " + LDrawRef + " not found in Azure...");
@@ -3986,10 +3648,7 @@ namespace Generator
         {
             try
             {
-                if (dg.Rows.Count == 0)
-                {
-                    throw new Exception("No data populated in " + dg.Name);
-                }
+                if (dg.Rows.Count == 0) throw new Exception("No data populated in " + dg.Name);               
                 StringBuilder sb = BaseClasses.HelperFunctions.GenerateClipboardStringFromDataTable(dg);
                 Clipboard.SetText(sb.ToString());
             }
@@ -5847,16 +5506,10 @@ namespace Generator
 
                     // ** Get element & Partcolour images **
                     Bitmap elementImage = null;
-                    if (GetImages_Element)
-                    {
-                        elementImage = GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
-                    }
                     Bitmap partColourImage = null;
-                    if (GetImages_PartColour)
-                    {
-                        partColourImage = GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });                        
-                    }
-
+                    if (chkShowElementImages.Checked) elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+                    if (chkShowPartcolourImages.Checked) partColourImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
+                   
                     // ** Build row **
                     object[] row = new object[partListTable.Columns.Count];
                     row[0] = elementImage;
@@ -6291,49 +5944,6 @@ namespace Generator
                 chkShowPages.Enabled = value;
                 tabControl1.Enabled = value;
             }
-        }
-
-        private static string DownloadBlobToXMLString(BlobClient blob)
-        {
-            byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-            using (var ms = new MemoryStream(fileContent)) blob.DownloadTo(ms);
-            string xmlString = Encoding.UTF8.GetString(fileContent);
-            return xmlString;
-        }
-
-        private static Bitmap DownloadBlobToImage(BlobClient blob)
-        {
-            Bitmap image = null;
-            byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-            using (var ms = new MemoryStream(fileContent))
-            {
-                blob.DownloadTo(ms);
-                image = new Bitmap(ms);
-            }
-            return image;
-        }
-
-        private static void UploadXMLStringToBlob(BlobClient blob, string xmlString)
-        {
-            byte[] bytes = Encoding.UTF8.GetBytes(xmlString);
-            using (var ms = new MemoryStream(bytes)) blob.Upload(ms, true);
-        }
-
-        //private static void UploadImageToBlob(BlobClient blob, byte[] imageb)
-        //{
-        //    using (var ms = new MemoryStream(imageb)) blob.Upload(ms, true);            
-        //}
-
-        public static byte[] DownloadImageFromUrl(string imageUrl)
-        {
-            byte[] imageb = new byte[0];
-            try
-            {
-                imageb = new WebClient().DownloadData(imageUrl);
-            }
-            catch
-            { }
-            return imageb;
         }
 
 

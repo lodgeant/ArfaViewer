@@ -43,6 +43,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnOpenSetInstructions = new System.Windows.Forms.ToolStripButton();
             this.btnOpenSetURLs = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsAddStepToEnd = new System.Windows.Forms.ToolStripMenuItem();
@@ -266,6 +267,8 @@
             this.toolStrip10 = new System.Windows.Forms.ToolStrip();
             this.btnCompareWithRebrickable = new System.Windows.Forms.ToolStripButton();
             this.chkShowPages = new System.Windows.Forms.CheckBox();
+            this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
+            this.chkShowElementImages = new System.Windows.Forms.CheckBox();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -329,7 +332,8 @@
             this.btnDeleteSet,
             this.toolStripSeparator2,
             this.btnOpenSetInstructions,
-            this.btnOpenSetURLs});
+            this.btnOpenSetURLs,
+            this.toolStripSeparator22});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1370, 25);
@@ -426,6 +430,11 @@
             this.btnOpenSetURLs.Size = new System.Drawing.Size(104, 22);
             this.btnOpenSetURLs.Text = "Open Set URLs";
             this.btnOpenSetURLs.Click += new System.EventHandler(this.btnOpenSetURLs_Click);
+            // 
+            // toolStripSeparator22
+            // 
+            this.toolStripSeparator22.Name = "toolStripSeparator22";
+            this.toolStripSeparator22.Size = new System.Drawing.Size(6, 25);
             // 
             // imageList1
             // 
@@ -2390,11 +2399,37 @@
             this.chkShowPages.UseVisualStyleBackColor = false;
             this.chkShowPages.CheckedChanged += new System.EventHandler(this.chkShowPages_CheckedChanged);
             // 
+            // chkShowPartcolourImages
+            // 
+            this.chkShowPartcolourImages.AutoSize = true;
+            this.chkShowPartcolourImages.Checked = true;
+            this.chkShowPartcolourImages.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowPartcolourImages.Location = new System.Drawing.Point(768, 2);
+            this.chkShowPartcolourImages.Name = "chkShowPartcolourImages";
+            this.chkShowPartcolourImages.Size = new System.Drawing.Size(141, 17);
+            this.chkShowPartcolourImages.TabIndex = 110;
+            this.chkShowPartcolourImages.Text = "Show Partcolour Images";
+            this.chkShowPartcolourImages.UseVisualStyleBackColor = false;
+            // 
+            // chkShowElementImages
+            // 
+            this.chkShowElementImages.AutoSize = true;
+            this.chkShowElementImages.Checked = true;
+            this.chkShowElementImages.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowElementImages.Location = new System.Drawing.Point(915, 2);
+            this.chkShowElementImages.Name = "chkShowElementImages";
+            this.chkShowElementImages.Size = new System.Drawing.Size(131, 17);
+            this.chkShowElementImages.TabIndex = 111;
+            this.chkShowElementImages.Text = "Show Element Images";
+            this.chkShowElementImages.UseVisualStyleBackColor = false;
+            // 
             // Generator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1370, 749);
+            this.Controls.Add(this.chkShowElementImages);
+            this.Controls.Add(this.chkShowPartcolourImages);
             this.Controls.Add(this.chkShowPages);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip2);
@@ -2724,6 +2759,9 @@
         private System.Windows.Forms.Panel pnlSetImage;
         private System.Windows.Forms.ToolStripMenuItem tsStepDuplicateToBefore;
         private System.Windows.Forms.ToolStripMenuItem tsStepDuplicateToAfter;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
+        private System.Windows.Forms.CheckBox chkShowPartcolourImages;
+        private System.Windows.Forms.CheckBox chkShowElementImages;
     }
 }
 

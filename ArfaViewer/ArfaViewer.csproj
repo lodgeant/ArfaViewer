@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>https://lodgeaccount.blob.core.windows.net/click-once/ArfaViewer/</InstallUrl>
-    <ApplicationRevision>24</ApplicationRevision>
+    <ApplicationRevision>25</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -113,7 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\APIProxy.cs" />
-    <Compile Include="Classes\ImageType.cs" />
+    <Compile Include="Classes\ArfaImage.cs" />
     <Compile Include="Classes\StaticData.cs" />
     <Compile Include="Screens\PartTickBackScreen.cs">
       <SubType>Form</SubType>
