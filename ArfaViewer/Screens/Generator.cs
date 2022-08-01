@@ -811,7 +811,33 @@ namespace Generator
 
         #region ** REFRESH STATIC DATA FUNCTIONS **
 
-        //private async Task RefreshStaticData()
+        //private void EnableControls_RefreshStaticData(bool value)
+        //{
+        //    if (this.InvokeRequired)
+        //    {
+        //        this.BeginInvoke(new MethodInvoker(() => EnableControls_RefreshStaticData(value)));
+        //    }
+        //    else
+        //    {
+        //        btnExit.Enabled = value;
+        //        fldCurrentSetRef.Enabled = value;
+        //        btnLoadSet.Enabled = value;
+        //        btnSaveSet.Enabled = value;
+        //        btnDeleteSet.Enabled = value;
+        //        //btnRecalculatePartList.Enabled = value;
+        //        //btnRecalculateUnityRefs.Enabled = value;
+        //        btnOpenSetInstructions.Enabled = value;
+        //        btnOpenSetURLs.Enabled = value;
+        //        //btnSaveToOfficialSetsXML.Enabled = value;
+        //        chkShowSubParts.Enabled = value;
+        //        chkShowPages.Enabled = value;
+        //        tabControl1.Enabled = value;
+        //        //fldInstructionsSetRef.Enabled = value;
+        //        //fldSetInstructions.Enabled = value;
+        //        //btnUploadInstructionsFromWeb.Enabled = value;
+        //    }
+        //}
+
         private void RefreshStaticData()
         {
             try
@@ -847,34 +873,7 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
-
-        //private void EnableControls_RefreshStaticData(bool value)
-        //{
-        //    if (this.InvokeRequired)
-        //    {
-        //        this.BeginInvoke(new MethodInvoker(() => EnableControls_RefreshStaticData(value)));
-        //    }
-        //    else
-        //    {
-        //        btnExit.Enabled = value;
-        //        fldCurrentSetRef.Enabled = value;
-        //        btnLoadSet.Enabled = value;
-        //        btnSaveSet.Enabled = value;
-        //        btnDeleteSet.Enabled = value;
-        //        //btnRecalculatePartList.Enabled = value;
-        //        //btnRecalculateUnityRefs.Enabled = value;
-        //        btnOpenSetInstructions.Enabled = value;
-        //        btnOpenSetURLs.Enabled = value;
-        //        //btnSaveToOfficialSetsXML.Enabled = value;
-        //        chkShowSubParts.Enabled = value;
-        //        chkShowPages.Enabled = value;
-        //        tabControl1.Enabled = value;
-        //        //fldInstructionsSetRef.Enabled = value;
-        //        //fldSetInstructions.Enabled = value;
-        //        //btnUploadInstructionsFromWeb.Enabled = value;
-        //    }
-        //}
-                
+     
         private void RefreshLDrawColourNameDropdown()
         {
             //List<string> partColourNameList =   (from r in Global_Variables.pcc.PartColourList
@@ -1518,7 +1517,6 @@ namespace Generator
             }
         }
 
-
         private Dictionary<string, XmlDocument> GetMiniFigXMLDict(XmlDocument currentSetxmlDoc)
         {
             Dictionary<string, XmlDocument> MiniFigXMLDict = new Dictionary<string, XmlDocument>();
@@ -1550,10 +1548,6 @@ namespace Generator
             }
             return MiniFigXMLDict;
         }
-
-
-             
-
 
         private void ClearAllFields()
         {

@@ -21,6 +21,7 @@ using Azure.Storage.Files.Shares;
 using BaseClasses;
 using System.Runtime.Serialization.Json;
 using System.Net.Http;
+using Microsoft.Data.SqlClient;
 
 
 
@@ -32,13 +33,13 @@ namespace Generator
         //public static string LDrawImageInventoryUrl_Offical = "https://www.ldraw.org/library/official/images/parts/";
         //public static string LDrawImageInventoryUrl_Unoffical = "https://www.ldraw.org/library/unofficial/images/parts/";
         //public static string ElementURL = "https://m.rebrickable.com/media/parts/ldraw";
+        public string AzureDBConnString;
 
 
-
-        public APIProxy(string AzureStorageConnString)
+        public APIProxy(string AzureStorageConnString, string AzureDBConnString)
         {
             this.AzureStorageConnString = AzureStorageConnString;
-
+            this.AzureDBConnString = AzureDBConnString;
         }
 
 
@@ -160,7 +161,7 @@ namespace Generator
                             }
                         }
                     }
-                    if (imageb.Length > 0)
+                    if (imageb != null && imageb.Length > 0)
                     {                        
                         // ** Upload the image to Azure **                        
                         BlobClient newBlob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
@@ -175,10 +176,36 @@ namespace Generator
             return image;
         }
 
-       
-        
-        public void UploadImage()
+        public void UploadImage()   // Not used yet.
         {
+        }
+
+        public PartColourCollection GetPartColourData_All()
+        {
+            String sql = "SELECT * FROM PARTCOLOUR";
+            var dataTable = new DataTable();
+            using (SqlConnection connection = new SqlConnection(AzureDBConnString))
+            {                
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();                    
+                    using (SqlDataReader reader = command.ExecuteReader()) dataTable.Load(reader);                   
+                }
+            }
+
+            // ** Generate PartColour object from PARTCOLOUR DataTable **
+            PartColourCollection pcc = new PartColourCollection();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                //PartColour pc = new PartColour();
+                //pc.LDrawColourID = (int)row["LDRAWCOLOUR_ID"];
+                //pc.LDrawColourName = (string)row["LDRAWCOLOUR_NAME"];
+                //pc.LDrawColourHex = (string)row["LDRAWCOLOUR_HEX"];
+                //pc.LDrawColourAlpha = (int)row["LDRAWCOLOUR_ALPHA"];
+                PartColour pc = PartColour.GetPartColourFromDBDataRow(row);
+                pcc.PartColourList.Add(pc);
+            }
+            return pcc;
         }
 
 

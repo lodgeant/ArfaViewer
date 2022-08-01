@@ -28,6 +28,8 @@ namespace Generator
         //public static string ElementURL = "https://m.rebrickable.com/media/parts/ldraw";
         public static string UnityLegoPartPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";    // Used for SyncFBXFiles
         public static string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
+        public static string AzureDBConnString = "Server=tcp:arfa-db.database.windows.net,1433;Initial Catalog=ArfaDB;Persist Security Info=False;User ID=lodgeant;Password=Sammy_Lodge123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            
 
         public static string RebrickableKey = "856437d0f14f81e4d3356d27bf1b419e";
 

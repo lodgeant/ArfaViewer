@@ -49,7 +49,10 @@ namespace Generator
             Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
             xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.CompositePartCollection.ToString());
             Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
-            xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.PartColourCollection.ToString());
+
+            //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.PartColourCollection.ToString());
+            BaseClasses.PartColourCollection pcc = Global_Variables.APIProxy.GetPartColourData_All();
+            xmlString = pcc.SerializeToString(true);
             Global_Variables.PartColourCollectionXML.LoadXml(xmlString);
         }
 

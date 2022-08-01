@@ -41,11 +41,10 @@ namespace Generator
                 log.Info(".......................................................................APPLICATION STARTED.......................................................................");
 
                 // ** Generate Proxy API **
-                Global_Variables.APIProxy = new APIProxy(Global_Variables.AzureStorageConnString);
+                Global_Variables.APIProxy = new APIProxy(Global_Variables.AzureStorageConnString, Global_Variables.AzureDBConnString);
 
                 // ** Refresh static data **                
                 StaticData.RefreshStaticData_All();
-
             }
             catch (Exception ex)
             {
