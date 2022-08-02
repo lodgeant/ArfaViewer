@@ -44,24 +44,33 @@ namespace Generator
         //}
 
         public static void RefreshStaticData_All()
-        {            
-            string xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.BasePartCollection.ToString());
-            Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
-            xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.CompositePartCollection.ToString());
-            Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
-
+        {
+            // ** PARTCOLOUR **
             //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.PartColourCollection.ToString());
             BaseClasses.PartColourCollection pcc = Global_Variables.APIProxy.GetPartColourData_All();
-            xmlString = pcc.SerializeToString(true);
+            string xmlString = pcc.SerializeToString(true);
             Global_Variables.PartColourCollectionXML.LoadXml(xmlString);
+
+            // ** BASEPART **
+            //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.BasePartCollection.ToString());
+            BaseClasses.BasePartCollection bpc = Global_Variables.APIProxy.GetBasePartData_All();
+            xmlString = bpc.SerializeToString(true);
+            Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
+            
+            // ** COMPOSITEPART **
+            //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.CompositePartCollection.ToString());
+            BaseClasses.CompositePartCollection cpc = Global_Variables.APIProxy.GetCompositePartData_All();
+            xmlString = cpc.SerializeToString(true);
+            Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
+                        
         }
 
-        public enum Filename
-        {
-            BasePartCollection,
-            CompositePartCollection,
-            PartColourCollection
-        }
+        //public enum Filename
+        //{
+        //    BasePartCollection,
+        //    CompositePartCollection,
+        //    PartColourCollection
+        //}
 
         //public static async Task RefreshStaticData_BasePartCollection()
         //{
@@ -775,6 +784,9 @@ namespace Generator
         //}
 
         //private async Task RefreshStaticData()
+
+
+
 
 
     }

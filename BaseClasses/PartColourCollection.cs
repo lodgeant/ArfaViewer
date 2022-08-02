@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Data;
 
 namespace BaseClasses
 {
@@ -46,6 +47,18 @@ namespace BaseClasses
             {
                 return (PartColourCollection)serializer.Deserialize(reader);
             }
+        }
+
+
+        public static PartColourCollection GetPartColourCollectionFromDataTable(DataTable table)
+        {
+            PartColourCollection pcc = new PartColourCollection();
+            foreach (DataRow row in table.Rows)
+            {
+                PartColour pc = PartColour.GetPartColourFromDBDataRow(row);
+                pcc.PartColourList.Add(pc);
+            }
+            return pcc;
         }
 
     }

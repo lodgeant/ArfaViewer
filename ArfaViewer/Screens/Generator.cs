@@ -2053,9 +2053,7 @@ namespace Generator
                 partTable.Columns.Add("LDraw Description", typeof(string));
                 partTable.Columns.Add("Unity Ref", typeof(string));
                 #endregion
-
-                //TODO: Adjust the code here to go off and get images in parallel but wait for all images to be collected before proceeding.
-
+                                
                 #region ** CYCLE THROUGH PART NODES AND GENERATE PART ROWS **  
                 int stepNodeIndex = 0;
                 int previousStepNo = 1;

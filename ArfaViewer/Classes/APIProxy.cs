@@ -89,12 +89,12 @@ namespace Generator
             return blob.Exists();
         }
 
-        public string GetStaticData(string report)
-        {
-            BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient(report + ".xml");
-            string xmlString = DownloadBlobToXMLString(blob);
-            return xmlString;
-        }
+        //public string GetStaticData(string report)
+        //{
+        //    BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient(report + ".xml");
+        //    string xmlString = DownloadBlobToXMLString(blob);
+        //    return xmlString;
+        //}
 
         public Bitmap GetImage(ImageType imageType, string[] _params)
         {
@@ -182,30 +182,47 @@ namespace Generator
 
         public PartColourCollection GetPartColourData_All()
         {
-            String sql = "SELECT * FROM PARTCOLOUR";
-            var dataTable = new DataTable();
-            using (SqlConnection connection = new SqlConnection(AzureDBConnString))
-            {                
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();                    
-                    using (SqlDataReader reader = command.ExecuteReader()) dataTable.Load(reader);                   
-                }
-            }
+            // ** Generate PartColourCollection from xml data in Blob **
+            //BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient("PartColourCollection.xml");
+            //string xmlString = DownloadBlobToXMLString(blob);
+            //PartColourCollection coll = new PartColourCollection().DeserialiseFromXMLString(xmlString);
 
-            // ** Generate PartColour object from PARTCOLOUR DataTable **
-            PartColourCollection pcc = new PartColourCollection();
-            foreach (DataRow row in dataTable.Rows)
-            {
-                //PartColour pc = new PartColour();
-                //pc.LDrawColourID = (int)row["LDRAWCOLOUR_ID"];
-                //pc.LDrawColourName = (string)row["LDRAWCOLOUR_NAME"];
-                //pc.LDrawColourHex = (string)row["LDRAWCOLOUR_HEX"];
-                //pc.LDrawColourAlpha = (int)row["LDRAWCOLOUR_ALPHA"];
-                PartColour pc = PartColour.GetPartColourFromDBDataRow(row);
-                pcc.PartColourList.Add(pc);
-            }
-            return pcc;
+            // ** Generate PartColourCollection from PARTCOLOUR data in database **
+            String sql = "SELECT LDRAW_COLOUR_ID,LDRAW_COLOUR_NAME,LDRAW_COLOUR_HEX,LDRAW_COLOUR_ALPHA FROM PARTCOLOUR";
+            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+            PartColourCollection coll = PartColourCollection.GetPartColourCollectionFromDataTable(results);
+
+            return coll;
+        }
+
+        public BasePartCollection GetBasePartData_All()
+        {
+            // ** Generate BasePartCollection from xml data in Blob **
+            BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient("BasePartCollection.xml");
+            string xmlString = DownloadBlobToXMLString(blob);
+            BasePartCollection coll = new BasePartCollection().DeserialiseFromXMLString(xmlString);
+
+            // ** Generate BasePartCollection from BASEPART data in database **
+            //String sql = "SELECT LDRAW_COLOUR_ID,LDRAW_COLOUR_NAME,LDRAW_COLOUR_HEX,LDRAW_COLOUR_ALPHA FROM PARTCOLOUR";
+            //var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+            //BasePartCollection coll = BasePartCollection.GetPartColourCollectionFromDataTable(results);
+
+            return coll;
+        }
+
+        public CompositePartCollection GetCompositePartData_All()
+        {
+            // ** Generate BasePartCollection from xml data in Blob **
+            BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient("CompositePartCollection.xml");
+            string xmlString = DownloadBlobToXMLString(blob);
+            CompositePartCollection coll = new CompositePartCollection().DeserialiseFromXMLString(xmlString);
+
+            // ** Generate CompositePartCollection from COMPOSITEPART data in database **
+            //String sql = "SELECT LDRAW_COLOUR_ID,LDRAW_COLOUR_NAME,LDRAW_COLOUR_HEX,LDRAW_COLOUR_ALPHA FROM PARTCOLOUR";
+            //var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+            //BasePartCollection coll = BasePartCollection.GetPartColourCollectionFromDataTable(results);
+
+            return coll;
         }
 
 
@@ -240,6 +257,20 @@ namespace Generator
                 image = new Bitmap(ms);
             }
             return image;
+        }
+
+        private static DataTable GetSQLQueryResults(string AzureDBConnString, string sql)
+        {
+            var results = new DataTable();
+            using (SqlConnection connection = new SqlConnection(AzureDBConnString))
+            {
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader()) results.Load(reader);
+                }
+            }
+            return results;
         }
 
 
