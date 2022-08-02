@@ -195,6 +195,18 @@ namespace Generator
             return coll;
         }
 
+        public PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)
+        {
+            // ** Generate PartColourCollection from PARTCOLOUR data in database **
+            String sql = "SELECT LDRAW_COLOUR_ID,LDRAW_COLOUR_NAME,LDRAW_COLOUR_HEX,LDRAW_COLOUR_ALPHA FROM PARTCOLOUR ";
+            sql += "WHERE LDRAW_COLOUR_ID IN (" + string.Join(",", IDList) + ")";
+            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+            PartColourCollection coll = PartColourCollection.GetPartColourCollectionFromDataTable(results);
+            return coll;
+        }
+
+
+
         public BasePartCollection GetBasePartData_All()
         {
             // ** Generate BasePartCollection from xml data in Blob **
@@ -224,6 +236,12 @@ namespace Generator
 
             return coll;
         }
+
+
+
+        
+
+
 
 
 

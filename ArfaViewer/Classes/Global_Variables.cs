@@ -20,8 +20,10 @@ namespace Generator
 
         public static XmlDocument BasePartCollectionXML = new XmlDocument();
         public static XmlDocument CompositePartCollectionXML = new XmlDocument();
-        public static XmlDocument PartColourCollectionXML = new XmlDocument();
-        
+        //public static XmlDocument PartColourCollectionXML = new XmlDocument();
+        //public static BaseClasses.PartColourCollection PartColourCollection = new BaseClasses.PartColourCollection();
+
+
         //public static string LDrawImageInventoryUrl_Offical = "https://www.ldraw.org/library/official/images/parts/";
         //public static string LDrawImageInventoryUrl_Unoffical = "https://www.ldraw.org/library/unofficial/images/parts/";
         //public static string ElementURL = "https://m.rebrickable.com/media/parts/ldraw";

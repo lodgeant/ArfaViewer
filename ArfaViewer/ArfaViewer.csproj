@@ -202,6 +202,7 @@
     <Compile Include="Classes\APIProxy.cs" />
     <Compile Include="Classes\ArfaImage.cs" />
     <Compile Include="Classes\StaticData.cs" />
+    <Compile Include="Classes\TreeViewExtensions.cs" />
     <Compile Include="Screens\PartTickBackScreen.cs">
       <SubType>Form</SubType>
     </Compile>

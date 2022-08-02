@@ -1007,7 +1007,8 @@ namespace Generator
                     //String LDrawColourName = (from r in Global_Variables.pcc.PartColourList
                     //                          where r.LDrawColourID == LDrawColourID
                     //                          select r.LDrawColourName).FirstOrDefault();
-                    string LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName").InnerXml;                    
+                    //string LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName").InnerXml;
+                    string LDrawColourName = StaticData.GetLDrawColourName(LDrawColourID);
                     string LDrawDescription = Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml;
                     int Qty = int.Parse(partNode.SelectSingleNode("@Qty").InnerXml);
                     int QtyFound = int.Parse(partNode.SelectSingleNode("@QtyFound").InnerXml);
@@ -1141,11 +1142,12 @@ namespace Generator
                 string LDrawRef = (string)dgSetPartListSummary.SelectedRows[0].Cells["LDraw Ref"].Value;
                 //int LDrawColourID = (int)dgSetPartListSummary.SelectedRows[0].Cells["LDraw Colour ID"].Value;                
                 string LDrawColourName = (string)dgSetPartListSummary.SelectedRows[0].Cells["LDraw Colour Name"].Value;
-                int LDrawColourID = -1;
-                if (Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID") != null)
-                {
-                    LDrawColourID = int.Parse(Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID").InnerXml);
-                }
+                //int LDrawColourID = -1;
+                //if (Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID") != null)
+                //{
+                //    LDrawColourID = int.Parse(Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID").InnerXml);
+                //}
+                int LDrawColourID = StaticData.GetLDrawColourID(LDrawColourName);
                 int Qty = (int)dgSetPartListSummary.SelectedRows[0].Cells["Qty"].Value;
                 int QtyFound = (int)dgSetPartListSummary.SelectedRows[0].Cells["Qty Found"].Value;
 
@@ -1263,11 +1265,12 @@ namespace Generator
                 string LDrawRef = (string)dgObjectPartListSummary.SelectedRows[0].Cells["LDraw Ref"].Value;
                 //int LDrawColourID = (int)dgObjectPartListSummary.SelectedRows[0].Cells["LDraw Colour ID"].Value;
                 string LDrawColourName = (string)dgObjectPartListSummary.SelectedRows[0].Cells["LDraw Colour Name"].Value;
-                int LDrawColourID = -1;
-                if (Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID") != null)
-                {
-                    LDrawColourID = int.Parse(Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID").InnerXml);
-                }
+                //int LDrawColourID = -1;
+                //if (Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID") != null)
+                //{
+                //    LDrawColourID = int.Parse(Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID").InnerXml);
+                //}
+                int LDrawColourID = StaticData.GetLDrawColourID(LDrawColourName);
                 int Qty = (int)dgObjectPartListSummary.SelectedRows[0].Cells["Qty"].Value;
                 int QtyFound = (int)dgObjectPartListSummary.SelectedRows[0].Cells["Qty Found"].Value;                              
                 string SubSetRef = SelectedNodeTag.Split('|')[1];

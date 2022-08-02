@@ -878,10 +878,11 @@ namespace Generator
         {
             //List<string> partColourNameList =   (from r in Global_Variables.pcc.PartColourList
             //                                    select r.LDrawColourName).OrderBy(x => x).ToList();                
-            XmlNodeList LDrawColourNameNodeList = Global_Variables.PartColourCollectionXML.SelectNodes("//PartColour/@LDrawColourName");
-            List<string> partColourNameList = LDrawColourNameNodeList.Cast<XmlNode>()
-                                               .Select(x => x.InnerText)
-                                               .OrderBy(x => x).ToList();
+            //XmlNodeList LDrawColourNameNodeList = Global_Variables.PartColourCollectionXML.SelectNodes("//PartColour/@LDrawColourName");
+            //List<string> partColourNameList = LDrawColourNameNodeList.Cast<XmlNode>()
+            //                                   .Select(x => x.InnerText)
+            //                                   .OrderBy(x => x).ToList();
+            List<string> partColourNameList = StaticData.GetAllLDrawColourNames();
             fldLDrawColourName.Items.Clear();
             fldLDrawColourName.Items.AddRange(partColourNameList.ToArray());            
         }
@@ -1301,6 +1302,9 @@ namespace Generator
                 //fldSetInstructions.Enabled = value;
                 //btnUploadInstructionsFromWeb.Enabled = value;
                 btnRefreshStaticData.Enabled = value;
+                chkShowPartcolourImages.Enabled = value;
+                chkShowElementImages.Enabled = value;
+                pnlSetImage.Enabled = value;
             }
         }
 
@@ -1379,6 +1383,8 @@ namespace Generator
                 Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Processing refresh...");
                 if (currentSetXml != null)
                 {
+                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Generating Treeview...");
+
                     List<string> nodeList = new List<string>();
 
                     // ** MERGE STANDALONE MINIFIG XML's INTO SET XML **   
@@ -1389,7 +1395,7 @@ namespace Generator
                     {
                         fullSetXml = Set.MergeMiniFigsIntoSetXML(fullSetXml, MiniFigXMLDict);
                     }
-                    
+
                     #region ** POPULATE Set DETAILS **                    
                     string SetRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;
                     string SetDescription = currentSetXml.SelectSingleNode("//Set/@Description").InnerXml;
@@ -1460,12 +1466,16 @@ namespace Generator
                 }
                 #endregion
 
+                //System.Threading.Thread.Sleep(2000);
+
                 #region ** UPDATE PART LIST SUMMARIES - Current Set XML **
                 Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Updating Current Set parts list...");                               
                 if (currentSetXml != null)
                 {
                     XmlNodeList partListNodeList = currentSetXml.SelectNodes("//PartListPart");
+                    Stopwatch watch = new Stopwatch(); watch.Start();
                     DataTable partListTable = GeneratePartListTable(partListNodeList);      //TODO: This the bit that's slow the first time for the images.
+                    watch.Stop(); long msecs = watch.ElapsedMilliseconds;
                     partListTable.DefaultView.Sort = "LDraw Colour Name";
                     partListTable = partListTable.DefaultView.ToTable();                    
                     Delegates.DataGridView_SetDataSource(this, dgPartListSummary, partListTable);
@@ -1484,6 +1494,8 @@ namespace Generator
                     Delegates.ToolStripLabel_SetText(this, lblPartListCount, partCount.ToString("#,##0") + " Part(s), " + elementCount.ToString("#,##0") + " Element(s), " + lDrawPartCount.ToString("#,##0") + " LDraw Part(s), " + colourCount.ToString("#,##0") + " Colour(s)");
                 }
                 #endregion
+
+                //System.Threading.Thread.Sleep(2000);
 
                 #region ** UPDATE PART LIST SUMMARIES - Full Set XML **
                 Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Updating Full Set parts list...");
@@ -1510,6 +1522,7 @@ namespace Generator
                 }
                 #endregion
 
+                //System.Threading.Thread.Sleep(2000);
             }
             catch (Exception ex)
             {
@@ -1745,6 +1758,39 @@ namespace Generator
         {
             try
             {
+                // ** GET DATA **
+                // Get a list of LDrawColourIDs
+                List<int> LDrawColourIDList = new List<int>();
+                foreach (XmlNode partNode in partListNodeList)
+                {
+                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
+                    if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
+                }
+                // get a PartColourCollection for these IDs
+                PartColourCollection PartColourCollection = Global_Variables.APIProxy.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
+
+
+
+                // ** GET ALL IMAGES **
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Getting images...");
+                Delegates.ToolStripProgressBar_SetMax(this, pbStatus, partListNodeList.Count);
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                int index = 0;
+                foreach (XmlNode partNode in partListNodeList)
+                {
+                    string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
+                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
+                    Bitmap elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+                    Delegates.ToolStripProgressBar_SetValue(this, pbStatus, index);
+                    index += 1;
+                }
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+
+
+
+
+
+
                 // ** GENERATE COLUMNS **
                 DataTable partListTable = new DataTable("partListTable", "partListTable");
                 partListTable.Columns.Add("Part Image", typeof(Bitmap));
@@ -1756,22 +1802,27 @@ namespace Generator
                 partListTable.Columns.Add("Qty", typeof(int));
 
                 // ** CYCLE THROUGH PART NODES AND GENERATE PART ROWS **  
-                Delegates.ToolStripProgressBar_SetMax(this, pbStatus, partListNodeList.Count);
-                int nodeIndex = 1;
+                //Delegates.ToolStripProgressBar_SetMax(this, pbStatus, partListNodeList.Count);
+                //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                //int nodeIndex = 1;
                 foreach (XmlNode partNode in partListNodeList)
                 {
                     // ** GET LDRAW VARIABLES **
                     string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);                   
-                    string LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName").InnerXml;
+                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
+                    //string LDrawColourName = StaticData.GetLDrawColourName(LDrawColourID);
+                    string LDrawColourName = (from r in PartColourCollection.PartColourList
+                                              where r.LDrawColourID == LDrawColourID
+                                              select r.LDrawColourName).FirstOrDefault();
                     int Qty = int.Parse(partNode.SelectSingleNode("@Qty").InnerXml);
                     string LDrawDescription = Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml;
 
                     // ** Update progress **
-                    Delegates.ToolStripProgressBar_SetValue(this, pbStatus, nodeIndex);
-                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Updating parts list | Processing " + LDrawRef + "|" + LDrawColourID + " (" + nodeIndex + " of " + partListNodeList.Count + ")...");
+                    //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, nodeIndex);
+                    //Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Updating parts list | Processing " + LDrawRef + "|" + LDrawColourID + " (" + nodeIndex + " of " + partListNodeList.Count + ")...");
 
                     // ** Get element & Partcolour images **
+                    //TODO: Change this to get all the images up front as this is what take the time...!!!!
                     Bitmap elementImage = null;
                     Bitmap partColourImage = null;
                     if (chkShowElementImages.Checked) elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() }); 
@@ -1789,9 +1840,9 @@ namespace Generator
                     partListTable.Rows.Add(row);
 
                     // ** Update Node Index **
-                    nodeIndex += 1;
+                    //nodeIndex += 1;
                 }
-                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
                 return partListTable;
             }
             catch (Exception ex)
@@ -1819,6 +1870,14 @@ namespace Generator
         }
 
         #endregion
+
+
+
+
+
+
+
+
 
         #region ** TREENODE FUNCTIONS **
 
@@ -2068,16 +2127,8 @@ namespace Generator
                     }
                     string UnityRef = partNode.SelectSingleNode("@UnityRef").InnerXml;
                     string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
-                    //string LDrawColourName = (from r in Global_Variables.pcc.PartColourList
-                    //                          where r.LDrawColourID == LDrawColourID
-                    //                          select r.LDrawColourName).FirstOrDefault();
-                    //string LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName").InnerXml;
-                    string LDrawColourName = "";
-                    if (Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']") != null)
-                    {
-                        LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName").InnerXml;
-                    }
+                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);                    
+                    string LDrawColourName = StaticData.GetLDrawColourName(LDrawColourID);
                     bool IsSubPart = bool.Parse(partNode.SelectSingleNode("@IsSubPart").InnerXml);
                     string partType = "";
                     string LDrawDescription = "";
@@ -2155,8 +2206,8 @@ namespace Generator
 
                     // ** GET ELEMENT & PARTCOLOUR IMAGES **
                     Bitmap elementImage = null;
-                    if (chkShowElementImages.Checked) elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
                     Bitmap partColourImage = null;
+                    if (chkShowElementImages.Checked) elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });                    
                     if (chkShowPartcolourImages.Checked) partColourImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
 
                     // ** Get Placement Movements **
@@ -3033,12 +3084,13 @@ namespace Generator
                     //                         where r.LDrawColourName.Equals(fldLDrawColourName.Text)
                     //                         select r.LDrawColourID.ToString()).FirstOrDefault();
                     //string LDrawColourID = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + fldLDrawColourName.Text + "']/@LDrawColourID").InnerXml;
-                    string LDrawColourID = "";
-                    if (Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + fldLDrawColourName.Text + "']/@LDrawColourID") != null)
-                    {
-                        LDrawColourID = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + fldLDrawColourName.Text + "']/@LDrawColourID").InnerXml;
-                    }
-                    fldLDrawColourID.Text = LDrawColourID;
+                    //string LDrawColourID = "";
+                    //if (Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + fldLDrawColourName.Text + "']/@LDrawColourID") != null)
+                    //{
+                    //    LDrawColourID = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + fldLDrawColourName.Text + "']/@LDrawColourID").InnerXml;
+                    //}
+                    int LDrawColourID = StaticData.GetLDrawColourID(fldLDrawColourName.Text);
+                    fldLDrawColourID.Text = LDrawColourID.ToString();
                 }
             }
             catch (Exception ex)
@@ -3057,7 +3109,8 @@ namespace Generator
                     //fldLDrawColourName.Text = (from r in Global_Variables.pcc.PartColourList
                     //                           where r.LDrawColourID.ToString().Equals(fldLDrawColourID.Text)
                     //                           select r.LDrawColourName).FirstOrDefault();
-                    string LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + fldLDrawColourID.Text + "']/@LDrawColourName").InnerXml;
+                    //string LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + fldLDrawColourID.Text + "']/@LDrawColourName").InnerXml;
+                    string LDrawColourName = StaticData.GetLDrawColourName(int.Parse(fldLDrawColourID.Text));
                     fldLDrawColourName.Text = LDrawColourName;
                 }
             }
@@ -5485,11 +5538,13 @@ namespace Generator
                     }
                     int LDrawColourID = int.Parse(partNode.SelectSingleNode("color/id").InnerXml);
                     int Qty = int.Parse(partNode.SelectSingleNode("quantity").InnerXml);
-                    string LDrawColourName = "";
-                    if (Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName") != null)
-                    {
-                        LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName").InnerXml;
-                    }
+                    //string LDrawColourName = "";
+                    //if (Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName") != null)
+                    //{
+                    //    LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName").InnerXml;
+                    //}
+                    string LDrawColourName = StaticData.GetLDrawColourName(LDrawColourID);
+
                     string LDrawDescription = "";
                     if (Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription") != null)
                     {
@@ -6395,37 +6450,37 @@ namespace Generator
     //    }
 
 
-    public static class TreeViewExtensions
-    {
-        public static List<string> GetExpansionState(this TreeNodeCollection nodes)
-        {
-            return nodes.Descendants()
-                        .Where(n => n.IsExpanded)
-                        .Select(n => n.FullPath)
-                        .ToList();
-        }
+    //public static class TreeViewExtensions
+    //{
+    //    public static List<string> GetExpansionState(this TreeNodeCollection nodes)
+    //    {
+    //        return nodes.Descendants()
+    //                    .Where(n => n.IsExpanded)
+    //                    .Select(n => n.FullPath)
+    //                    .ToList();
+    //    }
 
-        public static void SetExpansionState(this TreeNodeCollection nodes, List<string> savedExpansionState)
-        {
-            foreach (var node in nodes.Descendants()
-                                      .Where(n => savedExpansionState.Contains(n.FullPath)))
-            {
-                node.Expand();
-            }
-        }
+    //    public static void SetExpansionState(this TreeNodeCollection nodes, List<string> savedExpansionState)
+    //    {
+    //        foreach (var node in nodes.Descendants()
+    //                                  .Where(n => savedExpansionState.Contains(n.FullPath)))
+    //        {
+    //            node.Expand();
+    //        }
+    //    }
 
-        public static IEnumerable<TreeNode> Descendants(this TreeNodeCollection c)
-        {
-            foreach (var node in c.OfType<TreeNode>())
-            {
-                yield return node;
+    //    public static IEnumerable<TreeNode> Descendants(this TreeNodeCollection c)
+    //    {
+    //        foreach (var node in c.OfType<TreeNode>())
+    //        {
+    //            yield return node;
 
-                foreach (var child in node.Nodes.Descendants())
-                {
-                    yield return child;
-                }
-            }
-        }
-    }
+    //            foreach (var child in node.Nodes.Descendants())
+    //            {
+    //                yield return child;
+    //            }
+    //        }
+    //    }
+    //}
 
 }
