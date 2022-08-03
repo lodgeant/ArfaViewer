@@ -56,10 +56,14 @@ namespace Generator
 
             // ** BASEPART **
             //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.BasePartCollection.ToString());
-            BaseClasses.BasePartCollection bpc = Global_Variables.APIProxy.GetBasePartData_All();
-            xmlString = bpc.SerializeToString(true);
-            Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
+            //Global_Variables.BasePartCollection = Global_Variables.APIProxy.GetBasePartData_All();
+            //string result = BaseClasses.BasePartCollection.ConvertBasePartCollectionToDBInsertValuesString(Global_Variables.BasePartCollection);
+            //xmlString = Global_Variables.BasePartCollection.SerializeToString(true);
+            //Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
+                        
             
+
+
             // ** COMPOSITEPART **
             //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.CompositePartCollection.ToString());
             BaseClasses.CompositePartCollection cpc = Global_Variables.APIProxy.GetCompositePartData_All();
@@ -67,8 +71,6 @@ namespace Generator
             Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
                         
         }
-
-
 
 
         public static string GetLDrawColourName(int LDrawColourID)

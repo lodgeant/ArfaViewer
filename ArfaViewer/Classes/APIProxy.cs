@@ -210,14 +210,14 @@ namespace Generator
         public BasePartCollection GetBasePartData_All()
         {
             // ** Generate BasePartCollection from xml data in Blob **
-            BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient("BasePartCollection.xml");
-            string xmlString = DownloadBlobToXMLString(blob);
-            BasePartCollection coll = new BasePartCollection().DeserialiseFromXMLString(xmlString);
+            //BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient("BasePartCollection.xml");
+            //string xmlString = DownloadBlobToXMLString(blob);
+            //BasePartCollection coll = new BasePartCollection().DeserialiseFromXMLString(xmlString);
 
             // ** Generate BasePartCollection from BASEPART data in database **
-            //String sql = "SELECT LDRAW_COLOUR_ID,LDRAW_COLOUR_NAME,LDRAW_COLOUR_HEX,LDRAW_COLOUR_ALPHA FROM PARTCOLOUR";
-            //var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            //BasePartCollection coll = BasePartCollection.GetPartColourCollectionFromDataTable(results);
+            String sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE FROM BASEPART";
+            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+            BasePartCollection coll = BasePartCollection.GetBasePartCollectionFromDataTable(results);
 
             return coll;
         }

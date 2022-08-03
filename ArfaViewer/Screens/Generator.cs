@@ -1380,23 +1380,24 @@ namespace Generator
             try
             {                 
                 #region ** PROCESS REFRESH **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Processing refresh...");
+                //Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Processing refresh...");
                 if (currentSetXml != null)
                 {
                     Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Generating Treeview...");
 
-                    List<string> nodeList = new List<string>();
+                    //List<string> nodeList = new List<string>();
 
                     // ** MERGE STANDALONE MINIFIG XML's INTO SET XML **   
                     fullSetXml = new XmlDocument();
-                    fullSetXml.LoadXml(currentSetXml.OuterXml);  //TODO: Maybe move this to when the Set is loaded...?
+                    fullSetXml.LoadXml(currentSetXml.OuterXml);
                     Dictionary<string, XmlDocument> MiniFigXMLDict = GetMiniFigXMLDict(currentSetXml);
                     if (MiniFigXMLDict.Count > 0)
                     {
                         fullSetXml = Set.MergeMiniFigsIntoSetXML(fullSetXml, MiniFigXMLDict);
                     }
 
-                    #region ** POPULATE Set DETAILS **                    
+                    #region ** POPULATE Set DETAILS **    
+                    List<string> nodeList = new List<string>();
                     string SetRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;
                     string SetDescription = currentSetXml.SelectSingleNode("//Set/@Description").InnerXml;
                     TreeNode SetTN = new TreeNode(SetRef + "|" + SetDescription);
@@ -1474,7 +1475,7 @@ namespace Generator
                 {
                     XmlNodeList partListNodeList = currentSetXml.SelectNodes("//PartListPart");
                     Stopwatch watch = new Stopwatch(); watch.Start();
-                    DataTable partListTable = GeneratePartListTable(partListNodeList);      //TODO: This the bit that's slow the first time for the images.
+                    DataTable partListTable = GeneratePartListTable(partListNodeList);
                     watch.Stop(); long msecs = watch.ElapsedMilliseconds;
                     partListTable.DefaultView.Sort = "LDraw Colour Name";
                     partListTable = partListTable.DefaultView.ToTable();                    
@@ -1768,6 +1769,11 @@ namespace Generator
                 }
                 // get a PartColourCollection for these IDs
                 PartColourCollection PartColourCollection = Global_Variables.APIProxy.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
+
+
+                // Get a list of BasePartIDs
+
+
 
 
 

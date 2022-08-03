@@ -52,13 +52,13 @@ namespace BaseClasses
 
         public static PartColourCollection GetPartColourCollectionFromDataTable(DataTable table)
         {
-            PartColourCollection pcc = new PartColourCollection();
+            PartColourCollection coll = new PartColourCollection();
             foreach (DataRow row in table.Rows)
             {
-                PartColour pc = PartColour.GetPartColourFromDBDataRow(row);
-                pcc.PartColourList.Add(pc);
+                PartColour item = PartColour.GetPartColourFromDBDataRow(row);
+                coll.PartColourList.Add(item);
             }
-            return pcc;
+            return coll;
         }
 
     }

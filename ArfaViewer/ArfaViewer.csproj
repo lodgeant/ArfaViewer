@@ -279,6 +279,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="config.xml" />
+    <Content Include="SQL\CreateAndPopulateBasePartTable.sql" />
     <Content Include="SQL\CreateAndPopulatePartColourTable.sql" />
   </ItemGroup>
   <ItemGroup>

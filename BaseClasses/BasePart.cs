@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Data;
 
 namespace BaseClasses
 {
@@ -95,6 +96,25 @@ namespace BaseClasses
             {
                 return (BasePart)serializer.Deserialize(reader);
             }
+        }
+
+
+        public static BasePart GetBasePartFromDBDataRow(DataRow row)
+        {
+            BasePart item = new BasePart();
+            item.LDrawRef = (string)row["LDRAW_REF"];
+            item.LDrawDescription = (string)row["LDRAW_DESCRIPTION"];
+            item.LDrawCategory = (string)row["LDRAW_CATEGORY"];
+            item.LDrawSize = (int)row["LDRAW_SIZE"];
+            item.OffsetX = float.Parse(row["OFFSET_X"].ToString());
+            item.OffsetY = float.Parse(row["OFFSET_Y"].ToString());
+            item.OffsetZ = float.Parse(row["OFFSET_Z"].ToString());
+            item.IsSubPart = bool.Parse(row["IS_SUB_PART"].ToString());
+            item.IsSticker = bool.Parse(row["IS_STICKER"].ToString());
+            item.IsLargeModel = bool.Parse(row["IS_LARGE_MODEL"].ToString());
+            item.partType = (BaseClasses.BasePart.PartType)Enum.Parse(typeof(BaseClasses.BasePart.PartType), (string)row["PART_TYPE"], true);
+            item.lDrawPartType = (BaseClasses.BasePart.LDrawPartType)Enum.Parse(typeof(BaseClasses.BasePart.LDrawPartType), (string)row["LDRAW_PART_TYPE"], true);
+            return item;
         }
 
     }

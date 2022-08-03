@@ -33,12 +33,12 @@ namespace BaseClasses
 
         public static PartColour GetPartColourFromDBDataRow(DataRow row)
         {
-            PartColour pc = new PartColour();
-            pc.LDrawColourID = (int)row["LDRAW_COLOUR_ID"];
-            pc.LDrawColourName = (string)row["LDRAW_COLOUR_NAME"];
-            pc.LDrawColourHex = (string)row["LDRAW_COLOUR_HEX"];
-            pc.LDrawColourAlpha = (int)row["LDRAW_COLOUR_ALPHA"];
-            return pc;
+            PartColour item = new PartColour();
+            item.LDrawColourID = (int)row["LDRAW_COLOUR_ID"];
+            item.LDrawColourName = (string)row["LDRAW_COLOUR_NAME"];
+            item.LDrawColourHex = (string)row["LDRAW_COLOUR_HEX"];
+            item.LDrawColourAlpha = (int)row["LDRAW_COLOUR_ALPHA"];
+            return item;
         }
 
         

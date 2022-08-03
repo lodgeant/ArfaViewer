@@ -434,7 +434,7 @@ namespace Generator
                     {
                         BasePartCollection pc = new BasePartCollection().DeserialiseFromXMLString(CollectionXML.OuterXml);
                         xmlString = pc.SerializeToString(true);
-                        Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
+                        //Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
                     }
                     else
                     {
