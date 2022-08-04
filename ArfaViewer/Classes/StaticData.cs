@@ -13,6 +13,145 @@ namespace Generator
 {
     public class StaticData
     {
+        
+        public static void RefreshStaticData_All()
+        {
+            string xmlString = "";
+
+            // ** PARTCOLOUR **
+            //Global_Variables.PartColourCollection = Global_Variables.APIProxy.GetPartColourData_All();
+            //string xmlString = Global_Variables.PartColourCollection.SerializeToString(true);
+            //Global_Variables.PartColourCollectionXML.LoadXml(xmlString);
+
+            // ** BASEPART **
+            //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.BasePartCollection.ToString());
+            //Global_Variables.BasePartCollection = Global_Variables.APIProxy.GetBasePartData_All();
+            //string result = BaseClasses.BasePartCollection.ConvertBasePartCollectionToDBInsertValuesString(Global_Variables.BasePartCollection);
+            //xmlString = Global_Variables.BasePartCollection.SerializeToString(true);
+            //Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
+                      
+            // ** COMPOSITEPART **
+            //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.CompositePartCollection.ToString());
+            BaseClasses.CompositePartCollection cpc = Global_Variables.APIProxy.GetCompositePartData_All();
+            xmlString = cpc.SerializeToString(true);
+            Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);                        
+        }
+
+
+
+        public static string GetLDrawDescription(string LDrawRef)
+        {
+            // ** Get data from API **
+            return Global_Variables.APIProxy.GetLDrawDescription_UsingLDrawRef(LDrawRef);
+        }
+
+        public static int GetLDrawColourID(string LDrawColourName)
+        {
+            //int LDrawColourID = int.Parse(Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID").InnerXml);
+            //int LDrawColourID = (from r in Global_Variables.PartColourCollection.PartColourList
+            //                    where r.LDrawColourName == LDrawColourName
+            //                    select r.LDrawColourID).FirstOrDefault();
+
+            // ** Get data from PARTCOLOUR database table **
+            //String sql = "SELECT LDRAW_COLOUR_ID FROM PARTCOLOUR WHERE LDRAW_COLOUR_NAME='" + LDrawColourName + "'";
+            //var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
+            //int LDrawColourID = (int)results.Rows[0]["LDRAW_COLOUR_ID"];
+            //return LDrawColourID;
+
+            // ** Get data from API **
+            return Global_Variables.APIProxy.GetLDrawColourID_UsingLDrawColourName(LDrawColourName);
+        }
+
+        public static string GetLDrawColourName(int LDrawColourID)
+        {
+            // ** Get data from PartColourCollection XML **
+            //string LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName").InnerXml;
+
+            // ** Get data from PartColourCollection object **
+            //string LDrawColourName = (from r in Global_Variables.PartColourCollection.PartColourList
+            //                          where r.LDrawColourID == LDrawColourID
+            //                          select r.LDrawColourName).FirstOrDefault();
+
+            // ** Get data from PARTCOLOUR database table **
+            //String sql = "SELECT LDRAW_COLOUR_NAME FROM PARTCOLOUR WHERE LDRAW_COLOUR_ID=" + LDrawColourID;
+            //var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);           
+            //string LDrawColourName = (string)results.Rows[0]["LDRAW_COLOUR_NAME"];            
+            //return LDrawColourName;
+
+            // ** Get data from API **
+            return Global_Variables.APIProxy.GetLDrawColourName_UsingLDrawColourID(LDrawColourID);
+        }
+
+        public static int GetLDrawSize(string LDrawRef)
+        {  
+            // ** Get data from BASEPART database table **
+            //String sql = "SELECT LDRAW_SIZE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
+            //var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
+            //int LDrawSize = (int)results.Rows[0]["LDRAW_SIZE"];
+            //return LDrawSize;
+
+            // ** Get data from API **
+            return Global_Variables.APIProxy.GetLDrawSize_UsingLDrawRef(LDrawRef);
+        }
+
+        public static string GetPartType(string LDrawRef)
+        {
+            // ** Get data from BASEPART database table **
+            //String sql = "SELECT PART_TYPE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
+            //var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
+            //string partType = (string)results.Rows[0]["PART_TYPE"];
+            //return partType;
+
+            // ** Get data from API **
+            return Global_Variables.APIProxy.GetPartType_UsingLDrawRef(LDrawRef);
+        }
+
+        public static List<string> GetAllLDrawColourNames()
+        {
+            //List<string> partColourNameList = new List<string>();
+
+            ////XmlNodeList LDrawColourNameNodeList = Global_Variables.PartColourCollectionXML.SelectNodes("//PartColour/@LDrawColourName");
+            ////partColourNameList =    LDrawColourNameNodeList.Cast<XmlNode>()
+            ////                        .Select(x => x.InnerText)
+            ////                        .OrderBy(x => x).ToList();
+            ////partColourNameList =   (from r in Global_Variables.PartColourCollection.PartColourList
+            ////                        select r.LDrawColourName).OrderBy(x => x).ToList();
+
+            //// ** Get data from PARTCOLOUR database table **
+            //String sql = "SELECT LDRAW_COLOUR_NAME FROM PARTCOLOUR ORDER BY LDRAW_COLOUR_NAME";
+            //var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);            
+            //foreach(DataRow row in results.Rows)
+            //{                
+            //    partColourNameList.Add((string)row["LDRAW_COLOUR_NAME"]);
+            //}
+            //return partColourNameList;
+
+            // ** Get data from API **
+            return Global_Variables.APIProxy.GetAllLDrawColourNames();
+        }
+
+
+
+
+        // ** HELPFUL FUNCTIONS **
+        private static DataTable GetSQLQueryResults(string AzureDBConnString, string sql)
+        {
+            var results = new DataTable();
+            using (SqlConnection connection = new SqlConnection(AzureDBConnString))
+            {
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader()) results.Load(reader);
+                }
+            }
+            return results;
+        }
+
+
+
+
+
         //public static async Task RefreshStaticData(StaticData.Filename report)
         //{
         //    try
@@ -44,110 +183,6 @@ namespace Generator
         //        //MessageBox.Show(ex.Message);
         //    }
         //}
-
-        public static void RefreshStaticData_All()
-        {
-            string xmlString = "";
-
-            // ** PARTCOLOUR **
-            //Global_Variables.PartColourCollection = Global_Variables.APIProxy.GetPartColourData_All();
-            //string xmlString = Global_Variables.PartColourCollection.SerializeToString(true);
-            //Global_Variables.PartColourCollectionXML.LoadXml(xmlString);
-
-            // ** BASEPART **
-            //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.BasePartCollection.ToString());
-            //Global_Variables.BasePartCollection = Global_Variables.APIProxy.GetBasePartData_All();
-            //string result = BaseClasses.BasePartCollection.ConvertBasePartCollectionToDBInsertValuesString(Global_Variables.BasePartCollection);
-            //xmlString = Global_Variables.BasePartCollection.SerializeToString(true);
-            //Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
-                        
-            
-
-
-            // ** COMPOSITEPART **
-            //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.CompositePartCollection.ToString());
-            BaseClasses.CompositePartCollection cpc = Global_Variables.APIProxy.GetCompositePartData_All();
-            xmlString = cpc.SerializeToString(true);
-            Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
-                        
-        }
-
-
-        public static string GetLDrawColourName(int LDrawColourID)
-        {
-            // ** Get data from PartColourCollection XML **
-            //string LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName").InnerXml;
-
-            // ** Get data from PartColourCollection object **
-            //string LDrawColourName = (from r in Global_Variables.PartColourCollection.PartColourList
-            //                          where r.LDrawColourID == LDrawColourID
-            //                          select r.LDrawColourName).FirstOrDefault();
-
-            // ** Get data from PARTCOLOUR database table **
-            String sql = "SELECT LDRAW_COLOUR_NAME FROM PARTCOLOUR WHERE LDRAW_COLOUR_ID=" + LDrawColourID;
-            var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);           
-            string LDrawColourName = (string)results.Rows[0]["LDRAW_COLOUR_NAME"];
-            
-            return LDrawColourName;
-        }
-
-        public static int GetLDrawColourID(string LDrawColourName)
-        {
-            //int LDrawColourID = int.Parse(Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID").InnerXml);
-            //int LDrawColourID = (from r in Global_Variables.PartColourCollection.PartColourList
-            //                    where r.LDrawColourName == LDrawColourName
-            //                    select r.LDrawColourID).FirstOrDefault();
-
-            // ** Get data from PARTCOLOUR database table **
-            String sql = "SELECT LDRAW_COLOUR_ID FROM PARTCOLOUR WHERE LDRAW_COLOUR_NAME=" + LDrawColourName;
-            var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
-            int LDrawColourID = (int)results.Rows[0]["LDRAW_COLOUR_ID"];
-
-            return LDrawColourID;
-        }
-
-        public static List<string> GetAllLDrawColourNames()
-        {
-            List<string> partColourNameList = new List<string>();
-
-            //XmlNodeList LDrawColourNameNodeList = Global_Variables.PartColourCollectionXML.SelectNodes("//PartColour/@LDrawColourName");
-            //partColourNameList =    LDrawColourNameNodeList.Cast<XmlNode>()
-            //                        .Select(x => x.InnerText)
-            //                        .OrderBy(x => x).ToList();
-            //partColourNameList =   (from r in Global_Variables.PartColourCollection.PartColourList
-            //                        select r.LDrawColourName).OrderBy(x => x).ToList();
-
-            // ** Get data from PARTCOLOUR database table **
-            String sql = "SELECT LDRAW_COLOUR_NAME FROM PARTCOLOUR ORDER BY LDRAW_COLOUR_NAME";
-            var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);            
-            foreach(DataRow row in results.Rows)
-            {                
-                partColourNameList.Add((string)row["LDRAW_COLOUR_NAME"]);
-            }
-
-            return partColourNameList;
-        }
-
-
-
-
-        // ** HELPFUL FUNCTIONS **
-        private static DataTable GetSQLQueryResults(string AzureDBConnString, string sql)
-        {
-            var results = new DataTable();
-            using (SqlConnection connection = new SqlConnection(AzureDBConnString))
-            {
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader()) results.Load(reader);
-                }
-            }
-            return results;
-        }
-
-
-
 
         //public enum Filename
         //{

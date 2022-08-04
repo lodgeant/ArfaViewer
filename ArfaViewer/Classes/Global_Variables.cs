@@ -33,6 +33,7 @@ namespace Generator
         public static string RebrickableKey = "856437d0f14f81e4d3356d27bf1b419e";
 
         public static APIProxy APIProxy;
+        //public static StaticData StaticData;
 
     }
 

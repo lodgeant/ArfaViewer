@@ -1009,7 +1009,8 @@ namespace Generator
                     //                          select r.LDrawColourName).FirstOrDefault();
                     //string LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName").InnerXml;
                     string LDrawColourName = StaticData.GetLDrawColourName(LDrawColourID);
-                    string LDrawDescription = Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml;
+                    //string LDrawDescription = Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml;
+                    string LDrawDescription = StaticData.GetLDrawDescription(LDrawRef);
                     int Qty = int.Parse(partNode.SelectSingleNode("@Qty").InnerXml);
                     int QtyFound = int.Parse(partNode.SelectSingleNode("@QtyFound").InnerXml);
 

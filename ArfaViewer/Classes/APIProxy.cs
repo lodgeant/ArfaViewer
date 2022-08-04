@@ -205,8 +205,6 @@ namespace Generator
             return coll;
         }
 
-
-
         public BasePartCollection GetBasePartData_All()
         {
             // ** Generate BasePartCollection from xml data in Blob **
@@ -221,6 +219,18 @@ namespace Generator
 
             return coll;
         }
+
+        public BasePartCollection GetBasePartData_UsingLDrawRefList(List<string> IDList)
+        {
+            // ** Generate BasePartCollection from BASEPART data in database **
+            String sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE FROM BASEPART ";
+            sql += "WHERE LDRAW_REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
+            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+            BasePartCollection coll = BasePartCollection.GetBasePartCollectionFromDataTable(results);
+            return coll;
+        }
+
+
 
         public CompositePartCollection GetCompositePartData_All()
         {
@@ -237,11 +247,74 @@ namespace Generator
             return coll;
         }
 
+        public bool CheckIfBasePartExists(string LDrawRef)
+        {
+            bool exists = false;
+            BasePartCollection coll = GetBasePartData_UsingLDrawRefList(new List<string>() { LDrawRef });
+            if (coll.BasePartList.Count > 0) exists = true;
+            return exists;
+        }
 
+        public string GetLDrawDescription_UsingLDrawRef(string LDrawRef)
+        {
+            // ** Get data from BASEPART database table **
+            String sql = "SELECT LDRAW_DESCRIPTION FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
+            var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
+            string result = (string)results.Rows[0]["LDRAW_DESCRIPTION"];
+            return result;
+        }
 
-        
+        public int GetLDrawColourID_UsingLDrawColourName(string LDrawColourName)
+        {            
+            // ** Get data from PARTCOLOUR database table **
+            String sql = "SELECT LDRAW_COLOUR_ID FROM PARTCOLOUR WHERE LDRAW_COLOUR_NAME='" + LDrawColourName + "'";
+            var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
+            int result = (int)results.Rows[0]["LDRAW_COLOUR_ID"];
+            return result;
+        }
 
+        public string GetLDrawColourName_UsingLDrawColourID(int LDrawColourID)
+        {            
+            // ** Get data from PARTCOLOUR database table **
+            String sql = "SELECT LDRAW_COLOUR_NAME FROM PARTCOLOUR WHERE LDRAW_COLOUR_ID=" + LDrawColourID;
+            var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
+            string LDrawColourName = (string)results.Rows[0]["LDRAW_COLOUR_NAME"];
+            return LDrawColourName;
+        }
 
+        public int GetLDrawSize_UsingLDrawRef(string LDrawRef)
+        {
+            // ** Get data from BASEPART database table **
+            String sql = "SELECT LDRAW_SIZE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
+            var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
+            int LDrawSize = (int)results.Rows[0]["LDRAW_SIZE"];
+            return LDrawSize;
+        }
+
+        public string GetPartType_UsingLDrawRef(string LDrawRef)
+        {
+            // ** Get data from BASEPART database table **
+            String sql = "SELECT PART_TYPE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
+            var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
+            string partType = (string)results.Rows[0]["PART_TYPE"];
+            return partType;
+        }
+
+        public List<string> GetAllLDrawColourNames()
+        {
+            List<string> partColourNameList = new List<string>();
+
+            // ** Get data from PARTCOLOUR database table **
+            String sql = "SELECT LDRAW_COLOUR_NAME FROM PARTCOLOUR ORDER BY LDRAW_COLOUR_NAME";
+            var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
+
+            // ** Convert data into list **
+            foreach (DataRow row in results.Rows)
+            {
+                partColourNameList.Add((string)row["LDRAW_COLOUR_NAME"]);
+            }
+            return partColourNameList;
+        }
 
 
 

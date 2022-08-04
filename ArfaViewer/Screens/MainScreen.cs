@@ -40,9 +40,9 @@ namespace Generator
                 lblStatus.Text = "";
                 log.Info(".......................................................................APPLICATION STARTED.......................................................................");
 
-                // ** Generate Proxy API **
+                // ** Generate Proxy API & StaticData **
                 Global_Variables.APIProxy = new APIProxy(Global_Variables.AzureStorageConnString, Global_Variables.AzureDBConnString);
-
+                
                 // ** Refresh static data **                
                 StaticData.RefreshStaticData_All();
             }
