@@ -39,6 +39,28 @@ namespace Generator
 
 
 
+        public static BaseClasses.Set GetSet(string SetRef)
+        {            
+            // ** Get data from API **
+            return Global_Variables.APIProxy.GetSet(SetRef);
+        }
+
+        public static void UpdateSet(BaseClasses.Set set)
+        {
+            // ** Get data from API **
+            Global_Variables.APIProxy.UpdateSet(set);
+        }
+
+        public static void DeleteSet(string setRef)
+        {            
+            // ** Get data from API **
+            Global_Variables.APIProxy.DeleteSet(setRef);
+        }
+
+
+
+
+
         public static string GetLDrawDescription(string LDrawRef)
         {
             // ** Get data from API **

@@ -198,10 +198,14 @@ namespace Generator
         public PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)
         {
             // ** Generate PartColourCollection from PARTCOLOUR data in database **
-            String sql = "SELECT LDRAW_COLOUR_ID,LDRAW_COLOUR_NAME,LDRAW_COLOUR_HEX,LDRAW_COLOUR_ALPHA FROM PARTCOLOUR ";
-            sql += "WHERE LDRAW_COLOUR_ID IN (" + string.Join(",", IDList) + ")";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            PartColourCollection coll = PartColourCollection.GetPartColourCollectionFromDataTable(results);
+            PartColourCollection coll = new PartColourCollection();
+            if (IDList.Count > 0)
+            {
+                string sql = "SELECT LDRAW_COLOUR_ID,LDRAW_COLOUR_NAME,LDRAW_COLOUR_HEX,LDRAW_COLOUR_ALPHA FROM PARTCOLOUR ";
+                sql += "WHERE LDRAW_COLOUR_ID IN (" + string.Join(",", IDList) + ")";
+                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+                coll = PartColourCollection.GetPartColourCollectionFromDataTable(results);
+            }
             return coll;
         }
 
@@ -223,10 +227,14 @@ namespace Generator
         public BasePartCollection GetBasePartData_UsingLDrawRefList(List<string> IDList)
         {
             // ** Generate BasePartCollection from BASEPART data in database **
-            String sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE FROM BASEPART ";
-            sql += "WHERE LDRAW_REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            BasePartCollection coll = BasePartCollection.GetBasePartCollectionFromDataTable(results);
+            BasePartCollection coll = new BasePartCollection();
+            if (IDList.Count > 0)
+            {
+                string sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE FROM BASEPART ";
+                sql += "WHERE LDRAW_REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
+                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+                coll = BasePartCollection.GetBasePartCollectionFromDataTable(results);
+            }
             return coll;
         }
 

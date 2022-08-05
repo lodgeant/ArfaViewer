@@ -32,8 +32,7 @@ namespace Generator
         public static string AzureDBConnString = "Server=tcp:arfa-db.database.windows.net,1433;Initial Catalog=ArfaDB;Persist Security Info=False;User ID=lodgeant;Password=Sammy_Lodge123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         public static string RebrickableKey = "856437d0f14f81e4d3356d27bf1b419e";
 
-        public static APIProxy APIProxy;
-        //public static StaticData StaticData;
+        public static APIProxy APIProxy;        
 
     }
 
