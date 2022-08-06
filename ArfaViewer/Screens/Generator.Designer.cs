@@ -356,6 +356,7 @@
             // 
             // btnRefreshStaticData
             // 
+            this.btnRefreshStaticData.BackColor = System.Drawing.Color.Red;
             this.btnRefreshStaticData.Image = ((System.Drawing.Image)(resources.GetObject("btnRefreshStaticData.Image")));
             this.btnRefreshStaticData.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRefreshStaticData.Name = "btnRefreshStaticData";

@@ -44,7 +44,12 @@ namespace Generator
                 Global_Variables.APIProxy = new APIProxy(Global_Variables.AzureStorageConnString, Global_Variables.AzureDBConnString);
                 
                 // ** Refresh static data **                
-                StaticData.RefreshStaticData_All();
+                //StaticData.RefreshStaticData_All();
+
+                // ** Convert CompositePart data into SQL insert string **
+                //CompositePartCollection coll = new CompositePartCollection().DeserialiseFromXMLString(Global_Variables.CompositePartCollectionXML.OuterXml);
+                //string insertSQL = CompositePartCollection.ConvertCompositePartCollectionToDBInsertValuesString(coll);
+
             }
             catch (Exception ex)
             {
@@ -359,7 +364,7 @@ namespace Generator
                 foreach (XmlNode LDrawRefNode in LDrawRefNodeList)
                 {
                     string LDrawRef = LDrawRefNode.SelectSingleNode("@LDrawRef").InnerXml;
-                    string LDrawDescription = new System.Xml.Linq.XText(Generator.GetLDrawDescription(LDrawRef)).ToString();
+                    string LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString();
                     if (LDrawDescription.Equals(""))
                     {
                         notFoundList_LDrawDescription.Add(LDrawRef);
@@ -401,7 +406,7 @@ namespace Generator
                     Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefList.Count);
                     foreach (string LDrawRef in LDrawRefList)
                     {
-                        string LDrawPartType = Generator.GetLDrawPartType(LDrawRef);
+                        string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
                         if (LDrawPartType.Equals("") || LDrawPartType.Equals(BasePart.LDrawPartType.UNKNOWN.ToString()))
                         {
                             notFoundList_LDrawPartType.Add(LDrawRef);
@@ -440,7 +445,7 @@ namespace Generator
                     {
                         CompositePartCollection pc = new CompositePartCollection().DeserialiseFromXMLString(CollectionXML.OuterXml);
                         xmlString = pc.SerializeToString(true);
-                        Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
+                        //Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
                     }                    
                     byte[] bytes = Encoding.UTF8.GetBytes(xmlString);
                     using (var ms = new MemoryStream(bytes))
@@ -763,7 +768,7 @@ namespace Generator
                 //Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefList.Count);
                 foreach (string LDrawRef in LDrawRefList)
                 {
-                    string LDrawDescription = new System.Xml.Linq.XText(Generator.GetLDrawDescription(LDrawRef)).ToString();
+                    string LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString();
                     if (LDrawDescription.Equals(""))
                     {
                         notFoundList_LDrawDescription.Add(LDrawRef);
@@ -810,7 +815,7 @@ namespace Generator
                 Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefList.Count);
                 foreach (string LDrawRef in LDrawRefList)
                 {
-                    string LDrawPartType = Generator.GetLDrawPartType(LDrawRef);
+                    string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
                     if (LDrawPartType.Equals("") || LDrawPartType.Equals(BasePart.LDrawPartType.UNKNOWN.ToString()))
                     {
                         notFoundList_LDrawPartType.Add(LDrawRef);

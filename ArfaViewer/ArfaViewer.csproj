@@ -26,7 +26,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>https://lodgeaccount.blob.core.windows.net/click-once/ArfaViewer/</InstallUrl>
-    <ApplicationRevision>26</ApplicationRevision>
+    <ApplicationRevision>27</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -279,8 +279,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="config.xml" />
-    <Content Include="SQL\CreateAndPopulateBasePartTable.sql" />
-    <Content Include="SQL\CreateAndPopulatePartColourTable.sql" />
+    <Content Include="SQL\BASEPART_Create_Table.sql" />
+    <Content Include="SQL\BASEPART_Populate_Table.sql" />
+    <Content Include="SQL\COMPOSITEPART_Create_Table.sql" />
+    <Content Include="SQL\COMPOSITEPART_Populate_Table.sql" />
+    <Content Include="SQL\PARTCOLOUR_Populate_Table.sql" />
+    <Content Include="SQL\PARTCOLOUR_Create_Table.sql" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

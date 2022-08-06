@@ -39,15 +39,12 @@ namespace Generator
             {
                 image = Global_Variables.ImageDict[imageType][itemRef];
             }
-
-            // [2] If image is NOT in local cache, check whether image is available on Azure storage. If the image is NOT in Azure storage either, the image will be downloaded from a 3rd party url.
-            if (image == null)
+            else
             {
-                // ** Get the image from Azure Storage ** 
-                image = Global_Variables.APIProxy.GetImage(imageType, _params);
+                // [2] If image is NOT in local cache, check whether image is available on Azure storage. If the image is NOT in Azure storage either, the image will be downloaded from a 3rd party url.
+                image = StaticData.GetImage(imageType, _params);
                 Global_Variables.ImageDict[imageType].Add(itemRef, image);
             }
-
             return image;
         }
 

@@ -163,7 +163,7 @@ namespace Generator
 
                 // ** REFRESH STATIC DATA **    
                 //RefreshStaticData();
-                StaticData.RefreshStaticData_All();
+                //StaticData.RefreshStaticData_All();
                 RefreshLDrawColourNameDropdown();
 
                 // ** UPDATE LABELS **                
@@ -396,7 +396,7 @@ namespace Generator
 
         private void btnRefreshStaticData_Click(object sender, EventArgs e)
         {
-            RefreshStaticData();
+            //RefreshStaticData();
         }
         
         private void btnStepDelete_Click(object sender, EventArgs e)
@@ -765,11 +765,8 @@ namespace Generator
             try
             {
                 // ** Validation checks **
-                if (currentSetXml == null)
-                {
-                    throw new Exception("No Set loaded");
-                }
-
+                if (currentSetXml == null) throw new Exception("No Set loaded");
+               
                 // ** Recalculate Unity refs for all SubSets **
                 int totalParts;
                 int totalSubSets;
@@ -838,42 +835,44 @@ namespace Generator
         //    }
         //}
 
-        private void RefreshStaticData()
-        {
-            try
-            {
-                EnableControls_All(false);
-                
-                //lblStatus.Text = "Downloading BasePartCollection.xml from Azure...";
-                //string xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.BasePartCollection.ToString());
-                //Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
-                //System.Threading.Thread.Sleep(2000);
+        //private void RefreshStaticData()
+        //{
+        //    try
+        //    {
+        //        EnableControls_All(false);
 
-                //lblStatus.Text = "Downloading CompositePartCollection.xml from Azure...";
-                //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.CompositePartCollection.ToString());
-                //Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
-                //System.Threading.Thread.Sleep(2000);
+        //        //lblStatus.Text = "Downloading BasePartCollection.xml from Azure...";
+        //        //string xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.BasePartCollection.ToString());
+        //        //Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
+        //        //System.Threading.Thread.Sleep(2000);
 
-                //lblStatus.Text = "Downloading PartColourCollection.xml from Azure...";
-                //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.PartColourCollection.ToString());
-                //Global_Variables.PartColourCollectionXML.LoadXml(xmlString);
-                //System.Threading.Thread.Sleep(2000);
+        //        //lblStatus.Text = "Downloading CompositePartCollection.xml from Azure...";
+        //        //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.CompositePartCollection.ToString());
+        //        //Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
+        //        //System.Threading.Thread.Sleep(2000);
 
-                StaticData.RefreshStaticData_All();
-                RefreshLDrawColourNameDropdown();
-                //System.Threading.Thread.Sleep(5000);
+        //        //lblStatus.Text = "Downloading PartColourCollection.xml from Azure...";
+        //        //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.PartColourCollection.ToString());
+        //        //Global_Variables.PartColourCollectionXML.LoadXml(xmlString);
+        //        //System.Threading.Thread.Sleep(2000);
 
-                // ** Update status **               
-                lblStatus.Text = "Static data last updated on " + DateTime.Now.ToString("dd-MMM-yyyy") + " @" + DateTime.Now.ToString("HH:mm:ss");
-                                
-                EnableControls_All(true);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-     
+        //        //StaticData.RefreshStaticData_All();
+        //        //RefreshLDrawColourNameDropdown();
+        //        //System.Threading.Thread.Sleep(5000);
+
+        //        // ** Update status **               
+        //        lblStatus.Text = "Static data last updated on " + DateTime.Now.ToString("dd-MMM-yyyy") + " @" + DateTime.Now.ToString("HH:mm:ss");
+
+        //        EnableControls_All(true);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
+
+        #endregion
+
         private void RefreshLDrawColourNameDropdown()
         {
             //List<string> partColourNameList =   (from r in Global_Variables.pcc.PartColourList
@@ -884,13 +883,12 @@ namespace Generator
             //                                   .OrderBy(x => x).ToList();
             List<string> partColourNameList = StaticData.GetAllLDrawColourNames();
             fldLDrawColourName.Items.Clear();
-            fldLDrawColourName.Items.AddRange(partColourNameList.ToArray());            
+            fldLDrawColourName.Items.AddRange(partColourNameList.ToArray());
         }
 
-        #endregion
 
         #region ** SET FUNCTIONS **
-                
+
         private void LoadSet()
         {
             try
@@ -942,7 +940,7 @@ namespace Generator
                 string setRef = fldCurrentSetRef.Text;
                 if (setRef.Equals("")) throw new Exception("No Set Ref entered...");
                 if (currentSetXml == null) throw new Exception("No Set currently loaded...");
-                if (Global_Variables.APIProxy.CheckIfSetExists(setRef) == false) throw new Exception("Set " + setRef + " not found...");
+                if (StaticData.CheckIfSetExists(setRef) == false) throw new Exception("Set " + setRef + " not found...");
 
                 // Make sure user wants to delete
                 DialogResult res = MessageBox.Show("Are you sure you want to Delete?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -1608,8 +1606,8 @@ namespace Generator
                     index += 1;
                 }
                 Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
-                PartColourCollection PartColourCollection = Global_Variables.APIProxy.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
-                BasePartCollection BasePartCollection = Global_Variables.APIProxy.GetBasePartData_UsingLDrawRefList(LDrawRefList);
+                PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
+                BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
 
                 // ** Get Element images **                
                 //if (chkShowElementImages.Checked)
@@ -1643,7 +1641,7 @@ namespace Generator
                 // ** CYCLE THROUGH PART NODES AND GENERATE PART ROWS **
                 foreach (XmlNode partNode in partListNodeList)
                 {
-                    // ** GET LDRAW VARIABLES **
+                    // ** GET VARIABLES **
                     string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
                     int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
                     int Qty = int.Parse(partNode.SelectSingleNode("@Qty").InnerXml);
@@ -1909,8 +1907,9 @@ namespace Generator
                     if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);
                 }
                 // ** Get a Collections for this data **
-                PartColourCollection PartColourCollection = Global_Variables.APIProxy.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
-                BasePartCollection BasePartCollection = Global_Variables.APIProxy.GetBasePartData_UsingLDrawRefList(LDrawRefList);
+                PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
+                BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
+                CompositePartCollection CompositePartCollection = StaticData.GetCompositePartData_UsingLDrawRefList(LDrawRefList);
 
 
 
@@ -1996,9 +1995,15 @@ namespace Generator
                     }
                     else
                     {
-                        LDrawDescription = Global_Variables.CompositePartCollectionXML.SelectSingleNode("//CompositePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml;
+                        //LDrawDescription = Global_Variables.CompositePartCollectionXML.SelectSingleNode("//CompositePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml;
+                        LDrawDescription = (from r in CompositePartCollection.CompositePartList
+                                           where r.LDrawRef.Equals(LDrawRef)
+                                           select r.LDrawDescription).FirstOrDefault();
                         // ** Infer other part details from parent **   
-                        string parentLDrawRef = Global_Variables.CompositePartCollectionXML.SelectSingleNode("//CompositePart[@LDrawRef='" + LDrawRef + "']/@ParentLDrawRef").InnerXml;
+                        //string parentLDrawRef = Global_Variables.CompositePartCollectionXML.SelectSingleNode("//CompositePart[@LDrawRef='" + LDrawRef + "']/@ParentLDrawRef").InnerXml;
+                        string parentLDrawRef = (from r in CompositePartCollection.CompositePartList
+                                                where r.LDrawRef.Equals(LDrawRef)
+                                                select r.ParentLDrawRef).FirstOrDefault();
                         partType = (from r in BasePartCollection.BasePartList
                                     where r.LDrawRef.Equals(parentLDrawRef)
                                     select r.partType.ToString()).FirstOrDefault();
@@ -2307,8 +2312,8 @@ namespace Generator
                         Bitmap elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
                     }
                 }
-                PartColourCollection PartColourCollection = Global_Variables.APIProxy.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
-                BasePartCollection BasePartCollection = Global_Variables.APIProxy.GetBasePartData_UsingLDrawRefList(LDrawRefList);
+                PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
+                BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
                 #endregion
 
                 // ** GENERATE COLUMNS **
@@ -3101,16 +3106,7 @@ namespace Generator
             {
                 // ** Lookup LDraw Colour ID **
                 if(fldLDrawColourName.Text != "")
-                {
-                    //fldLDrawColourID.Text = (from r in Global_Variables.pcc.PartColourList
-                    //                         where r.LDrawColourName.Equals(fldLDrawColourName.Text)
-                    //                         select r.LDrawColourID.ToString()).FirstOrDefault();
-                    //string LDrawColourID = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + fldLDrawColourName.Text + "']/@LDrawColourID").InnerXml;
-                    //string LDrawColourID = "";
-                    //if (Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + fldLDrawColourName.Text + "']/@LDrawColourID") != null)
-                    //{
-                    //    LDrawColourID = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + fldLDrawColourName.Text + "']/@LDrawColourID").InnerXml;
-                    //}
+                {                    
                     int LDrawColourID = StaticData.GetLDrawColourID(fldLDrawColourName.Text);
                     fldLDrawColourID.Text = LDrawColourID.ToString();
                 }
@@ -3128,10 +3124,6 @@ namespace Generator
                 // ** Lookup LDraw Colour ID **
                 if (fldLDrawColourID.Text != "")
                 {
-                    //fldLDrawColourName.Text = (from r in Global_Variables.pcc.PartColourList
-                    //                           where r.LDrawColourID.ToString().Equals(fldLDrawColourID.Text)
-                    //                           select r.LDrawColourName).FirstOrDefault();
-                    //string LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + fldLDrawColourID.Text + "']/@LDrawColourName").InnerXml;
                     string LDrawColourName = StaticData.GetLDrawColourName(int.Parse(fldLDrawColourID.Text));
                     fldLDrawColourName.Text = LDrawColourName;
                 }
@@ -3148,29 +3140,18 @@ namespace Generator
             {
                 // ** GET VARIABLES **
                 string LDrawRef = fldLDrawRef.Text;
-                BasePartCollection coll = Global_Variables.APIProxy.GetBasePartData_UsingLDrawRefList(new List<string>() { LDrawRef });
-
-                // ** POST PART DESCRIPTION **                
-                string description = coll.BasePartList[0].LDrawDescription;
-                if (description.Equals("")) description = "???";
-                gbPartDetails.Text = "Part Details | " + description;
                 
                 // ** GET LDRAW IMAGE **                
                 fldLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { LDrawRef });
 
                 // ** POST LDRAW DETAILS **
-                if(coll.BasePartList.Count > 0)
-                //if (Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']") != null)
+                gbPartDetails.Text = "Part Details | ???";
+                BasePartCollection coll = StaticData.GetBasePartData_UsingLDrawRefList(new List<string>() { LDrawRef });
+                if (coll.BasePartList.Count > 0)                
                 {
-                    // ** Get data **
-                    // string partType = Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@PartType").InnerXml;
-                    //string LDrawSize = Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawSize").InnerXml;
-                    //if (LDrawSize.Equals("0")) LDrawSize = "";
-                    //bool IsSubPart = bool.Parse(Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@IsSubPart").InnerXml);
-                    //bool IsSticker = bool.Parse(Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@IsSticker").InnerXml);
-                    //bool IsLargeModel = bool.Parse(Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@IsLargeModel").InnerXml);
-                    
                     // ** Post data **
+                    string description = coll.BasePartList[0].LDrawDescription;
+                    if(description != "") gbPartDetails.Text = "Part Details | " + description;
                     fldPartType.Text = coll.BasePartList[0].partType.ToString();
                     fldLDrawSize.Text = "";
                     if(coll.BasePartList[0].LDrawSize > 0) fldLDrawSize.Text = coll.BasePartList[0].LDrawSize.ToString();
@@ -3180,11 +3161,10 @@ namespace Generator
                 }
                 else
                 {
-                    fldPartType.Text = GetPartType(LDrawRef);
+                    fldPartType.Text = StaticData.GetPartType_FromLDrawFile(LDrawRef);
                 }
 
-                // ** UPDATE BASE PART COLLECTION BOOLEAN - CHECK IF PART IS IN BASE PART COLLECTION **               
-                //UpdateBasePartCollectionBoolean();
+                // ** UPDATE BASE PART COLLECTION BOOLEAN - CHECK IF PART IS IN BASE PART COLLECTION **
                 if (coll.BasePartList.Count > 0)
                 {
                     chkBasePartCollection.Checked = true;
@@ -3884,308 +3864,138 @@ namespace Generator
 
         #region ** GET LDRAW DATA FUNCTIONS **
 
-        public static string GetLDrawFileDetails(string LDrawRef)
-        {
-            //TODO: CHANGE THIS FUNCTION DO THAT THE LAST UPDATED FLAG IS CHECKED ON THE FILE AND IF NEWER, IT IS DOWNLOADED TO LDrawDATDetails_Dict.
-            string value = "";
-            try
-            {
-                //if (Global_Variables.LDrawDATDetails_Dict.ContainsKey(LDrawRef))
-                //{
-                //    value = Global_Variables.LDrawDATDetails_Dict[LDrawRef];
-                //}
-                //else
-                //{
-                    ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\parts").GetFileClient(LDrawRef + ".dat");
-                    if (share.Exists() == false)
-                    {
-                        share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial\parts").GetFileClient(LDrawRef + ".dat");
-                        if (share.Exists() == false)
-                        {
-                            share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(LDrawRef + ".dat");
-                        }
-                    }
-                    if (share.Exists())
-                    {
+        //public static string GetLDrawFileDetails(string LDrawRef)
+        //{
+        //    //TODO: CHANGE THIS FUNCTION DO THAT THE LAST UPDATED FLAG IS CHECKED ON THE FILE AND IF NEWER, IT IS DOWNLOADED TO LDrawDATDetails_Dict.
+        //    string value = "";
+        //    try
+        //    {
+        //        //if (Global_Variables.LDrawDATDetails_Dict.ContainsKey(LDrawRef))
+        //        //{
+        //        //    value = Global_Variables.LDrawDATDetails_Dict[LDrawRef];
+        //        //}
+        //        //else
+        //        //{
+        //            ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\parts").GetFileClient(LDrawRef + ".dat");
+        //            if (share.Exists() == false)
+        //            {
+        //                share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial\parts").GetFileClient(LDrawRef + ".dat");
+        //                if (share.Exists() == false)
+        //                {
+        //                    share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(LDrawRef + ".dat");
+        //                }
+        //            }
+        //            if (share.Exists())
+        //            {
 
-                        //DateTime lastUpdatedUTC = share.GetProperties().Value.LastModified.UtcDateTime;
+        //                //DateTime lastUpdatedUTC = share.GetProperties().Value.LastModified.UtcDateTime;
 
-                        byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
-                        Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
-                        using (var ms = new MemoryStream(fileContent))
-                        {
-                            download.Content.CopyTo(ms);
-                        }
-                        value = Encoding.UTF8.GetString(fileContent);
-                        //Global_Variables.LDrawDATDetails_Dict.Add(LDrawRef, value);
-                    }
-                //}
-                return value;
-            }
-            catch (Exception)
-            {
-                return value;
-            }
-        }
+        //                byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
+        //                Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
+        //                using (var ms = new MemoryStream(fileContent))
+        //                {
+        //                    download.Content.CopyTo(ms);
+        //                }
+        //                value = Encoding.UTF8.GetString(fileContent);
+        //                //Global_Variables.LDrawDATDetails_Dict.Add(LDrawRef, value);
+        //            }
+        //        //}
+        //        return value;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return value;
+        //    }
+        //}
                 
-        public static string GetLDrawDescription(string LDrawRef)
-        {
-            string value = "";
-            try
-            {
-                string LDrawFileText = GetLDrawFileDetails(LDrawRef);
-                if(LDrawFileText != "")
-                {
-                    string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                    value = lines[0].Replace("0 ", "");
-                }
-                return value;
-            }
-            catch (Exception)
-            {
-                return value;
-            }
-        }
+        //public static string GetLDrawDescription_FromLDrawFile(string LDrawRef)
+        //{
+        //    string value = "";
+        //    try
+        //    {
+        //        string LDrawFileText = GetLDrawFileDetails(LDrawRef);
+        //        if(LDrawFileText != "")
+        //        {
+        //            string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        //            value = lines[0].Replace("0 ", "");
+        //        }
+        //        return value;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return value;
+        //    }
+        //}
 
-        public static string GetPartType(string LDrawRef)
-        {
-            string value = "BASIC";
-            try
-            {
-                // ** Get LDraw details for part **
-                string LDrawFileText = GetLDrawFileDetails(LDrawRef);
-                string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                foreach (string fileLine in lines)
-                {
-                    // ** Check if part contains references to any other parts - if it does then the part is COMPOSITE
-                    if (fileLine.StartsWith("1"))
-                    {
-                        string[] DatLine = fileLine.Split(' ');
-                        string SubPart_LDrawRef = DatLine[14].ToLower().Replace(".dat", "").Replace("s\\", "");
-                        string SubPart_LDrawFileText = GetLDrawFileDetails(SubPart_LDrawRef);
-                        if (SubPart_LDrawFileText != "")
-                        {
-                            value = "COMPOSITE";
-                            break;
-                        }
-                    }
-                }
-                return value;
-            }
-            catch (Exception)
-            {
-                return value;
-            }
-        }
+        //public static string GetPartType_FromLDrawFile(string LDrawRef)
+        //{
+        //    string value = "BASIC";
+        //    try
+        //    {
+        //        // ** Get LDraw details for part **
+        //        string LDrawFileText = StaticData.GetLDrawFileDetails(LDrawRef);
+        //        string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        //        foreach (string fileLine in lines)
+        //        {
+        //            // ** Check if part contains references to any other parts - if it does then the part is COMPOSITE
+        //            if (fileLine.StartsWith("1"))
+        //            {
+        //                string[] DatLine = fileLine.Split(' ');
+        //                string SubPart_LDrawRef = DatLine[14].ToLower().Replace(".dat", "").Replace("s\\", "");
+        //                string SubPart_LDrawFileText = StaticData.GetLDrawFileDetails(SubPart_LDrawRef);
+        //                if (SubPart_LDrawFileText != "")
+        //                {
+        //                    value = "COMPOSITE";
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //        return value;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return value;
+        //    }
+        //}
 
-        public static string GetLDrawPartType(string LDrawRef)
-        {
-            string value = BasePart.LDrawPartType.UNKNOWN.ToString();
-            try
-            {
-                // ** CHECK IF PART EXISTS IN OFFICIAL/UNOFFIAL LDRAW PARTS - old **            
-                //ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\parts").GetFileClient(LDrawRef + ".dat");
-                //if (share.Exists())
-                //{
-                //    value = BasePart.LDrawPartType.OFFICIAL.ToString();
-                //}
-                //share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial\parts").GetFileClient(LDrawRef + ".dat");
-                //if (share.Exists())
-                //{
-                //    value = BasePart.LDrawPartType.UNOFFICIAL.ToString();
-                //}
-                //share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(LDrawRef + ".dat");
-                //if (share.Exists())
-                //{
-                //    value = BasePart.LDrawPartType.UNOFFICIAL.ToString();
-                //}
-
-                // ** CHECK IF PART EXISTS IN OFFICIAL/UNOFFIAL LDRAW PARTS **            
-                ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\parts").GetFileClient(LDrawRef + ".dat");
-                if (share.Exists())
-                {
-                    value = BasePart.LDrawPartType.OFFICIAL.ToString();
-                }
-                else
-                {
-                    share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial\parts").GetFileClient(LDrawRef + ".dat");
-                    if (share.Exists())
-                    {
-                        value = BasePart.LDrawPartType.UNOFFICIAL.ToString();
-                    }
-                    else
-                    {
-                        share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(LDrawRef + ".dat");
-                        if (share.Exists())
-                        {
-                            value = BasePart.LDrawPartType.UNOFFICIAL.ToString();
-                        }
-                    }
-                }
-                return value;
-            }
-            catch (Exception)
-            {                
-                return value;
-            }
-        }
+        //public static string GetLDrawPartType(string LDrawRef)
+        //{
+        //    string value = BasePart.LDrawPartType.UNKNOWN.ToString();
+        //    try
+        //    {               
+        //        // ** CHECK IF PART EXISTS IN OFFICIAL/UNOFFIAL LDRAW PARTS **            
+        //        ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\parts").GetFileClient(LDrawRef + ".dat");
+        //        if (share.Exists())
+        //        {
+        //            value = BasePart.LDrawPartType.OFFICIAL.ToString();
+        //        }
+        //        else
+        //        {
+        //            share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial\parts").GetFileClient(LDrawRef + ".dat");
+        //            if (share.Exists())
+        //            {
+        //                value = BasePart.LDrawPartType.UNOFFICIAL.ToString();
+        //            }
+        //            else
+        //            {
+        //                share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(LDrawRef + ".dat");
+        //                if (share.Exists())
+        //                {
+        //                    value = BasePart.LDrawPartType.UNOFFICIAL.ToString();
+        //                }
+        //            }
+        //        }
+        //        return value;
+        //    }
+        //    catch (Exception)
+        //    {                
+        //        return value;
+        //    }
+        //}
 
         #endregion
 
         #region ** PART FUNCTIONS **
-
-        //private void AddPart_OLD()
-        //{
-        //    try
-        //    {
-        //        #region ** VALIDATION CHECKS **               
-        //        if (currentSetXml == null)
-        //        {
-        //            throw new Exception("No Set active...");
-        //        }
-        //        if (fldPureStepNo.Text.Equals(""))
-        //        {
-        //            throw new Exception("No Step selected");
-        //        }
-        //        if (fldLDrawRef.Text.Equals(""))
-        //        {
-        //            throw new Exception("No LDraw Ref entered...");
-        //        }               
-        //        if (fldLDrawColourID.Text.Equals(""))
-        //        {
-        //            throw new Exception("No LDraw Colour ID entered...");
-        //        }                
-        //        if (fldQty.Text.Equals(""))
-        //        {
-        //            throw new Exception("No Qty entered...");
-        //        }
-        //        if (fldPlacementMovements.Text.Equals(""))
-        //        {
-        //            throw new Exception("No Placement Movement(s) entered...");
-        //        }
-        //        string LDrawRef = fldLDrawRef.Text;
-        //        int LDrawColourID = int.Parse(fldLDrawColourID.Text);
-
-        //        // ** CHECK IF PART IS IN BASE PART COLLECTION **
-        //        if (Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']") == null)
-        //        {
-        //            throw new Exception("Part not found in BasePart Collection");
-        //        }
-
-        //        // ** IF PART IS COMPOSITE, CHECK WHETHER SUB PARTS HAVE BEEN SET UP **
-        //        string partType = Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@PartType").InnerXml;
-        //        if (partType.Equals("COMPOSITE"))
-        //        {
-        //            // ** CHECK THAT ENTRIES ARE POPULATED IN CompositePartCollection.xml **
-        //            if (Global_Variables.CompositePartCollectionXML.SelectNodes("//CompositePart[@ParentLDrawRef='" + LDrawRef + "']").Count == 0)
-        //            {
-        //                throw new Exception("SubParts for Part not found in Composite Part Collection");
-        //            }
-        //        }
-        //        #endregion
-
-        //        // ** IDENTIFY THE PARENT STEP **
-        //        string pureStepNo = fldPureStepNo.Text;
-        //        string parentSubSetRef = fldStepParentSubSetRef.Text;
-        //        string parentSubModelRef = fldStepParentModelRef.Text;
-        //        XmlNode parentNode = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']");
-
-        //        #region ** GENERATE NEW PART **
-        //        Part newPart = new Part();
-        //        newPart.LDrawRef = fldLDrawRef.Text;
-        //        newPart.LDrawColourID = int.Parse(fldLDrawColourID.Text);
-        //        newPart.UnityRef = "";          
-        //        newPart.state = Part.PartState.NOT_COMPLETED;
-
-        //        // ** Add PlacementMovements to Part **
-        //        List<PlacementMovement> pmList = new List<PlacementMovement>();
-        //        foreach (String pmString in fldPlacementMovements.Text.Split(','))
-        //        {
-        //            PlacementMovement pm = new PlacementMovement();
-        //            pm.Axis = pmString.Split('=')[0].ToUpper();
-        //            pm.Value = float.Parse(pmString.Split('=')[1]);
-        //            pmList.Add(pm);
-        //        }
-        //        newPart.placementMovementList = pmList;
-        //        #endregion
-
-        //        #region ** ADD SUB PARTS TO NEW PART **
-        //        XmlNodeList subPartNodeList = Global_Variables.CompositePartCollectionXML.SelectNodes("//CompositePart[@ParentLDrawRef='" + fldLDrawRef.Text + "']");
-        //        foreach (XmlNode subPartNode in subPartNodeList)
-        //        {
-        //            // ** Get variables **
-        //            string subPart_LDrawRef = subPartNode.SelectSingleNode("@LDrawRef").InnerXml;
-        //            int subPart_LDrawColourID = int.Parse(subPartNode.SelectSingleNode("@LDrawColourID").InnerXml);
-        //            float subPart_PosX = float.Parse(subPartNode.SelectSingleNode("@PosX").InnerXml);
-        //            float subPart_PosY = float.Parse(subPartNode.SelectSingleNode("@PosY").InnerXml);
-        //            float subPart_PosZ = float.Parse(subPartNode.SelectSingleNode("@PosZ").InnerXml);
-        //            float subPart_RotX = float.Parse(subPartNode.SelectSingleNode("@RotX").InnerXml);
-        //            float subPart_RotY = float.Parse(subPartNode.SelectSingleNode("@RotY").InnerXml);
-        //            float subPart_RotZ = float.Parse(subPartNode.SelectSingleNode("@RotZ").InnerXml);
-        //            string subPart_UnityRef = "";
-
-        //            // ** Generate subPart and add to SubPartList **
-        //            Part subPart = new Part();
-        //            subPart.LDrawRef = subPart_LDrawRef;
-        //            subPart.LDrawColourID = subPart_LDrawColourID;
-        //            subPart.UnityRef = subPart_UnityRef;
-        //            subPart.state = Part.PartState.NOT_COMPLETED;
-        //            subPart.IsSubPart = true;
-        //            subPart.PosX = subPart_PosX;
-        //            subPart.PosY = subPart_PosY;
-        //            subPart.PosZ = subPart_PosZ;
-        //            subPart.RotX = subPart_RotX;
-        //            subPart.RotY = subPart_RotY;
-        //            subPart.RotZ = subPart_RotZ;
-        //            newPart.SubPartList.Add(subPart);
-        //        }
-        //        #endregion
-
-        //        // ** GET NEXT UNITY INDEX **                
-        //        int NextUnityIndex = GetNextUnityIndex(currentSetXml, parentSubSetRef);
-
-        //        #region ** ADD NEW PART XML NODE **    
-        //        string xmlNodeString = HelperFunctions.RemoveAllNamespaces(newPart.SerializeToString(true));
-        //        XmlDocument doc = new XmlDocument();
-        //        doc.LoadXml(xmlNodeString);                              
-        //        int qty = int.Parse(fldQty.Text);
-        //        for (int a = 0; a < qty; a++)
-        //        {
-        //            // ** Update node with Unity Ref **
-        //            XmlNode newNode = doc.DocumentElement;
-        //            XmlNode importNode = parentNode.OwnerDocument.ImportNode(newNode, true);
-        //            //importNode.SelectSingleNode("@UnityRef").InnerXml = LDrawRef + "|" + LDrawColourID + "|" + UnityIndex;                    
-        //            importNode.SelectSingleNode("@UnityRef").InnerXml = parentSubSetRef + "|" + (NextUnityIndex + a);
-        //            parentNode.AppendChild(importNode);
-        //        }
-        //        #endregion
-
-        //        // ** Update PartList **                
-        //        RecalculatePartList(currentSetXml);
-
-        //        // ** CLEAR ALL Part Summary FIELDS **
-        //        ClearPartSummaryFields();
-
-        //        // ** Refresh screen **
-        //        RefreshScreen();
-
-        //        // ** POST PART DATA FOR STEP **
-        //        //string xmlString = "//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']//Part";
-        //        //if (chkShowSubParts.Checked == false)
-        //        //{
-        //        //    xmlString += "[@IsSubPart='false']";
-        //        //}
-        //        //XmlNodeList partNodeList = fullSetXml.SelectNodes(xmlString);
-        //        //DataTable partTable = GenerateStepPartTable(partNodeList);
-        //        //dgPartSummary.DataSource = partTable;
-        //        //AdjustPartSummaryRowFormatting(dgPartSummary);
-        //        //lblPartCount.Text = partTable.Rows.Count.ToString("#,##0") + " Part(s)";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
 
         private void AddPart()
         {
@@ -4193,46 +4003,22 @@ namespace Generator
             {
                 #region ** VALIDATION CHECKS **               
                 if (currentSetXml == null) throw new Exception("No Set active...");                
-                if (fldPureStepNo.Text.Equals(""))
-                {
-                    throw new Exception("No Step selected");
-                }
-                if (fldLDrawRef.Text.Equals(""))
-                {
-                    throw new Exception("No LDraw Ref entered...");
-                }
-                if (fldLDrawColourID.Text.Equals(""))
-                {
-                    throw new Exception("No LDraw Colour ID entered...");
-                }
-                if (fldQty.Text.Equals(""))
-                {
-                    throw new Exception("No Qty entered...");
-                }
-                if (fldPlacementMovements.Text.Equals(""))
-                {
-                    throw new Exception("No Placement Movement(s) entered...");
-                }
+                if (fldPureStepNo.Text.Equals("")) throw new Exception("No Step selected");               
+                if (fldLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");               
+                if (fldLDrawColourID.Text.Equals("")) throw new Exception("No LDraw Colour ID entered...");               
+                if (fldQty.Text.Equals("")) throw new Exception("No Qty entered...");               
+                if (fldPlacementMovements.Text.Equals("")) throw new Exception("No Placement Movement(s) entered...");                
                 string LDrawRef = fldLDrawRef.Text;
                 int LDrawColourID = int.Parse(fldLDrawColourID.Text);
 
                 // ** CHECK IF PART IS IN BASE PART COLLECTION **
-                if(Global_Variables.APIProxy.CheckIfBasePartExists(LDrawRef) == false)
-                //if (Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']") == null)
-                {
-                    throw new Exception("Part not found in BasePart Collection");
-                }
-
+                if(StaticData.CheckIfBasePartExists(LDrawRef) == false) throw new Exception("Part not found in BasePart Collection");
+                
                 // ** IF PART IS COMPOSITE, CHECK WHETHER SUB PARTS HAVE BEEN SET UP **
-                //string partType = Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@PartType").InnerXml;
                 string partType = StaticData.GetPartType(LDrawRef);
-                if (partType.Equals("COMPOSITE"))
-                {
-                    // ** CHECK THAT ENTRIES ARE POPULATED IN CompositePartCollection.xml **
-                    if (Global_Variables.CompositePartCollectionXML.SelectNodes("//CompositePart[@ParentLDrawRef='" + LDrawRef + "']").Count == 0)
-                    {
-                        throw new Exception("SubParts for Part not found in Composite Part Collection");
-                    }
+                if (partType.Equals("COMPOSITE") && StaticData.CheckIfCompositePartsExist(LDrawRef) == false)
+                {                   
+                    throw new Exception("SubParts for Part not found in Composite Part Collection");                   
                 }
                 #endregion
 
@@ -4252,15 +4038,15 @@ namespace Generator
                 {
                     #region ** GENERATE NEW PART **
                     Part newPart = new Part();
-                    newPart.LDrawRef = fldLDrawRef.Text;
-                    newPart.LDrawColourID = int.Parse(fldLDrawColourID.Text);
+                    newPart.LDrawRef = LDrawRef;
+                    newPart.LDrawColourID = LDrawColourID;
                     newPart.SubSetRef = parentSubSetRef + "|" + SubSetIndex;
                     newPart.UnityRef = "";
                     newPart.state = Part.PartState.NOT_COMPLETED;
 
                     // ** Add PlacementMovements to Part **
                     List<PlacementMovement> pmList = new List<PlacementMovement>();
-                    foreach (String pmString in fldPlacementMovements.Text.Split(','))
+                    foreach (string pmString in fldPlacementMovements.Text.Split(','))
                     {
                         PlacementMovement pm = new PlacementMovement();
                         pm.Axis = pmString.Split('=')[0].ToUpper();
@@ -4272,34 +4058,23 @@ namespace Generator
                     #endregion
 
                     #region ** ADD SUB PARTS TO NEW PART **
-                    XmlNodeList subPartNodeList = Global_Variables.CompositePartCollectionXML.SelectNodes("//CompositePart[@ParentLDrawRef='" + fldLDrawRef.Text + "']");
-                    foreach (XmlNode subPartNode in subPartNodeList)
+                    CompositePartCollection coll = StaticData.GetCompositePartData_UsingParentLDrawRefList(LDrawRef);
+                    foreach(CompositePart compPart in coll.CompositePartList)
                     {
-                        // ** Get variables **
-                        string subPart_LDrawRef = subPartNode.SelectSingleNode("@LDrawRef").InnerXml;
-                        int subPart_LDrawColourID = int.Parse(subPartNode.SelectSingleNode("@LDrawColourID").InnerXml);
-                        float subPart_PosX = float.Parse(subPartNode.SelectSingleNode("@PosX").InnerXml);
-                        float subPart_PosY = float.Parse(subPartNode.SelectSingleNode("@PosY").InnerXml);
-                        float subPart_PosZ = float.Parse(subPartNode.SelectSingleNode("@PosZ").InnerXml);
-                        float subPart_RotX = float.Parse(subPartNode.SelectSingleNode("@RotX").InnerXml);
-                        float subPart_RotY = float.Parse(subPartNode.SelectSingleNode("@RotY").InnerXml);
-                        float subPart_RotZ = float.Parse(subPartNode.SelectSingleNode("@RotZ").InnerXml);
-                        string subPart_SubSetRef = parentSubSetRef + "|" + SubSetIndex;
-
                         // ** Generate subPart and add to SubPartList **
                         Part subPart = new Part();
-                        subPart.LDrawRef = subPart_LDrawRef;
-                        subPart.LDrawColourID = subPart_LDrawColourID;
-                        subPart.SubSetRef = subPart_SubSetRef;
+                        subPart.LDrawRef = compPart.LDrawRef;
+                        subPart.LDrawColourID = compPart.LDrawColourID;
+                        subPart.SubSetRef = parentSubSetRef + "|" + SubSetIndex;    //TODO: Check whether this data is even used? This is data is used but the value doesn't seem to be populated correctly for Sub Parts.
                         subPart.UnityRef = "";
                         subPart.state = Part.PartState.NOT_COMPLETED;
                         subPart.IsSubPart = true;
-                        subPart.PosX = subPart_PosX;
-                        subPart.PosY = subPart_PosY;
-                        subPart.PosZ = subPart_PosZ;
-                        subPart.RotX = subPart_RotX;
-                        subPart.RotY = subPart_RotY;
-                        subPart.RotZ = subPart_RotZ;
+                        subPart.PosX = compPart.PosX;
+                        subPart.PosY = compPart.PosY;
+                        subPart.PosZ = compPart.PosZ;
+                        subPart.RotX = compPart.RotX;
+                        subPart.RotY = compPart.RotY;
+                        subPart.RotZ = compPart.RotZ;
                         newPart.SubPartList.Add(subPart);
                         SubSetIndex += 1;
                     }
@@ -4333,54 +4108,29 @@ namespace Generator
 
         private void SavePart()
         {
-            //TODO: Need to tighten up Update process to ensure that relevant things are saved correctly
+            //TODO: Need to tighten up Update process to ensure that relevant things are saved correctly. Not sure if this is still valid - needs further investigation.
             try
             {
                 #region ** VALIDATION CHECKS **               
-                if (currentSetXml == null)
-                {
-                    throw new Exception("No Set active...");
-                }
-                if (fldPureStepNo.Text.Equals(""))
-                {
-                    throw new Exception("No Step selected");
-                }
-                if (fldLDrawRef.Text.Equals(""))
-                {
-                    throw new Exception("No LDraw Ref entered...");
-                }
-                if (fldLDrawColourID.Text.Equals(""))
-                {
-                    throw new Exception("No LDraw Colour ID entered...");
-                }
-                if (fldPlacementMovements.Text.Equals(""))
-                {
-                    throw new Exception("No Placement Movement(s) entered...");
-                }
+                if (currentSetXml == null) throw new Exception("No Set active...");               
+                if (fldPureStepNo.Text.Equals("")) throw new Exception("No Step selected");                
+                if (fldLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");               
+                if (fldLDrawColourID.Text.Equals("")) throw new Exception("No LDraw Colour ID entered...");               
+                if (fldPlacementMovements.Text.Equals("")) throw new Exception("No Placement Movement(s) entered...");
+                string LDrawRef = fldLDrawRef.Text;
+                int LDrawColourID = int.Parse(fldLDrawColourID.Text);
 
-                // ** CHECK IF PART IS IN BASE PART COLLECTION **
-                //if (fldLDrawRef.Text.EndsWith("Legs") == false && fldLDrawRef.Text.EndsWith("Torso") == false)
-                //{
-                    if(Global_Variables.APIProxy.CheckIfBasePartExists(fldLDrawRef.Text) == false)
-                    //if (Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + fldLDrawRef.Text + "']") == null)
-                    {
-                        throw new Exception("Part not found in BasePart Collection");
-                    }
-                //}
+                // ** CHECK IF PART IS IN BASE PART COLLECTION **                
+                if (StaticData.CheckIfBasePartExists(LDrawRef) == false) throw new Exception("Part not found in BasePart Collection");
                 
                 // ** IF PART IS COMPOSITE, CHECK WHETHER SUB PARTS HAVE BEEN SET UP **
-                //String partType = Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + fldLDrawRef.Text + "']/@PartType").InnerXml;
-                string partType = StaticData.GetPartType(fldLDrawRef.Text);
-                if (partType.Equals("COMPOSITE"))
+                string partType = StaticData.GetPartType(fldLDrawRef.Text);                
+                if (partType.Equals("COMPOSITE") && StaticData.CheckIfCompositePartsExist(LDrawRef) == false)
                 {
-                    // ** CHECK THAT ENTRIES ARE POPULATED IN CompositePartCollection.xml **
-                    if (Global_Variables.CompositePartCollectionXML.SelectNodes("//CompositePart[@ParentLDrawRef='" + fldLDrawRef.Text + "']").Count == 0)
-                    {
-                        throw new Exception("SubParts for Part not found in Composite Part Collection");
-                    }
+                    throw new Exception("SubParts for Part not found in Composite Part Collection");
                 }
                 #endregion
-                
+
                 // ** GET VARIABLES **
                 string pureStepNo = fldPureStepNo.Text;
                 string parentSubSetRef = fldStepParentSubSetRef.Text;
@@ -4409,8 +4159,8 @@ namespace Generator
                 
                 #region ** GENERATE NEW PART **
                 Part newPart = new Part();
-                newPart.LDrawRef = fldLDrawRef.Text;
-                newPart.LDrawColourID = int.Parse(fldLDrawColourID.Text);
+                newPart.LDrawRef = LDrawRef;
+                newPart.LDrawColourID = LDrawColourID;
                 newPart.UnityRef = "";
                 newPart.SubSetRef = oldSubSetRef;
                 newPart.state = Part.PartState.NOT_COMPLETED;
@@ -4434,33 +4184,23 @@ namespace Generator
                 #endregion
 
                 #region ** ADD SUB PARTS TO NEW PART **
-                XmlNodeList subPartNodeList = Global_Variables.CompositePartCollectionXML.SelectNodes("//CompositePart[@ParentLDrawRef='" + fldLDrawRef.Text + "']");
-                foreach (XmlNode subPartNode in subPartNodeList)
+                CompositePartCollection coll = StaticData.GetCompositePartData_UsingParentLDrawRefList(LDrawRef);
+                foreach (CompositePart compPart in coll.CompositePartList)
                 {
-                    // ** Get variables **
-                    string subPart_LDrawRef = subPartNode.SelectSingleNode("@LDrawRef").InnerXml;
-                    int subPart_LDrawColourID = int.Parse(subPartNode.SelectSingleNode("@LDrawColourID").InnerXml);
-                    float subPart_PosX = float.Parse(subPartNode.SelectSingleNode("@PosX").InnerXml);
-                    float subPart_PosY = float.Parse(subPartNode.SelectSingleNode("@PosY").InnerXml);
-                    float subPart_PosZ = float.Parse(subPartNode.SelectSingleNode("@PosZ").InnerXml);
-                    float subPart_RotX = float.Parse(subPartNode.SelectSingleNode("@RotX").InnerXml);
-                    float subPart_RotY = float.Parse(subPartNode.SelectSingleNode("@RotY").InnerXml);
-                    float subPart_RotZ = float.Parse(subPartNode.SelectSingleNode("@RotZ").InnerXml);
-
                     // ** Generate subPart and add to SubPartList **
                     Part subPart = new Part();
-                    subPart.LDrawRef = subPart_LDrawRef;
-                    subPart.LDrawColourID = subPart_LDrawColourID;
+                    subPart.LDrawRef = compPart.LDrawRef;
+                    subPart.LDrawColourID = compPart.LDrawColourID;
                     subPart.UnityRef = "";
                     subPart.state = Part.PartState.NOT_COMPLETED;
                     subPart.IsSubPart = true;
-                    subPart.PosX = subPart_PosX;
-                    subPart.PosY = subPart_PosY;
-                    subPart.PosZ = subPart_PosZ;
-                    subPart.RotX = subPart_RotX;
-                    subPart.RotY = subPart_RotY;
-                    subPart.RotZ = subPart_RotZ;
-                    newPart.SubPartList.Add(subPart);
+                    subPart.PosX = compPart.PosX;
+                    subPart.PosY = compPart.PosY;
+                    subPart.PosZ = compPart.PosZ;
+                    subPart.RotX = compPart.RotX;
+                    subPart.RotY = compPart.RotY;
+                    subPart.RotZ = compPart.RotZ;
+                    newPart.SubPartList.Add(subPart);                    
                 }
                 #endregion
 
@@ -4596,27 +4336,44 @@ namespace Generator
             try
             {
                 #region ** VALIDATION **
-                if (fldLDrawRef.Text.Equals(""))
-                {
-                    throw new Exception("No LDraw Ref entered...");
-                }                
-                if (fldPartType.Text.Equals(""))
-                {
-                    throw new Exception("No Part Type selected...");
-                }
+                if (fldLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");                               
+                if (fldPartType.Text.Equals("")) throw new Exception("No Part Type selected...");                
                 if (fldLDrawRef.Text.Contains("c") && fldPartType.Text.Equals("BASIC"))
                 {
-                    // Make sure user wants to create strange part
+                    // ** Make sure user wants to create strange part **
                     DialogResult res = MessageBox.Show("The part contains 'c' - do you really want to create a BASIC part and not a COMPOSITE one?", "BASIC Part Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (res == DialogResult.No)
-                    {
-                        return;
-                    }
+                    if (res == DialogResult.No) return;                    
                 }
                 string LDrawRef = fldLDrawRef.Text;
+                string PartType = fldPartType.Text;
+                string LDrawPartType = "";
+                BasePart.PartType partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), PartType, true);
+
+                // ** Check if LDraw Ref already exists **
+                if (StaticData.CheckIfBasePartExists(LDrawRef) == true) throw new Exception("LDraw Ref already exists...");
+
+                // ** CHECK IF PART EXISTS IN OFFICIAL/UNOFFIAL LDRAW PARTS ** 
+                //string LDrawFileText = StaticData.GetLDrawFileDetails(LDrawRef);
+                //if (LDrawFileText.Equals("")) throw new Exception("Unable to find " + LDrawRef + " in official or unofficial LDraw Parts data...");
+                if (StaticData.CheckIfLDrawFileDetailsExist(LDrawRef) == false) throw new Exception("Unable to find " + LDrawRef + " in official or unofficial LDraw Parts data...");
+
+                // ** Check if LDraw Refs already exist in CompositePartCollection XML **               
+                //BasePart.PartType partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), PartType, true);
+                if (partType == BasePart.PartType.COMPOSITE)
+                {
+                    // ** Check if Parent Part already exists in Composite Part Collection XML **
+                    if (StaticData.CheckIfCompositePartsExist(LDrawRef) == true) throw new Exception("Parent LDraw Ref already exists...");
+
+                    // ** CHECK IF PART EXISTS IN OFFICIAL/UNOFFIAL LDRAW PARTS ** 
+                    //string LDrawFileText = StaticData.GetLDrawFileDetails(LDrawRef);
+                    //if (LDrawFileText.Equals("")) throw new Exception("Unable to find " + LDrawRef + " in official or unofficial LDraw Parts data...");                    
+                }
+
+
+
                 #endregion
 
-                #region ** REFRESH BASE & COMPOSITE PART STATIC DATA **                
+                #region ** REFRESH BASE & COMPOSITE PART STATIC DATA - OLD **                
                 //BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "static-data").GetBlobClient("BasePartCollection.xml");                
                 //byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
                 //using (var ms = new MemoryStream(fileContent))
@@ -4637,55 +4394,35 @@ namespace Generator
                 //CompositePartCollection cpc = new CompositePartCollection().DeserialiseFromXMLString(Global_Variables.CompositePartCollectionXML.OuterXml);
                 #endregion
 
-                #region ** CHECK IF PARTS ALREADY EXIST **
+               
 
-                // ** Check if LDraw Ref already exists in BasePartCollection XML **
-                if(Global_Variables.APIProxy.CheckIfBasePartExists(LDrawRef) == true)
-                //if (Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']") != null)
-                {
-                    throw new Exception("LDraw Ref already exists in BasePartCollection.xml...");
-                }
 
-                #region ** Check if LDraw Refs already exist in CompositePartCollection XML **
-                //string LDrawFileText = "";
-                BasePart.PartType partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), fldPartType.Text, true);
-                if (partType == BasePart.PartType.COMPOSITE)
-                {
-                    // ** Check if Parent Part already exists in Composite Part Collection XML **
-                    if (Global_Variables.CompositePartCollectionXML.SelectSingleNode("//CompositePart[@ParentLDrawRef='" + LDrawRef + "']") != null)
-                    {
-                        throw new Exception("Parent LDraw Ref already exists in CompositePartCollection.xml...");
-                    }
 
-                    // ** CHECK IF PART EXISTS IN OFFICIAL/UNOFFIAL LDRAW PARTS ** 
-                    string LDrawFileText = GetLDrawFileDetails(LDrawRef);
-                    if (LDrawFileText.Equals(""))
-                    {
-                        throw new Exception("Unable to find " + LDrawRef + " in official or unofficial LDraw Parts data...");
-                    }
-                }
-                #endregion
 
-                #endregion
 
                 #region ** GENERATE NEW BasePart & ADD TO STATIC DATA **                
-                //BasePart newBasePart = new BasePart()
-                //{
-                //    LDrawRef = LDrawRef,
-                //    LDrawDescription = new System.Xml.Linq.XText(GetLDrawDescription(LDrawRef)).ToString(),                                     
-                //    lDrawPartType = (BasePart.LDrawPartType)Enum.Parse(typeof(BasePart.LDrawPartType), GetLDrawPartType(LDrawRef), true),
-                //    LDrawCategory = "",
-                //    partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), fldPartType.Text, true),
-                //    IsSubPart = chkIsSubPart.Checked,
-                //    IsSticker = chkIsSticker.Checked,
-                //    IsLargeModel = chkIsLargeModel.Checked
-                //};
-                //if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;
-                //int LDrawSize = 0;
-                //if (fldLDrawSize.Text != "") LDrawSize = int.Parse(fldLDrawSize.Text);
-                //newBasePart.LDrawSize = LDrawSize;
+                BasePart newBasePart = new BasePart()
+                {
+                    LDrawRef = LDrawRef,
+                    LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString(),
+                    //lDrawPartType = partType,
+                    LDrawCategory = "",
+                    partType = partType,
+                    IsSubPart = chkIsSubPart.Checked,
+                    IsSticker = chkIsSticker.Checked,
+                    IsLargeModel = chkIsLargeModel.Checked
+                };
+                if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;
+                int LDrawSize = 0;
+                if (fldLDrawSize.Text != "") LDrawSize = int.Parse(fldLDrawSize.Text);
+                newBasePart.LDrawSize = LDrawSize;
                 //bpc.BasePartList.Add(newBasePart);
+                StaticData.AddBasePart(newBasePart);
                 #endregion
+
+
+
+
 
                 #region ** UPLOAD UPDATED BasePartCollection TO AZURE AND LOCAL CACHE **
                 //xmlString = bpc.SerializeToString(true);
@@ -4697,7 +4434,7 @@ namespace Generator
                 //}
                 ////Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
                 #endregion
-                                
+
                 #region ** ADD NEW .dat FILE FOR PART ** 
                 //string line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + LDrawRef + ".dat" + Environment.NewLine;
                 //bytes = Encoding.UTF8.GetBytes(line);
@@ -4711,7 +4448,7 @@ namespace Generator
 
                 // ** UPDATE Base Part Collection boolean value **                
                 //UpdateBasePartCollectionBoolean();  //TODO: NEED TO IMPLEMENT THIS...
-                
+
                 #region ** ADD ALL SUB PARTS (IF PART = COMPOSITE) **
                 //if (newBasePart.partType == BasePart.PartType.COMPOSITE)
                 //{
@@ -4794,7 +4531,7 @@ namespace Generator
             List<string> SubPartList = new List<string>();
             try
             {
-                string ParentLDrawFileText = GetLDrawFileDetails(LDrawRef);
+                string ParentLDrawFileText = StaticData.GetLDrawFileDetails(LDrawRef);
                 string[] lines = ParentLDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 foreach (string fileLine in lines)
                 {
@@ -5144,7 +4881,7 @@ namespace Generator
                     // ** COMPOSITE **
 
                     #region ** GENERATE PARENT COMPOSITE PART .DAT FILES (JUST CONTAINS DAT'S OF SUB PARTS) **
-                    string LDrawFileText = GetLDrawFileDetails(LDrawRef);
+                    string LDrawFileText = StaticData.GetLDrawFileDetails(LDrawRef);
                     string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                     string DAT_String = "";
                     foreach (string fileLine in lines)
