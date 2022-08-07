@@ -79,8 +79,7 @@ namespace Generator
         }
 
         public static BaseClasses.BasePartCollection GetBasePartData_UsingLDrawRefList(List<string> IDList)
-        {            
-            // ** Get data from API **
+        {  
             return Global_Variables.APIProxy.GetBasePartData_UsingLDrawRefList(IDList);
         }
 
@@ -218,8 +217,7 @@ namespace Generator
         }
 
         public static string GetPartType_FromLDrawFile(string LDrawRef)
-        {
-            // ** Get data from API **
+        {           
             return Global_Variables.APIProxy.GetPartType_FromLDrawFile(LDrawRef);
         }
 
@@ -237,10 +235,28 @@ namespace Generator
 
 
         public static void AddBasePart(BaseClasses.BasePart p)
-        {
-            // ** Get data from API **
+        {           
             Global_Variables.APIProxy.AddBasePart(p);
         }
+
+        public static void AddCompositePart(BaseClasses.CompositePart p)
+        {
+            Global_Variables.APIProxy.AddCompositePart(p);
+        }
+
+
+        public static BaseClasses.CompositePartCollection GetAllCompositeSubParts_FromLDrawFile(string LDrawRef)
+        {
+            return Global_Variables.APIProxy.GetAllCompositeSubParts_FromLDrawFile(LDrawRef);
+        }
+
+        public static long GetFBXSize(string LDrawRef)
+        {
+            return Global_Variables.APIProxy.GetFBXSize(LDrawRef);
+        }
+
+
+       
 
 
 

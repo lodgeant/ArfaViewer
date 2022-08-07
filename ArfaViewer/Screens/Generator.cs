@@ -1608,24 +1608,6 @@ namespace Generator
                 Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
                 PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
                 BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
-
-                // ** Get Element images **                
-                //if (chkShowElementImages.Checked)
-                //{
-                //    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Getting images...");
-                //    Delegates.ToolStripProgressBar_SetMax(this, pbStatus, partListNodeList.Count);
-                //    Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
-                //    int index = 0;
-                //    foreach (XmlNode partNode in partListNodeList)
-                //    {
-                //        string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                //        int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
-                //        Bitmap elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
-                //        Delegates.ToolStripProgressBar_SetValue(this, pbStatus, index);
-                //        index += 1;
-                //    }
-                //    Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
-                //}
                 #endregion
 
                 // ** GENERATE COLUMNS **
@@ -1644,9 +1626,7 @@ namespace Generator
                     // ** GET VARIABLES **
                     string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
                     int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
-                    int Qty = int.Parse(partNode.SelectSingleNode("@Qty").InnerXml);
-                    //string LDrawColourName = StaticData.GetLDrawColourName(LDrawColourID);
-                    //string LDrawDescription = Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml;
+                    int Qty = int.Parse(partNode.SelectSingleNode("@Qty").InnerXml);                   
                     string LDrawColourName = (from r in PartColourCollection.PartColourList
                                               where r.LDrawColourID == LDrawColourID
                                               select r.LDrawColourName).FirstOrDefault();                    
@@ -1660,16 +1640,16 @@ namespace Generator
                     if (chkShowElementImages.Checked) elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() }); 
                     if (chkShowPartcolourImages.Checked) partColourImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });      
 
-                    // ** Build row **
-                    object[] row = new object[partListTable.Columns.Count];
-                    row[0] = elementImage;
-                    row[1] = LDrawRef;
-                    row[2] = LDrawDescription;
-                    row[3] = LDrawColourID;
-                    row[4] = LDrawColourName;
-                    row[5] = partColourImage;
-                    row[6] = Qty;
-                    partListTable.Rows.Add(row);
+                    // ** Build row and add to table **
+                    DataRow newRow = partListTable.NewRow();
+                    newRow["Part Image"] = elementImage;
+                    newRow["LDraw Ref"] = LDrawRef;
+                    newRow["LDraw Description"] = LDrawDescription;
+                    newRow["LDraw Colour ID"] = LDrawColourID;
+                    newRow["LDraw Colour Name"] = LDrawColourName;
+                    newRow["Colour Image"] = partColourImage;
+                    newRow["Qty"] = Qty;
+                    partListTable.Rows.Add(newRow);
                 }                
                 return partListTable;
             }
@@ -1911,8 +1891,6 @@ namespace Generator
                 BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
                 CompositePartCollection CompositePartCollection = StaticData.GetCompositePartData_UsingLDrawRefList(LDrawRefList);
 
-
-
                 // ** Get Element images **
                 if (chkShowElementImages.Checked)
                 {
@@ -1965,7 +1943,7 @@ namespace Generator
                 int previousStepNo = 1;
                 foreach (XmlNode partNode in partNodeList)
                 {
-                    // ** GET LDRAW VARIABLES ** 
+                    #region ** GET LDRAW VARIABLES ** 
                     string SubSetRef = "";
                     if (partNode.SelectSingleNode("@SubSetRef") != null)
                     {
@@ -1994,13 +1972,11 @@ namespace Generator
                                             select r.LDrawDescription).FirstOrDefault();
                     }
                     else
-                    {
-                        //LDrawDescription = Global_Variables.CompositePartCollectionXML.SelectSingleNode("//CompositePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml;
+                    {                       
                         LDrawDescription = (from r in CompositePartCollection.CompositePartList
                                            where r.LDrawRef.Equals(LDrawRef)
                                            select r.LDrawDescription).FirstOrDefault();
                         // ** Infer other part details from parent **   
-                        //string parentLDrawRef = Global_Variables.CompositePartCollectionXML.SelectSingleNode("//CompositePart[@LDrawRef='" + LDrawRef + "']/@ParentLDrawRef").InnerXml;
                         string parentLDrawRef = (from r in CompositePartCollection.CompositePartList
                                                 where r.LDrawRef.Equals(LDrawRef)
                                                 select r.ParentLDrawRef).FirstOrDefault();
@@ -2011,6 +1987,7 @@ namespace Generator
                                          where r.LDrawRef.Equals(parentLDrawRef)
                                          select r.lDrawPartType.ToString()).FirstOrDefault();
                     }
+                    #endregion
 
                     // ** Check for official/unoffical part **                    
                     bool IsOfficial = false;
@@ -2018,47 +1995,67 @@ namespace Generator
 
 
 
+
+
+
+
                     #region ** GET FBX DETAILS FOR PART MODEL **
                     //TODO_H: The below is too slow - needs speeding up!
                     //TODO_H: Need to move this to a separate function
                     bool unityFBX = false;
-                    long fbxSize = 0;
-                    if (partType.Equals("BASIC") || (partType.Equals("COMPOSITE") && IsSubPart))
-                    {
-                        ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
-                        if (share.Exists())
-                        {
-                            fbxSize = share.GetProperties().Value.ContentLength;
-                            unityFBX = true;
-                        }
-                    }
-                    else if (partType.Equals("COMPOSITE"))
-                    {
-                        int foundCount = 0;
+                    //long fbxSize = 0;
+                    //if (partType.Equals("BASIC") || (partType.Equals("COMPOSITE") && IsSubPart))
+                    //{
+                    //    ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
+                    //    if (share.Exists())
+                    //    {
+                    //        fbxSize = share.GetProperties().Value.ContentLength;
+                    //        unityFBX = true;
+                    //    }
+                    //}
+                    //else if (partType.Equals("COMPOSITE"))
+                    //{
+                    //    int foundCount = 0;
 
-                        // Get FBX for main parent part **
-                        ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
-                        if (share.Exists())
-                        {
-                            fbxSize += share.GetProperties().Value.ContentLength;
-                            foundCount += 1;
-                        }
+                    //    // Get FBX for main parent part **
+                    //    ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
+                    //    if (share.Exists())
+                    //    {
+                    //        fbxSize += share.GetProperties().Value.ContentLength;
+                    //        foundCount += 1;
+                    //    }
 
-                        // ** Get FBX for sub Parts **
-                        List<string> SubPartLDrawRefList = GetAllSubPartsForLDrawRef(LDrawRef, -1);
-                        foreach (string SubPartLDrawRefDetails in SubPartLDrawRefList)
-                        {
-                            string SubPartLDrawRef = SubPartLDrawRefDetails.Split('|')[0];
-                            share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(SubPartLDrawRef + ".fbx");
-                            if (share.Exists())
-                            {
-                                fbxSize += share.GetProperties().Value.ContentLength;
-                                foundCount += 1;
-                            }
-                        }
-                        if (foundCount == (SubPartLDrawRefList.Count + 1)) unityFBX = true;
-                    }
+                    //    // ** Get FBX for sub Parts **
+                    //    //TODO: Need to update this using the new code for sub parts
+                    //    ////List<string> SubPartLDrawRefList = GetAllSubPartsForLDrawRef(LDrawRef, -1);
+                    //    //List<string> SubPartLDrawRefList = StaticData.GetAllSubPartLDrawRefs_FromLDrawFile(LDrawRef);
+                    //    //foreach (string SubPartLDrawRefDetails in SubPartLDrawRefList)
+                    //    //{
+                    //    //    string SubPartLDrawRef = SubPartLDrawRefDetails.Split('|')[0];
+                    //    //    share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(SubPartLDrawRef + ".fbx");
+                    //    //    if (share.Exists())
+                    //    //    {
+                    //    //        fbxSize += share.GetProperties().Value.ContentLength;
+                    //    //        foundCount += 1;
+                    //    //    }
+                    //    //}
+                    //    //if (foundCount == (SubPartLDrawRefList.Count + 1)) unityFBX = true;
+                    //}
+
+                    long fbxSize = StaticData.GetFBXSize(LDrawRef);
+
+
+
+
                     #endregion
+
+
+
+
+
+
+
+
 
                     // ** Check BasePart Collection **
                     bool basePartCollection = true;                   
@@ -2105,7 +2102,7 @@ namespace Generator
                         stepNodeIndex += 1;
                     }
 
-                    // ** Build row **
+                    // ** Build row and add to table **
                     object[] row = new object[partTable.Columns.Count];
                     row[0] = elementImage;
                     row[1] = LDrawRef;
@@ -2118,7 +2115,7 @@ namespace Generator
                     row[8] = partType;
                     row[9] = IsSubPart;
                     row[10] = StepRef;
-                    row[11] = stepNodeIndex;                    
+                    row[11] = stepNodeIndex;
                     row[12] = placementMovementString;
                     row[13] = SubSetRef;
                     row[14] = PosX;
@@ -3179,7 +3176,6 @@ namespace Generator
                     btnAddPartToBasePartCollection2.BackColor = Color.Red;
                     tsBasePartCollection.Enabled = true;
                 }
-
             }
             catch (Exception ex)
             {
@@ -3862,7 +3858,7 @@ namespace Generator
 
         #endregion
 
-        #region ** GET LDRAW DATA FUNCTIONS **
+        #region ** GET LDRAW DATA FUNCTIONS - DEMISED **
 
         //public static string GetLDrawFileDetails(string LDrawRef)
         //{
@@ -4108,7 +4104,6 @@ namespace Generator
 
         private void SavePart()
         {
-            //TODO: Need to tighten up Update process to ensure that relevant things are saved correctly. Not sure if this is still valid - needs further investigation.
             try
             {
                 #region ** VALIDATION CHECKS **               
@@ -4331,8 +4326,7 @@ namespace Generator
         //}
 
         private void AddPartToBasePartCollection()
-        {
-            //TODO_H: Need to come back to this method and implement the ability to Add a new BasePart
+        {            
             try
             {
                 #region ** VALIDATION **
@@ -4345,180 +4339,55 @@ namespace Generator
                     if (res == DialogResult.No) return;                    
                 }
                 string LDrawRef = fldLDrawRef.Text;
-                string PartType = fldPartType.Text;
-                string LDrawPartType = "";
+                string PartType = fldPartType.Text;                
                 BasePart.PartType partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), PartType, true);
+                int LDrawSize = 0;
+                if (fldLDrawSize.Text != "") LDrawSize = int.Parse(fldLDrawSize.Text);
+                string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
+                BasePart.LDrawPartType lDrawPartType = (BasePart.LDrawPartType)Enum.Parse(typeof(BasePart.LDrawPartType), LDrawPartType, true);
 
                 // ** Check if LDraw Ref already exists **
                 if (StaticData.CheckIfBasePartExists(LDrawRef) == true) throw new Exception("LDraw Ref already exists...");
 
                 // ** CHECK IF PART EXISTS IN OFFICIAL/UNOFFIAL LDRAW PARTS ** 
-                //string LDrawFileText = StaticData.GetLDrawFileDetails(LDrawRef);
-                //if (LDrawFileText.Equals("")) throw new Exception("Unable to find " + LDrawRef + " in official or unofficial LDraw Parts data...");
                 if (StaticData.CheckIfLDrawFileDetailsExist(LDrawRef) == false) throw new Exception("Unable to find " + LDrawRef + " in official or unofficial LDraw Parts data...");
 
                 // ** Check if LDraw Refs already exist in CompositePartCollection XML **               
-                //BasePart.PartType partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), PartType, true);
-                if (partType == BasePart.PartType.COMPOSITE)
-                {
-                    // ** Check if Parent Part already exists in Composite Part Collection XML **
-                    if (StaticData.CheckIfCompositePartsExist(LDrawRef) == true) throw new Exception("Parent LDraw Ref already exists...");
-
-                    // ** CHECK IF PART EXISTS IN OFFICIAL/UNOFFIAL LDRAW PARTS ** 
-                    //string LDrawFileText = StaticData.GetLDrawFileDetails(LDrawRef);
-                    //if (LDrawFileText.Equals("")) throw new Exception("Unable to find " + LDrawRef + " in official or unofficial LDraw Parts data...");                    
-                }
-
-
-
+                if (partType == BasePart.PartType.COMPOSITE && StaticData.CheckIfCompositePartsExist(LDrawRef) == true) throw new Exception("Parent LDraw Ref already exists...");
                 #endregion
-
-                #region ** REFRESH BASE & COMPOSITE PART STATIC DATA - OLD **                
-                //BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "static-data").GetBlobClient("BasePartCollection.xml");                
-                //byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                //using (var ms = new MemoryStream(fileContent))
-                //{
-                //    blob.DownloadTo(ms);
-                //}
-                //string xmlString = Encoding.UTF8.GetString(fileContent);                
-                //Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
-                //blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "static-data").GetBlobClient("CompositePartCollection.xml");
-                //fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                //using (var ms = new MemoryStream(fileContent))
-                //{
-                //    blob.DownloadTo(ms);
-                //}
-                //xmlString = Encoding.UTF8.GetString(fileContent);
-                //Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
-                //BasePartCollection bpc = new BasePartCollection().DeserialiseFromXMLString(Global_Variables.BasePartCollectionXML.OuterXml);
-                //CompositePartCollection cpc = new CompositePartCollection().DeserialiseFromXMLString(Global_Variables.CompositePartCollectionXML.OuterXml);
-                #endregion
-
-               
-
-
-
-
 
                 #region ** GENERATE NEW BasePart & ADD TO STATIC DATA **                
                 BasePart newBasePart = new BasePart()
                 {
                     LDrawRef = LDrawRef,
                     LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString(),
-                    //lDrawPartType = partType,
+                    lDrawPartType = lDrawPartType,
                     LDrawCategory = "",
                     partType = partType,
                     IsSubPart = chkIsSubPart.Checked,
                     IsSticker = chkIsSticker.Checked,
                     IsLargeModel = chkIsLargeModel.Checked
                 };
-                if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;
-                int LDrawSize = 0;
-                if (fldLDrawSize.Text != "") LDrawSize = int.Parse(fldLDrawSize.Text);
-                newBasePart.LDrawSize = LDrawSize;
-                //bpc.BasePartList.Add(newBasePart);
+                if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;               
+                newBasePart.LDrawSize = LDrawSize;                
                 StaticData.AddBasePart(newBasePart);
                 #endregion
 
-
-
-
-
-                #region ** UPLOAD UPDATED BasePartCollection TO AZURE AND LOCAL CACHE **
-                //xmlString = bpc.SerializeToString(true);
-                //byte[] bytes = Encoding.UTF8.GetBytes(xmlString);                
-                //blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "static-data").GetBlobClient("BasePartCollection.xml");
-                //using (var ms = new MemoryStream(bytes))
-                //{
-                //    blob.Upload(ms, true);
-                //}
-                ////Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
+                #region ** ADD ALL SUB PARTS FROM LDRAW .DAT FILE (IF PART = COMPOSITE) **
+                if (newBasePart.partType == BasePart.PartType.COMPOSITE)
+                {   
+                    CompositePartCollection SubPartCollection = StaticData.GetAllCompositeSubParts_FromLDrawFile(LDrawRef);
+                    foreach(CompositePart cp in SubPartCollection.CompositePartList)
+                    {
+                        cp.ParentLDrawRef = LDrawRef;                        
+                        cp.PosX = -1;
+                        StaticData.AddCompositePart(cp);
+                    }                    
+                }
                 #endregion
 
-                #region ** ADD NEW .dat FILE FOR PART ** 
-                //string line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + LDrawRef + ".dat" + Environment.NewLine;
-                //bytes = Encoding.UTF8.GetBytes(line);
-                //ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + LDrawRef + ".dat");
-                //share.Create(bytes.Length);
-                //using (MemoryStream ms = new MemoryStream(bytes))
-                //{
-                //    share.Upload(ms);
-                //}
-                #endregion
-
-                // ** UPDATE Base Part Collection boolean value **                
-                //UpdateBasePartCollectionBoolean();  //TODO: NEED TO IMPLEMENT THIS...
-
-                #region ** ADD ALL SUB PARTS (IF PART = COMPOSITE) **
-                //if (newBasePart.partType == BasePart.PartType.COMPOSITE)
-                //{
-                //    // ** GET ALL SUB PARTS FROM LDRAW .DAT FILE **
-                //    List<string> SubPartList = GetAllSubPartsForLDrawRef(LDrawRef, -1);
-
-                //    #region ** ADD COMPOSITE PART DETAILS IN CompositePartList **
-                //    foreach (string SubPart in SubPartList)
-                //    {
-                //        // ** Add new Composite Part **
-                //        string SubPart_LDrawRef = SubPart.Split('|')[0];
-                //        string SubPart_LDrawColourID = SubPart.Split('|')[1];
-                //        CompositePart newCompositePart = new CompositePart()
-                //        {
-                //            ParentLDrawRef = LDrawRef,
-                //            LDrawRef = SubPart_LDrawRef,                           
-                //            LDrawDescription = new System.Xml.Linq.XText(GetLDrawDescription(SubPart_LDrawRef)).ToString(),                           
-                //            LDrawColourID = int.Parse(SubPart_LDrawColourID),
-                //            PosX = -1
-                //        };
-                //        cpc.CompositePartList.Add(newCompositePart);
-
-                //        #region ** ADD NEW .dat FILE FOR SUB PART ** 
-                //        line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + SubPart_LDrawRef + ".dat" + Environment.NewLine;
-                //        bytes = Encoding.UTF8.GetBytes(line);
-                //        share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + SubPart_LDrawRef + ".dat");
-                //        share.Create(bytes.Length);
-                //        using (MemoryStream ms = new MemoryStream(bytes))
-                //        {
-                //            share.Upload(ms);
-                //        }
-                //        #endregion
-
-                //    }
-                //    #endregion
-
-                //    #region ** UPLOAD UPDATED CompositePartCollection.xml TO AZURE and local cache **                    
-                //    xmlString = cpc.SerializeToString(true);
-                //    bytes = Encoding.UTF8.GetBytes(xmlString);
-                //    blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "static-data").GetBlobClient("CompositePartCollection.xml");
-                //    using (var ms = new MemoryStream(bytes))
-                //    {
-                //        blob.Upload(ms, true);
-                //    }        
-                //    Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
-                //    #endregion
-
-                //    #region ** CREATE Composite Part DAT file **
-                //    string LDrawFileText = GetLDrawFileDetails(LDrawRef);                    
-                //    string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                //    string DAT_String = "";
-                //    foreach (string fileLine in lines)
-                //    {
-                //        if (fileLine.StartsWith("1"))
-                //        {
-                //            DAT_String += fileLine.Replace("1 16 ", "1 450 ") + Environment.NewLine;
-                //        }
-                //    }
-                //    bytes = Encoding.UTF8.GetBytes(DAT_String);
-                //    share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + LDrawRef + ".dat");
-                //    share.Create(bytes.Length);
-                //    using (var ms = new MemoryStream(bytes))
-                //    {
-                //        share.Upload(ms);                        
-                //    }
-                //    #endregion
-
-                //}
-                #endregion
-
+                // ** Refresh Part Details ** 
+                ProcessLDrawRef_Leave();
             }
             catch (Exception ex)
             {
@@ -4526,45 +4395,45 @@ namespace Generator
             }
         }
 
-        private List<string> GetAllSubPartsForLDrawRef(string LDrawRef, int LDrawColourID)
-        {
-            List<string> SubPartList = new List<string>();
-            try
-            {
-                string ParentLDrawFileText = StaticData.GetLDrawFileDetails(LDrawRef);
-                string[] lines = ParentLDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                foreach (string fileLine in lines)
-                {
-                    if (fileLine.StartsWith("1"))
-                    {
-                        string[] DatLine = fileLine.Split(' ');
-                        string SubPart_LDrawRef = DatLine[14].ToLower().Replace(".dat", "");
-                        int SubPart_LDrawColourID = int.Parse(DatLine[1]);
-                        //if (SubPart_LDrawRef.Contains("c0"))
-                        //{
-                        //    // LINE HAS REFERENCE TO ANOTHER PART WITH HAS SUB PARTS **
-                        //    List<string> SubPartList2 = GetAllSubPartsForLDrawRef(SubPart_LDrawRef, SubPart_LDrawColourID);
-                        //    SubPartList.AddRange(SubPartList2);
-                        //}
-                        //else
-                        //{
-                            // LINE ONLY HAS REFERENCE TO ANOTHER SINGLE PART                            
-                            if (SubPart_LDrawColourID == 16)
-                            {
-                                //SubPart_LDrawColourID = -1;
-                                SubPart_LDrawColourID = LDrawColourID;
-                            }
-                            SubPartList.Add(SubPart_LDrawRef + "|" + SubPart_LDrawColourID);
-                        //}
-                    }
-                }
-                return SubPartList;
-            }
-            catch (Exception)
-            {
-                return new List<string>();
-            }
-        }
+        //private List<string> GetAllSubPartsForLDrawRef(string LDrawRef, int LDrawColourID)
+        //{
+        //    List<string> SubPartList = new List<string>();
+        //    try
+        //    {
+        //        string ParentLDrawFileText = StaticData.GetLDrawFileDetails(LDrawRef);
+        //        string[] lines = ParentLDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        //        foreach (string fileLine in lines)
+        //        {
+        //            if (fileLine.StartsWith("1"))
+        //            {
+        //                string[] DatLine = fileLine.Split(' ');
+        //                string SubPart_LDrawRef = DatLine[14].ToLower().Replace(".dat", "");
+        //                int SubPart_LDrawColourID = int.Parse(DatLine[1]);
+        //                //if (SubPart_LDrawRef.Contains("c0"))
+        //                //{
+        //                //    // LINE HAS REFERENCE TO ANOTHER PART WITH HAS SUB PARTS **
+        //                //    List<string> SubPartList2 = GetAllSubPartsForLDrawRef(SubPart_LDrawRef, SubPart_LDrawColourID);
+        //                //    SubPartList.AddRange(SubPartList2);
+        //                //}
+        //                //else
+        //                //{
+        //                    // LINE ONLY HAS REFERENCE TO ANOTHER SINGLE PART                            
+        //                    if (SubPart_LDrawColourID == 16)
+        //                    {
+        //                        //SubPart_LDrawColourID = -1;
+        //                        SubPart_LDrawColourID = LDrawColourID;
+        //                    }
+        //                    SubPartList.Add(SubPart_LDrawRef + "|" + SubPart_LDrawColourID);
+        //                //}
+        //            }
+        //        }
+        //        return SubPartList;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return new List<string>();
+        //    }
+        //}
 
         //private void SubModelImportPartPosRot_OLD1()
         //{
@@ -4901,19 +4770,21 @@ namespace Generator
                     #endregion
 
                     #region ** GENERATE ALL SUB PART .DAT FILES **
-                    SubPartList = GetAllSubPartsForLDrawRef(LDrawRef, -1);
-                    foreach (string SubPart in SubPartList)
-                    {
-                        string SubPart_LDrawRef = SubPart.Split('|')[0];
-                        string line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + SubPart_LDrawRef + ".dat" + Environment.NewLine;
-                        bytes = Encoding.UTF8.GetBytes(line);
-                        share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + SubPart_LDrawRef + ".dat");
-                        share.Create(bytes.Length);
-                        using (MemoryStream ms = new MemoryStream(bytes))
-                        {
-                            share.Upload(ms);
-                        }
-                    }
+                    //TODO: Need to update this using the new code for sub parts
+                    ////SubPartList = GetAllSubPartsForLDrawRef(LDrawRef, -1);                    
+                    //SubPartList = StaticData.GetAllSubPartLDrawRefs_FromLDrawFile(LDrawRef);
+                    //foreach (string SubPart in SubPartList)
+                    //{
+                    //    string SubPart_LDrawRef = SubPart.Split('|')[0];
+                    //    string line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + SubPart_LDrawRef + ".dat" + Environment.NewLine;
+                    //    bytes = Encoding.UTF8.GetBytes(line);
+                    //    share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + SubPart_LDrawRef + ".dat");
+                    //    share.Create(bytes.Length);
+                    //    using (MemoryStream ms = new MemoryStream(bytes))
+                    //    {
+                    //        share.Upload(ms);
+                    //    }
+                    //}
                     #endregion
 
                 }

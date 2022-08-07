@@ -42,7 +42,7 @@ namespace Generator
 
                 // ** Generate Proxy API & StaticData **
                 Global_Variables.APIProxy = new APIProxy(Global_Variables.AzureStorageConnString, Global_Variables.AzureDBConnString);
-                
+
                 // ** Refresh static data **                
                 //StaticData.RefreshStaticData_All();
 
@@ -50,6 +50,10 @@ namespace Generator
                 //CompositePartCollection coll = new CompositePartCollection().DeserialiseFromXMLString(Global_Variables.CompositePartCollectionXML.OuterXml);
                 //string insertSQL = CompositePartCollection.ConvertCompositePartCollectionToDBInsertValuesString(coll);
 
+
+                //string test = StaticData.GetLDrawDescription("3001");
+                
+                    
             }
             catch (Exception ex)
             {

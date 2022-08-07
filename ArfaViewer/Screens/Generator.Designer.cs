@@ -1147,8 +1147,8 @@
             // lblPartType
             // 
             this.lblPartType.Name = "lblPartType";
-            this.lblPartType.Size = new System.Drawing.Size(52, 22);
-            this.lblPartType.Text = "PartType";
+            this.lblPartType.Size = new System.Drawing.Size(55, 22);
+            this.lblPartType.Text = "Part Type";
             // 
             // fldPartType
             // 
