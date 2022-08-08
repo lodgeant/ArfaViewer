@@ -250,13 +250,27 @@ namespace Generator
             return Global_Variables.APIProxy.GetAllCompositeSubParts_FromLDrawFile(LDrawRef);
         }
 
-        public static long GetFBXSize(string LDrawRef)
+        //public static long GetFBXSize(string LDrawRef)
+        //{
+        //    return Global_Variables.APIProxy.GetFBXSize(LDrawRef);
+        //}
+
+        //public static bool CheckIfAllFBXExist(string LDrawRef)
+        //{
+        //    return Global_Variables.APIProxy.CheckIfAllFBXExist(LDrawRef);
+        //}
+
+        //public static int GetFBXCount(string LDrawRef)
+        //{
+        //    return Global_Variables.APIProxy.GetFBXCount(LDrawRef);
+        //}
+
+        public static BaseClasses.FBXDetails GetFBXDetails(string LDrawRef)
         {
-            return Global_Variables.APIProxy.GetFBXSize(LDrawRef);
+            return Global_Variables.APIProxy.GetFBXDetails(LDrawRef);
         }
 
 
-       
 
 
 

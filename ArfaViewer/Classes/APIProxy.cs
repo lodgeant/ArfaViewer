@@ -517,7 +517,7 @@ namespace Generator
                 string[] lines = ParentLDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 foreach (string fileLine in lines)
                 {                    
-                    if (fileLine.Trim().StartsWith("1"))
+                    if (fileLine.Trim().StartsWith("1") && fileLine.Contains("s\\") == false)
                     {
                         string formattedLine = fileLine.Trim().Replace("   ", " ").Replace("  "," ");
                         string[] DatLine = formattedLine.Split(' ');
@@ -671,86 +671,138 @@ namespace Generator
 
 
 
-        public long GetFBXSize(string LDrawRef)
+        //public long GetFBXSize(string LDrawRef)
+        //{
+        //    // All BASIC parts have their own FBX file.
+        //    // All COMPOSITIE parts are made up of their child FBX parts
+
+        //    // ** Check Part Type **
+        //    long fbxSize = 0;
+        //    string partType = GetPartType_FromLDrawFile(LDrawRef);
+        //    if (partType.Equals("BASIC"))
+        //    {
+        //        ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
+        //        if (share.Exists()) fbxSize = share.GetProperties().Value.ContentLength;
+        //    }
+        //    else if (partType.Equals("COMPOSITE"))
+        //    {
+        //        // Get all sub part Composite parts
+        //        int fbxFoundCount = 0;
+        //        CompositePartCollection coll = GetAllCompositeSubParts_FromLDrawFile(LDrawRef);
+        //        foreach(CompositePart cp in coll.CompositePartList)
+        //        {
+        //            ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(cp.LDrawRef + ".fbx");
+        //            if (share.Exists())
+        //            {
+        //                fbxSize += share.GetProperties().Value.ContentLength;
+        //                fbxFoundCount += 1;
+        //            }                
+        //        }
+        //    }
+        //    return fbxSize;
+        //}
+
+        //public bool CheckIfAllFBXExist(string LDrawRef)
+        //{
+        //    bool exists = false;
+        //    string partType = GetPartType_FromLDrawFile(LDrawRef);
+        //    if (partType.Equals("BASIC"))
+        //    {
+        //        ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
+        //        if (share.Exists()) exists = true;                             
+        //    }
+        //    else if (partType.Equals("COMPOSITE"))
+        //    {
+        //        // Get all sub part Composite parts
+        //        int fbxFoundCount = 0;
+        //        CompositePartCollection coll = GetAllCompositeSubParts_FromLDrawFile(LDrawRef);
+        //        foreach (CompositePart cp in coll.CompositePartList)
+        //        {
+        //            ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(cp.LDrawRef + ".fbx");
+        //            if (share.Exists()) fbxFoundCount += 1;                    
+        //        }
+        //        if(coll.CompositePartList.Count == fbxFoundCount) exists = true;               
+        //    }
+        //    return exists;
+        //}
+
+        //public int GetFBXCount(string LDrawRef)
+        //{
+        //    int fbxFoundCount = 0;
+        //    string partType = GetPartType_FromLDrawFile(LDrawRef);
+        //    if (partType.Equals("BASIC"))
+        //    {
+        //        ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
+        //        if (share.Exists()) fbxFoundCount += 1;
+        //    }
+        //    else if (partType.Equals("COMPOSITE"))
+        //    {
+        //        // Get all sub part Composite parts
+        //        CompositePartCollection coll = GetAllCompositeSubParts_FromLDrawFile(LDrawRef);
+        //        foreach (CompositePart cp in coll.CompositePartList)
+        //        {
+        //            ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(cp.LDrawRef + ".fbx");
+        //            if (share.Exists()) fbxFoundCount += 1;
+        //        }                
+        //    }
+        //    return fbxFoundCount;
+        //}
+
+        public FBXDetails GetFBXDetails(string LDrawRef)
         {
+            
+
             // All BASIC parts have their own FBX file.
             // All COMPOSITIE parts are made up of their child FBX parts
-            
-            // ** Get variables **
-            string partType = GetPartType_FromLDrawFile(LDrawRef);
-            long fbxSize = 0;
 
             // ** Check Part Type **
+            long fbxSize = 0;
+            bool allFBXExist = false;
+            int fbxFoundCount = 0;
+            string partType = GetPartType_FromLDrawFile(LDrawRef);
             if (partType.Equals("BASIC"))
             {
                 ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
-                if (share.Exists()) fbxSize = share.GetProperties().Value.ContentLength;
+                if (share.Exists())
+                {
+                    fbxSize = share.GetProperties().Value.ContentLength;
+                    allFBXExist = true;
+                    fbxFoundCount += 1;
+                }
             }
             else if (partType.Equals("COMPOSITE"))
             {
                 // Get all sub part Composite parts
-                int fbxFoundCount = 0;
+                //int fbxFoundCount = 0;
                 CompositePartCollection coll = GetAllCompositeSubParts_FromLDrawFile(LDrawRef);
-                foreach(CompositePart cp in coll.CompositePartList)
+                foreach (CompositePart cp in coll.CompositePartList)
                 {
                     ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(cp.LDrawRef + ".fbx");
                     if (share.Exists())
                     {
                         fbxSize += share.GetProperties().Value.ContentLength;
                         fbxFoundCount += 1;
-                    }                
+                    }
                 }
+                if (coll.CompositePartList.Count == fbxFoundCount) allFBXExist = true;
             }
 
 
+            FBXDetails fbxDetails = new FBXDetails();
+            fbxDetails.fbxSize = fbxSize;
+            fbxDetails.allFBXExist = allFBXExist;
+            fbxDetails.fbxCount = fbxFoundCount;
 
 
-            //if (partType.Equals("BASIC") || (partType.Equals("COMPOSITE") && IsSubPart))
-            //{
-            //    ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
-            //    if (share.Exists()) fbxSize = share.GetProperties().Value.ContentLength;
-                
-            //}
-            //else if (partType.Equals("COMPOSITE"))
-            //{
-            //    int foundCount = 0;
 
-            //    // Get FBX for main parent part **
-            //    ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
-            //    if (share.Exists())
-            //    {
-            //        fbxSize += share.GetProperties().Value.ContentLength;
-            //        foundCount += 1;
-            //    }
-
-                // ** Get FBX for sub Parts **
-                //TODO: Need to update this using the new code for sub parts
-                ////List<string> SubPartLDrawRefList = GetAllSubPartsForLDrawRef(LDrawRef, -1);
-                //List<string> SubPartLDrawRefList = StaticData.GetAllSubPartLDrawRefs_FromLDrawFile(LDrawRef);
-                //foreach (string SubPartLDrawRefDetails in SubPartLDrawRefList)
-                //{
-                //    string SubPartLDrawRef = SubPartLDrawRefDetails.Split('|')[0];
-                //    share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(SubPartLDrawRef + ".fbx");
-                //    if (share.Exists())
-                //    {
-                //        fbxSize += share.GetProperties().Value.ContentLength;
-                //        foundCount += 1;
-                //    }
-                //}
-                //if (foundCount == (SubPartLDrawRefList.Count + 1)) unityFBX = true;
-            //}
-
-
-            return fbxSize;
+            return fbxDetails;
         }
 
 
 
 
-
-
-        // ** HELPFUL METHODS **
-        private static string DownloadBlobToXMLString(BlobClient blob)
+            // ** HELPFUL METHODS **
+            private static string DownloadBlobToXMLString(BlobClient blob)
         {
             string xmlString = "";
             if (blob.Exists())

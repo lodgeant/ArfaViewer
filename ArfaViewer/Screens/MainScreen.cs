@@ -52,8 +52,14 @@ namespace Generator
 
 
                 //string test = StaticData.GetLDrawDescription("3001");
-                
-                    
+
+                //long test = 0;
+                //test = StaticData.GetFBXSize("3001");       // BASIC PART
+                //test = StaticData.GetFBXSize("122c01");     // COMPOSITE PART
+                //test = StaticData.GetFBXSize("4592");       // SUB PART
+                //string test1 = "";
+
+
             }
             catch (Exception ex)
             {

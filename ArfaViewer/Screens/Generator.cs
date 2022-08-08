@@ -1931,7 +1931,9 @@ namespace Generator
                 partTable.Columns.Add("PosZ", typeof(string));
                 partTable.Columns.Add("RotX", typeof(string));
                 partTable.Columns.Add("RotY", typeof(string));
-                partTable.Columns.Add("RotZ", typeof(string));  
+                partTable.Columns.Add("RotZ", typeof(string));
+                partTable.Columns.Add("Sub Part Count", typeof(int));
+                partTable.Columns.Add("FBX Count", typeof(int));
                 partTable.Columns.Add("FBX Size", typeof(long));
                 partTable.Columns.Add("LDraw Part Type", typeof(string));
                 partTable.Columns.Add("LDraw Description", typeof(string));
@@ -1995,65 +1997,12 @@ namespace Generator
 
 
 
-
-
-
-
-                    #region ** GET FBX DETAILS FOR PART MODEL **
+                    // ** GET FBX DETAILS FOR PART MODEL **
                     //TODO_H: The below is too slow - needs speeding up!
-                    //TODO_H: Need to move this to a separate function
-                    bool unityFBX = false;
-                    //long fbxSize = 0;
-                    //if (partType.Equals("BASIC") || (partType.Equals("COMPOSITE") && IsSubPart))
-                    //{
-                    //    ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
-                    //    if (share.Exists())
-                    //    {
-                    //        fbxSize = share.GetProperties().Value.ContentLength;
-                    //        unityFBX = true;
-                    //    }
-                    //}
-                    //else if (partType.Equals("COMPOSITE"))
-                    //{
-                    //    int foundCount = 0;
-
-                    //    // Get FBX for main parent part **
-                    //    ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
-                    //    if (share.Exists())
-                    //    {
-                    //        fbxSize += share.GetProperties().Value.ContentLength;
-                    //        foundCount += 1;
-                    //    }
-
-                    //    // ** Get FBX for sub Parts **
-                    //    //TODO: Need to update this using the new code for sub parts
-                    //    ////List<string> SubPartLDrawRefList = GetAllSubPartsForLDrawRef(LDrawRef, -1);
-                    //    //List<string> SubPartLDrawRefList = StaticData.GetAllSubPartLDrawRefs_FromLDrawFile(LDrawRef);
-                    //    //foreach (string SubPartLDrawRefDetails in SubPartLDrawRefList)
-                    //    //{
-                    //    //    string SubPartLDrawRef = SubPartLDrawRefDetails.Split('|')[0];
-                    //    //    share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(SubPartLDrawRef + ".fbx");
-                    //    //    if (share.Exists())
-                    //    //    {
-                    //    //        fbxSize += share.GetProperties().Value.ContentLength;
-                    //    //        foundCount += 1;
-                    //    //    }
-                    //    //}
-                    //    //if (foundCount == (SubPartLDrawRefList.Count + 1)) unityFBX = true;
-                    //}
-
-                    long fbxSize = StaticData.GetFBXSize(LDrawRef);
-
-
-
-
-                    #endregion
-
-
-
-
-
-
+                    int subPartCount = 0;
+                    FBXDetails fbxDetails = new FBXDetails();
+                    //subPartCount = StaticData.GetAllCompositeSubParts_FromLDrawFile(LDrawRef).CompositePartList.Count;
+                    //fbxDetails = StaticData.GetFBXDetails(LDrawRef);
 
 
 
@@ -2102,33 +2051,35 @@ namespace Generator
                         stepNodeIndex += 1;
                     }
 
-                    // ** Build row and add to table **
-                    object[] row = new object[partTable.Columns.Count];
-                    row[0] = elementImage;
-                    row[1] = LDrawRef;
-                    row[2] = LDrawColourID;
-                    row[3] = LDrawColourName;
-                    row[4] = partColourImage;
-                    row[5] = IsOfficial;
-                    row[6] = unityFBX;
-                    row[7] = basePartCollection;
-                    row[8] = partType;
-                    row[9] = IsSubPart;
-                    row[10] = StepRef;
-                    row[11] = stepNodeIndex;
-                    row[12] = placementMovementString;
-                    row[13] = SubSetRef;
-                    row[14] = PosX;
-                    row[15] = PosY;
-                    row[16] = PosZ;
-                    row[17] = RotX;
-                    row[18] = RotY;
-                    row[19] = RotZ;
-                    row[20] = fbxSize;
-                    row[21] = LDrawPartType;
-                    row[22] = LDrawDescription;
-                    row[23] = UnityRef;
-                    partTable.Rows.Add(row);
+                    // ** Build row and add to table **                    
+                    DataRow newRow = partTable.NewRow();
+                    newRow["Part Image"] = elementImage;
+                    newRow["LDraw Ref"] = LDrawRef;
+                    newRow["LDraw Colour ID"] = LDrawColourID;
+                    newRow["LDraw Colour Name"] = LDrawColourName;
+                    newRow["Colour Image"] = partColourImage;
+                    newRow["Is Official"] = IsOfficial;
+                    newRow["Unity FBX"] = fbxDetails.allFBXExist;
+                    newRow["Base Part Collection"] = basePartCollection;
+                    newRow["Part Type"] = partType;
+                    newRow["Is SubPart"] = IsSubPart;
+                    newRow["Step No"] = StepRef;
+                    newRow["Step Node Index"] = stepNodeIndex;
+                    newRow["Placement Movements"] = placementMovementString;
+                    newRow["SubSet Ref"] = SubSetRef;
+                    newRow["PosX"] = PosX;
+                    newRow["PosY"] = PosY;
+                    newRow["PosZ"] = PosZ;
+                    newRow["RotX"] = RotX;
+                    newRow["RotY"] = RotY;
+                    newRow["RotZ"] = RotZ;
+                    newRow["Sub Part Count"] = subPartCount;
+                    newRow["FBX Size"] = fbxDetails.fbxSize;
+                    newRow["FBX Count"] = fbxDetails.fbxCount;
+                    newRow["LDraw Part Type"] = LDrawPartType;
+                    newRow["LDraw Description"] = LDrawDescription;
+                    newRow["Unity Ref"] = UnityRef;
+                    partTable.Rows.Add(newRow);
                 }
                 #endregion
 
