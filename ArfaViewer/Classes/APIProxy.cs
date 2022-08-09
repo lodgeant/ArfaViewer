@@ -64,6 +64,9 @@ namespace Generator
             return set;
         }
 
+
+
+
         public void UpdateSet(Set set)
         {
             BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(set.Ref + ".xml");
@@ -266,9 +269,37 @@ namespace Generator
 
 
 
+        public SetDetailsCollection GetSetDetailsData_UsingSetRefList(List<string> IDList)
+        {
+            // ** Generate SetDetailsCollection from SET_DETAILS data in database **
+            SetDetailsCollection coll = new SetDetailsCollection();
+            if (IDList.Count > 0)
+            {
+                string sql = "SELECT ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS FROM SET_DETAILS ";                
+                sql += "WHERE REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
+                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+                coll = SetDetailsCollection.GetSetDetailsCollectionFromDataTable(results);
+            }
+            return coll;
+        }
 
 
-        public CompositePartCollection GetCompositePartData_All()
+
+        public void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
+        {
+            // check if set details already exist
+            // if they exist, do an update
+            // if they don't exist, do an insert
+
+
+
+        }
+
+
+
+
+
+            public CompositePartCollection GetCompositePartData_All()
         {
             // ** Generate BasePartCollection from xml data in Blob **
             //BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient("CompositePartCollection.xml");

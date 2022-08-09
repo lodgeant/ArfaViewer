@@ -171,6 +171,7 @@ namespace Generator
                 //fldCurrentSetRef.Text = "7327-1";
                 //fldCurrentSetRef.Text = "621-2";
                 fldCurrentSetRef.Text = "41621-1";
+                //fldCurrentSetRef.Text = "TEST-1";
             }
             catch (Exception ex)
             {
@@ -895,12 +896,19 @@ namespace Generator
             {
                 // ** Validation Checks **
                 if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
-                string LDrawRef = fldCurrentSetRef.Text;
+                string SetRef = fldCurrentSetRef.Text;
+
+                // ** Get Set details from API - OLD **
+                //Set set = StaticData.GetSet(SetRef);
+                //if (set == null) throw new Exception("Set " + SetRef + " not found...");
+                //string setXML = set.SerializeToString(true);
+                //currentSetXml = new XmlDocument();
+                //currentSetXml.LoadXml(setXML);
 
                 // ** Get Set details from API **
-                Set set = StaticData.GetSet(LDrawRef);
-                if (set == null) throw new Exception("Set " + LDrawRef + " not found...");
-                string setXML = set.SerializeToString(true);
+                SetDetails setDetails = StaticData.GetSetDetails(SetRef);
+                if (setDetails == null) throw new Exception("Set " + SetRef + " not found...");
+                string setXML = setDetails.Instructions;
                 currentSetXml = new XmlDocument();
                 currentSetXml.LoadXml(setXML);
 
@@ -922,9 +930,14 @@ namespace Generator
                 if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
                 if (currentSetXml == null) throw new Exception("No Set currently loaded...");
 
-                // ** Update Set details using API **
-                Set set = new Set().DeserialiseFromXMLString(currentSetXml.OuterXml);
-                StaticData.UpdateSet(set);
+                // ** Update Set details - OLD **
+                //Set set = new Set().DeserialiseFromXMLString(currentSetXml.OuterXml);
+                //StaticData.UpdateSet(set);
+
+
+                StaticData.UpdateSetDetailsInstructions_UsingSetRef(fldCurrentSetRef.Text, currentSetXml.OuterXml);
+
+
             }
             catch (Exception ex)
             {
@@ -1995,16 +2008,12 @@ namespace Generator
                     bool IsOfficial = false;
                     if (LDrawPartType.Equals("OFFICIAL")) IsOfficial = true;
 
-
-
                     // ** GET FBX DETAILS FOR PART MODEL **
                     //TODO_H: The below is too slow - needs speeding up!
                     int subPartCount = 0;
                     FBXDetails fbxDetails = new FBXDetails();
-                    //subPartCount = StaticData.GetAllCompositeSubParts_FromLDrawFile(LDrawRef).CompositePartList.Count;
-                    //fbxDetails = StaticData.GetFBXDetails(LDrawRef);
-
-
+                    subPartCount = StaticData.GetAllCompositeSubParts_FromLDrawFile(LDrawRef).CompositePartList.Count; 
+                    fbxDetails = StaticData.GetFBXDetails(LDrawRef);
 
                     // ** Check BasePart Collection **
                     bool basePartCollection = true;                   
@@ -3813,7 +3822,7 @@ namespace Generator
 
         //public static string GetLDrawFileDetails(string LDrawRef)
         //{
-        //    //TODO: CHANGE THIS FUNCTION DO THAT THE LAST UPDATED FLAG IS CHECKED ON THE FILE AND IF NEWER, IT IS DOWNLOADED TO LDrawDATDetails_Dict.
+        //      
         //    string value = "";
         //    try
         //    {
@@ -4503,7 +4512,7 @@ namespace Generator
 
         //private void SubModelImportPartPosRot_OLD()
         //{
-        //    //TODO: Need to update this so that the process cycles through all available SubModels and adds their details too
+        //    
         //    try
         //    {
         //        #region ** VALIDATION **
@@ -4720,8 +4729,7 @@ namespace Generator
                     }
                     #endregion
 
-                    #region ** GENERATE ALL SUB PART .DAT FILES **
-                    //TODO: Need to update this using the new code for sub parts
+                    #region ** GENERATE ALL SUB PART .DAT FILES **                    
                     ////SubPartList = GetAllSubPartsForLDrawRef(LDrawRef, -1);                    
                     //SubPartList = StaticData.GetAllSubPartLDrawRefs_FromLDrawFile(LDrawRef);
                     //foreach (string SubPart in SubPartList)

@@ -41,29 +41,39 @@ namespace Generator
 
 
         public static BaseClasses.Set GetSet(string SetRef)
-        {            
-            // ** Get data from API **
+        {  
             return Global_Variables.APIProxy.GetSet(SetRef);
         }
 
+        public static BaseClasses.SetDetails GetSetDetails(string SetRef)
+        {
+            //List<string> setRefList = new List<string>() { SetRef };
+            return Global_Variables.APIProxy.GetSetDetailsData_UsingSetRefList(new List<string>() { SetRef }).SetDetailsList[0];
+        }
+
+
+        public static void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
+        {
+            Global_Variables.APIProxy.UpdateSetDetailsInstructions_UsingSetRef(setRef, xmlString);
+        }
+
+
+
+
         public static void UpdateSet(BaseClasses.Set set)
         {
-            // ** Get data from API **
             Global_Variables.APIProxy.UpdateSet(set);
         }
 
         public static void DeleteSet(string setRef)
         {            
-            // ** Get data from API **
             Global_Variables.APIProxy.DeleteSet(setRef);
         }
 
         public static bool CheckIfSetExists(string setRef)
         {            
-            // ** Get data from API **
             return Global_Variables.APIProxy.CheckIfSetExists(setRef);
         }
-
 
         public static Bitmap GetImage(ImageType imageType, string[] _params)
         {
