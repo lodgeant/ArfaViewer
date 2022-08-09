@@ -60,6 +60,10 @@ namespace Generator
                 //string test1 = "";
 
 
+                //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("3001");
+                //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("122c01");
+
+
             }
             catch (Exception ex)
             {

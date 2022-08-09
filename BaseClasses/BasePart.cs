@@ -61,6 +61,9 @@ namespace BaseClasses
             UNOFFICIAL
         }
 
+        [XmlAttribute("SubPartCount")]
+        public int SubPartCount;
+
 
         public string SerializeToString(bool omitDeclaration)
         {
@@ -114,6 +117,7 @@ namespace BaseClasses
             item.IsLargeModel = bool.Parse(row["IS_LARGE_MODEL"].ToString());
             item.partType = (BaseClasses.BasePart.PartType)Enum.Parse(typeof(BaseClasses.BasePart.PartType), (string)row["PART_TYPE"], true);
             item.lDrawPartType = (BaseClasses.BasePart.LDrawPartType)Enum.Parse(typeof(BaseClasses.BasePart.LDrawPartType), (string)row["LDRAW_PART_TYPE"], true);
+            item.SubPartCount = (int)row["SUB_PART_COUNT"];
             return item;
         }
 

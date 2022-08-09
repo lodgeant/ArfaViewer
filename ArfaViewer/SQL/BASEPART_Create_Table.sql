@@ -13,5 +13,6 @@ IS_SUB_PART varchar(5),
 IS_STICKER varchar(5),
 IS_LARGE_MODEL varchar(5),
 PART_TYPE  varchar(25),
-LDRAW_PART_TYPE  varchar(25)
+LDRAW_PART_TYPE  varchar(25),
+SUB_PART_COUNT int
 );

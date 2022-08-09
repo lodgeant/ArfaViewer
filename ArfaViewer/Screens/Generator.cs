@@ -170,8 +170,8 @@ namespace Generator
                 //fldCurrentSetRef.Text = "621-1";
                 //fldCurrentSetRef.Text = "7327-1";
                 //fldCurrentSetRef.Text = "621-2";
-                fldCurrentSetRef.Text = "41621-1";
-                //fldCurrentSetRef.Text = "TEST-1";
+                //.Text = "41621-1";
+                fldCurrentSetRef.Text = "TEST-1";
             }
             catch (Exception ex)
             {
@@ -935,7 +935,7 @@ namespace Generator
                 //StaticData.UpdateSet(set);
 
 
-                StaticData.UpdateSetDetailsInstructions_UsingSetRef(fldCurrentSetRef.Text, currentSetXml.OuterXml);
+                //StaticData.UpdateSetDetailsInstructions_UsingSetRef(fldCurrentSetRef.Text, currentSetXml.OuterXml);
 
 
             }
@@ -3118,7 +3118,7 @@ namespace Generator
                 }
                 else
                 {
-                    fldPartType.Text = StaticData.GetPartType_FromLDrawFile(LDrawRef);
+                    fldPartType.Text = StaticData.GetPartType_FromLDrawFile(LDrawRef);  //TODO: Change this to get the data from the database instead.
                 }
 
                 // ** UPDATE BASE PART COLLECTION BOOLEAN - CHECK IF PART IS IN BASE PART COLLECTION **
@@ -4303,7 +4303,10 @@ namespace Generator
                 BasePart.PartType partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), PartType, true);
                 int LDrawSize = 0;
                 if (fldLDrawSize.Text != "") LDrawSize = int.Parse(fldLDrawSize.Text);
-                string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
+                //string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
+
+                LDrawDetails lDrawDetails = StaticData.GetLDrawDetails_FromLDrawFile(LDrawRef);
+                string LDrawPartType = lDrawDetails.LDrawPartType;
                 BasePart.LDrawPartType lDrawPartType = (BasePart.LDrawPartType)Enum.Parse(typeof(BasePart.LDrawPartType), LDrawPartType, true);
 
                 // ** Check if LDraw Ref already exists **
@@ -4311,6 +4314,8 @@ namespace Generator
 
                 // ** CHECK IF PART EXISTS IN OFFICIAL/UNOFFIAL LDRAW PARTS ** 
                 if (StaticData.CheckIfLDrawFileDetailsExist(LDrawRef) == false) throw new Exception("Unable to find " + LDrawRef + " in official or unofficial LDraw Parts data...");
+                //TODO_H: Update this function to use the new version...?
+
 
                 // ** Check if LDraw Refs already exist in CompositePartCollection XML **               
                 if (partType == BasePart.PartType.COMPOSITE && StaticData.CheckIfCompositePartsExist(LDrawRef) == true) throw new Exception("Parent LDraw Ref already exists...");
@@ -4320,13 +4325,15 @@ namespace Generator
                 BasePart newBasePart = new BasePart()
                 {
                     LDrawRef = LDrawRef,
-                    LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString(),
+                    //LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString(),
+                    LDrawDescription = lDrawDetails.LDrawDescription,
                     lDrawPartType = lDrawPartType,
                     LDrawCategory = "",
                     partType = partType,
                     IsSubPart = chkIsSubPart.Checked,
                     IsSticker = chkIsSticker.Checked,
-                    IsLargeModel = chkIsLargeModel.Checked
+                    IsLargeModel = chkIsLargeModel.Checked,
+                    SubPartCount = lDrawDetails.SubPartCount
                 };
                 if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;               
                 newBasePart.LDrawSize = LDrawSize;                
@@ -4336,7 +4343,7 @@ namespace Generator
                 #region ** ADD ALL SUB PARTS FROM LDRAW .DAT FILE (IF PART = COMPOSITE) **
                 if (newBasePart.partType == BasePart.PartType.COMPOSITE)
                 {   
-                    CompositePartCollection SubPartCollection = StaticData.GetAllCompositeSubParts_FromLDrawFile(LDrawRef);
+                    CompositePartCollection SubPartCollection = StaticData.GetAllCompositeSubParts_FromLDrawFile(LDrawRef); //TODO_H: This needs updating.
                     foreach(CompositePart cp in SubPartCollection.CompositePartList)
                     {
                         cp.ParentLDrawRef = LDrawRef;                        

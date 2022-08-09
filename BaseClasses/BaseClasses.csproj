@@ -45,6 +45,7 @@
     <Compile Include="BasePartCollection.cs" />
     <Compile Include="BasePart.cs" />
     <Compile Include="BuildInstructions.cs" />
+    <Compile Include="LDrawDetails.cs" />
     <Compile Include="FBXDetails.cs" />
     <Compile Include="HelperFunctions.cs" />
     <Compile Include="OfficalSet_MiniFig.cs" />

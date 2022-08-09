@@ -40,14 +40,13 @@ namespace Generator
 
 
 
-        public static BaseClasses.Set GetSet(string SetRef)
-        {  
-            return Global_Variables.APIProxy.GetSet(SetRef);
-        }
+        //public static BaseClasses.Set GetSet(string SetRef)
+        //{  
+        //    return Global_Variables.APIProxy.GetSet(SetRef);
+        //}
 
         public static BaseClasses.SetDetails GetSetDetails(string SetRef)
         {
-            //List<string> setRefList = new List<string>() { SetRef };
             return Global_Variables.APIProxy.GetSetDetailsData_UsingSetRefList(new List<string>() { SetRef }).SetDetailsList[0];
         }
 
@@ -84,7 +83,6 @@ namespace Generator
 
         public static BaseClasses.PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)
         {
-            // ** Get data from API **
             return Global_Variables.APIProxy.GetPartColourData_UsingLDrawColourIDList(IDList);
         }
 
@@ -95,7 +93,6 @@ namespace Generator
 
         public static BaseClasses.CompositePartCollection GetCompositePartData_UsingLDrawRefList(List<string> IDList)
         {           
-            // ** Get data from API **
             return Global_Variables.APIProxy.GetCompositePartData_UsingLDrawRefList(IDList);
         }
 
@@ -103,7 +100,6 @@ namespace Generator
 
         public static string GetLDrawDescription(string LDrawRef)
         {
-            // ** Get data from API **
             return Global_Variables.APIProxy.GetLDrawDescription_UsingLDrawRef(LDrawRef);
         }
 
@@ -194,6 +190,15 @@ namespace Generator
 
 
 
+
+        public static BaseClasses.LDrawDetails GetLDrawDetails_FromLDrawFile(string LDrawRef)
+        {
+            return Global_Variables.APIProxy.GetLDrawDetails_FromLDrawFile(LDrawRef);
+        }
+
+
+
+        // ############
         public static BaseClasses.CompositePartCollection GetCompositePartData_UsingParentLDrawRefList(string ParentLDrawRef)
         {
             // ** Get data from API **
@@ -201,8 +206,7 @@ namespace Generator
         }
 
         public static bool CheckIfCompositePartsExist(string LDrawRef)
-        {
-            // ** Get data from API **
+        {          
             return Global_Variables.APIProxy.CheckIfCompositePartsExist(LDrawRef);
         }
 

@@ -220,7 +220,7 @@ namespace Generator
             //BasePartCollection coll = new BasePartCollection().DeserialiseFromXMLString(xmlString);
 
             // ** Generate BasePartCollection from BASEPART data in database **
-            String sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE FROM BASEPART";
+            String sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT FROM BASEPART";
             var results = GetSQLQueryResults(this.AzureDBConnString, sql);
             BasePartCollection coll = BasePartCollection.GetBasePartCollectionFromDataTable(results);
 
@@ -233,7 +233,7 @@ namespace Generator
             BasePartCollection coll = new BasePartCollection();
             if (IDList.Count > 0)
             {
-                string sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE FROM BASEPART ";
+                string sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT FROM BASEPART ";
                 sql += "WHERE LDRAW_REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
                 var results = GetSQLQueryResults(this.AzureDBConnString, sql);
                 coll = BasePartCollection.GetBasePartCollectionFromDataTable(results);
@@ -299,7 +299,7 @@ namespace Generator
 
 
 
-            public CompositePartCollection GetCompositePartData_All()
+        public CompositePartCollection GetCompositePartData_All()
         {
             // ** Generate BasePartCollection from xml data in Blob **
             //BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient("CompositePartCollection.xml");
@@ -406,6 +406,10 @@ namespace Generator
             return partColourNameList;
         }
 
+
+
+
+        // ##########
         public string GetLDrawFileDetails(string LDrawRef)
         {
             string value = "";
@@ -436,6 +440,7 @@ namespace Generator
             }
         }
 
+        // ##########
         public string GetLDrawDescription_FromLDrawFile(string LDrawRef)
         {
             string value = "";
@@ -455,6 +460,7 @@ namespace Generator
             }
         }
 
+        // ##########
         public string GetPartType_FromLDrawFile(string LDrawRef)
         {
             string value = "BASIC";
@@ -538,6 +544,106 @@ namespace Generator
             return share.Exists();
         }
 
+        public LDrawDetails GetLDrawDetails_FromLDrawFile(string LDrawRef)
+        {
+            LDrawDetails ldD = new LDrawDetails();            
+            try
+            {
+                string LDrawPartType = "";
+                ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\parts").GetFileClient(LDrawRef + ".dat");
+                LDrawPartType = BasePart.LDrawPartType.OFFICIAL.ToString();
+                if (share.Exists() == false)
+                {
+                    share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial\parts").GetFileClient(LDrawRef + ".dat");
+                    LDrawPartType = BasePart.LDrawPartType.UNOFFICIAL.ToString();
+                    if (share.Exists() == false)
+                    {
+                        share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(LDrawRef + ".dat");
+                        LDrawPartType = BasePart.LDrawPartType.UNOFFICIAL.ToString();
+                    }
+                }
+                if (share.Exists())
+                {
+                    //DateTime lastUpdatedUTC = share.GetProperties().Value.LastModified.UtcDateTime;
+                    byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
+                    Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
+                    using (var ms = new MemoryStream(fileContent)) download.Content.CopyTo(ms);
+                    string LDrawFileText = Encoding.UTF8.GetString(fileContent);
+
+                    // ** Update LDraw Details object **
+                    ldD.LDrawRef = LDrawRef;
+                    ldD.LDrawDescription = GetLDrawDescriptionFromLDrawFileText(LDrawFileText);
+                    ldD.PartType = GetPartTypeFromLDrawFileText(LDrawFileText);
+                    ldD.LDrawPartType = LDrawPartType;
+                    ldD.SubPartCount = GetSubPartCountFromLDrawFileText(LDrawFileText);
+                    ldD.data = LDrawFileText;
+                }
+                return ldD;
+            }
+            catch (Exception)
+            {
+                return ldD;
+            }
+        }
+
+
+        private string GetLDrawDescriptionFromLDrawFileText(string LDrawFileText)
+        {
+            string LDrawDescription = "";
+            if (LDrawFileText != "")
+            {
+                string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                LDrawDescription = lines[0].Replace("0 ", "");
+            }
+            return LDrawDescription;
+        }
+
+        private string GetPartTypeFromLDrawFileText(string LDrawFileText)
+        {
+            string value = "BASIC";
+            try
+            {
+                // ** Get LDraw details for part **
+                string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                foreach (string fileLine in lines)
+                {
+                    // ** Check if part contains references to any other parts - if it does then the part is COMPOSITE
+                    if (fileLine.Trim().StartsWith("1"))
+                    {
+                        string formattedLine = fileLine.Trim().Replace("   ", " ").Replace("  ", " ");
+                        string[] DatLine = formattedLine.Split(' ');
+                        string SubPart_LDrawRef = DatLine[14].ToLower().Replace(".dat", "").Replace("s\\", "");
+                        string SubPart_LDrawFileText = StaticData.GetLDrawFileDetails(SubPart_LDrawRef);
+                        if (SubPart_LDrawFileText != "")
+                        {
+                            value = "COMPOSITE";
+                            break;
+                        }
+                    }
+                }
+                return value;
+            }
+            catch (Exception)
+            {
+                return value;
+            }
+        }
+
+        private int GetSubPartCountFromLDrawFileText(string LDrawFileText)
+        {
+            int subPartCount = 0;
+            string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            foreach (string fileLine in lines)
+            {
+                if (fileLine.Trim().StartsWith("1") && fileLine.Contains("s\\") == false) subPartCount += 1;               
+            }
+            return subPartCount;        
+        }
+
+
+        // ###########
+
+
 
         public CompositePartCollection GetAllCompositeSubParts_FromLDrawFile(string LDrawRef)
         {            
@@ -589,7 +695,7 @@ namespace Generator
             
             // ** Generate SQL Statement **
             sql = "INSERT INTO BASEPART" + Environment.NewLine;
-            sql += "(ID,LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE)" + Environment.NewLine;
+            sql += "(ID,LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT)" + Environment.NewLine;
             sql += "VALUES" + Environment.NewLine;
             sql += "(";
             sql += newID + ",";
@@ -604,7 +710,8 @@ namespace Generator
             sql += "'" + bp.IsSticker + "',";
             sql += "'" + bp.IsLargeModel + "',";
             sql += "'" + bp.partType + "',";
-            sql += "'" + bp.lDrawPartType + "'";               
+            sql += "'" + bp.lDrawPartType + "',";
+            sql += bp.SubPartCount;
             sql += ")";
 
             // ** Execute SQL statement **
