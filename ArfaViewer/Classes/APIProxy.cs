@@ -525,7 +525,99 @@ namespace Generator
 
 
         // ** LDraw Details (File) Functions **
-              
+
+        public LDrawDetailsCollection GetLDrawDetailsData_UsingLDrawRefList(List<string> IDList)
+        {
+            // ** Generate LDrawDetailsCollection from LDRAW_DETAILS data in database **
+            LDrawDetailsCollection coll = new LDrawDetailsCollection();
+            if (IDList.Count > 0)
+            {
+                string sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT,DATA FROM LDRAW_DETAILS ";
+                sql += "WHERE LDRAW_REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
+                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+                coll = LDrawDetailsCollection.GetLDrawDetailsCollectionFromDataTable(results);
+            }
+            return coll;
+        }
+
+        public void AddLDrawDetails(BaseClasses.LDrawDetails ldd)
+        {
+            string sql;
+
+            sql = "SELECT MAX(ID) 'RESULT' FROM LDRAW_DETAILS";
+            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+            int oldID = 0;
+            if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
+            int newID = oldID + 1;
+
+            // ** Generate SQL Statement **
+            sql = "INSERT INTO LDRAW_DETAILS" + Environment.NewLine;
+            sql += "(ID,LDRAW_REF,LDRAW_DESCRIPTION,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT,DATA)" + Environment.NewLine;
+            sql += "VALUES" + Environment.NewLine;
+            sql += "(";
+            sql += newID + ",";
+            sql += "'" + ldd.LDrawRef + "',";
+            sql += "'" + ldd.LDrawDescription + "',";
+            sql += "'" + ldd.PartType + "',";
+            sql += "'" + ldd.LDrawPartType + "',";
+            sql += ldd.SubPartCount + ",";            
+            sql += "'" + ldd.data.Replace("'", "''") + "'";
+
+
+
+            sql += ")";
+
+            // ** Execute SQL statement **
+            ExecuteSQLStatement(this.AzureDBConnString, sql);
+        }
+        
+        public LDrawDetails GetLDrawDetails_FromLDrawFile(string LDrawRef)
+        {
+            LDrawDetails ldD = null;
+            try
+            {
+                string LDrawPartType = "";
+                ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\parts").GetFileClient(LDrawRef + ".dat");
+                LDrawPartType = BasePart.LDrawPartType.OFFICIAL.ToString();
+                if (share.Exists() == false)
+                {
+                    share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial\parts").GetFileClient(LDrawRef + ".dat");
+                    LDrawPartType = BasePart.LDrawPartType.UNOFFICIAL.ToString();
+                    if (share.Exists() == false)
+                    {
+                        share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(LDrawRef + ".dat");
+                        LDrawPartType = BasePart.LDrawPartType.UNOFFICIAL.ToString();
+                    }
+                }
+                if (share.Exists())
+                {
+                    //DateTime lastUpdatedUTC = share.GetProperties().Value.LastModified.UtcDateTime;
+                    byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
+                    Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
+                    using (var ms = new MemoryStream(fileContent)) download.Content.CopyTo(ms);
+                    string LDrawFileText = Encoding.UTF8.GetString(fileContent);
+
+                    // ** Update LDraw Details object **
+                    ldD = new LDrawDetails();
+                    ldD.LDrawRef = LDrawRef;
+                    ldD.LDrawDescription = LDrawDetails.GetLDrawDescriptionFromLDrawFileText(LDrawFileText);
+                    ldD.PartType = LDrawDetails.GetPartTypeFromLDrawFileText(LDrawFileText);
+                    ldD.LDrawPartType = LDrawPartType;
+                    ldD.SubPartCount = LDrawDetails.GetSubPartCountFromLDrawFileText(LDrawFileText);
+                    ldD.data = LDrawFileText;
+                    ldD.SubPartLDrawRefList = LDrawDetails.GetSubPartLDrawRefsFromLDrawFileText(LDrawFileText);
+                }
+                return ldD;
+            }
+            catch (Exception)
+            {
+                return ldD;
+            }
+        }
+
+
+
+        //TODO_H: This needs updating...This list should be available on the LDrawDetails object **
         public CompositePartCollection GetAllCompositeSubParts_FromLDrawFile(string LDrawRef)
         {
             CompositePartCollection coll = new CompositePartCollection();
@@ -568,100 +660,9 @@ namespace Generator
 
 
 
-        // ## NEED THIS ##
-        public LDrawDetails GetLDrawDetails_FromLDrawFile(string LDrawRef)
-        {
-            LDrawDetails ldD = null;         
-            try
-            {
-                string LDrawPartType = "";
-                ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\parts").GetFileClient(LDrawRef + ".dat");
-                LDrawPartType = BasePart.LDrawPartType.OFFICIAL.ToString();
-                if (share.Exists() == false)
-                {
-                    share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial\parts").GetFileClient(LDrawRef + ".dat");
-                    LDrawPartType = BasePart.LDrawPartType.UNOFFICIAL.ToString();
-                    if (share.Exists() == false)
-                    {
-                        share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(LDrawRef + ".dat");
-                        LDrawPartType = BasePart.LDrawPartType.UNOFFICIAL.ToString();
-                    }
-                }
-                if (share.Exists())
-                {
-                    //DateTime lastUpdatedUTC = share.GetProperties().Value.LastModified.UtcDateTime;
-                    byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
-                    Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
-                    using (var ms = new MemoryStream(fileContent)) download.Content.CopyTo(ms);
-                    string LDrawFileText = Encoding.UTF8.GetString(fileContent);
-
-                    // ** Update LDraw Details object **
-                    ldD = new LDrawDetails();
-                    ldD.LDrawRef = LDrawRef;
-                    ldD.LDrawDescription = LDrawDetails.GetLDrawDescriptionFromLDrawFileText(LDrawFileText);
-                    ldD.PartType = LDrawDetails.GetPartTypeFromLDrawFileText(LDrawFileText);
-                    ldD.LDrawPartType = LDrawPartType;
-                    ldD.SubPartCount = LDrawDetails.GetSubPartCountFromLDrawFileText(LDrawFileText);
-                    ldD.data = LDrawFileText;
-                }
-                return ldD;
-            }
-            catch (Exception)
-            {
-                return ldD;
-            }
-        }
-               
+        
+            
        
-                
-        public void AddLDrawDetails(BaseClasses.LDrawDetails ldd)
-        {
-            string sql;
-
-            sql = "SELECT MAX(ID) 'RESULT' FROM LDRAW_DETAILS";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            int oldID = 0;
-            if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
-            int newID = oldID + 1;
-
-            // ** Generate SQL Statement **
-            sql = "INSERT INTO LDRAW_DETAILS" + Environment.NewLine;
-            sql += "(ID,LDRAW_REF,LDRAW_DESCRIPTION,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT,DATA)" + Environment.NewLine;
-            sql += "VALUES" + Environment.NewLine;
-            sql += "(";
-            sql += newID + ",";
-            sql += "'" + ldd.LDrawRef + "',";
-            sql += "'" + ldd.LDrawDescription + "',";
-            sql += "'" + ldd.PartType + "',";
-            sql += "'" + ldd.LDrawPartType + "',";
-            sql += ldd.SubPartCount + ",";
-            //sql += "'" + ldd.data + "'";
-            sql += "'" + ldd.data.Replace("'","''") + "'";
-            sql += ")";
-
-            // ** Execute SQL statement **
-            ExecuteSQLStatement(this.AzureDBConnString, sql);
-        }
-
-        public LDrawDetailsCollection GetLDrawDetailsData_UsingLDrawRefList(List<string> IDList)
-        {
-            // ** Generate LDrawDetailsCollection from LDRAW_DETAILS data in database **
-            LDrawDetailsCollection coll = new LDrawDetailsCollection();
-            if (IDList.Count > 0)
-            {
-                string sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT,DATA FROM LDRAW_DETAILS ";
-                sql += "WHERE LDRAW_REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
-                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-                coll = LDrawDetailsCollection.GetLDrawDetailsCollectionFromDataTable(results);
-            }
-            return coll;
-        }
-
-
-
-
-        // ###########
-
 
 
 

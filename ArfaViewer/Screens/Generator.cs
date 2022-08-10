@@ -4332,13 +4332,6 @@ namespace Generator
                 if (lDrawDetails == null) throw new Exception("Unable to find LDraw details for " + LDrawRef);
                 BasePart.LDrawPartType lDrawPartType = (BasePart.LDrawPartType)Enum.Parse(typeof(BasePart.LDrawPartType), lDrawDetails.LDrawPartType, true);
                 
-
-
-
-
-
-
-
                 // ** Check if LDraw Ref already exists in BasePart **
                 if (StaticData.CheckIfBasePartExists(LDrawRef) == true) throw new Exception("LDraw Ref already exists...");
 
@@ -4366,6 +4359,11 @@ namespace Generator
                 newBasePart.LDrawSize = LDrawSize;                
                 StaticData.AddBasePart(newBasePart);
                 #endregion
+
+
+
+
+
 
                 #region ** ADD ALL SUB PARTS FROM LDRAW .DAT FILE (IF PART = COMPOSITE) **
                 if (newBasePart.partType == BasePart.PartType.COMPOSITE)

@@ -63,6 +63,8 @@ namespace Generator
                 //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("3001");
                 //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("122c01");
 
+                //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("54701p01c01");
+                //List<string> subPartList = LDrawDetails.GetSubPartLDrawRefsFromLDrawFileText(ldd.data);
 
             }
             catch (Exception ex)
