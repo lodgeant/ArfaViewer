@@ -14,51 +14,42 @@ namespace Generator
 {
     public class StaticData
     {
-        
-        //public static void RefreshStaticData_All()
+
+
+
+
+        //public static string GetLDrawFileDetails(string LDrawRef)
         //{
-        //    string xmlString = "";
-
-        //    // ** PARTCOLOUR **
-        //    //Global_Variables.PartColourCollection = Global_Variables.APIProxy.GetPartColourData_All();
-        //    //string xmlString = Global_Variables.PartColourCollection.SerializeToString(true);
-        //    //Global_Variables.PartColourCollectionXML.LoadXml(xmlString);
-
-        //    // ** BASEPART **
-        //    //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.BasePartCollection.ToString());
-        //    //Global_Variables.BasePartCollection = Global_Variables.APIProxy.GetBasePartData_All();
-        //    //string result = BaseClasses.BasePartCollection.ConvertBasePartCollectionToDBInsertValuesString(Global_Variables.BasePartCollection);
-        //    //xmlString = Global_Variables.BasePartCollection.SerializeToString(true);
-        //    //Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
-                      
-        //    // ** COMPOSITEPART **
-        //    //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.CompositePartCollection.ToString());
-        //    //BaseClasses.CompositePartCollection cpc = Global_Variables.APIProxy.GetCompositePartData_All();
-        //    //xmlString = cpc.SerializeToString(true);
-        //    //Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);                        
+        //    // ** Get data from API **
+        //    return Global_Variables.APIProxy.GetLDrawFileDetails(LDrawRef);
         //}
 
 
 
-        //public static BaseClasses.Set GetSet(string SetRef)
-        //{  
-        //    return Global_Variables.APIProxy.GetSet(SetRef);
-        //}
+
+
+        // ** Image functions **
+
+        public static Bitmap GetImage(ImageType imageType, string[] _params)
+        {
+            return Global_Variables.APIProxy.GetImage(imageType, _params);
+        }
+
+
+
+        // ** SetDetails Functions **
 
         public static BaseClasses.SetDetails GetSetDetails(string SetRef)
         {
             return Global_Variables.APIProxy.GetSetDetailsData_UsingSetRefList(new List<string>() { SetRef }).SetDetailsList[0];
         }
 
-
         public static void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
         {
             Global_Variables.APIProxy.UpdateSetDetailsInstructions_UsingSetRef(setRef, xmlString);
         }
 
-
-
-
+        // THE FOLLOWING TO BE DEMISED
         public static void UpdateSet(BaseClasses.Set set)
         {
             Global_Variables.APIProxy.UpdateSet(set);
@@ -74,33 +65,19 @@ namespace Generator
             return Global_Variables.APIProxy.CheckIfSetExists(setRef);
         }
 
-        public static Bitmap GetImage(ImageType imageType, string[] _params)
-        {
-            return Global_Variables.APIProxy.GetImage(imageType, _params);
-        }
 
 
+
+
+
+
+
+        
+        // ** PartColour functions **
 
         public static BaseClasses.PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)
         {
             return Global_Variables.APIProxy.GetPartColourData_UsingLDrawColourIDList(IDList);
-        }
-
-        public static BaseClasses.BasePartCollection GetBasePartData_UsingLDrawRefList(List<string> IDList)
-        {  
-            return Global_Variables.APIProxy.GetBasePartData_UsingLDrawRefList(IDList);
-        }
-
-        public static BaseClasses.CompositePartCollection GetCompositePartData_UsingLDrawRefList(List<string> IDList)
-        {           
-            return Global_Variables.APIProxy.GetCompositePartData_UsingLDrawRefList(IDList);
-        }
-
-
-
-        public static string GetLDrawDescription(string LDrawRef)
-        {
-            return Global_Variables.APIProxy.GetLDrawDescription_UsingLDrawRef(LDrawRef);
         }
 
         public static int GetLDrawColourID(string LDrawColourName)
@@ -140,30 +117,6 @@ namespace Generator
             return Global_Variables.APIProxy.GetLDrawColourName_UsingLDrawColourID(LDrawColourID);
         }
 
-        public static int GetLDrawSize(string LDrawRef)
-        {  
-            // ** Get data from BASEPART database table **
-            //String sql = "SELECT LDRAW_SIZE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
-            //var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
-            //int LDrawSize = (int)results.Rows[0]["LDRAW_SIZE"];
-            //return LDrawSize;
-
-            // ** Get data from API **
-            return Global_Variables.APIProxy.GetLDrawSize_UsingLDrawRef(LDrawRef);
-        }
-
-        public static string GetPartType(string LDrawRef)
-        {
-            // ** Get data from BASEPART database table **
-            //String sql = "SELECT PART_TYPE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
-            //var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
-            //string partType = (string)results.Rows[0]["PART_TYPE"];
-            //return partType;
-
-            // ** Get data from API **
-            return Global_Variables.APIProxy.GetPartType_UsingLDrawRef(LDrawRef);
-        }
-
         public static List<string> GetAllLDrawColourNames()
         {
             //List<string> partColourNameList = new List<string>();
@@ -191,66 +144,75 @@ namespace Generator
 
 
 
-        public static BaseClasses.LDrawDetails GetLDrawDetails_FromLDrawFile(string LDrawRef)
-        {
-            return Global_Variables.APIProxy.GetLDrawDetails_FromLDrawFile(LDrawRef);
+
+        // ** BasePart functions **
+
+        public static BaseClasses.BasePartCollection GetBasePartData_UsingLDrawRefList(List<string> IDList)
+        {  
+            return Global_Variables.APIProxy.GetBasePartData_UsingLDrawRefList(IDList);
         }
 
-
-
-        // ############
-        public static BaseClasses.CompositePartCollection GetCompositePartData_UsingParentLDrawRefList(string ParentLDrawRef)
+        public static string GetLDrawDescription(string LDrawRef)
         {
+            return Global_Variables.APIProxy.GetLDrawDescription_UsingLDrawRef(LDrawRef);
+        }
+
+        public static int GetLDrawSize(string LDrawRef)
+        {
+            // ** Get data from BASEPART database table **
+            //String sql = "SELECT LDRAW_SIZE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
+            //var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
+            //int LDrawSize = (int)results.Rows[0]["LDRAW_SIZE"];
+            //return LDrawSize;
+
             // ** Get data from API **
-            return Global_Variables.APIProxy.GetCompositePartData_UsingParentLDrawRefList(ParentLDrawRef);
+            return Global_Variables.APIProxy.GetLDrawSize_UsingLDrawRef(LDrawRef);
         }
 
-        public static bool CheckIfCompositePartsExist(string LDrawRef)
-        {          
-            return Global_Variables.APIProxy.CheckIfCompositePartsExist(LDrawRef);
+        public static string GetPartType(string LDrawRef)
+        {
+            // ** Get data from BASEPART database table **
+            //String sql = "SELECT PART_TYPE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
+            //var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
+            //string partType = (string)results.Rows[0]["PART_TYPE"];
+            //return partType;
+
+            // ** Get data from API **
+            return Global_Variables.APIProxy.GetPartType_UsingLDrawRef(LDrawRef);
         }
 
         public static bool CheckIfBasePartExists(string LDrawRef)
         {            
-            // ** Get data from API **
             return Global_Variables.APIProxy.CheckIfBasePartExists(LDrawRef);
         }
 
-        public static string GetLDrawFileDetails(string LDrawRef)
-        {
-            // ** Get data from API **
-            return Global_Variables.APIProxy.GetLDrawFileDetails(LDrawRef);
-        }
-
-
-
-        public static string GetLDrawDescription_FromLDrawFile(string LDrawRef)
-        {
-            // ** Get data from API **
-            return Global_Variables.APIProxy.GetLDrawDescription_FromLDrawFile(LDrawRef);
-        }
-
-        public static string GetPartType_FromLDrawFile(string LDrawRef)
-        {           
-            return Global_Variables.APIProxy.GetPartType_FromLDrawFile(LDrawRef);
-        }
-
-        public static string GetLDrawPartType_FromLDrawFile(string LDrawRef)
-        {
-            // ** Get data from API **
-            return Global_Variables.APIProxy.GetLDrawPartType_FromLDrawFile(LDrawRef);
-        }
-
-        public static bool CheckIfLDrawFileDetailsExist(string LDrawRef)
-        {
-            // ** Get data from API **
-            return Global_Variables.APIProxy.CheckIfLDrawFileDetailsExist(LDrawRef);
-        }
-
-
         public static void AddBasePart(BaseClasses.BasePart p)
-        {           
+        {
             Global_Variables.APIProxy.AddBasePart(p);
+        }
+
+
+
+
+
+
+
+
+        // ** CompositePart functions **
+
+        public static BaseClasses.CompositePartCollection GetCompositePartData_UsingLDrawRefList(List<string> IDList)
+        {           
+            return Global_Variables.APIProxy.GetCompositePartData_UsingLDrawRefList(IDList);
+        }
+
+        public static BaseClasses.CompositePartCollection GetCompositePartData_UsingParentLDrawRefList(string ParentLDrawRef)
+        {
+            return Global_Variables.APIProxy.GetCompositePartData_UsingParentLDrawRefList(ParentLDrawRef);
+        }
+
+        public static bool CheckIfCompositePartsExist(string LDrawRef)
+        {
+            return Global_Variables.APIProxy.CheckIfCompositePartsExist(LDrawRef);
         }
 
         public static void AddCompositePart(BaseClasses.CompositePart p)
@@ -258,32 +220,81 @@ namespace Generator
             Global_Variables.APIProxy.AddCompositePart(p);
         }
 
-
         public static BaseClasses.CompositePartCollection GetAllCompositeSubParts_FromLDrawFile(string LDrawRef)
         {
             return Global_Variables.APIProxy.GetAllCompositeSubParts_FromLDrawFile(LDrawRef);
         }
 
-        //public static long GetFBXSize(string LDrawRef)
-        //{
-        //    return Global_Variables.APIProxy.GetFBXSize(LDrawRef);
-        //}
 
-        //public static bool CheckIfAllFBXExist(string LDrawRef)
-        //{
-        //    return Global_Variables.APIProxy.CheckIfAllFBXExist(LDrawRef);
-        //}
 
-        //public static int GetFBXCount(string LDrawRef)
-        //{
-        //    return Global_Variables.APIProxy.GetFBXCount(LDrawRef);
-        //}
+        // ** LDrawDetails functions **
 
-        public static BaseClasses.FBXDetails GetFBXDetails(string LDrawRef)
+        public static BaseClasses.LDrawDetails GetLDrawDetails_FromLDrawFile(string LDrawRef)
         {
-            return Global_Variables.APIProxy.GetFBXDetails(LDrawRef);
+            return Global_Variables.APIProxy.GetLDrawDetails_FromLDrawFile(LDrawRef);
         }
 
+        public static void AddLDrawDetails(BaseClasses.LDrawDetails ldd)
+        {
+            Global_Variables.APIProxy.AddLDrawDetails(ldd);
+        }
+
+        public static BaseClasses.LDrawDetailsCollection GetLDrawDetailsData_UsingLDrawRefList(List<string> IDList)
+        {
+            return Global_Variables.APIProxy.GetLDrawDetailsData_UsingLDrawRefList(IDList);
+        }
+
+
+
+
+        // ** FBXDetails functions **
+
+        public static BaseClasses.FBXDetails GetFBXDetails(string LDrawRef, string partType)
+        {
+            return Global_Variables.APIProxy.GetFBXDetails(LDrawRef, partType);
+        }
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //public static void RefreshStaticData_All()
+        //{
+        //    string xmlString = "";
+
+        //    // ** PARTCOLOUR **
+        //    //Global_Variables.PartColourCollection = Global_Variables.APIProxy.GetPartColourData_All();
+        //    //string xmlString = Global_Variables.PartColourCollection.SerializeToString(true);
+        //    //Global_Variables.PartColourCollectionXML.LoadXml(xmlString);
+
+        //    // ** BASEPART **
+        //    //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.BasePartCollection.ToString());
+        //    //Global_Variables.BasePartCollection = Global_Variables.APIProxy.GetBasePartData_All();
+        //    //string result = BaseClasses.BasePartCollection.ConvertBasePartCollectionToDBInsertValuesString(Global_Variables.BasePartCollection);
+        //    //xmlString = Global_Variables.BasePartCollection.SerializeToString(true);
+        //    //Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
+
+        //    // ** COMPOSITEPART **
+        //    //xmlString = Global_Variables.APIProxy.GetStaticData(StaticData.Filename.CompositePartCollection.ToString());
+        //    //BaseClasses.CompositePartCollection cpc = Global_Variables.APIProxy.GetCompositePartData_All();
+        //    //xmlString = cpc.SerializeToString(true);
+        //    //Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);                        
+        //}
 
 
 

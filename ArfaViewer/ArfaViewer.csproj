@@ -285,6 +285,7 @@
     <Content Include="SQL\PARTCOLOUR_Populate_Table.sql" />
     <Content Include="SQL\PARTCOLOUR_Create_Table.sql" />
     <Content Include="SQL\BASEPART_Create_Table.sql" />
+    <Content Include="SQL\LDRAW_DETAILS_Create_Table.sql" />
     <Content Include="SQL\SET_DETAILS_Create_Table.sql" />
     <Content Include="SQL\SET_DETAILS_Populate_Table.sql" />
   </ItemGroup>

@@ -378,17 +378,17 @@ namespace Generator
                 foreach (XmlNode LDrawRefNode in LDrawRefNodeList)
                 {
                     string LDrawRef = LDrawRefNode.SelectSingleNode("@LDrawRef").InnerXml;
-                    string LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString();
-                    if (LDrawDescription.Equals(""))
-                    {
-                        notFoundList_LDrawDescription.Add(LDrawRef);
-                    }
-                    else
-                    {                        
-                        LDrawRefNode.SelectSingleNode("@LDrawDescription").InnerXml = LDrawDescription;
-                        foundList_LDrawDescription.Add(LDrawRef);
-                        dataUpdated = true;
-                    }
+                    //string LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString();
+                    //if (LDrawDescription.Equals(""))
+                    //{
+                    //    notFoundList_LDrawDescription.Add(LDrawRef);
+                    //}
+                    //else
+                    //{                        
+                    //    LDrawRefNode.SelectSingleNode("@LDrawDescription").InnerXml = LDrawDescription;
+                    //    foundList_LDrawDescription.Add(LDrawRef);
+                    //    dataUpdated = true;
+                    //}
 
                     // ** UPDATE SCREEN **
                     bw_UpdateLDrawStaticDataDetails.ReportProgress(processedCount, "Working...");
@@ -420,17 +420,17 @@ namespace Generator
                     Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefList.Count);
                     foreach (string LDrawRef in LDrawRefList)
                     {
-                        string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
-                        if (LDrawPartType.Equals("") || LDrawPartType.Equals(BasePart.LDrawPartType.UNKNOWN.ToString()))
-                        {
-                            notFoundList_LDrawPartType.Add(LDrawRef);
-                        }
-                        else
-                        {
-                            CollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawPartType").InnerXml = LDrawPartType;
-                            foundList_LDrawPartType.Add(LDrawRef);
-                            dataUpdated = true;
-                        }
+                        //string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
+                        //if (LDrawPartType.Equals("") || LDrawPartType.Equals(BasePart.LDrawPartType.UNKNOWN.ToString()))
+                        //{
+                        //    notFoundList_LDrawPartType.Add(LDrawRef);
+                        //}
+                        //else
+                        //{
+                        //    CollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawPartType").InnerXml = LDrawPartType;
+                        //    foundList_LDrawPartType.Add(LDrawRef);
+                        //    dataUpdated = true;
+                        //}
 
                         // ** UPDATE SCREEN **
                         bw_UpdateLDrawStaticDataDetails.ReportProgress(processedCount, "Working...");
@@ -782,17 +782,17 @@ namespace Generator
                 //Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefList.Count);
                 foreach (string LDrawRef in LDrawRefList)
                 {
-                    string LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString();
-                    if (LDrawDescription.Equals(""))
-                    {
-                        notFoundList_LDrawDescription.Add(LDrawRef);
-                    }
-                    else
-                    {
-                        BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml = LDrawDescription;
-                        foundList_LDrawDescription.Add(LDrawRef);
-                        dataUpdated = true;
-                    }
+                    //string LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString();
+                    //if (LDrawDescription.Equals(""))
+                    //{
+                    //    notFoundList_LDrawDescription.Add(LDrawRef);
+                    //}
+                    //else
+                    //{
+                    //    BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml = LDrawDescription;
+                    //    foundList_LDrawDescription.Add(LDrawRef);
+                    //    dataUpdated = true;
+                    //}
 
                     // ** UPDATE SCREEN **
                     //bw_UpdateLDrawStaticDataDetails.ReportProgress(processedCount, "Working...");                    
@@ -829,17 +829,17 @@ namespace Generator
                 Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefList.Count);
                 foreach (string LDrawRef in LDrawRefList)
                 {
-                    string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
-                    if (LDrawPartType.Equals("") || LDrawPartType.Equals(BasePart.LDrawPartType.UNKNOWN.ToString()))
-                    {
-                        notFoundList_LDrawPartType.Add(LDrawRef);
-                    }
-                    else
-                    {
-                        BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawPartType").InnerXml = LDrawPartType;
-                        foundList_LDrawPartType.Add(LDrawRef);
-                        dataUpdated = true;
-                    }
+                    //string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
+                    //if (LDrawPartType.Equals("") || LDrawPartType.Equals(BasePart.LDrawPartType.UNKNOWN.ToString()))
+                    //{
+                    //    notFoundList_LDrawPartType.Add(LDrawRef);
+                    //}
+                    //else
+                    //{
+                    //    BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawPartType").InnerXml = LDrawPartType;
+                    //    foundList_LDrawPartType.Add(LDrawRef);
+                    //    dataUpdated = true;
+                    //}
 
                     // ** UPDATE SCREEN **
                     //bw_UpdateLDrawStaticDataDetails.ReportProgress(processedCount, "Working...");

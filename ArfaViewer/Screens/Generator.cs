@@ -2013,7 +2013,7 @@ namespace Generator
                     int subPartCount = 0;
                     FBXDetails fbxDetails = new FBXDetails();
                     subPartCount = StaticData.GetAllCompositeSubParts_FromLDrawFile(LDrawRef).CompositePartList.Count; 
-                    fbxDetails = StaticData.GetFBXDetails(LDrawRef);
+                    fbxDetails = StaticData.GetFBXDetails(LDrawRef, partType);
 
                     // ** Check BasePart Collection **
                     bool basePartCollection = true;                   
@@ -3118,7 +3118,24 @@ namespace Generator
                 }
                 else
                 {
-                    fldPartType.Text = StaticData.GetPartType_FromLDrawFile(LDrawRef);  //TODO: Change this to get the data from the database instead.
+                    // check if LDrawDetails exist, if yes, use the value, if not save the ldrawdetails
+                    LDrawDetailsCollection ldd_coll = StaticData.GetLDrawDetailsData_UsingLDrawRefList(new List<string>() { LDrawRef });
+                    if(ldd_coll.LDrawDetailsList.Count > 0)
+                    {
+                        fldPartType.Text = ldd_coll.LDrawDetailsList[0].PartType;
+                        gbPartDetails.Text = "Part Details | " + ldd_coll.LDrawDetailsList[0].LDrawDescription;
+                        fldPartType.Text = ldd_coll.LDrawDetailsList[0].PartType.ToString();
+                    }
+                    else
+                    {                        
+                        LDrawDetails lDrawDetails = StaticData.GetLDrawDetails_FromLDrawFile(LDrawRef);   
+                        if(lDrawDetails != null)
+                        {
+                            StaticData.AddLDrawDetails(lDrawDetails);
+                            gbPartDetails.Text = "Part Details | " + lDrawDetails.LDrawDescription;
+                            fldPartType.Text = lDrawDetails.PartType.ToString();
+                        }
+                    }                    
                 }
 
                 // ** UPDATE BASE PART COLLECTION BOOLEAN - CHECK IF PART IS IN BASE PART COLLECTION **
@@ -4299,24 +4316,35 @@ namespace Generator
                     if (res == DialogResult.No) return;                    
                 }
                 string LDrawRef = fldLDrawRef.Text;
-                string PartType = fldPartType.Text;                
-                BasePart.PartType partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), PartType, true);
+                BasePart.PartType partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), fldPartType.Text, true);
                 int LDrawSize = 0;
                 if (fldLDrawSize.Text != "") LDrawSize = int.Parse(fldLDrawSize.Text);
-                //string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
 
-                LDrawDetails lDrawDetails = StaticData.GetLDrawDetails_FromLDrawFile(LDrawRef);
-                string LDrawPartType = lDrawDetails.LDrawPartType;
-                BasePart.LDrawPartType lDrawPartType = (BasePart.LDrawPartType)Enum.Parse(typeof(BasePart.LDrawPartType), LDrawPartType, true);
+                // ** Check if LDrawDetails are available - if not download from FILESHARE **
+                LDrawDetails lDrawDetails = null;
+                LDrawDetailsCollection ldd_coll = StaticData.GetLDrawDetailsData_UsingLDrawRefList(new List<string>() { LDrawRef });
+                if (ldd_coll.LDrawDetailsList.Count > 0) lDrawDetails = ldd_coll.LDrawDetailsList[0];                
+                else
+                {
+                    lDrawDetails = StaticData.GetLDrawDetails_FromLDrawFile(LDrawRef);
+                    if (lDrawDetails != null) StaticData.AddLDrawDetails(lDrawDetails);                   
+                }
+                if (lDrawDetails == null) throw new Exception("Unable to find LDraw details for " + LDrawRef);
+                BasePart.LDrawPartType lDrawPartType = (BasePart.LDrawPartType)Enum.Parse(typeof(BasePart.LDrawPartType), lDrawDetails.LDrawPartType, true);
+                
 
-                // ** Check if LDraw Ref already exists **
+
+
+
+
+
+
+                // ** Check if LDraw Ref already exists in BasePart **
                 if (StaticData.CheckIfBasePartExists(LDrawRef) == true) throw new Exception("LDraw Ref already exists...");
 
-                // ** CHECK IF PART EXISTS IN OFFICIAL/UNOFFIAL LDRAW PARTS ** 
-                if (StaticData.CheckIfLDrawFileDetailsExist(LDrawRef) == false) throw new Exception("Unable to find " + LDrawRef + " in official or unofficial LDraw Parts data...");
-                //TODO_H: Update this function to use the new version...?
-
-
+                // ** Check if CHECK IF PART EXISTS IN OFFICIAL/UNOFFIAL LDRAW PARTS ** 
+                //if (StaticData.CheckIfLDrawFileDetailsExist(LDrawRef) == false) throw new Exception("Unable to find " + LDrawRef + " in official or unofficial LDraw Parts data...");
+                
                 // ** Check if LDraw Refs already exist in CompositePartCollection XML **               
                 if (partType == BasePart.PartType.COMPOSITE && StaticData.CheckIfCompositePartsExist(LDrawRef) == true) throw new Exception("Parent LDraw Ref already exists...");
                 #endregion
@@ -4325,8 +4353,7 @@ namespace Generator
                 BasePart newBasePart = new BasePart()
                 {
                     LDrawRef = LDrawRef,
-                    //LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString(),
-                    LDrawDescription = lDrawDetails.LDrawDescription,
+                    LDrawDescription = new System.Xml.Linq.XText(lDrawDetails.LDrawDescription).ToString(),                   
                     lDrawPartType = lDrawPartType,
                     LDrawCategory = "",
                     partType = partType,
@@ -4717,23 +4744,23 @@ namespace Generator
                     // ** COMPOSITE **
 
                     #region ** GENERATE PARENT COMPOSITE PART .DAT FILES (JUST CONTAINS DAT'S OF SUB PARTS) **
-                    string LDrawFileText = StaticData.GetLDrawFileDetails(LDrawRef);
-                    string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                    string DAT_String = "";
-                    foreach (string fileLine in lines)
-                    {
-                        if (fileLine.StartsWith("1"))
-                        {
-                            DAT_String += fileLine.Replace("1 16 ", "1 450 ") + Environment.NewLine;
-                        }
-                    }
-                    byte[] bytes = Encoding.UTF8.GetBytes(DAT_String);
-                    ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + LDrawRef + ".dat");
-                    share.Create(bytes.Length);
-                    using (var ms = new MemoryStream(bytes))
-                    {
-                        share.Upload(ms);
-                    }
+                    //string LDrawFileText = StaticData.GetLDrawFileDetails(LDrawRef);
+                    //string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                    //string DAT_String = "";
+                    //foreach (string fileLine in lines)
+                    //{
+                    //    if (fileLine.StartsWith("1"))
+                    //    {
+                    //        DAT_String += fileLine.Replace("1 16 ", "1 450 ") + Environment.NewLine;
+                    //    }
+                    //}
+                    //byte[] bytes = Encoding.UTF8.GetBytes(DAT_String);
+                    //ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + LDrawRef + ".dat");
+                    //share.Create(bytes.Length);
+                    //using (var ms = new MemoryStream(bytes))
+                    //{
+                    //    share.Upload(ms);
+                    //}
                     #endregion
 
                     #region ** GENERATE ALL SUB PART .DAT FILES **                    

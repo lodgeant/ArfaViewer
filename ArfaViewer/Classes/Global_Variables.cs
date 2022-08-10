@@ -16,7 +16,7 @@ namespace Generator
         //public static Dictionary<string, Bitmap> SetImage_Dict = new Dictionary<string, Bitmap>();
         //public static Dictionary<string, Bitmap> LDrawImage_Dict = new Dictionary<string, Bitmap>();     
         public static Dictionary<ImageType, Dictionary<string, Bitmap>> ImageDict = new Dictionary<ImageType, Dictionary<string, Bitmap>>();
-        public static Dictionary<string, string> LDrawDATDetails_Dict = new Dictionary<string, string>();
+        //public static Dictionary<string, string> LDrawDATDetails_Dict = new Dictionary<string, string>();
 
         //public static XmlDocument BasePartCollectionXML = new XmlDocument();
         //public static XmlDocument CompositePartCollectionXML = new XmlDocument();
