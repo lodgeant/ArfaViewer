@@ -193,11 +193,6 @@ namespace Generator
 
 
 
-
-
-
-
-
         // ** CompositePart functions **
 
         public static BaseClasses.CompositePartCollection GetCompositePartData_UsingLDrawRefList(List<string> IDList)
@@ -220,9 +215,9 @@ namespace Generator
             Global_Variables.APIProxy.AddCompositePart(p);
         }
 
-        public static BaseClasses.CompositePartCollection GetAllCompositeSubParts_FromLDrawFile(string LDrawRef)
+        public static BaseClasses.CompositePartCollection GetAllCompositeSubParts_FromLDrawDetails(string LDrawRef)
         {
-            return Global_Variables.APIProxy.GetAllCompositeSubParts_FromLDrawFile(LDrawRef);
+            return Global_Variables.APIProxy.GetAllCompositeSubParts_FromLDrawDetails(LDrawRef);
         }
 
 
@@ -243,6 +238,9 @@ namespace Generator
         {
             return Global_Variables.APIProxy.GetLDrawDetailsData_UsingLDrawRefList(IDList);
         }
+
+
+
 
 
 

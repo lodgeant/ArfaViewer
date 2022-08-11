@@ -7,5 +7,6 @@ CREATE TABLE LDRAW_DETAILS
 	PART_TYPE varchar(25),
 	LDRAW_PART_TYPE varchar(25),
 	SUB_PART_COUNT int,
-	DATA varchar(MAX)	
+	DATA varchar(MAX),
+	SUB_PART_LDRAW_REF_LIST varchar(MAX)
 )

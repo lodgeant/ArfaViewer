@@ -14,7 +14,7 @@ namespace BaseClasses
         public string PartType;
         public string LDrawPartType;
         public int SubPartCount;
-        public string data;
+        public string Data;
         public List<string> SubPartLDrawRefList = new List<string>();
 
 
@@ -68,8 +68,6 @@ namespace BaseClasses
             return SubPartLDrawRefList;
         }
 
-
-
         public static LDrawDetails GetLDrawDetailsFromDBDataRow(DataRow row)
         {
             LDrawDetails item = new LDrawDetails();
@@ -78,7 +76,8 @@ namespace BaseClasses
             item.PartType = (string)row["PART_TYPE"];
             item.LDrawPartType = (string)row["LDRAW_PART_TYPE"];
             item.SubPartCount = (int)row["SUB_PART_COUNT"];
-            item.data = (string)row["DATA"];
+            item.Data = (string)row["DATA"];
+            item.SubPartLDrawRefList = ((string)row["SUB_PART_LDRAW_REF_LIST"]).Split(',').ToList();
             return item;
         }
 

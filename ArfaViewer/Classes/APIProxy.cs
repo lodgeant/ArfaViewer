@@ -532,10 +532,36 @@ namespace Generator
             LDrawDetailsCollection coll = new LDrawDetailsCollection();
             if (IDList.Count > 0)
             {
-                string sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT,DATA FROM LDRAW_DETAILS ";
+                // Check if entry already exists, if yes, add it, if not create and add it
+                // ** Try and get all the data from the database
+                string sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT,DATA,SUB_PART_LDRAW_REF_LIST FROM LDRAW_DETAILS ";
                 sql += "WHERE LDRAW_REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
                 var results = GetSQLQueryResults(this.AzureDBConnString, sql);
                 coll = LDrawDetailsCollection.GetLDrawDetailsCollectionFromDataTable(results);
+
+                // ** Check if LDrawDetails are available in DB - if not download from FILESHARE **
+                // ** Check if all data was got from DB **
+                if (coll.LDrawDetailsList.Count != IDList.Count)
+                {
+                    // ** Get difference between found refs and database refs **
+                    List<string> foundRefs = new List<string>();
+                    foreach (LDrawDetails ldd in coll.LDrawDetailsList) foundRefs.Add(ldd.LDrawRef);
+                    List<string> firstDiffSecond = IDList.Except(foundRefs).ToList();
+
+                    // Cycle through difs and add them to the database
+                    foreach (string LDrawRef in IDList)
+                    {
+                        LDrawDetails lDrawDetails = GetLDrawDetails_FromLDrawFile(LDrawRef);
+                        if(lDrawDetails != null)
+                        {
+                            AddLDrawDetails(lDrawDetails);
+                            coll.LDrawDetailsList.Add(lDrawDetails);
+                        }                       
+                    }
+                }
+
+                // ** Check to esnure that all ietsm have been generated **
+                if (coll.LDrawDetailsList.Count != IDList.Count) coll = new LDrawDetailsCollection();               
             }
             return coll;
         }
@@ -552,7 +578,7 @@ namespace Generator
 
             // ** Generate SQL Statement **
             sql = "INSERT INTO LDRAW_DETAILS" + Environment.NewLine;
-            sql += "(ID,LDRAW_REF,LDRAW_DESCRIPTION,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT,DATA)" + Environment.NewLine;
+            sql += "(ID,LDRAW_REF,LDRAW_DESCRIPTION,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT,DATA,SUB_PART_LDRAW_REF_LIST)" + Environment.NewLine;
             sql += "VALUES" + Environment.NewLine;
             sql += "(";
             sql += newID + ",";
@@ -561,10 +587,8 @@ namespace Generator
             sql += "'" + ldd.PartType + "',";
             sql += "'" + ldd.LDrawPartType + "',";
             sql += ldd.SubPartCount + ",";            
-            sql += "'" + ldd.data.Replace("'", "''") + "'";
-
-
-
+            sql += "'" + ldd.Data.Replace("'", "''") + "',";
+            sql += "'" + String.Join(",", ldd.SubPartLDrawRefList) + "'";
             sql += ")";
 
             // ** Execute SQL statement **
@@ -604,7 +628,7 @@ namespace Generator
                     ldD.PartType = LDrawDetails.GetPartTypeFromLDrawFileText(LDrawFileText);
                     ldD.LDrawPartType = LDrawPartType;
                     ldD.SubPartCount = LDrawDetails.GetSubPartCountFromLDrawFileText(LDrawFileText);
-                    ldD.data = LDrawFileText;
+                    ldD.Data = LDrawFileText;
                     ldD.SubPartLDrawRefList = LDrawDetails.GetSubPartLDrawRefsFromLDrawFileText(LDrawFileText);
                 }
                 return ldD;
@@ -615,56 +639,30 @@ namespace Generator
             }
         }
 
-
-
-        //TODO_H: This needs updating...This list should be available on the LDrawDetails object **
-        public CompositePartCollection GetAllCompositeSubParts_FromLDrawFile(string LDrawRef)
-        {
-            CompositePartCollection coll = new CompositePartCollection();
+        public CompositePartCollection GetAllCompositeSubParts_FromLDrawDetails(string LDrawRef)
+        {            
             try
-            {
-                LDrawDetails ldd = GetLDrawDetails_FromLDrawFile(LDrawRef);
-                //string ParentLDrawFileText = GetLDrawFileDetails(LDrawRef);
-                string ParentLDrawFileText = ldd.data;
-                string[] lines = ParentLDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                foreach (string fileLine in lines)
+            {                
+                LDrawDetailsCollection coll = GetLDrawDetailsData_UsingLDrawRefList(new List<string>() { LDrawRef });
+                CompositePartCollection comColl = new CompositePartCollection();
+                foreach (string subPartDetails in coll.LDrawDetailsList[0].SubPartLDrawRefList)
                 {
-                    if (fileLine.Trim().StartsWith("1") && fileLine.Contains("s\\") == false)
-                    {
-                        string formattedLine = fileLine.Trim().Replace("   ", " ").Replace("  ", " ");
-                        string[] DatLine = formattedLine.Split(' ');
-                        string SubPart_LDrawRef = DatLine[14].ToLower().Replace(".dat", "");
-                        int SubPart_LDrawColourID = int.Parse(DatLine[1]);
-                        //string subPart_LDrawDescription = GetLDrawDescription_FromLDrawFile(SubPart_LDrawRef);
-                        //if (SubPart_LDrawColourID == 16) SubPart_LDrawColourID = -1;    // Assumes that Sub Parts don't make reference to other sub parts. Would need to change this if any Sub Parts are "c"
-                        //coll.CompositePartList.Add(new CompositePart() { LDrawRef = SubPart_LDrawRef, LDrawColourID = SubPart_LDrawColourID, LDrawDescription = subPart_LDrawDescription });
-
-                        //if (SubPart_LDrawRef.Contains("c0"))
-                        //{
-                        //    // LINE HAS REFERENCE TO ANOTHER PART WITH HAS SUB PARTS **
-                        //    List<string> SubPartList2 = GetAllSubPartsForLDrawRef(SubPart_LDrawRef, SubPart_LDrawColourID);
-                        //    SubPartList.AddRange(SubPartList2);
-                        //}                       
-                    }
+                    string SubPart_LDrawRef = subPartDetails.Split('|')[0];
+                    int SubPart_LDrawColourID = int.Parse(subPartDetails.Split('|')[1]);
+                    
+                    // ** Get the Sub Part description from the Sub Part file in FILESHARE **
+                    LDrawDetails subPartLDD = GetLDrawDetails_FromLDrawFile(SubPart_LDrawRef);
+                    string subPart_LDrawDescription = subPartLDD.LDrawDescription;
+                    comColl.CompositePartList.Add(new CompositePart() { LDrawRef = SubPart_LDrawRef, LDrawColourID = SubPart_LDrawColourID, LDrawDescription = subPart_LDrawDescription });
                 }
-                return coll;
+                // Assumes that Sub Parts don't make reference to other sub parts. Would need to change this if any Sub Parts are "c"
+                return comColl;
             }
             catch (Exception)
             {
-                return coll;
+                return new CompositePartCollection();
             }
         }
-
-
-
-
-
-
-        
-            
-       
-
-
 
 
 
@@ -694,7 +692,7 @@ namespace Generator
             else if (partType.Equals("COMPOSITE"))
             {
                 // Get all sub part Composite parts
-                CompositePartCollection coll = GetAllCompositeSubParts_FromLDrawFile(LDrawRef);
+                CompositePartCollection coll = GetAllCompositeSubParts_FromLDrawDetails(LDrawRef);
                 foreach (CompositePart cp in coll.CompositePartList)
                 {
                     ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(cp.LDrawRef + ".fbx");
