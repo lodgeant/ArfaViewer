@@ -30,43 +30,43 @@ namespace BaseClasses
             return LDrawDescription;
         }
 
-        public static int GetSubPartCountFromLDrawFileText(string LDrawFileText)
-        {
-            int subPartCount = 0;
-            string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            foreach (string fileLine in lines)
-            {
-                if (fileLine.Trim().StartsWith("1") && fileLine.Contains("s\\") == false) subPartCount += 1;               
-            }
-            return subPartCount;
-        }
+        //public static int GetSubPartCountFromLDrawFileText(string LDrawFileText)
+        //{
+        //    int subPartCount = 0;
+        //    string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        //    foreach (string fileLine in lines)
+        //    {
+        //        if (fileLine.Trim().StartsWith("1") && fileLine.Contains("s\\") == false) subPartCount += 1;               
+        //    }
+        //    return subPartCount;
+        //}
 
-        public static string GetPartTypeFromLDrawFileText(string LDrawFileText)
-        {
-            string value = "BASIC";
-            List<string> subPartList = LDrawDetails.GetSubPartLDrawRefsFromLDrawFileText(LDrawFileText);
-            if (subPartList.Count > 0) value = "COMPOSITE";
-            return value;
-        }
+        //public static string GetPartTypeFromLDrawFileText(string LDrawFileText)
+        //{
+        //    string value = "BASIC";
+        //    List<string> subPartList = LDrawDetails.GetSubPartLDrawRefsFromLDrawFileText(LDrawFileText);
+        //    if (subPartList.Count > 0) value = "COMPOSITE";
+        //    return value;
+        //}
 
-        public static List<string> GetSubPartLDrawRefsFromLDrawFileText(string LDrawFileText)
-        {
-            List<string> SubPartLDrawRefList = new List<string>();
-            string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            foreach (string fileLine in lines)
-            {
-                if (fileLine.Trim().StartsWith("1") && fileLine.Contains("s\\") == false)
-                {
-                    string formattedLine = fileLine.Trim().Replace("   ", " ").Replace("  ", " ");
-                    string[] DatLine = formattedLine.Split(' ');
-                    string SubPart_LDrawRef = DatLine[14].ToLower().Replace(".dat", "");
-                    int SubPart_LDrawColourID = int.Parse(DatLine[1]);
-                    if (SubPart_LDrawColourID == 16) SubPart_LDrawColourID = -1;    // Assumes that Sub Parts don't make reference to other sub parts. Would need to change this if any Sub Parts are "c"
-                    SubPartLDrawRefList.Add(SubPart_LDrawRef + "|" + SubPart_LDrawColourID);  
-                }
-            }
-            return SubPartLDrawRefList;
-        }
+        //public static List<string> GetSubPartLDrawRefsFromLDrawFileText(string LDrawFileText)
+        //{        
+        //    List<string> SubPartLDrawRefList = new List<string>();
+        //    string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        //    foreach (string fileLine in lines)
+        //    {
+        //        if (fileLine.Trim().StartsWith("1") && fileLine.Contains("s\\") == false)
+        //        {
+        //            string formattedLine = fileLine.Trim().Replace("   ", " ").Replace("  ", " ");
+        //            string[] DatLine = formattedLine.Split(' ');
+        //            string SubPart_LDrawRef = DatLine[14].ToLower().Replace(".dat", "");
+        //            int SubPart_LDrawColourID = int.Parse(DatLine[1]);
+        //            if (SubPart_LDrawColourID == 16) SubPart_LDrawColourID = -1;    // Assumes that Sub Parts don't make reference to other sub parts. Would need to change this if any Sub Parts are "c"
+        //            SubPartLDrawRefList.Add(SubPart_LDrawRef + "|" + SubPart_LDrawColourID);  
+        //        }
+        //    }
+        //    return SubPartLDrawRefList;
+        //}
 
         public static LDrawDetails GetLDrawDetailsFromDBDataRow(DataRow row)
         {

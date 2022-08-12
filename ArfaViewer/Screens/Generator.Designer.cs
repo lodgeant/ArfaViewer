@@ -402,6 +402,7 @@
             // 
             // btnDeleteSet
             // 
+            this.btnDeleteSet.BackColor = System.Drawing.Color.Red;
             this.btnDeleteSet.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteSet.Image")));
             this.btnDeleteSet.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDeleteSet.Name = "btnDeleteSet";

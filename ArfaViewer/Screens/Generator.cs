@@ -934,9 +934,8 @@ namespace Generator
                 //Set set = new Set().DeserialiseFromXMLString(currentSetXml.OuterXml);
                 //StaticData.UpdateSet(set);
 
-
-                //StaticData.UpdateSetDetailsInstructions_UsingSetRef(fldCurrentSetRef.Text, currentSetXml.OuterXml);
-
+                // ** Update Set details **
+                StaticData.UpdateSetDetailsInstructions_UsingSetRef(fldCurrentSetRef.Text, currentSetXml.OuterXml);
 
             }
             catch (Exception ex)
@@ -953,7 +952,7 @@ namespace Generator
                 string setRef = fldCurrentSetRef.Text;
                 if (setRef.Equals("")) throw new Exception("No Set Ref entered...");
                 if (currentSetXml == null) throw new Exception("No Set currently loaded...");
-                if (StaticData.CheckIfSetExists(setRef) == false) throw new Exception("Set " + setRef + " not found...");
+                //if (StaticData.CheckIfSetExists(setRef) == false) throw new Exception("Set " + setRef + " not found...");
 
                 // Make sure user wants to delete
                 DialogResult res = MessageBox.Show("Are you sure you want to Delete?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -1071,8 +1070,10 @@ namespace Generator
             try
             {
                 // ** VALIDATION **                 
-                if (currentSetXml == null) throw new Exception("No Set loaded...");
-                string setRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;
+                //if (currentSetXml == null) throw new Exception("No Set loaded...");
+                //string setRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;
+                if(fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
+                string setRef = fldCurrentSetRef.Text;
 
                 // ********** FS **********
                 string FSPath = Path.Combine(@"\\lodgeaccount.file.core.windows.net\lodgeant-fs\static-data\files-instructions", setRef + ".pdf");
@@ -2008,13 +2009,13 @@ namespace Generator
                     bool IsOfficial = false;
                     if (LDrawPartType.Equals("OFFICIAL")) IsOfficial = true;
 
+                    // Get LDrawDetails for part **
+                    LDrawDetailsCollection ldd_coll = StaticData.GetLDrawDetailsData_UsingLDrawRefList(new List<string>() { LDrawRef });
+                    LDrawDetails LDrawDetails = ldd_coll.LDrawDetailsList[0];
+                    
                     // ** GET FBX DETAILS FOR PART MODEL **
                     //TODO_H: The below is too slow - needs speeding up!
-                    //TODO_H: Need to update this function to use the new LDrawDetails object.
-                    int subPartCount = 0;
-                    FBXDetails fbxDetails = new FBXDetails();
-                    subPartCount = StaticData.GetAllCompositeSubParts_FromLDrawDetails(LDrawRef).CompositePartList.Count; 
-                    fbxDetails = StaticData.GetFBXDetails(LDrawRef, partType);
+                    FBXDetails fbxDetails = StaticData.GetFBXDetails(LDrawRef, partType);
 
                     // ** Check BasePart Collection **
                     bool basePartCollection = true;                   
@@ -2083,7 +2084,7 @@ namespace Generator
                     newRow["RotX"] = RotX;
                     newRow["RotY"] = RotY;
                     newRow["RotZ"] = RotZ;
-                    newRow["Sub Part Count"] = subPartCount;
+                    newRow["Sub Part Count"] = LDrawDetails.SubPartCount;
                     newRow["FBX Size"] = fbxDetails.fbxSize;
                     newRow["FBX Count"] = fbxDetails.fbxCount;
                     newRow["LDraw Part Type"] = LDrawPartType;
@@ -4349,8 +4350,7 @@ namespace Generator
                 #region ** ADD ALL SUB PARTS FROM LDRAW .DAT FILE (IF PART = COMPOSITE) **
                 if (newBasePart.partType == BasePart.PartType.COMPOSITE)
                 {   
-                    CompositePartCollection SubPartCollection = StaticData.GetAllCompositeSubParts_FromLDrawDetails(LDrawRef);
-                    
+                    CompositePartCollection SubPartCollection = StaticData.GetAllCompositeSubParts_FromLDrawDetails(LDrawRef);                    
                     foreach (CompositePart cp in SubPartCollection.CompositePartList)
                     {
                         cp.ParentLDrawRef = LDrawRef;

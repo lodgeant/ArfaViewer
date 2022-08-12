@@ -14,20 +14,6 @@ namespace Generator
 {
     public class StaticData
     {
-
-
-
-
-        //public static string GetLDrawFileDetails(string LDrawRef)
-        //{
-        //    // ** Get data from API **
-        //    return Global_Variables.APIProxy.GetLDrawFileDetails(LDrawRef);
-        //}
-
-
-
-
-
         // ** Image functions **
 
         public static Bitmap GetImage(ImageType imageType, string[] _params)
@@ -50,29 +36,22 @@ namespace Generator
         }
 
         // THE FOLLOWING TO BE DEMISED
-        public static void UpdateSet(BaseClasses.Set set)
-        {
-            Global_Variables.APIProxy.UpdateSet(set);
-        }
+        //public static void UpdateSet(BaseClasses.Set set)
+        //{
+        //    Global_Variables.APIProxy.UpdateSet(set);
+        //}
 
         public static void DeleteSet(string setRef)
         {            
             Global_Variables.APIProxy.DeleteSet(setRef);
         }
 
-        public static bool CheckIfSetExists(string setRef)
-        {            
-            return Global_Variables.APIProxy.CheckIfSetExists(setRef);
-        }
+        //public static bool CheckIfSetExists(string setRef)
+        //{            
+        //    return Global_Variables.APIProxy.CheckIfSetExists(setRef);
+        //}
 
 
-
-
-
-
-
-
-        
         // ** PartColour functions **
 
         public static BaseClasses.PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)
@@ -142,9 +121,6 @@ namespace Generator
         }
 
 
-
-
-
         // ** BasePart functions **
 
         public static BaseClasses.BasePartCollection GetBasePartData_UsingLDrawRefList(List<string> IDList)
@@ -192,7 +168,6 @@ namespace Generator
         }
 
 
-
         // ** CompositePart functions **
 
         public static BaseClasses.CompositePartCollection GetCompositePartData_UsingLDrawRefList(List<string> IDList)
@@ -221,13 +196,7 @@ namespace Generator
         }
 
 
-
         // ** LDrawDetails functions **
-
-        public static BaseClasses.LDrawDetails GetLDrawDetails_FromLDrawFile(string LDrawRef)
-        {
-            return Global_Variables.APIProxy.GetLDrawDetails_FromLDrawFile(LDrawRef);
-        }
 
         public static void AddLDrawDetails(BaseClasses.LDrawDetails ldd)
         {
@@ -238,11 +207,6 @@ namespace Generator
         {
             return Global_Variables.APIProxy.GetLDrawDetailsData_UsingLDrawRefList(IDList);
         }
-
-
-
-
-
 
 
         // ** FBXDetails functions **

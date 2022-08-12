@@ -63,12 +63,12 @@ namespace Generator
 
 
 
-        public void UpdateSet(Set set)
-        {
-            BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(set.Ref + ".xml");
-            string xmlString = set.SerializeToString(true);
-            UploadXMLStringToBlob(blob, xmlString);
-        }
+        //public void UpdateSet(Set set)
+        //{
+        //    BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(set.Ref + ".xml");
+        //    string xmlString = set.SerializeToString(true);
+        //    UploadXMLStringToBlob(blob, xmlString);
+        //}
 
         public void DeleteSet(string setRef)
         {
@@ -76,11 +76,11 @@ namespace Generator
             blob.Delete();
         }
 
-        public bool CheckIfSetExists(string setRef)
-        {
-            BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(setRef + ".xml");
-            return blob.Exists();
-        }
+        //public bool CheckIfSetExists(string setRef)
+        //{
+        //    BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(setRef + ".xml");
+        //    return blob.Exists();
+        //}
 
         public bool CheckIfBlobExists(string containerName, string blobName)
         {
@@ -395,10 +395,21 @@ namespace Generator
             // check if set details already exist
             // if they exist, do an update
             // if they don't exist, do an insert
-
-
-
+            SetDetailsCollection sdc = GetSetDetailsData_UsingSetRefList(new List<string>() { setRef });
+            if (sdc.SetDetailsList.Count == 1)
+            {
+                // ** Generate SQL Statement **
+                string sql = "UPDATE SET_DETAILS" + Environment.NewLine;
+                sql += "SET INSTRUCTIONS = '" + xmlString + "'" + Environment.NewLine;
+                sql += "WHERE REF='" + setRef + "'" + Environment.NewLine;
+               
+                // ** Execute SQL statement **
+                ExecuteSQLStatement(this.AzureDBConnString, sql);
+            }
         }
+
+
+
 
 
 
@@ -621,15 +632,19 @@ namespace Generator
                     using (var ms = new MemoryStream(fileContent)) download.Content.CopyTo(ms);
                     string LDrawFileText = Encoding.UTF8.GetString(fileContent);
 
+                    // ** Get Sub Part Ref List ** 
+                    List<string> SubPartLDrawRefList = GetSubPartLDrawRefListFromLDrawFileText(LDrawFileText);
+
                     // ** Update LDraw Details object **
                     ldD = new LDrawDetails();
                     ldD.LDrawRef = LDrawRef;
-                    ldD.LDrawDescription = LDrawDetails.GetLDrawDescriptionFromLDrawFileText(LDrawFileText);
-                    ldD.PartType = LDrawDetails.GetPartTypeFromLDrawFileText(LDrawFileText);
+                    ldD.LDrawDescription = LDrawDetails.GetLDrawDescriptionFromLDrawFileText(LDrawFileText);                    
+                    ldD.SubPartCount = SubPartLDrawRefList.Count;                    
+                    ldD.SubPartLDrawRefList = SubPartLDrawRefList;
+                    ldD.PartType = "BASIC";
+                    if (ldD.SubPartCount > 0) ldD.PartType = "COMPOSITE";
                     ldD.LDrawPartType = LDrawPartType;
-                    ldD.SubPartCount = LDrawDetails.GetSubPartCountFromLDrawFileText(LDrawFileText);
-                    ldD.Data = LDrawFileText;
-                    ldD.SubPartLDrawRefList = LDrawDetails.GetSubPartLDrawRefsFromLDrawFileText(LDrawFileText);
+                    ldD.Data = LDrawFileText;                    
                 }
                 return ldD;
             }
@@ -664,7 +679,39 @@ namespace Generator
             }
         }
 
+        private List<string> GetSubPartLDrawRefListFromLDrawFileText(string LDrawFileText)
+        {
+            List<string> SubPartLDrawRefList = new List<string>();
+            string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            foreach (string fileLine in lines)
+            {
+                if (fileLine.Trim().StartsWith("1") && fileLine.Contains("s\\") == false)
+                {
+                    // Check if part is a real sub part **
+                    string formattedLine = fileLine.Trim().Replace("   ", " ").Replace("  ", " ");
+                    string[] DatLine = formattedLine.Split(' ');
+                    string SubPart_LDrawRef = DatLine[14].ToLower().Replace(".dat", "");
 
+                    // ** Check if sub part exists in LDraw directory **
+                    ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\parts").GetFileClient(SubPart_LDrawRef + ".dat");
+                    if (share.Exists() == false)
+                    {
+                        share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial\parts").GetFileClient(SubPart_LDrawRef + ".dat");
+                        if (share.Exists() == false)
+                        {
+                            share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(SubPart_LDrawRef + ".dat");
+                        }
+                    }
+                    if (share.Exists())
+                    {
+                        int SubPart_LDrawColourID = int.Parse(DatLine[1]);
+                        if (SubPart_LDrawColourID == 16) SubPart_LDrawColourID = -1;    // Assumes that Sub Parts don't make reference to other sub parts. Would need to change this if any Sub Parts are "c"
+                        SubPartLDrawRefList.Add(SubPart_LDrawRef + "|" + SubPart_LDrawColourID);
+                    }
+                }
+            }
+            return SubPartLDrawRefList;
+        }
 
 
 

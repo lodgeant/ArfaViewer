@@ -103,7 +103,7 @@ namespace BaseClasses
             item.MiniFigCount = (int)row["MINIFIG_COUNT"];
             item.Status = (string)row["STATUS"];
             item.AssignedTo = (string)row["ASSIGNED_TO"];
-            item.Instructions = (string)row["INSTRUCTIONS"];            
+            item.Instructions = row["INSTRUCTIONS"].ToString();             
             return item;
         }
 

@@ -1030,14 +1030,8 @@ namespace Generator
             try
             {
                 #region ** VALIDATIONS **
-                if (fldInstructionsSetRef.Text.Equals(""))
-                {
-                    throw new Exception("No Set Ref entered...");
-                }
-                if (fldSetInstructions.Text.Equals(""))
-                {
-                    throw new Exception("No Instructions entered...");
-                }
+                if (fldInstructionsSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");                
+                if (fldSetInstructions.Text.Equals("")) throw new Exception("No Instructions entered...");               
                 string setRef = fldInstructionsSetRef.Text;
                 List<string> insRefList = fldSetInstructions.Text.Split(',').ToList();
 
@@ -1047,10 +1041,7 @@ namespace Generator
                 {
                     // Make sure user wants to re-upload instructions
                     DialogResult res = MessageBox.Show("Instructions already exist for " + setRef + " - do you really want to re-upload again?", "Instruction Re-Upload Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (res == DialogResult.No)
-                    {
-                        return;
-                    }
+                    if (res == DialogResult.No) return;                   
                 }
                 #endregion
 
@@ -1092,11 +1083,8 @@ namespace Generator
                         document.Open();
                         document.NewPage();
                         foreach (string file in filelist)
-                        {
-                            using (PdfReader reader = new PdfReader(file))
-                            {
-                                pdf.AddDocument(reader);
-                            }
+                        { 
+                            using (PdfReader reader = new PdfReader(file)) pdf.AddDocument(reader);                            
                         }
                     }
                 }
