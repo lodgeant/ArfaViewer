@@ -392,9 +392,7 @@ namespace Generator
 
         public void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
         {
-            // check if set details already exist
-            // if they exist, do an update
-            // if they don't exist, do an insert
+            // check if set details exist, if they exist, do an update, if not do nothing.
             SetDetailsCollection sdc = GetSetDetailsData_UsingSetRefList(new List<string>() { setRef });
             if (sdc.SetDetailsList.Count == 1)
             {
@@ -408,8 +406,26 @@ namespace Generator
             }
         }
 
+        public void UpdateSetDetailsCounts_UsingSetRef(string SetRef, int PartCount, int SubSetCount, int ModelCount, int MiniFigCount)
+        {
+            // check if set details exist, if they exist, do an update, if not do nothing.
+            SetDetailsCollection sdc = GetSetDetailsData_UsingSetRefList(new List<string>() { SetRef });
+            if (sdc.SetDetailsList.Count == 1)
+            {
+                // ** Generate SQL Statement **
+                string sql = "UPDATE SET_DETAILS SET" + Environment.NewLine;
+                sql += "PART_COUNT = " + PartCount + "," + Environment.NewLine;
+                sql += "SUBSET_COUNT = " + SubSetCount + "," + Environment.NewLine;
+                sql += "MODEL_COUNT = " + ModelCount + "," + Environment.NewLine;
+                sql += "MINIFIG_COUNT = " + MiniFigCount + Environment.NewLine;
+                sql += "WHERE REF='" + SetRef + "'" + Environment.NewLine;
 
+                // ** Execute SQL statement **
+                ExecuteSQLStatement(this.AzureDBConnString, sql);
+            }
+        }
 
+       
 
 
 
@@ -761,7 +777,33 @@ namespace Generator
         }
 
         
-       
+
+        // ** ThemeDetails **
+
+        public ThemeDetailsCollection GetAllThemeDetails()
+        {
+            ThemeDetailsCollection ThemeDetailsCollection = new ThemeDetailsCollection();
+            string sql = "SELECT THEME,SUB_THEME FROM SET_DETAILS GROUP BY THEME,SUB_THEME";
+            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+            ThemeDetailsCollection = ThemeDetailsCollection.GetThemeDetailsCollectionFromDataTable(results);
+            return ThemeDetailsCollection;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

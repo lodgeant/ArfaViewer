@@ -87,11 +87,11 @@ namespace Generator
             form.Visible = true;
         }
 
-        //private void btnShowAStarScreen_Click(object sender, EventArgs e)
-        //{
-        //    AStarScreen form = new AStarScreen();
-        //    form.Visible = true;
-        //}
+        private void btnShowSetDetailsScreen_Click(object sender, EventArgs e)
+        {
+            SetDetailsScreen form = new SetDetailsScreen();
+            form.Visible = true;
+        }
 
         private void btnUpdateLDrawStaticDataDetails_Click(object sender, EventArgs e)
         {
@@ -1567,7 +1567,6 @@ namespace Generator
             }
         }
 
-
-
+        
     }
 }

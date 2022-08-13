@@ -269,6 +269,7 @@
             this.chkShowPages = new System.Windows.Forms.CheckBox();
             this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
             this.chkShowElementImages = new System.Windows.Forms.CheckBox();
+            this.chkShowFBXDetails = new System.Windows.Forms.CheckBox();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -2423,11 +2424,22 @@
             this.chkShowElementImages.Text = "Show Element Images";
             this.chkShowElementImages.UseVisualStyleBackColor = false;
             // 
+            // chkShowFBXDetails
+            // 
+            this.chkShowFBXDetails.AutoSize = true;
+            this.chkShowFBXDetails.Location = new System.Drawing.Point(1052, 2);
+            this.chkShowFBXDetails.Name = "chkShowFBXDetails";
+            this.chkShowFBXDetails.Size = new System.Drawing.Size(111, 17);
+            this.chkShowFBXDetails.TabIndex = 112;
+            this.chkShowFBXDetails.Text = "Show FBX Details";
+            this.chkShowFBXDetails.UseVisualStyleBackColor = false;
+            // 
             // Generator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1370, 749);
+            this.Controls.Add(this.chkShowFBXDetails);
             this.Controls.Add(this.chkShowElementImages);
             this.Controls.Add(this.chkShowPartcolourImages);
             this.Controls.Add(this.chkShowPages);
@@ -2762,6 +2774,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
         private System.Windows.Forms.CheckBox chkShowPartcolourImages;
         private System.Windows.Forms.CheckBox chkShowElementImages;
+        private System.Windows.Forms.CheckBox chkShowFBXDetails;
     }
 }
 

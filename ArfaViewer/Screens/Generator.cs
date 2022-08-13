@@ -95,6 +95,7 @@ namespace Generator
                                 toolStripSeparator22,
                                 new ToolStripControlHost(chkShowPartcolourImages),
                                 new ToolStripControlHost(chkShowElementImages),
+                                new ToolStripControlHost(chkShowFBXDetails)
 
                                 });
                 #endregion
@@ -162,8 +163,6 @@ namespace Generator
                 log.Info("Set up Scintilla");
 
                 // ** REFRESH STATIC DATA **    
-                //RefreshStaticData();
-                //StaticData.RefreshStaticData_All();
                 RefreshLDrawColourNameDropdown();
 
                 // ** UPDATE LABELS **                
@@ -934,9 +933,17 @@ namespace Generator
                 //Set set = new Set().DeserialiseFromXMLString(currentSetXml.OuterXml);
                 //StaticData.UpdateSet(set);
 
-                // ** Update Set details **
+                // ** Update SetDetails **
                 StaticData.UpdateSetDetailsInstructions_UsingSetRef(fldCurrentSetRef.Text, currentSetXml.OuterXml);
 
+                // ** Update counts on SetDetails **
+                int PartCount = 0;
+                XmlNodeList PartListNodes = currentSetXml.SelectNodes("//PartListPart/@Qty");
+                foreach(XmlNode node in PartListNodes) PartCount += int.Parse(node.InnerXml);                         
+                int SubSetCount = currentSetXml.SelectNodes("//SubSet").Count;
+                int ModelCount = currentSetXml.SelectNodes("//SubModel[@LDrawModelType='MODEL']").Count;
+                int MiniFigCount = currentSetXml.SelectNodes("//SubModel[@LDrawModelType='MINIFIG']").Count;
+                StaticData.UpdateSetDetailsCounts_UsingSetRef(fldCurrentSetRef.Text, PartCount, SubSetCount, ModelCount, MiniFigCount);
             }
             catch (Exception ex)
             {
@@ -1154,6 +1161,7 @@ namespace Generator
                 btnRefreshStaticData.Enabled = value;
                 chkShowPartcolourImages.Enabled = value;
                 chkShowElementImages.Enabled = value;
+                chkShowFBXDetails.Enabled = value;
                 pnlSetImage.Enabled = value;
             }
         }
@@ -2012,10 +2020,11 @@ namespace Generator
                     // Get LDrawDetails for part **
                     LDrawDetailsCollection ldd_coll = StaticData.GetLDrawDetailsData_UsingLDrawRefList(new List<string>() { LDrawRef });
                     LDrawDetails LDrawDetails = ldd_coll.LDrawDetailsList[0];
-                    
+
                     // ** GET FBX DETAILS FOR PART MODEL **
                     //TODO_H: The below is too slow - needs speeding up!
-                    FBXDetails fbxDetails = StaticData.GetFBXDetails(LDrawRef, partType);
+                    FBXDetails fbxDetails = new FBXDetails();
+                    if(chkShowFBXDetails.Checked) fbxDetails = StaticData.GetFBXDetails(LDrawRef, partType);
 
                     // ** Check BasePart Collection **
                     bool basePartCollection = true;                   

@@ -61,6 +61,7 @@
             this.btnGenerateMiniFigLDrawFiles = new System.Windows.Forms.Button();
             this.fldMiniFigRef = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.btnShowSetDetailsScreen = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -362,11 +363,23 @@
             this.label8.TabIndex = 56;
             this.label8.Text = "MiniFig Ref:";
             // 
+            // btnShowSetDetailsScreen
+            // 
+            this.btnShowSetDetailsScreen.BackColor = System.Drawing.Color.PaleGreen;
+            this.btnShowSetDetailsScreen.Location = new System.Drawing.Point(12, 166);
+            this.btnShowSetDetailsScreen.Name = "btnShowSetDetailsScreen";
+            this.btnShowSetDetailsScreen.Size = new System.Drawing.Size(102, 57);
+            this.btnShowSetDetailsScreen.TabIndex = 62;
+            this.btnShowSetDetailsScreen.Text = "Set Details Screen";
+            this.btnShowSetDetailsScreen.UseVisualStyleBackColor = false;
+            this.btnShowSetDetailsScreen.Click += new System.EventHandler(this.btnShowSetDetailsScreen_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(825, 317);
+            this.Controls.Add(this.btnShowSetDetailsScreen);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnShowPartTickBackScreen);
             this.Controls.Add(this.groupBox1);
@@ -436,5 +449,6 @@
         private System.Windows.Forms.Button btnGenerateMiniFigLDrawFiles;
         private System.Windows.Forms.TextBox fldMiniFigRef;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button btnShowSetDetailsScreen;
     }
 }

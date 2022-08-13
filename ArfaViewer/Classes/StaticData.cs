@@ -35,6 +35,13 @@ namespace Generator
             Global_Variables.APIProxy.UpdateSetDetailsInstructions_UsingSetRef(setRef, xmlString);
         }
 
+        public static void UpdateSetDetailsCounts_UsingSetRef(string SetRef, int PartCount, int SubSetCount, int ModelCount, int MiniFigCount)
+        {
+            Global_Variables.APIProxy.UpdateSetDetailsCounts_UsingSetRef(SetRef, PartCount, SubSetCount, ModelCount, ModelCount);
+        }
+
+
+
         // THE FOLLOWING TO BE DEMISED
         //public static void UpdateSet(BaseClasses.Set set)
         //{
@@ -217,9 +224,14 @@ namespace Generator
         }
 
 
+        // ** ThemeDetails Functions **
+
+        public static BaseClasses.ThemeDetailsCollection GetAllThemeDetails()
+        {
+            return Global_Variables.APIProxy.GetAllThemeDetails();
+        }
 
 
-      
 
 
 
