@@ -54,6 +54,7 @@
     <Compile Include="SetDetailsCollection.cs" />
     <Compile Include="SetDetails.cs" />
     <Compile Include="ThemeDetails.cs" />
+    <Compile Include="ThemeDetailsCollection.cs" />
     <Compile Include="User.cs" />
     <Compile Include="OfficalSet_Set.cs" />
     <Compile Include="Step.cs" />

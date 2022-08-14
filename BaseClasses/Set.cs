@@ -132,7 +132,29 @@ namespace BaseClasses
         }
 
              
-        
+        public static Set GenerateBaseSet(string setRef, string description, string type)
+        {
+            Set set = new Set() { Ref = setRef, Description = description };
+            SubSet ss = new SubSet() { Ref = setRef + "_1", Description = description, SubSetType = type };
+            SubSetList ssl = new SubSetList();
+            ssl.subSetList.Add(ss);
+            set.subSetList = ssl;
+
+            BuildInstructions bi = new BuildInstructions();
+            ss.buildInstructions = bi;
+
+            SubModel fm = new SubModel(){ Ref = "S1", Description = description, lDrawModelType = SubModel.LDrawModelType.FINAL_MODEL, SubModelLevel = 0};
+            bi.SubModel = fm;
+
+            SubModel m = new SubModel() { Ref = "S2", Description = "Model 1", lDrawModelType = SubModel.LDrawModelType.MODEL, SubModelLevel = 1 };
+            fm.subModelList.Add(m);
+
+            Step s = new Step() { PureStepNo = 1, StepLevel = 1 };
+            m.stepList.Add(s);
+
+            return set;
+        }
+
 
 
     }

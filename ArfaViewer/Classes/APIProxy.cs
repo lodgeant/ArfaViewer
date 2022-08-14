@@ -390,6 +390,18 @@ namespace Generator
             return coll;
         }
 
+        public SetDetailsCollection GetSetDetailsData_UsingThemeAndSubTheme(string theme, string subTheme)
+        {
+            // ** Generate SetDetailsCollection from SET_DETAILS data in database **
+            SetDetailsCollection coll = new SetDetailsCollection();            
+            string sql = "SELECT ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS FROM SET_DETAILS ";
+            sql += "WHERE THEME='" + theme + "'";
+            if(subTheme != "") sql += " AND SUB_THEME='" + subTheme + "'";           
+            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+            coll = SetDetailsCollection.GetSetDetailsCollectionFromDataTable(results);            
+            return coll;
+        }
+
         public void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
         {
             // check if set details exist, if they exist, do an update, if not do nothing.
@@ -425,7 +437,74 @@ namespace Generator
             }
         }
 
-       
+        public void AddSetDetails(BaseClasses.SetDetails sd)
+        {
+            string sql;
+
+            sql = "SELECT MAX(ID) 'RESULT' FROM SET_DETAILS";
+            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+            int oldID = 0;
+            if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
+            int newID = oldID + 1;
+
+            // ** Generate SQL Statement **
+            sql = "INSERT INTO SET_DETAILS" + Environment.NewLine;
+            sql += "(ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS)" + Environment.NewLine;
+            sql += "VALUES" + Environment.NewLine;
+            sql += "(";
+            sql += newID + ",";
+            sql += "'" + sd.Ref + "',";
+            sql += "'" + sd.Description + "',";
+            sql += "'" + sd.Type + "',";
+            sql += "'" + sd.Theme + "',";
+            sql += "'" + sd.SubTheme + "',";
+            sql += sd.Year + ",";
+            sql += sd.PartCount + ",";
+            sql += sd.SubSetCount + ",";
+            sql += sd.ModelCount + ",";
+            sql += sd.MiniFigCount + ",";
+            sql += "'" + sd.Status + "',";
+            sql += "'" + sd.AssignedTo + "',";
+            sql += "'" + sd.Instructions + "'";
+            sql += ")";
+
+            // ** Execute SQL statement **
+            ExecuteSQLStatement(this.AzureDBConnString, sql);
+        }
+
+        public void DeleteSetDetails(string SetRef)
+        {
+            // ** Generate SQL Statement **
+            string sql = "DELETE FROM SET_DETAILS WHERE REF='" + SetRef + "'" + Environment.NewLine;
+
+            // ** Execute SQL statement **
+            ExecuteSQLStatement(this.AzureDBConnString, sql);
+        }
+
+        public void UpdateSetDetails(BaseClasses.SetDetails sd)
+        {
+            // ** Generate SQL Statement **
+            string sql = "UPDATE SET_DETAILS SET " + Environment.NewLine;
+            sql += "DESCRIPTION='" + sd.Description + "',";
+            sql += "TYPE='" + sd.Type + "',";            
+            sql += "THEME='" + sd.Theme + "',";
+            sql += "SUB_THEME='" + sd.SubTheme + "',";
+            sql += "YEAR=" + sd.Year + ",";
+            sql += "PART_COUNT=" + sd.PartCount + ",";
+            sql += "SUBSET_COUNT=" + sd.SubSetCount + ",";
+            sql += "MODEL_COUNT=" + sd.ModelCount + ",";
+            sql += "MINIFIG_COUNT=" + sd.MiniFigCount + ",";
+            sql += "STATUS='" + sd.Status + "',";
+            sql += "ASSIGNED_TO='" + sd.AssignedTo + "',";
+            sql += "INSTRUCTIONS='" + sd.Instructions + "'";
+            sql += " WHERE REF='" + sd.Ref + "'";
+
+            // ** Execute SQL statement **
+            ExecuteSQLStatement(this.AzureDBConnString, sql);
+        }
+
+
+
 
 
 
@@ -783,12 +862,27 @@ namespace Generator
         public ThemeDetailsCollection GetAllThemeDetails()
         {
             ThemeDetailsCollection ThemeDetailsCollection = new ThemeDetailsCollection();
-            string sql = "SELECT THEME,SUB_THEME FROM SET_DETAILS GROUP BY THEME,SUB_THEME";
+            string sql = "SELECT THEME,SUB_THEME FROM SET_DETAILS GROUP BY THEME,SUB_THEME ORDER BY THEME,SUB_THEME";
             var results = GetSQLQueryResults(this.AzureDBConnString, sql);
             ThemeDetailsCollection = ThemeDetailsCollection.GetThemeDetailsCollectionFromDataTable(results);
             return ThemeDetailsCollection;
         }
 
+        public ThemeDetailsCollection GetThemeDetailsData_UsingThemeList(List<string> IDList)
+        {
+            // ** Generate ThemeDetailsCollection from SET_DETAILS data in database **
+            ThemeDetailsCollection coll = new ThemeDetailsCollection();
+            if (IDList.Count > 0)
+            {
+                string sql = "SELECT THEME,SUB_THEME FROM SET_DETAILS  ";
+                sql += "WHERE THEME IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
+                sql += " GROUP BY THEME,SUB_THEME ORDER BY THEME,SUB_THEME";
+
+                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+                coll = ThemeDetailsCollection.GetThemeDetailsCollectionFromDataTable(results);
+            }
+            return coll;
+        }
 
 
 

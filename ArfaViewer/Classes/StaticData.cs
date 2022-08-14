@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Drawing;
+using BaseClasses;
 
 namespace Generator
 {
@@ -27,7 +28,10 @@ namespace Generator
 
         public static BaseClasses.SetDetails GetSetDetails(string SetRef)
         {
-            return Global_Variables.APIProxy.GetSetDetailsData_UsingSetRefList(new List<string>() { SetRef }).SetDetailsList[0];
+            SetDetails sd = null;
+            SetDetailsCollection sdc = Global_Variables.APIProxy.GetSetDetailsData_UsingSetRefList(new List<string>() { SetRef });
+            if (sdc.SetDetailsList.Count > 0) sd = sdc.SetDetailsList[0];            
+            return sd;
         }
 
         public static void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
@@ -40,23 +44,33 @@ namespace Generator
             Global_Variables.APIProxy.UpdateSetDetailsCounts_UsingSetRef(SetRef, PartCount, SubSetCount, ModelCount, ModelCount);
         }
 
+        public static BaseClasses.SetDetailsCollection GetSetDetailsData_UsingThemeAndSubTheme(string theme, string subTheme)
+        {
+            return Global_Variables.APIProxy.GetSetDetailsData_UsingThemeAndSubTheme(theme, subTheme);
+        }
+
+        public static void AddSetDetails(BaseClasses.SetDetails sd)
+        {
+            Global_Variables.APIProxy.AddSetDetails(sd);
+        }
+
+        public static void UpdateSetDetails(BaseClasses.SetDetails sd)
+        {
+            Global_Variables.APIProxy.UpdateSetDetails(sd);
+        }
+
+        public static void DeleteSetDetails(string SetRef)
+        {
+            Global_Variables.APIProxy.DeleteSetDetails(SetRef);
+        }
 
 
         // THE FOLLOWING TO BE DEMISED
-        //public static void UpdateSet(BaseClasses.Set set)
-        //{
-        //    Global_Variables.APIProxy.UpdateSet(set);
-        //}
 
         public static void DeleteSet(string setRef)
         {            
             Global_Variables.APIProxy.DeleteSet(setRef);
         }
-
-        //public static bool CheckIfSetExists(string setRef)
-        //{            
-        //    return Global_Variables.APIProxy.CheckIfSetExists(setRef);
-        //}
 
 
         // ** PartColour functions **
@@ -231,7 +245,13 @@ namespace Generator
             return Global_Variables.APIProxy.GetAllThemeDetails();
         }
 
-
+        public static ThemeDetails GetThemeDetails(string ThemeRef)
+        {
+            ThemeDetails td = null;
+            ThemeDetailsCollection tdc = Global_Variables.APIProxy.GetThemeDetailsData_UsingThemeList(new List<string>() { ThemeRef });
+            if (tdc.ThemeDetailsList.Count > 0) td = tdc.ThemeDetailsList[0];
+            return td;
+        }
 
 
 
