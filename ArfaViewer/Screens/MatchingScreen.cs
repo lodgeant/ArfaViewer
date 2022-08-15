@@ -17,7 +17,11 @@ namespace Generator
     {
         public DataTable sourceTable = new DataTable();
         public DataTable targetTable = new DataTable();
-        
+        public string sourceTableName;
+        public string targetTableName;
+
+
+
         public MatchingScreen()
         {
             InitializeComponent();
@@ -89,12 +93,14 @@ namespace Generator
                 dgSourcePartSummary.DataSource = sourceTable;
                 AdjustPartSummaryRowFormatting(dgSourcePartSummary);
                 lblSourcePartCount.Text = sourceTable.Rows.Count.ToString("#,##0") + " item(s)";
+                gpSource.Text = "Source [" + sourceTableName + "]";
 
                 // ** POST TARGET **
                 dgTargetPartSummary.DataSource = targetTable;
                 AdjustPartSummaryRowFormatting(dgTargetPartSummary);
                 lblTargetPartCount.Text = targetTable.Rows.Count.ToString("#,##0") + " item(s)";
-                
+                gpTarget.Text = "Target [" + targetTableName + "]";
+
                 //AdjustRowColours();
             }
             catch (Exception ex)

@@ -34,14 +34,14 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnRefresh = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.gpSource = new System.Windows.Forms.GroupBox();
             this.dgSourcePartSummary = new System.Windows.Forms.DataGridView();
             this.chkIsLargeModel = new System.Windows.Forms.CheckBox();
             this.chkIsSticker = new System.Windows.Forms.CheckBox();
             this.c = new System.Windows.Forms.StatusStrip();
             this.lblSourcePartCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip4 = new System.Windows.Forms.ToolStrip();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gpTarget = new System.Windows.Forms.GroupBox();
             this.dgTargetPartSummary = new System.Windows.Forms.DataGridView();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -53,10 +53,10 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.gpSource.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSourcePartSummary)).BeginInit();
             this.c.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.gpTarget.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTargetPartSummary)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -104,29 +104,29 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox3);
+            this.splitContainer1.Panel1.Controls.Add(this.gpSource);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.gpTarget);
             this.splitContainer1.Size = new System.Drawing.Size(1207, 675);
             this.splitContainer1.SplitterDistance = 559;
             this.splitContainer1.TabIndex = 37;
             // 
-            // groupBox3
+            // gpSource
             // 
-            this.groupBox3.Controls.Add(this.dgSourcePartSummary);
-            this.groupBox3.Controls.Add(this.chkIsLargeModel);
-            this.groupBox3.Controls.Add(this.chkIsSticker);
-            this.groupBox3.Controls.Add(this.c);
-            this.groupBox3.Controls.Add(this.toolStrip4);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(0, 0);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(559, 675);
-            this.groupBox3.TabIndex = 101;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Source";
+            this.gpSource.Controls.Add(this.dgSourcePartSummary);
+            this.gpSource.Controls.Add(this.chkIsLargeModel);
+            this.gpSource.Controls.Add(this.chkIsSticker);
+            this.gpSource.Controls.Add(this.c);
+            this.gpSource.Controls.Add(this.toolStrip4);
+            this.gpSource.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpSource.Location = new System.Drawing.Point(0, 0);
+            this.gpSource.Name = "gpSource";
+            this.gpSource.Size = new System.Drawing.Size(559, 675);
+            this.gpSource.TabIndex = 101;
+            this.gpSource.TabStop = false;
+            this.gpSource.Text = "Source";
             // 
             // dgSourcePartSummary
             // 
@@ -183,20 +183,20 @@
             this.toolStrip4.TabIndex = 26;
             this.toolStrip4.Text = "toolStrip4";
             // 
-            // groupBox1
+            // gpTarget
             // 
-            this.groupBox1.Controls.Add(this.dgTargetPartSummary);
-            this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Controls.Add(this.checkBox2);
-            this.groupBox1.Controls.Add(this.statusStrip1);
-            this.groupBox1.Controls.Add(this.toolStrip2);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(644, 675);
-            this.groupBox1.TabIndex = 102;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Target";
+            this.gpTarget.Controls.Add(this.dgTargetPartSummary);
+            this.gpTarget.Controls.Add(this.checkBox1);
+            this.gpTarget.Controls.Add(this.checkBox2);
+            this.gpTarget.Controls.Add(this.statusStrip1);
+            this.gpTarget.Controls.Add(this.toolStrip2);
+            this.gpTarget.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpTarget.Location = new System.Drawing.Point(0, 0);
+            this.gpTarget.Name = "gpTarget";
+            this.gpTarget.Size = new System.Drawing.Size(644, 675);
+            this.gpTarget.TabIndex = 102;
+            this.gpTarget.TabStop = false;
+            this.gpTarget.Text = "Target";
             // 
             // dgTargetPartSummary
             // 
@@ -268,13 +268,13 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.gpSource.ResumeLayout(false);
+            this.gpSource.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSourcePartSummary)).EndInit();
             this.c.ResumeLayout(false);
             this.c.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gpTarget.ResumeLayout(false);
+            this.gpTarget.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTargetPartSummary)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -289,14 +289,14 @@
         private System.Windows.Forms.ToolStripButton btnExit;
         private System.Windows.Forms.ToolStripButton btnRefresh;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox gpSource;
         private System.Windows.Forms.DataGridView dgSourcePartSummary;
         private System.Windows.Forms.CheckBox chkIsLargeModel;
         private System.Windows.Forms.CheckBox chkIsSticker;
         private System.Windows.Forms.StatusStrip c;
         private System.Windows.Forms.ToolStripStatusLabel lblSourcePartCount;
         private System.Windows.Forms.ToolStrip toolStrip4;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gpTarget;
         private System.Windows.Forms.DataGridView dgTargetPartSummary;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;

@@ -2171,6 +2171,8 @@ namespace Generator
 
         #endregion
 
+
+
         #region ** REBRICKABLE MATCHING FUNCTIONS **
 
         private async void CompareSetPartsWithRebrickable()
@@ -2184,6 +2186,8 @@ namespace Generator
                 // ** GET SOURCE TABLE FROM FULL SET XML **
                 XmlNodeList partListNodeList = fullSetXml.SelectNodes("//PartListPart");
                 DataTable sourceTable = GeneratePartListTable(partListNodeList);
+                sourceTable.DefaultView.Sort = "LDraw Colour ID, LDraw Ref";
+                sourceTable = sourceTable.DefaultView.ToTable();
                 sourceTable.Columns.Add("Matched", typeof(string));
                 for (int a = 0; a < sourceTable.Rows.Count; a++) sourceTable.Rows[a]["Matched"] = "False";
 
@@ -2204,9 +2208,11 @@ namespace Generator
                     }
                 }
                 DataTable targetTable = GeneratePartListTableFromRebrickable(JSONString);
+                targetTable.DefaultView.Sort = "LDraw Colour ID, LDraw Ref";
+                targetTable = targetTable.DefaultView.ToTable();
                 targetTable.Columns.Add("Matched", typeof(string));
                 for (int a = 0; a < targetTable.Rows.Count; a++) targetTable.Rows[a]["Matched"] = "False";
-                
+
                 #region ** RUN MATCHING PROCESS **
                 bool overallMatch = true;
                 for (int a = 0; a < sourceTable.Rows.Count; a++)
@@ -2243,7 +2249,7 @@ namespace Generator
                 // ** IF OVERALL MATCH = FALSE, SHOW Matching Screen **
                 if (overallMatch == false)
                 {
-                    MatchingScreen form = new MatchingScreen() { sourceTable = sourceTable, targetTable = targetTable };                    
+                    MatchingScreen form = new MatchingScreen() { sourceTable = sourceTable, sourceTableName = "Arfa Set", targetTable = targetTable, targetTableName = "Rebrickable" };                    
                     form.Refresh_Screen();
                     form.Visible = true;
                     return;
@@ -2325,16 +2331,16 @@ namespace Generator
                     if (chkShowElementImages.Checked) elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
                     if (chkShowPartcolourImages.Checked) partColourImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
 
-                    // ** Build row **
-                    object[] row = new object[partListTable.Columns.Count];
-                    row[0] = elementImage;
-                    row[1] = LDrawRef;
-                    row[2] = LDrawDescription;
-                    row[3] = LDrawColourID;
-                    row[4] = LDrawColourName;
-                    row[5] = partColourImage;
-                    row[6] = Qty;
-                    partListTable.Rows.Add(row);
+                    // ** Build row and add to table **                     
+                    DataRow newRow = partListTable.NewRow();
+                    newRow["Part Image"] = elementImage;
+                    newRow["LDraw Ref"] = LDrawRef;
+                    newRow["LDraw Description"] = LDrawDescription;
+                    newRow["LDraw Colour ID"] = LDrawColourID;
+                    newRow["LDraw Colour Name"] = LDrawColourName;
+                    newRow["Colour Image"] = partColourImage;
+                    newRow["Qty"] = Qty;
+                    partListTable.Rows.Add(newRow);
                 }
                 return partListTable;
             }
@@ -3167,33 +3173,6 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
-
-        //private void UpdateBasePartCollectionBoolean()
-        //{
-        //    try
-        //    {
-        //        // ** UPDATE BASE PART COLLECTION BOOLEAN - CHECK IF PART IS IN BASE PART COLLECTION **
-        //        string LDrawRef = fldLDrawRef.Text;
-        //        if (Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + fldLDrawRef.Text + "']") != null)
-        //        {
-        //            chkBasePartCollection.Checked = true;
-        //            btnAddPartToBasePartCollection2.Enabled = false;
-        //            btnAddPartToBasePartCollection2.BackColor = Color.Transparent;
-        //            tsBasePartCollection.Enabled = false;
-        //        }
-        //        else
-        //        {
-        //            chkBasePartCollection.Checked = false;
-        //            btnAddPartToBasePartCollection2.Enabled = true;
-        //            btnAddPartToBasePartCollection2.BackColor = Color.Red;
-        //            tsBasePartCollection.Enabled = true;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
 
         #endregion
 

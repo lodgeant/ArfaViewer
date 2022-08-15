@@ -71,13 +71,15 @@
             this.lblSetDetailsCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsPartSummary = new System.Windows.Forms.ToolStrip();
             this.btnSetDetailsRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.btnPartSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.lblLDrawRefAc = new System.Windows.Forms.ToolStripLabel();
             this.fldLDrawRefAc = new System.Windows.Forms.ToolStripTextBox();
             this.lblLDrawColourNameAc = new System.Windows.Forms.ToolStripLabel();
             this.fldLDrawColourNameAc = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel8 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tsPartDetails.SuspendLayout();
@@ -458,6 +460,8 @@
             this.toolStripSeparator4,
             this.btnPartSummaryCopyToClipboard,
             this.toolStripSeparator7,
+            this.toolStripLabel8,
+            this.toolStripTextBox1,
             this.lblLDrawRefAc,
             this.fldLDrawRefAc,
             this.lblLDrawColourNameAc,
@@ -476,6 +480,11 @@
             this.btnSetDetailsRefresh.Size = new System.Drawing.Size(66, 22);
             this.btnSetDetailsRefresh.Text = "Refresh";
             this.btnSetDetailsRefresh.Click += new System.EventHandler(this.btnSetDetailsRefresh_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // btnPartSummaryCopyToClipboard
             // 
@@ -518,10 +527,18 @@
             this.fldLDrawColourNameAc.Name = "fldLDrawColourNameAc";
             this.fldLDrawColourNameAc.Size = new System.Drawing.Size(125, 25);
             // 
-            // toolStripSeparator4
+            // toolStripLabel8
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            this.toolStripLabel8.Name = "toolStripLabel8";
+            this.toolStripLabel8.Size = new System.Drawing.Size(70, 22);
+            this.toolStripLabel8.Text = "Description:";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.BackColor = System.Drawing.Color.Wheat;
+            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 25);
             // 
             // SetDetailsScreen
             // 
@@ -610,5 +627,7 @@
         private System.Windows.Forms.ToolStripTextBox fldLDrawRefAc;
         private System.Windows.Forms.ToolStripLabel lblLDrawColourNameAc;
         private System.Windows.Forms.ToolStripTextBox fldLDrawColourNameAc;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel8;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
     }
 }
