@@ -54,6 +54,8 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSetSave = new System.Windows.Forms.ToolStripButton();
             this.btnSetDelete = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnOpenInViewer = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tvThemesSummary = new System.Windows.Forms.TreeView();
@@ -64,15 +66,18 @@
             this.btnExpandAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.chkShowAll = new System.Windows.Forms.CheckBox();
             this.dgSetDetailsSummary = new System.Windows.Forms.DataGridView();
             this.c = new System.Windows.Forms.StatusStrip();
             this.lblSetDetailsCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsPartSummary = new System.Windows.Forms.ToolStrip();
+            this.btnSetDetailsRefresh = new System.Windows.Forms.ToolStripButton();
             this.btnPartSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnOpenInViewer = new System.Windows.Forms.ToolStripButton();
+            this.lblLDrawRefAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldLDrawRefAc = new System.Windows.Forms.ToolStripTextBox();
+            this.lblLDrawColourNameAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldLDrawColourNameAc = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tsPartDetails.SuspendLayout();
@@ -302,6 +307,20 @@
             this.btnSetDelete.Text = "Delete";
             this.btnSetDelete.Click += new System.EventHandler(this.btnSetDelete_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnOpenInViewer
+            // 
+            this.btnOpenInViewer.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenInViewer.Image")));
+            this.btnOpenInViewer.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOpenInViewer.Name = "btnOpenInViewer";
+            this.btnOpenInViewer.Size = new System.Drawing.Size(107, 22);
+            this.btnOpenInViewer.Text = "Open In Viewer";
+            this.btnOpenInViewer.Click += new System.EventHandler(this.btnOpenInViewer_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -394,7 +413,6 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.chkShowAll);
             this.groupBox2.Controls.Add(this.dgSetDetailsSummary);
             this.groupBox2.Controls.Add(this.c);
             this.groupBox2.Controls.Add(this.tsPartSummary);
@@ -405,17 +423,6 @@
             this.groupBox2.TabIndex = 29;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Set Details Summary for Theme";
-            // 
-            // chkShowAll
-            // 
-            this.chkShowAll.AutoSize = true;
-            this.chkShowAll.BackColor = System.Drawing.Color.Pink;
-            this.chkShowAll.Location = new System.Drawing.Point(170, 19);
-            this.chkShowAll.Name = "chkShowAll";
-            this.chkShowAll.Size = new System.Drawing.Size(67, 17);
-            this.chkShowAll.TabIndex = 112;
-            this.chkShowAll.Text = "Show All";
-            this.chkShowAll.UseVisualStyleBackColor = false;
             // 
             // dgSetDetailsSummary
             // 
@@ -447,13 +454,28 @@
             // tsPartSummary
             // 
             this.tsPartSummary.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnSetDetailsRefresh,
+            this.toolStripSeparator4,
             this.btnPartSummaryCopyToClipboard,
-            this.toolStripSeparator7});
+            this.toolStripSeparator7,
+            this.lblLDrawRefAc,
+            this.fldLDrawRefAc,
+            this.lblLDrawColourNameAc,
+            this.fldLDrawColourNameAc});
             this.tsPartSummary.Location = new System.Drawing.Point(3, 16);
             this.tsPartSummary.Name = "tsPartSummary";
             this.tsPartSummary.Size = new System.Drawing.Size(1169, 25);
             this.tsPartSummary.TabIndex = 27;
             this.tsPartSummary.Text = "toolStrip4";
+            // 
+            // btnSetDetailsRefresh
+            // 
+            this.btnSetDetailsRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnSetDetailsRefresh.Image")));
+            this.btnSetDetailsRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSetDetailsRefresh.Name = "btnSetDetailsRefresh";
+            this.btnSetDetailsRefresh.Size = new System.Drawing.Size(66, 22);
+            this.btnSetDetailsRefresh.Text = "Refresh";
+            this.btnSetDetailsRefresh.Click += new System.EventHandler(this.btnSetDetailsRefresh_Click);
             // 
             // btnPartSummaryCopyToClipboard
             // 
@@ -469,19 +491,37 @@
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripSeparator2
+            // lblLDrawRefAc
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.lblLDrawRefAc.Name = "lblLDrawRefAc";
+            this.lblLDrawRefAc.Size = new System.Drawing.Size(42, 22);
+            this.lblLDrawRefAc.Text = "Status:";
             // 
-            // btnOpenInViewer
+            // fldLDrawRefAc
             // 
-            this.btnOpenInViewer.BackColor = System.Drawing.Color.Pink;
-            this.btnOpenInViewer.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenInViewer.Image")));
-            this.btnOpenInViewer.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnOpenInViewer.Name = "btnOpenInViewer";
-            this.btnOpenInViewer.Size = new System.Drawing.Size(107, 22);
-            this.btnOpenInViewer.Text = "Open In Viewer";
+            this.fldLDrawRefAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldLDrawRefAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldLDrawRefAc.Name = "fldLDrawRefAc";
+            this.fldLDrawRefAc.Size = new System.Drawing.Size(100, 25);
+            // 
+            // lblLDrawColourNameAc
+            // 
+            this.lblLDrawColourNameAc.BackColor = System.Drawing.Color.Pink;
+            this.lblLDrawColourNameAc.Name = "lblLDrawColourNameAc";
+            this.lblLDrawColourNameAc.Size = new System.Drawing.Size(73, 22);
+            this.lblLDrawColourNameAc.Text = "Assigned To:";
+            // 
+            // fldLDrawColourNameAc
+            // 
+            this.fldLDrawColourNameAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldLDrawColourNameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldLDrawColourNameAc.Name = "fldLDrawColourNameAc";
+            this.fldLDrawColourNameAc.Size = new System.Drawing.Size(125, 25);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // SetDetailsScreen
             // 
@@ -556,7 +596,6 @@
         private System.Windows.Forms.ToolStripButton btnExpandAll;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox chkShowAll;
         private System.Windows.Forms.DataGridView dgSetDetailsSummary;
         private System.Windows.Forms.StatusStrip c;
         private System.Windows.Forms.ToolStripStatusLabel lblSetDetailsCount;
@@ -565,5 +604,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton btnOpenInViewer;
+        private System.Windows.Forms.ToolStripButton btnSetDetailsRefresh;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripLabel lblLDrawRefAc;
+        private System.Windows.Forms.ToolStripTextBox fldLDrawRefAc;
+        private System.Windows.Forms.ToolStripLabel lblLDrawColourNameAc;
+        private System.Windows.Forms.ToolStripTextBox fldLDrawColourNameAc;
     }
 }

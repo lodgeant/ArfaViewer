@@ -83,7 +83,7 @@ namespace Generator
 
         private void btnShowGeneratorScreen_Click(object sender, EventArgs e)
         {
-            Generator form = new Generator();
+            Generator form = new Generator("");
             form.Visible = true;
         }
 

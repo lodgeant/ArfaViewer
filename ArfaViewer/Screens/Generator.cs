@@ -38,8 +38,7 @@ namespace Generator
         private string lastSelectedNodeFullPath = "";
 
 
-
-        public Generator()
+        public Generator(string prePopulatedSetRef)
         {
             InitializeComponent();
             try
@@ -165,12 +164,17 @@ namespace Generator
                 // ** REFRESH STATIC DATA **    
                 RefreshLDrawColourNameDropdown();
 
+
+                fldCurrentSetRef.Text = prePopulatedSetRef;
+
                 // ** UPDATE LABELS **                
                 //fldCurrentSetRef.Text = "621-1";
                 //fldCurrentSetRef.Text = "7327-1";
                 //fldCurrentSetRef.Text = "621-2";
-                //.Text = "41621-1";
-                fldCurrentSetRef.Text = "TEST-1";
+                //fldCurrentSetRef.Text = "41621-1";
+                //fldCurrentSetRef.Text = "TEST-1";
+
+
             }
             catch (Exception ex)
             {
@@ -889,7 +893,7 @@ namespace Generator
 
         #region ** SET FUNCTIONS **
 
-        private void LoadSet()
+        public void LoadSet()
         {
             try
             {
@@ -2136,10 +2140,13 @@ namespace Generator
                     {
                         row.DefaultCellStyle.Font = new System.Drawing.Font(this.Font, FontStyle.Italic);
                         row.DefaultCellStyle.ForeColor = Color.Gray;
-                    }                                    
-                    if (row.Cells["Unity FBX"].Value.ToString().ToUpper().Equals("FALSE"))
+                    }
+                    if (chkShowFBXDetails.Checked == true)
                     {
-                        row.DefaultCellStyle.BackColor = Color.LightSalmon;
+                        if (row.Cells["Unity FBX"].Value.ToString().ToUpper().Equals("FALSE"))
+                        {
+                            row.DefaultCellStyle.BackColor = Color.LightSalmon;
+                        }
                     }
                     if (row.Cells["Is SubPart"].Value.ToString().ToUpper().Equals("FALSE"))
                     {
@@ -5253,7 +5260,7 @@ namespace Generator
                 string MiniFigRef = Description.Split('_')[0];
                 
                 // ** SHow new form **
-                Generator form = new Generator();
+                Generator form = new Generator("");
                 form.Visible = true;
                 form.fldCurrentSetRef.Text = MiniFigRef;
                 form.LoadSet();

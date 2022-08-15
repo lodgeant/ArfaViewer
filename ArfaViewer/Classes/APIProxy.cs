@@ -884,6 +884,14 @@ namespace Generator
             return coll;
         }
 
+        public int GetSetCountForThemeAndSubTheme(string theme, string subTheme)
+        {           
+            String sql = "SELECT COUNT(ID) 'RESULT' FROM SET_DETAILS WHERE THEME='" + theme + "'";
+            if(subTheme != "") sql += " AND SUB_THEME='" + subTheme + "'";           
+            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+            int count = (int)results.Rows[0]["RESULT"];           
+            return count;
+        }
 
 
 
@@ -901,10 +909,8 @@ namespace Generator
 
 
 
-
-
-        // ** HELPFUL METHODS **
-        private static string DownloadBlobToXMLString(BlobClient blob)
+            // ** HELPFUL METHODS **
+            private static string DownloadBlobToXMLString(BlobClient blob)
         {
             string xmlString = "";
             if (blob.Exists())

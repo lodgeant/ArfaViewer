@@ -107,21 +107,34 @@ namespace Generator
             RefreshScreen();
         }
 
+        private void btnOpenInViewer_Click(object sender, EventArgs e)
+        {
+            OpenSetInViewer();
+        }
+
+        private void btnSetDetailsRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshSetDetailsSummary();
+        }
+
         #endregion
 
-        // ** REFRESH FUNCTIONS **
+        #region ** REFRESH FUNCTIONS **
 
         private void RefreshScreen()
         {
             try
             {
-                // Get all Theme Details from SET_DETAILS
+                // ** Get all Theme Details from SET_DETAILS **
                 BaseClasses.ThemeDetailsCollection ThemeDetailsCollection = StaticData.GetAllThemeDetails();
 
-                // Convert ThemeDetails into TreeNode
+                // ** Convert ThemeDetails into TreeNode **
                 TreeNode[] ThemeTreeNodes = ThemeDetailsCollection.ConvertToTreeNodeList();
 
-                // Set tvThemesSummary
+                // ** Add Theme counts **                
+                ThemeTreeNodes = UpdateThemeCounts(ThemeTreeNodes);
+
+                // ** Set tvThemesSummary **
                 tvThemesSummary.Nodes.Clear();
                 tvThemesSummary.Nodes.AddRange(ThemeTreeNodes);
 
@@ -134,6 +147,28 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private TreeNode[] UpdateThemeCounts(TreeNode[] ThemeTreeNodes)
+        {
+            foreach (TreeNode themeNode in ThemeTreeNodes)
+            {
+                string theme = themeNode.Tag.ToString().Split('|')[0];
+                int themeCount = StaticData.GetSetCountForThemeAndSubTheme(theme, "");
+                themeNode.Text += " [" + themeCount + "]";
+                if (themeNode.Nodes.Count > 0)
+                {
+                    foreach (TreeNode subThemeNode in themeNode.Nodes)
+                    {
+                        string subTheme = subThemeNode.Tag.ToString().Split('|')[1];
+                        int subThemeCount = StaticData.GetSetCountForThemeAndSubTheme(theme, subTheme);
+                        subThemeNode.Text += " [" + subThemeCount + "]";
+                    }
+                }
+            }
+            return ThemeTreeNodes;
+        }
+
+        #endregion
 
         #region ** TREENODE FUNCTIONS **
 
@@ -329,8 +364,6 @@ namespace Generator
 
         #endregion
 
-
-
         #region ** SET DETAILS FUNCTIONS **
 
         private void SaveSet()
@@ -354,8 +387,8 @@ namespace Generator
                     action = "ADD";
                     setDetails = new SetDetails();
                     setDetails.PartCount = 0;
-                    setDetails.SubSetCount = 0;
-                    setDetails.ModelCount = 0;
+                    setDetails.SubSetCount = 1;
+                    setDetails.ModelCount = 1;
                     setDetails.MiniFigCount = 0;
 
                     // ** Generate base instructions and add to Set Details **
@@ -412,8 +445,6 @@ namespace Generator
             }
         }
 
-        #endregion
-
         private void ClearAllSetDetailsFields()
         {
             fldSetRef.Text = "";
@@ -425,6 +456,33 @@ namespace Generator
             fldStatus.Text = "";
             fldAssignedTo.Text = "";
         }
+
+        private void OpenSetInViewer()
+        {
+            try
+            {
+                // ** Validation **
+                if (fldSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
+                string SetRef = fldSetRef.Text;
+
+                // Check if SetRef exists
+                SetDetails sd = StaticData.GetSetDetails(SetRef);
+                if (sd == null) throw new Exception("Set Details don't exist for " + SetRef);
+
+                // ** Load Viewer Screen **
+                Generator form = new Generator(SetRef);
+                form.LoadSet();
+                form.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        #endregion
+
 
         private void dgSetDetailsSummary_CellClick(object sender, DataGridViewCellEventArgs e)
         {

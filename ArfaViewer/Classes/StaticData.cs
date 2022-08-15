@@ -41,7 +41,7 @@ namespace Generator
 
         public static void UpdateSetDetailsCounts_UsingSetRef(string SetRef, int PartCount, int SubSetCount, int ModelCount, int MiniFigCount)
         {
-            Global_Variables.APIProxy.UpdateSetDetailsCounts_UsingSetRef(SetRef, PartCount, SubSetCount, ModelCount, ModelCount);
+            Global_Variables.APIProxy.UpdateSetDetailsCounts_UsingSetRef(SetRef, PartCount, SubSetCount, ModelCount, MiniFigCount);
         }
 
         public static BaseClasses.SetDetailsCollection GetSetDetailsData_UsingThemeAndSubTheme(string theme, string subTheme)
@@ -253,7 +253,11 @@ namespace Generator
             return td;
         }
 
+        public static int GetSetCountForThemeAndSubTheme(string theme, string subTheme)
+        {
+            return Global_Variables.APIProxy.GetSetCountForThemeAndSubTheme(theme, subTheme);
 
+        }
 
 
 
