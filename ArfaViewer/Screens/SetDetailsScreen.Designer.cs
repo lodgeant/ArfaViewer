@@ -74,12 +74,16 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.btnPartSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel8 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.lblLDrawRefAc = new System.Windows.Forms.ToolStripLabel();
             this.fldLDrawRefAc = new System.Windows.Forms.ToolStripTextBox();
             this.lblLDrawColourNameAc = new System.Windows.Forms.ToolStripLabel();
             this.fldLDrawColourNameAc = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel8 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnUploadInstructionsFromWeb = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel9 = new System.Windows.Forms.ToolStripLabel();
+            this.fldInstructionRefs = new System.Windows.Forms.ToolStripTextBox();
             this.toolStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tsPartDetails.SuspendLayout();
@@ -102,7 +106,7 @@
             this.toolStripSeparator1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1768, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(2195, 25);
             this.toolStrip1.TabIndex = 26;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -126,7 +130,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox3.Location = new System.Drawing.Point(0, 600);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1768, 53);
+            this.groupBox3.Size = new System.Drawing.Size(2195, 53);
             this.groupBox3.TabIndex = 29;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Set Details";
@@ -146,6 +150,8 @@
             this.fldSubTheme,
             this.lblQty,
             this.fldYear,
+            this.toolStripLabel9,
+            this.fldInstructionRefs,
             this.toolStripLabel7,
             this.fldStatus,
             this.toolStripLabel3,
@@ -155,10 +161,12 @@
             this.btnSetSave,
             this.btnSetDelete,
             this.toolStripSeparator2,
-            this.btnOpenInViewer});
+            this.btnOpenInViewer,
+            this.toolStripSeparator5,
+            this.btnUploadInstructionsFromWeb});
             this.tsPartDetails.Location = new System.Drawing.Point(3, 16);
             this.tsPartDetails.Name = "tsPartDetails";
-            this.tsPartDetails.Size = new System.Drawing.Size(1762, 25);
+            this.tsPartDetails.Size = new System.Drawing.Size(2189, 25);
             this.tsPartDetails.TabIndex = 76;
             this.tsPartDetails.Text = "toolStrip5";
             // 
@@ -336,8 +344,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer1.Size = new System.Drawing.Size(1768, 575);
-            this.splitContainer1.SplitterDistance = 589;
+            this.splitContainer1.Size = new System.Drawing.Size(2195, 575);
+            this.splitContainer1.SplitterDistance = 731;
             this.splitContainer1.TabIndex = 30;
             // 
             // groupBox1
@@ -347,7 +355,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(589, 575);
+            this.groupBox1.Size = new System.Drawing.Size(731, 575);
             this.groupBox1.TabIndex = 28;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Themes";
@@ -358,7 +366,7 @@
             this.tvThemesSummary.HideSelection = false;
             this.tvThemesSummary.Location = new System.Drawing.Point(3, 41);
             this.tvThemesSummary.Name = "tvThemesSummary";
-            this.tvThemesSummary.Size = new System.Drawing.Size(583, 531);
+            this.tvThemesSummary.Size = new System.Drawing.Size(725, 531);
             this.tvThemesSummary.TabIndex = 85;
             this.tvThemesSummary.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvThemesSummary_AfterSelect);
             // 
@@ -372,7 +380,7 @@
             this.toolStripSeparator6});
             this.toolStrip2.Location = new System.Drawing.Point(3, 16);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(583, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(725, 25);
             this.toolStrip2.TabIndex = 27;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -421,7 +429,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1175, 575);
+            this.groupBox2.Size = new System.Drawing.Size(1460, 575);
             this.groupBox2.TabIndex = 29;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Set Details Summary for Theme";
@@ -433,7 +441,7 @@
             this.dgSetDetailsSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgSetDetailsSummary.Location = new System.Drawing.Point(3, 41);
             this.dgSetDetailsSummary.Name = "dgSetDetailsSummary";
-            this.dgSetDetailsSummary.Size = new System.Drawing.Size(1169, 509);
+            this.dgSetDetailsSummary.Size = new System.Drawing.Size(1454, 509);
             this.dgSetDetailsSummary.TabIndex = 78;
             this.dgSetDetailsSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSetDetailsSummary_CellClick);
             // 
@@ -443,7 +451,7 @@
             this.lblSetDetailsCount});
             this.c.Location = new System.Drawing.Point(3, 550);
             this.c.Name = "c";
-            this.c.Size = new System.Drawing.Size(1169, 22);
+            this.c.Size = new System.Drawing.Size(1454, 22);
             this.c.TabIndex = 68;
             this.c.Text = "statusStrip2";
             // 
@@ -468,7 +476,7 @@
             this.fldLDrawColourNameAc});
             this.tsPartSummary.Location = new System.Drawing.Point(3, 16);
             this.tsPartSummary.Name = "tsPartSummary";
-            this.tsPartSummary.Size = new System.Drawing.Size(1169, 25);
+            this.tsPartSummary.Size = new System.Drawing.Size(1454, 25);
             this.tsPartSummary.TabIndex = 27;
             this.tsPartSummary.Text = "toolStrip4";
             // 
@@ -500,6 +508,19 @@
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
             // 
+            // toolStripLabel8
+            // 
+            this.toolStripLabel8.Name = "toolStripLabel8";
+            this.toolStripLabel8.Size = new System.Drawing.Size(70, 22);
+            this.toolStripLabel8.Text = "Description:";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.BackColor = System.Drawing.Color.Wheat;
+            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 25);
+            // 
             // lblLDrawRefAc
             // 
             this.lblLDrawRefAc.Name = "lblLDrawRefAc";
@@ -527,24 +548,38 @@
             this.fldLDrawColourNameAc.Name = "fldLDrawColourNameAc";
             this.fldLDrawColourNameAc.Size = new System.Drawing.Size(125, 25);
             // 
-            // toolStripLabel8
+            // toolStripSeparator5
             // 
-            this.toolStripLabel8.Name = "toolStripLabel8";
-            this.toolStripLabel8.Size = new System.Drawing.Size(70, 22);
-            this.toolStripLabel8.Text = "Description:";
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripTextBox1
+            // btnUploadInstructionsFromWeb
             // 
-            this.toolStripTextBox1.BackColor = System.Drawing.Color.Wheat;
-            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 25);
+            this.btnUploadInstructionsFromWeb.BackColor = System.Drawing.Color.Yellow;
+            this.btnUploadInstructionsFromWeb.Image = ((System.Drawing.Image)(resources.GetObject("btnUploadInstructionsFromWeb.Image")));
+            this.btnUploadInstructionsFromWeb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUploadInstructionsFromWeb.Name = "btnUploadInstructionsFromWeb";
+            this.btnUploadInstructionsFromWeb.Size = new System.Drawing.Size(186, 20);
+            this.btnUploadInstructionsFromWeb.Text = "Upload Instructions from Web";
+            // 
+            // toolStripLabel9
+            // 
+            this.toolStripLabel9.Name = "toolStripLabel9";
+            this.toolStripLabel9.Size = new System.Drawing.Size(92, 22);
+            this.toolStripLabel9.Text = "Instruction Refs:";
+            // 
+            // fldInstructionRefs
+            // 
+            this.fldInstructionRefs.BackColor = System.Drawing.Color.Yellow;
+            this.fldInstructionRefs.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldInstructionRefs.Name = "fldInstructionRefs";
+            this.fldInstructionRefs.Size = new System.Drawing.Size(150, 25);
             // 
             // SetDetailsScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1768, 653);
+            this.ClientSize = new System.Drawing.Size(2195, 653);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.toolStrip1);
@@ -629,5 +664,9 @@
         private System.Windows.Forms.ToolStripTextBox fldLDrawColourNameAc;
         private System.Windows.Forms.ToolStripLabel toolStripLabel8;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton btnUploadInstructionsFromWeb;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel9;
+        private System.Windows.Forms.ToolStripTextBox fldInstructionRefs;
     }
 }

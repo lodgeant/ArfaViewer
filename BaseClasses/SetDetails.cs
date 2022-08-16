@@ -5,6 +5,10 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Data;
+using System.Linq;
+
+
+
 
 namespace BaseClasses
 {
@@ -49,6 +53,12 @@ namespace BaseClasses
 
         [XmlAttribute("Instructions")]
         public string Instructions;
+
+        [XmlAttribute("InstructionRefList")]
+        public List<string> InstructionRefList = new List<string>();
+
+
+
 
 
 
@@ -103,7 +113,9 @@ namespace BaseClasses
             item.MiniFigCount = (int)row["MINIFIG_COUNT"];
             item.Status = (string)row["STATUS"];
             item.AssignedTo = (string)row["ASSIGNED_TO"];
-            item.Instructions = row["INSTRUCTIONS"].ToString();             
+            item.Instructions = row["INSTRUCTIONS"].ToString();
+            string InstructionRefsListString = ((string)row["INSTRUCTION_REFS"]);
+            if(InstructionRefsListString != "") item.InstructionRefList = InstructionRefsListString.Split(',').ToList();            
             return item;
         }
 

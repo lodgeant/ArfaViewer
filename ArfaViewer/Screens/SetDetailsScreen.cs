@@ -289,6 +289,7 @@ namespace Generator
                 setDetailsTable.Columns.Add("MiniFig Count", typeof(int));
                 setDetailsTable.Columns.Add("Status", typeof(string));
                 setDetailsTable.Columns.Add("Assigned To", typeof(string));
+                setDetailsTable.Columns.Add("Instruction Refs", typeof(string));
 
                 // ** Cycle through details and populate rows **
                 foreach (SetDetails sd in coll.SetDetailsList)
@@ -308,6 +309,7 @@ namespace Generator
                     newRow["MiniFig Count"] = sd.MiniFigCount;
                     newRow["Status"] = sd.Status;
                     newRow["Assigned To"] = sd.AssignedTo;
+                    newRow["Instruction Refs"] = String.Join(",", sd.InstructionRefList);
                     setDetailsTable.Rows.Add(newRow);
                 }
                 return setDetailsTable;
@@ -403,9 +405,10 @@ namespace Generator
                 setDetails.Year = int.Parse(fldYear.Text);                
                 setDetails.Status = fldStatus.Text;
                 setDetails.AssignedTo = fldAssignedTo.Text;
-                
+                setDetails.InstructionRefList = fldInstructionRefs.Text.Split(',').ToList();
+                                
                 // ** Determine what action to take **
-                if(action.Equals("ADD")) StaticData.AddSetDetails(setDetails);               
+                if (action.Equals("ADD")) StaticData.AddSetDetails(setDetails);               
                 else if(action.Equals("UPDATE")) StaticData.UpdateSetDetails(setDetails);
                
                 // ** Tidy Up **
@@ -455,6 +458,7 @@ namespace Generator
             fldYear.Text = "";
             fldStatus.Text = "";
             fldAssignedTo.Text = "";
+            fldInstructionRefs.Text = "";
         }
 
         private void OpenSetInViewer()
@@ -510,6 +514,7 @@ namespace Generator
                     fldYear.Text = SetDetails.Year.ToString();
                     fldStatus.Text = SetDetails.Status;
                     fldAssignedTo.Text = SetDetails.AssignedTo;
+                    fldInstructionRefs.Text = String.Join(",", SetDetails.InstructionRefList);
                 }
             }
             catch (Exception ex)

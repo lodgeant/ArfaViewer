@@ -382,7 +382,7 @@ namespace Generator
             SetDetailsCollection coll = new SetDetailsCollection();
             if (IDList.Count > 0)
             {
-                string sql = "SELECT ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS FROM SET_DETAILS ";                
+                string sql = "SELECT ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS,INSTRUCTION_REFS FROM SET_DETAILS ";                
                 sql += "WHERE REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
                 var results = GetSQLQueryResults(this.AzureDBConnString, sql);
                 coll = SetDetailsCollection.GetSetDetailsCollectionFromDataTable(results);
@@ -394,7 +394,7 @@ namespace Generator
         {
             // ** Generate SetDetailsCollection from SET_DETAILS data in database **
             SetDetailsCollection coll = new SetDetailsCollection();            
-            string sql = "SELECT ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS FROM SET_DETAILS ";
+            string sql = "SELECT ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS,INSTRUCTION_REFS FROM SET_DETAILS ";
             sql += "WHERE THEME='" + theme + "'";
             if(subTheme != "") sql += " AND SUB_THEME='" + subTheme + "'";           
             var results = GetSQLQueryResults(this.AzureDBConnString, sql);
@@ -449,7 +449,7 @@ namespace Generator
 
             // ** Generate SQL Statement **
             sql = "INSERT INTO SET_DETAILS" + Environment.NewLine;
-            sql += "(ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS)" + Environment.NewLine;
+            sql += "(ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS,INSTRUCTION_REFS)" + Environment.NewLine;
             sql += "VALUES" + Environment.NewLine;
             sql += "(";
             sql += newID + ",";
@@ -465,7 +465,8 @@ namespace Generator
             sql += sd.MiniFigCount + ",";
             sql += "'" + sd.Status + "',";
             sql += "'" + sd.AssignedTo + "',";
-            sql += "'" + sd.Instructions + "'";
+            sql += "'" + sd.Instructions + "',";
+            sql += "'" + String.Join(",", sd.InstructionRefList) + "'";
             sql += ")";
 
             // ** Execute SQL statement **
@@ -496,7 +497,8 @@ namespace Generator
             sql += "MINIFIG_COUNT=" + sd.MiniFigCount + ",";
             sql += "STATUS='" + sd.Status + "',";
             sql += "ASSIGNED_TO='" + sd.AssignedTo + "',";
-            sql += "INSTRUCTIONS='" + sd.Instructions + "'";
+            sql += "INSTRUCTIONS='" + sd.Instructions + "',";
+            sql += "INSTRUCTION_REFS='" + String.Join(",", sd.InstructionRefList) + "'";
             sql += " WHERE REF='" + sd.Ref + "'";
 
             // ** Execute SQL statement **
