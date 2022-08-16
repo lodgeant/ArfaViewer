@@ -64,13 +64,21 @@ namespace Generator
             Global_Variables.APIProxy.DeleteSetDetails(SetRef);
         }
 
+        public static bool CheckIfPDFInstructionsExistForSet(string setRef)
+        {
+            return Global_Variables.APIProxy.CheckIfPDFInstructionsExistForSet(setRef);
+        }
+
+
+
+
 
         // THE FOLLOWING TO BE DEMISED
 
-        public static void DeleteSet(string setRef)
-        {            
-            Global_Variables.APIProxy.DeleteSet(setRef);
-        }
+        //public static void DeleteSet(string setRef)
+        //{            
+        //    Global_Variables.APIProxy.DeleteSet(setRef);
+        //}
 
 
         // ** PartColour functions **
@@ -261,9 +269,7 @@ namespace Generator
 
 
 
-
-
-
+       
 
 
 

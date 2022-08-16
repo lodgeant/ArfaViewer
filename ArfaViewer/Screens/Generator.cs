@@ -453,10 +453,10 @@ namespace Generator
             SaveSet();
         }
 
-        private void btnDeleteSet_Click(object sender, EventArgs e)
-        {
-            DeleteSet();
-        }
+        //private void btnDeleteSet_Click(object sender, EventArgs e)
+        //{
+        //    DeleteSet();
+        //}
 
         private void btnSetAdd_Click(object sender, EventArgs e)
         {
@@ -965,38 +965,38 @@ namespace Generator
             }
         }
                
-        private void DeleteSet()
-        {
-            try
-            {
-                // ** Validation Checks **
-                string setRef = fldCurrentSetRef.Text;
-                if (setRef.Equals("")) throw new Exception("No Set Ref entered...");
-                if (currentSetXml == null) throw new Exception("No Set currently loaded...");
-                //if (StaticData.CheckIfSetExists(setRef) == false) throw new Exception("Set " + setRef + " not found...");
+        //private void DeleteSet()
+        //{
+        //    try
+        //    {
+        //        // ** Validation Checks **
+        //        string setRef = fldCurrentSetRef.Text;
+        //        if (setRef.Equals("")) throw new Exception("No Set Ref entered...");
+        //        if (currentSetXml == null) throw new Exception("No Set currently loaded...");
+        //        //if (StaticData.CheckIfSetExists(setRef) == false) throw new Exception("Set " + setRef + " not found...");
 
-                // Make sure user wants to delete
-                DialogResult res = MessageBox.Show("Are you sure you want to Delete?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (res == DialogResult.Yes)
-                {
-                    // ** Delete Set using API **
-                    StaticData.DeleteSet(setRef);
+        //        // Make sure user wants to delete
+        //        DialogResult res = MessageBox.Show("Are you sure you want to Delete?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        //        if (res == DialogResult.Yes)
+        //        {
+        //            // ** Delete Set using API **
+        //            StaticData.DeleteSet(setRef);
 
-                    // ** Tidy up & refresh screen **
-                    currentSetXml = null;
-                    fullSetXml = null;
-                    ClearAllFields();
-                    RefreshScreen();
+        //            // ** Tidy up & refresh screen **
+        //            currentSetXml = null;
+        //            fullSetXml = null;
+        //            ClearAllFields();
+        //            RefreshScreen();
 
-                    // ** Show confirm **
-                    MessageBox.Show("Set " + setRef + " successfully deleted...");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        //            // ** Show confirm **
+        //            MessageBox.Show("Set " + setRef + " successfully deleted...");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
                 
         private void AddSet()
         {

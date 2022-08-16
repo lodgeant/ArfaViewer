@@ -505,7 +505,11 @@ namespace Generator
             ExecuteSQLStatement(this.AzureDBConnString, sql);
         }
 
-
+        public bool CheckIfPDFInstructionsExistForSet(string setRef)
+        {
+            ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
+            return share.Exists();
+        }
 
 
 
@@ -900,6 +904,7 @@ namespace Generator
 
 
 
+        
 
 
 
@@ -910,9 +915,8 @@ namespace Generator
 
 
 
-
-            // ** HELPFUL METHODS **
-            private static string DownloadBlobToXMLString(BlobClient blob)
+        // ** HELPFUL METHODS **
+        private static string DownloadBlobToXMLString(BlobClient blob)
         {
             string xmlString = "";
             if (blob.Exists())
