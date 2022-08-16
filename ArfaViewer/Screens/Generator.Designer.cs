@@ -33,13 +33,10 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnRefreshStaticData = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.lblSetRef = new System.Windows.Forms.ToolStripLabel();
             this.fldCurrentSetRef = new System.Windows.Forms.ToolStripTextBox();
             this.btnLoadSet = new System.Windows.Forms.ToolStripButton();
             this.btnSaveSet = new System.Windows.Forms.ToolStripButton();
-            this.btnDeleteSet = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnOpenSetInstructions = new System.Windows.Forms.ToolStripButton();
             this.btnOpenSetURLs = new System.Windows.Forms.ToolStripButton();
@@ -270,6 +267,9 @@
             this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
             this.chkShowElementImages = new System.Windows.Forms.CheckBox();
             this.chkShowFBXDetails = new System.Windows.Forms.CheckBox();
+            this.btnUploadInstructionsFromWeb = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
+            this.fldSetInstructions = new System.Windows.Forms.ToolStripTextBox();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -324,14 +324,14 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnExit,
             this.toolStripSeparator1,
-            this.btnRefreshStaticData,
-            this.toolStripSeparator4,
             this.lblSetRef,
             this.fldCurrentSetRef,
             this.btnLoadSet,
             this.btnSaveSet,
-            this.btnDeleteSet,
             this.toolStripSeparator2,
+            this.fldSetInstructions,
+            this.btnUploadInstructionsFromWeb,
+            this.toolStripSeparator25,
             this.btnOpenSetInstructions,
             this.btnOpenSetURLs,
             this.toolStripSeparator22});
@@ -354,21 +354,6 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnRefreshStaticData
-            // 
-            this.btnRefreshStaticData.BackColor = System.Drawing.Color.Red;
-            this.btnRefreshStaticData.Image = ((System.Drawing.Image)(resources.GetObject("btnRefreshStaticData.Image")));
-            this.btnRefreshStaticData.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRefreshStaticData.Name = "btnRefreshStaticData";
-            this.btnRefreshStaticData.Size = new System.Drawing.Size(125, 22);
-            this.btnRefreshStaticData.Text = "Refresh Static Data";
-            this.btnRefreshStaticData.Click += new System.EventHandler(this.btnRefreshStaticData_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // lblSetRef
             // 
@@ -400,16 +385,6 @@
             this.btnSaveSet.Size = new System.Drawing.Size(51, 22);
             this.btnSaveSet.Text = "Save";
             this.btnSaveSet.Click += new System.EventHandler(this.btnSaveSet_Click);
-            // 
-            // btnDeleteSet
-            // 
-            this.btnDeleteSet.BackColor = System.Drawing.Color.Red;
-            this.btnDeleteSet.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteSet.Image")));
-            this.btnDeleteSet.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDeleteSet.Name = "btnDeleteSet";
-            this.btnDeleteSet.Size = new System.Drawing.Size(60, 22);
-            this.btnDeleteSet.Text = "Delete";
-            this.btnDeleteSet.Click += new System.EventHandler(this.btnDeleteSet_Click);
             // 
             // toolStripSeparator2
             // 
@@ -2407,7 +2382,7 @@
             this.chkShowPartcolourImages.AutoSize = true;
             this.chkShowPartcolourImages.Checked = true;
             this.chkShowPartcolourImages.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkShowPartcolourImages.Location = new System.Drawing.Point(768, 2);
+            this.chkShowPartcolourImages.Location = new System.Drawing.Point(1085, 27);
             this.chkShowPartcolourImages.Name = "chkShowPartcolourImages";
             this.chkShowPartcolourImages.Size = new System.Drawing.Size(141, 17);
             this.chkShowPartcolourImages.TabIndex = 110;
@@ -2417,7 +2392,7 @@
             // chkShowElementImages
             // 
             this.chkShowElementImages.AutoSize = true;
-            this.chkShowElementImages.Location = new System.Drawing.Point(915, 2);
+            this.chkShowElementImages.Location = new System.Drawing.Point(1232, 20);
             this.chkShowElementImages.Name = "chkShowElementImages";
             this.chkShowElementImages.Size = new System.Drawing.Size(131, 17);
             this.chkShowElementImages.TabIndex = 111;
@@ -2427,12 +2402,32 @@
             // chkShowFBXDetails
             // 
             this.chkShowFBXDetails.AutoSize = true;
-            this.chkShowFBXDetails.Location = new System.Drawing.Point(1052, 2);
+            this.chkShowFBXDetails.Location = new System.Drawing.Point(1246, 2);
             this.chkShowFBXDetails.Name = "chkShowFBXDetails";
             this.chkShowFBXDetails.Size = new System.Drawing.Size(111, 17);
             this.chkShowFBXDetails.TabIndex = 112;
             this.chkShowFBXDetails.Text = "Show FBX Details";
             this.chkShowFBXDetails.UseVisualStyleBackColor = false;
+            // 
+            // btnUploadInstructionsFromWeb
+            // 
+            this.btnUploadInstructionsFromWeb.Image = ((System.Drawing.Image)(resources.GetObject("btnUploadInstructionsFromWeb.Image")));
+            this.btnUploadInstructionsFromWeb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUploadInstructionsFromWeb.Name = "btnUploadInstructionsFromWeb";
+            this.btnUploadInstructionsFromWeb.Size = new System.Drawing.Size(186, 22);
+            this.btnUploadInstructionsFromWeb.Text = "Upload Instructions from Web";
+            this.btnUploadInstructionsFromWeb.Click += new System.EventHandler(this.btnUploadInstructionsFromWeb_Click);
+            // 
+            // toolStripSeparator25
+            // 
+            this.toolStripSeparator25.Name = "toolStripSeparator25";
+            this.toolStripSeparator25.Size = new System.Drawing.Size(6, 25);
+            // 
+            // fldSetInstructions
+            // 
+            this.fldSetInstructions.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldSetInstructions.Name = "fldSetInstructions";
+            this.fldSetInstructions.Size = new System.Drawing.Size(150, 25);
             // 
             // Generator
             // 
@@ -2540,12 +2535,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel lblSetRef;
         private System.Windows.Forms.ToolStripTextBox fldCurrentSetRef;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton btnSaveSet;
-        private System.Windows.Forms.ToolStripButton btnDeleteSet;
         private System.Windows.Forms.ToolStripButton btnLoadSet;
         private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.ToolStripButton btnRefreshStaticData;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.CheckBox chkShowSubParts;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
@@ -2775,6 +2767,9 @@
         private System.Windows.Forms.CheckBox chkShowPartcolourImages;
         private System.Windows.Forms.CheckBox chkShowElementImages;
         private System.Windows.Forms.CheckBox chkShowFBXDetails;
+        private System.Windows.Forms.ToolStripButton btnUploadInstructionsFromWeb;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
+        private System.Windows.Forms.ToolStripTextBox fldSetInstructions;
     }
 }
 

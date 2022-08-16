@@ -77,17 +77,22 @@ namespace Generator
                                 btnExit,
                                 toolStripSeparator1,
 
-                                btnRefreshStaticData,
+                                //btnRefreshStaticData,
                                 toolStripSeparator2,
 
                                 lblSetRef,
                                 fldCurrentSetRef,
                                 btnLoadSet,
                                 btnSaveSet,
-                                btnDeleteSet,                                                               
+                                //btnDeleteSet,                                                               
                                 new ToolStripControlHost(chkShowSubParts),
                                 new ToolStripControlHost(chkShowPages),
-                                toolStripSeparator4,
+                                //toolStripSeparator4,
+
+
+                                fldSetInstructions,
+                                btnUploadInstructionsFromWeb,
+                                toolStripSeparator25,
 
                                 btnOpenSetURLs,
                                 btnOpenSetInstructions,
@@ -808,6 +813,11 @@ namespace Generator
             DuplicateStep("AFTER");
         }
 
+        private void btnUploadInstructionsFromWeb_Click(object sender, EventArgs e)
+        {
+            UploadInstructionsFromWeb();
+        }
+
         #endregion
 
         #region ** REFRESH STATIC DATA FUNCTIONS **
@@ -1150,19 +1160,17 @@ namespace Generator
                 fldCurrentSetRef.Enabled = value;
                 btnLoadSet.Enabled = value;
                 btnSaveSet.Enabled = value;
-                btnDeleteSet.Enabled = value;
-                //btnRecalculatePartList.Enabled = value;
-                //btnRecalculateUnityRefs.Enabled = value;
+                //btnDeleteSet.Enabled = value;
+
+                fldSetInstructions.Enabled = value;
+                btnUploadInstructionsFromWeb.Enabled = value;
+
                 btnOpenSetInstructions.Enabled = value;
                 btnOpenSetURLs.Enabled = value;
-                //btnSaveToOfficialSetsXML.Enabled = value;
                 chkShowSubParts.Enabled = value;
                 chkShowPages.Enabled = value;
-                tabControl1.Enabled = value;
-                //fldInstructionsSetRef.Enabled = value;
-                //fldSetInstructions.Enabled = value;
-                //btnUploadInstructionsFromWeb.Enabled = value;
-                btnRefreshStaticData.Enabled = value;
+                tabControl1.Enabled = value;                
+                //btnRefreshStaticData.Enabled = value;
                 chkShowPartcolourImages.Enabled = value;
                 chkShowElementImages.Enabled = value;
                 chkShowFBXDetails.Enabled = value;
@@ -5423,7 +5431,7 @@ namespace Generator
                 fldCurrentSetRef.Enabled = value;
                 btnLoadSet.Enabled = value;
                 btnSaveSet.Enabled = value;
-                btnDeleteSet.Enabled = value;
+                //btnDeleteSet.Enabled = value;
                 btnOpenSetInstructions.Enabled = value;
                 btnOpenSetURLs.Enabled = value;
                 chkShowSubParts.Enabled = value;
@@ -5431,6 +5439,158 @@ namespace Generator
                 tabControl1.Enabled = value;
             }
         }
+
+
+
+
+        
+
+
+
+
+        private async void UploadInstructionsFromWeb()
+        {
+            try
+            {
+                #region ** VALIDATIONS **
+                if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
+                if (fldSetInstructions.Text.Equals("")) throw new Exception("No Instructions entered...");
+                string setRef = fldCurrentSetRef.Text;
+                List<string> insRefList = fldSetInstructions.Text.Split(',').ToList();
+
+                // ** Check whether instructions are already present. If they are, confirm whether they should be downloaded again **
+                ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
+                if (share.Exists())
+                {
+                    // Make sure user wants to re-upload instructions
+                    DialogResult res = MessageBox.Show("Instructions already exist for " + setRef + " - do you really want to re-upload again?", "Instruction Re-Upload Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (res == DialogResult.No) return;
+                }
+                #endregion
+
+                #region ** DOWNLOAD INSTRUCTIONS FROM BrickSet.com TO TEMP **
+                List<string> filelist = new List<string>();
+                int index = 1;
+                foreach (string insRef in insRefList)
+                {
+                    string url = "https://www.lego.com/cdn/product-assets/product.bi.core.pdf/" + insRef + ".pdf";
+                    string downloadPath = Path.Combine(Path.GetTempPath(), insRef + ".pdf");
+                    using (WebClient webClient = new WebClient())
+                    {
+                        webClient.DownloadProgressChanged += (s, e1) =>
+                        {
+                            pbStatus.Value = e1.ProgressPercentage;
+                            lblStatus.Text = "Downloading " + insRef + " from Brickset.com (" + index + " of " + insRefList.Count + ") | Downloaded " + e1.ProgressPercentage + "%";
+                        };
+                        webClient.DownloadFileCompleted += (s, e1) =>
+                        {
+                            pbStatus.Value = 0;
+                            lblStatus.Text = "";
+                        };
+                        Task downloadTask = webClient.DownloadFileTaskAsync(new Uri(url), downloadPath);
+                        await downloadTask;
+                    }
+                    filelist.Add(downloadPath);
+                    index += 1;
+                }
+                #endregion
+
+                #region ** COMBINE ALL PDFs INTO A SINGLE ONE **
+                lblStatus.Text = "Merging PDFs...";
+                string targetPdf = Path.Combine(Path.GetTempPath(), setRef + ".pdf");
+                using (FileStream stream = new FileStream(targetPdf, FileMode.Create))
+                {
+                    using (iTextSharp.text.Document document = new iTextSharp.text.Document())
+                    {
+                        PdfCopy pdf = new PdfCopy(document, stream);
+                        document.Open();
+                        document.NewPage();
+                        foreach (string file in filelist)
+                        {
+                            using (PdfReader reader = new PdfReader(file)) pdf.AddDocument(reader);
+                        }
+                    }
+                }
+                foreach (string file in filelist) File.Delete(file);                
+                #endregion
+
+                // ** Upload data to Azure BLOB **               
+                //lblStatus.Text = "Uploading " + setRef + " to Azure BLOB...";               
+                //CloudBlockBlob blockBlob = blobClient.GetContainerReference("files-instructions").GetBlockBlobReference(setRef + ".pdf");
+                //Task uploadTask = blockBlob.UploadFromFileAsync(targetPdf, FileMode.Open);
+                //await uploadTask;
+
+                // ** Upload data to Azure FS - USES DIRECT LINK TO FOLDER **  
+                //lblStatus.Text = "Uploading " + setRef + " to Azure FS...";
+                //string FSPath = Path.Combine(@"\\lodgeaccount.file.core.windows.net\lodgeant-fs\files-instructions", setRef + ".pdf");                
+                //using (Stream source = File.Open(targetPdf, FileMode.Open))
+                //{
+                //    using (Stream destination = File.Create(FSPath))
+                //    {
+                //        await source.CopyToAsync(destination);
+                //    }
+                //}
+
+                #region ** UPLOAD DATA TO AZURE FS **  
+                lblStatus.Text = "Uploading " + setRef + " to Azure FS...";
+                share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
+                const int AzureUploadLimit = 4194304;
+                //byte[] bytes = File.ReadAllBytes(targetPdf);
+                using (var stream = new MemoryStream(File.ReadAllBytes(targetPdf)))
+                //using (FileStream stream = File.OpenRead(targetPdf))
+                {
+                    share.Create(stream.Length);
+                    pbStatus.Maximum = (int)stream.Length;
+                    long uploadIndex = 0;
+
+                    var progressHandler = new Progress<long>();
+                    progressHandler.ProgressChanged += (s, e1) =>
+                    {
+                        int uploadedValue = (int)uploadIndex + (int)e1;
+                        double pc = (uploadedValue / (double)(stream.Length)) * 100;
+                        pbStatus.Value = uploadedValue;
+                        lblStatus.Text = "Uploading " + setRef + " to Azure FS | Uploaded " + pc.ToString("#,##0") + "%";
+                    };
+
+                    if (stream.Length <= AzureUploadLimit)
+                    {
+                        await share.UploadRangeAsync(new Azure.HttpRange(0, stream.Length), stream, progressHandler: progressHandler);
+                    }
+                    else
+                    {
+                        int bytesRead;
+                        byte[] buffer = new byte[AzureUploadLimit];
+                        while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            MemoryStream ms = new MemoryStream(buffer, 0, bytesRead);
+                            await share.UploadRangeAsync(new Azure.HttpRange(uploadIndex, ms.Length), ms, progressHandler: progressHandler);
+                            uploadIndex += ms.Length;
+                        }
+                    }
+                }
+                lblStatus.Text = "";
+                pbStatus.Value = 0;
+                #endregion
+
+                // ** Delete TEMP file **
+                File.Delete(targetPdf);
+
+                // ** CLEAR FIELDS **
+                lblStatus.Text = "";
+                //fldInstructionsSetRef.Text = "";
+                fldSetInstructions.Text = "";
+
+                // ** SHOW CONFIRMATION **                
+                MessageBox.Show(setRef + " uploaded to Azure...");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+
 
 
 

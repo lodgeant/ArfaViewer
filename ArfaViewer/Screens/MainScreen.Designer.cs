@@ -50,12 +50,6 @@
             this.fldLDrawColourID = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnSyncFBXFiles = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnUploadInstructionsFromWeb = new System.Windows.Forms.Button();
-            this.fldSetInstructions = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.fldInstructionsSetRef = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.btnShowPartTickBackScreen = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnGenerateMiniFigLDrawFiles = new System.Windows.Forms.Button();
@@ -64,7 +58,6 @@
             this.btnShowSetDetailsScreen = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -255,64 +248,6 @@
             this.btnSyncFBXFiles.UseVisualStyleBackColor = false;
             this.btnSyncFBXFiles.Click += new System.EventHandler(this.btnSyncFBXFiles_Click);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.btnUploadInstructionsFromWeb);
-            this.groupBox1.Controls.Add(this.fldSetInstructions);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.fldInstructionsSetRef);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Location = new System.Drawing.Point(422, 127);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(320, 90);
-            this.groupBox1.TabIndex = 56;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Upload Instructions";
-            // 
-            // btnUploadInstructionsFromWeb
-            // 
-            this.btnUploadInstructionsFromWeb.Location = new System.Drawing.Point(174, 17);
-            this.btnUploadInstructionsFromWeb.Name = "btnUploadInstructionsFromWeb";
-            this.btnUploadInstructionsFromWeb.Size = new System.Drawing.Size(135, 31);
-            this.btnUploadInstructionsFromWeb.TabIndex = 60;
-            this.btnUploadInstructionsFromWeb.Text = "Upload from Web";
-            this.btnUploadInstructionsFromWeb.UseVisualStyleBackColor = false;
-            this.btnUploadInstructionsFromWeb.Click += new System.EventHandler(this.btnUploadInstructionsFromWeb_Click);
-            // 
-            // fldSetInstructions
-            // 
-            this.fldSetInstructions.BackColor = System.Drawing.Color.Wheat;
-            this.fldSetInstructions.Location = new System.Drawing.Point(78, 54);
-            this.fldSetInstructions.Name = "fldSetInstructions";
-            this.fldSetInstructions.Size = new System.Drawing.Size(231, 20);
-            this.fldSetInstructions.TabIndex = 59;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 57);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 13);
-            this.label5.TabIndex = 58;
-            this.label5.Text = "Instructions:";
-            // 
-            // fldInstructionsSetRef
-            // 
-            this.fldInstructionsSetRef.BackColor = System.Drawing.Color.Wheat;
-            this.fldInstructionsSetRef.Location = new System.Drawing.Point(78, 28);
-            this.fldInstructionsSetRef.Name = "fldInstructionsSetRef";
-            this.fldInstructionsSetRef.Size = new System.Drawing.Size(80, 20);
-            this.fldInstructionsSetRef.TabIndex = 57;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(26, 31);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(46, 13);
-            this.label6.TabIndex = 56;
-            this.label6.Text = "Set Ref:";
-            // 
             // btnShowPartTickBackScreen
             // 
             this.btnShowPartTickBackScreen.BackColor = System.Drawing.Color.PaleGreen;
@@ -382,7 +317,6 @@
             this.Controls.Add(this.btnShowSetDetailsScreen);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnShowPartTickBackScreen);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnSyncFBXFiles);
             this.Controls.Add(this.fldLDrawColourID);
             this.Controls.Add(this.label4);
@@ -406,8 +340,6 @@
             this.toolStrip1.PerformLayout();
             this.statusStrip2.ResumeLayout(false);
             this.statusStrip2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -438,12 +370,6 @@
         private System.Windows.Forms.TextBox fldLDrawColourID;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnSyncFBXFiles;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnUploadInstructionsFromWeb;
-        private System.Windows.Forms.TextBox fldSetInstructions;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox fldInstructionsSetRef;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnShowPartTickBackScreen;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnGenerateMiniFigLDrawFiles;
