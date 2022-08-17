@@ -41,7 +41,9 @@ namespace Generator
                 log.Info(".......................................................................APPLICATION STARTED.......................................................................");
 
                 // ** Generate Proxy API & StaticData **
-                Global_Variables.APIProxy = new APIProxy(Global_Variables.AzureStorageConnString, Global_Variables.AzureDBConnString);
+                //Global_Variables.APIProxy = new APIProxy(Global_Variables.AzureStorageConnString, Global_Variables.AzureDBConnString);
+                Global_Variables.APIProxy = new APIProxy();
+
 
                 // ** Refresh static data **                
                 //StaticData.RefreshStaticData_All();
@@ -65,6 +67,11 @@ namespace Generator
 
                 //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("54701p01c01");
                 //List<string> subPartList = LDrawDetails.GetSubPartLDrawRefsFromLDrawFileText(ldd.data);
+
+
+
+                //string JSONString = StaticData.GetRebrickableSetJSONString("7327-1");
+
 
             }
             catch (Exception ex)
@@ -105,7 +112,7 @@ namespace Generator
 
         private void btnUploadImage_Click(object sender, EventArgs e)
         {
-            UploadImage();
+            //UploadImage();
         }
 
         private void btnFlushStaticDataFile_Click(object sender, EventArgs e)
@@ -351,142 +358,142 @@ namespace Generator
         {
             try
             {
-                #region ** DOWNLOAD FILE FROM AZURE **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Downloading " + filename + ".xml from Azure...");
-                lblStatus.Text = "Downloading " + filename + ".xml from Azure...";
-                BlobClient Blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "static-data").GetBlobClient(filename + ".xml");
-                byte[] fileContent = new byte[Blob.GetProperties().Value.ContentLength];
-                using (var ms = new MemoryStream(fileContent))
-                {
-                    Blob.DownloadTo(ms);
-                }
-                string xmlString = Encoding.UTF8.GetString(fileContent);
-                XmlDocument CollectionXML = new XmlDocument();
-                CollectionXML.LoadXml(xmlString);
-                #endregion
+                //#region ** DOWNLOAD FILE FROM AZURE **
+                //Delegates.ToolStripLabel_SetText(this, lblStatus, "Downloading " + filename + ".xml from Azure...");
+                //lblStatus.Text = "Downloading " + filename + ".xml from Azure...";
+                //BlobClient Blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "static-data").GetBlobClient(filename + ".xml");
+                //byte[] fileContent = new byte[Blob.GetProperties().Value.ContentLength];
+                //using (var ms = new MemoryStream(fileContent))
+                //{
+                //    Blob.DownloadTo(ms);
+                //}
+                //string xmlString = Encoding.UTF8.GetString(fileContent);
+                //XmlDocument CollectionXML = new XmlDocument();
+                //CollectionXML.LoadXml(xmlString);
+                //#endregion
 
-                bool dataUpdated = false;
+                //bool dataUpdated = false;
 
-                #region ** GET ALL PARTS WITH A BLANK DESCRIPTION **    
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Description for Part(s)...");
-                List<string> foundList_LDrawDescription = new List<string>();
-                List<string> notFoundList_LDrawDescription = new List<string>();
-                int index = 0;
-                int processedCount = 0;
-                string XMLElementName = "BasePart";
-                if (filename.Equals("CompositePartCollection")) XMLElementName = "CompositePart";                
-                XmlNodeList LDrawRefNodeList = CollectionXML.SelectNodes("//" + XMLElementName + "[@LDrawDescription='']");
-                Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefNodeList.Count);
-                foreach (XmlNode LDrawRefNode in LDrawRefNodeList)
-                {
-                    string LDrawRef = LDrawRefNode.SelectSingleNode("@LDrawRef").InnerXml;
-                    //string LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString();
-                    //if (LDrawDescription.Equals(""))
-                    //{
-                    //    notFoundList_LDrawDescription.Add(LDrawRef);
-                    //}
-                    //else
-                    //{                        
-                    //    LDrawRefNode.SelectSingleNode("@LDrawDescription").InnerXml = LDrawDescription;
-                    //    foundList_LDrawDescription.Add(LDrawRef);
-                    //    dataUpdated = true;
-                    //}
+                //#region ** GET ALL PARTS WITH A BLANK DESCRIPTION **    
+                //Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Description for Part(s)...");
+                //List<string> foundList_LDrawDescription = new List<string>();
+                //List<string> notFoundList_LDrawDescription = new List<string>();
+                //int index = 0;
+                //int processedCount = 0;
+                //string XMLElementName = "BasePart";
+                //if (filename.Equals("CompositePartCollection")) XMLElementName = "CompositePart";                
+                //XmlNodeList LDrawRefNodeList = CollectionXML.SelectNodes("//" + XMLElementName + "[@LDrawDescription='']");
+                //Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefNodeList.Count);
+                //foreach (XmlNode LDrawRefNode in LDrawRefNodeList)
+                //{
+                //    string LDrawRef = LDrawRefNode.SelectSingleNode("@LDrawRef").InnerXml;
+                //    //string LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString();
+                //    //if (LDrawDescription.Equals(""))
+                //    //{
+                //    //    notFoundList_LDrawDescription.Add(LDrawRef);
+                //    //}
+                //    //else
+                //    //{                        
+                //    //    LDrawRefNode.SelectSingleNode("@LDrawDescription").InnerXml = LDrawDescription;
+                //    //    foundList_LDrawDescription.Add(LDrawRef);
+                //    //    dataUpdated = true;
+                //    //}
 
-                    // ** UPDATE SCREEN **
-                    bw_UpdateLDrawStaticDataDetails.ReportProgress(processedCount, "Working...");
-                    if (index == 10)
-                    {
-                        Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Description for Part(s) | Processing " + LDrawRef + " (" + processedCount.ToString("#,##0") + " of " + LDrawRefNodeList.Count.ToString("#,##0") + ") | Found: " + foundList_LDrawDescription.Count.ToString("#,##0") + " | Not Found: " + notFoundList_LDrawDescription.Count.ToString("#,##0"));
-                        index = 0;
-                    }
-                    processedCount += 1;
-                    index += 1;
-                }
-                #endregion
+                //    // ** UPDATE SCREEN **
+                //    bw_UpdateLDrawStaticDataDetails.ReportProgress(processedCount, "Working...");
+                //    if (index == 10)
+                //    {
+                //        Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Description for Part(s) | Processing " + LDrawRef + " (" + processedCount.ToString("#,##0") + " of " + LDrawRefNodeList.Count.ToString("#,##0") + ") | Found: " + foundList_LDrawDescription.Count.ToString("#,##0") + " | Not Found: " + notFoundList_LDrawDescription.Count.ToString("#,##0"));
+                //        index = 0;
+                //    }
+                //    processedCount += 1;
+                //    index += 1;
+                //}
+                //#endregion
 
-                #region ** GET ALL PARTS WITH "UNKNOWN" LDraw Part Type (BasePartCollection ONLY) **
-                List<string> foundList_LDrawPartType = new List<string>();
-                List<string> notFoundList_LDrawPartType = new List<string>();
-                if (filename.Equals("BasePartCollection"))
-                {
-                    LDrawRefNodeList = CollectionXML.SelectNodes("//BasePart[@LDrawPartType='" + BasePart.LDrawPartType.UNKNOWN.ToString() + "']/@LDrawRef");
-                    List<string> LDrawRefList = LDrawRefNodeList.Cast<XmlNode>()
-                                                       .Select(x => x.InnerText)
-                                                       .OrderBy(x => x).ToList();
+                //#region ** GET ALL PARTS WITH "UNKNOWN" LDraw Part Type (BasePartCollection ONLY) **
+                //List<string> foundList_LDrawPartType = new List<string>();
+                //List<string> notFoundList_LDrawPartType = new List<string>();
+                //if (filename.Equals("BasePartCollection"))
+                //{
+                //    LDrawRefNodeList = CollectionXML.SelectNodes("//BasePart[@LDrawPartType='" + BasePart.LDrawPartType.UNKNOWN.ToString() + "']/@LDrawRef");
+                //    List<string> LDrawRefList = LDrawRefNodeList.Cast<XmlNode>()
+                //                                       .Select(x => x.InnerText)
+                //                                       .OrderBy(x => x).ToList();
 
-                    // ** Get LDrawPartType for all parts **
-                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Part Type for Part(s)...");
+                //    // ** Get LDrawPartType for all parts **
+                //    Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Part Type for Part(s)...");
                     
-                    index = 0;
-                    processedCount = 0;
-                    Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefList.Count);
-                    foreach (string LDrawRef in LDrawRefList)
-                    {
-                        //string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
-                        //if (LDrawPartType.Equals("") || LDrawPartType.Equals(BasePart.LDrawPartType.UNKNOWN.ToString()))
-                        //{
-                        //    notFoundList_LDrawPartType.Add(LDrawRef);
-                        //}
-                        //else
-                        //{
-                        //    CollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawPartType").InnerXml = LDrawPartType;
-                        //    foundList_LDrawPartType.Add(LDrawRef);
-                        //    dataUpdated = true;
-                        //}
+                //    index = 0;
+                //    processedCount = 0;
+                //    Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefList.Count);
+                //    foreach (string LDrawRef in LDrawRefList)
+                //    {
+                //        //string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
+                //        //if (LDrawPartType.Equals("") || LDrawPartType.Equals(BasePart.LDrawPartType.UNKNOWN.ToString()))
+                //        //{
+                //        //    notFoundList_LDrawPartType.Add(LDrawRef);
+                //        //}
+                //        //else
+                //        //{
+                //        //    CollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawPartType").InnerXml = LDrawPartType;
+                //        //    foundList_LDrawPartType.Add(LDrawRef);
+                //        //    dataUpdated = true;
+                //        //}
 
-                        // ** UPDATE SCREEN **
-                        bw_UpdateLDrawStaticDataDetails.ReportProgress(processedCount, "Working...");
-                        if (index == 10)
-                        {
-                            Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Part Type for Part(s) | Processing " + LDrawRef + " (" + processedCount.ToString("#,##0") + " of " + LDrawRefList.Count.ToString("#,##0") + ") | Found: " + foundList_LDrawPartType.Count.ToString("#,##0") + " | Not Found: " + notFoundList_LDrawPartType.Count.ToString("#,##0"));
-                            index = 0;
-                        }
-                        processedCount += 1;
-                        index += 1;
-                    }
-                }                
-                #endregion
+                //        // ** UPDATE SCREEN **
+                //        bw_UpdateLDrawStaticDataDetails.ReportProgress(processedCount, "Working...");
+                //        if (index == 10)
+                //        {
+                //            Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Part Type for Part(s) | Processing " + LDrawRef + " (" + processedCount.ToString("#,##0") + " of " + LDrawRefList.Count.ToString("#,##0") + ") | Found: " + foundList_LDrawPartType.Count.ToString("#,##0") + " | Not Found: " + notFoundList_LDrawPartType.Count.ToString("#,##0"));
+                //            index = 0;
+                //        }
+                //        processedCount += 1;
+                //        index += 1;
+                //    }
+                //}                
+                //#endregion
 
-                #region ** UPLOAD FILE TO AZURE & UPDATE CACHE **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Uploading " + filename + ".xml to Azure...");
-                if (dataUpdated)
-                {
-                    if (filename.Equals("BasePartCollection"))
-                    {
-                        BasePartCollection pc = new BasePartCollection().DeserialiseFromXMLString(CollectionXML.OuterXml);
-                        xmlString = pc.SerializeToString(true);
-                        //Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
-                    }
-                    else
-                    {
-                        CompositePartCollection pc = new CompositePartCollection().DeserialiseFromXMLString(CollectionXML.OuterXml);
-                        xmlString = pc.SerializeToString(true);
-                        //Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
-                    }                    
-                    byte[] bytes = Encoding.UTF8.GetBytes(xmlString);
-                    using (var ms = new MemoryStream(bytes))
-                    {
-                        Blob.Upload(ms, true);
-                    }
-                }
-                #endregion
+                //#region ** UPLOAD FILE TO AZURE & UPDATE CACHE **
+                //Delegates.ToolStripLabel_SetText(this, lblStatus, "Uploading " + filename + ".xml to Azure...");
+                //if (dataUpdated)
+                //{
+                //    if (filename.Equals("BasePartCollection"))
+                //    {
+                //        BasePartCollection pc = new BasePartCollection().DeserialiseFromXMLString(CollectionXML.OuterXml);
+                //        xmlString = pc.SerializeToString(true);
+                //        //Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
+                //    }
+                //    else
+                //    {
+                //        CompositePartCollection pc = new CompositePartCollection().DeserialiseFromXMLString(CollectionXML.OuterXml);
+                //        xmlString = pc.SerializeToString(true);
+                //        //Global_Variables.CompositePartCollectionXML.LoadXml(xmlString);
+                //    }                    
+                //    byte[] bytes = Encoding.UTF8.GetBytes(xmlString);
+                //    using (var ms = new MemoryStream(bytes))
+                //    {
+                //        Blob.Upload(ms, true);
+                //    }
+                //}
+                //#endregion
 
-                #region ** SHOW CONFIRMATION **
-                string confirmation = filename + " completed successfully..." + Environment.NewLine;
-                confirmation += "LDrawDescription: Found = " + foundList_LDrawDescription.Count.ToString("#,##0") + Environment.NewLine;
-                foreach (string LDrawRef in foundList_LDrawDescription)
-                {
-                    confirmation += LDrawRef + Environment.NewLine;
-                }
-                confirmation += "Not Found=" + notFoundList_LDrawDescription.Count.ToString("#,##0") + Environment.NewLine + Environment.NewLine;
-                confirmation += "LDrawPartType: Found = " + foundList_LDrawPartType.Count.ToString("#,##0") + Environment.NewLine;
-                foreach (string LDrawRef in foundList_LDrawPartType)
-                {
-                    confirmation += LDrawRef + Environment.NewLine;
-                }
-                confirmation += "Not Found=" + notFoundList_LDrawPartType.Count.ToString("#,##0") + Environment.NewLine;
-                MessageBox.Show(confirmation, "Updating LDraw details...");
-                #endregion
+                //#region ** SHOW CONFIRMATION **
+                //string confirmation = filename + " completed successfully..." + Environment.NewLine;
+                //confirmation += "LDrawDescription: Found = " + foundList_LDrawDescription.Count.ToString("#,##0") + Environment.NewLine;
+                //foreach (string LDrawRef in foundList_LDrawDescription)
+                //{
+                //    confirmation += LDrawRef + Environment.NewLine;
+                //}
+                //confirmation += "Not Found=" + notFoundList_LDrawDescription.Count.ToString("#,##0") + Environment.NewLine + Environment.NewLine;
+                //confirmation += "LDrawPartType: Found = " + foundList_LDrawPartType.Count.ToString("#,##0") + Environment.NewLine;
+                //foreach (string LDrawRef in foundList_LDrawPartType)
+                //{
+                //    confirmation += LDrawRef + Environment.NewLine;
+                //}
+                //confirmation += "Not Found=" + notFoundList_LDrawPartType.Count.ToString("#,##0") + Environment.NewLine;
+                //MessageBox.Show(confirmation, "Updating LDraw details...");
+                //#endregion
 
             }
             catch (Exception ex)
@@ -742,72 +749,24 @@ namespace Generator
         private async Task UpdateLDrawStaticDataDetails_NEW()
         {
             // FUNCTION BELOW STILL NEEDS TO BE FINISHED
-            try
-            {
-                // ** DOWNLOAD BasePartCollection FROM AZURE **
-                //Delegates.ToolStripLabel_SetText(this, lblStatus, "Downloading BasePartCollection.xml from Azure...");
-                lblStatus.Text = "Downloading BasePartCollection.xml from Azure...";
-                BlobClient BasePartCollectionBlob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "static-data").GetBlobClient("BasePartCollection.xml");
-                byte[] fileContent = new byte[BasePartCollectionBlob.GetProperties().Value.ContentLength];
-                using (var ms = new MemoryStream(fileContent))
-                {
-                    //BasePartCollectionBlob.DownloadTo(ms);
-                    await BasePartCollectionBlob.DownloadToAsync(ms);
-                }
-                string xmlString = Encoding.UTF8.GetString(fileContent);
-                //BasePartCollection bpc = new BasePartCollection().DeserialiseFromXMLString(xmlString);
-                XmlDocument BasePartCollectionXML = new XmlDocument();
-                BasePartCollectionXML.LoadXml(xmlString);
+            //try
+            //{
+            //    // ** DOWNLOAD BasePartCollection FROM AZURE **
+            //    //Delegates.ToolStripLabel_SetText(this, lblStatus, "Downloading BasePartCollection.xml from Azure...");
+            //    lblStatus.Text = "Downloading BasePartCollection.xml from Azure...";
+            //    BlobClient BasePartCollectionBlob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "static-data").GetBlobClient("BasePartCollection.xml");
+            //    byte[] fileContent = new byte[BasePartCollectionBlob.GetProperties().Value.ContentLength];
+            //    using (var ms = new MemoryStream(fileContent))
+            //    {
+            //        //BasePartCollectionBlob.DownloadTo(ms);
+            //        await BasePartCollectionBlob.DownloadToAsync(ms);
+            //    }
+            //    string xmlString = Encoding.UTF8.GetString(fileContent);
+            //    //BasePartCollection bpc = new BasePartCollection().DeserialiseFromXMLString(xmlString);
+            //    XmlDocument BasePartCollectionXML = new XmlDocument();
+            //    BasePartCollectionXML.LoadXml(xmlString);
 
-                bool dataUpdated = false;
-
-
-
-
-
-
-
-                #region ** GET ALL PARTS WITH A BLANK DESCRIPTION **
-                XmlNodeList LDrawRefNodeList = BasePartCollectionXML.SelectNodes("//BasePart[@LDrawDescription='']/@LDrawRef");
-                //XmlNodeList LDrawRefNodeList = BasePartCollectionXML.SelectNodes("//BasePart/@LDrawRef");
-                List<string> LDrawRefList = LDrawRefNodeList.Cast<XmlNode>()
-                                                   .Select(x => x.InnerText)
-                                                   .OrderBy(x => x).ToList();
-
-                // ** Get descriptions for all parts **
-                //Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Description for Part(s)...");
-                lblStatus.Text = "Getting LDraw Description for Part(s)...";
-                List<string> foundList_LDrawDescription = new List<string>();
-                List<string> notFoundList_LDrawDescription = new List<string>();
-                int index = 0;
-                int processedCount = 0;
-                //Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefList.Count);
-                foreach (string LDrawRef in LDrawRefList)
-                {
-                    //string LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString();
-                    //if (LDrawDescription.Equals(""))
-                    //{
-                    //    notFoundList_LDrawDescription.Add(LDrawRef);
-                    //}
-                    //else
-                    //{
-                    //    BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml = LDrawDescription;
-                    //    foundList_LDrawDescription.Add(LDrawRef);
-                    //    dataUpdated = true;
-                    //}
-
-                    // ** UPDATE SCREEN **
-                    //bw_UpdateLDrawStaticDataDetails.ReportProgress(processedCount, "Working...");                    
-                    if (index == 10)
-                    {
-                        //Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Description for Part(s) | Processing " + LDrawRef + " (" + processedCount.ToString("#,##0") + " of " + LDrawRefList.Count.ToString("#,##0") + ") | Found: " + foundList_LDrawDescription.Count.ToString("#,##0") + " | Not Found: " + notFoundList_LDrawDescription.Count.ToString("#,##0"));
-                        lblStatus.Text = "Getting LDraw Description for Part(s) | Processing " + LDrawRef + " (" + processedCount.ToString("#,##0") + " of " + LDrawRefList.Count.ToString("#,##0") + ") | Found: " + foundList_LDrawDescription.Count.ToString("#,##0") + " | Not Found: " + notFoundList_LDrawDescription.Count.ToString("#,##0");
-                        index = 0;
-                    }
-                    processedCount += 1;
-                    index += 1;
-                }
-                #endregion
+            //    bool dataUpdated = false;
 
 
 
@@ -815,72 +774,120 @@ namespace Generator
 
 
 
+            //    #region ** GET ALL PARTS WITH A BLANK DESCRIPTION **
+            //    XmlNodeList LDrawRefNodeList = BasePartCollectionXML.SelectNodes("//BasePart[@LDrawDescription='']/@LDrawRef");
+            //    //XmlNodeList LDrawRefNodeList = BasePartCollectionXML.SelectNodes("//BasePart/@LDrawRef");
+            //    List<string> LDrawRefList = LDrawRefNodeList.Cast<XmlNode>()
+            //                                       .Select(x => x.InnerText)
+            //                                       .OrderBy(x => x).ToList();
 
-                #region ** GET ALL PARTS WITH "UNKNOWN" LDraw Part Type **
-                LDrawRefNodeList = BasePartCollectionXML.SelectNodes("//BasePart[@LDrawPartType='" + BasePart.LDrawPartType.UNKNOWN.ToString() + "']/@LDrawRef");
-                LDrawRefList = LDrawRefNodeList.Cast<XmlNode>()
-                                                   .Select(x => x.InnerText)
-                                                   .OrderBy(x => x).ToList();
+            //    // ** Get descriptions for all parts **
+            //    //Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Description for Part(s)...");
+            //    lblStatus.Text = "Getting LDraw Description for Part(s)...";
+            //    List<string> foundList_LDrawDescription = new List<string>();
+            //    List<string> notFoundList_LDrawDescription = new List<string>();
+            //    int index = 0;
+            //    int processedCount = 0;
+            //    //Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefList.Count);
+            //    foreach (string LDrawRef in LDrawRefList)
+            //    {
+            //        //string LDrawDescription = new System.Xml.Linq.XText(StaticData.GetLDrawDescription_FromLDrawFile(LDrawRef)).ToString();
+            //        //if (LDrawDescription.Equals(""))
+            //        //{
+            //        //    notFoundList_LDrawDescription.Add(LDrawRef);
+            //        //}
+            //        //else
+            //        //{
+            //        //    BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml = LDrawDescription;
+            //        //    foundList_LDrawDescription.Add(LDrawRef);
+            //        //    dataUpdated = true;
+            //        //}
 
-                // ** Get LDrawPartType for all parts **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Part Type for Part(s)...");
-                List<string> foundList_LDrawPartType = new List<string>();
-                List<string> notFoundList_LDrawPartType = new List<string>();
-                index = 0;
-                processedCount = 0;
-                Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefList.Count);
-                foreach (string LDrawRef in LDrawRefList)
-                {
-                    //string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
-                    //if (LDrawPartType.Equals("") || LDrawPartType.Equals(BasePart.LDrawPartType.UNKNOWN.ToString()))
-                    //{
-                    //    notFoundList_LDrawPartType.Add(LDrawRef);
-                    //}
-                    //else
-                    //{
-                    //    BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawPartType").InnerXml = LDrawPartType;
-                    //    foundList_LDrawPartType.Add(LDrawRef);
-                    //    dataUpdated = true;
-                    //}
+            //        // ** UPDATE SCREEN **
+            //        //bw_UpdateLDrawStaticDataDetails.ReportProgress(processedCount, "Working...");                    
+            //        if (index == 10)
+            //        {
+            //            //Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Description for Part(s) | Processing " + LDrawRef + " (" + processedCount.ToString("#,##0") + " of " + LDrawRefList.Count.ToString("#,##0") + ") | Found: " + foundList_LDrawDescription.Count.ToString("#,##0") + " | Not Found: " + notFoundList_LDrawDescription.Count.ToString("#,##0"));
+            //            lblStatus.Text = "Getting LDraw Description for Part(s) | Processing " + LDrawRef + " (" + processedCount.ToString("#,##0") + " of " + LDrawRefList.Count.ToString("#,##0") + ") | Found: " + foundList_LDrawDescription.Count.ToString("#,##0") + " | Not Found: " + notFoundList_LDrawDescription.Count.ToString("#,##0");
+            //            index = 0;
+            //        }
+            //        processedCount += 1;
+            //        index += 1;
+            //    }
+            //    #endregion
 
-                    // ** UPDATE SCREEN **
-                    //bw_UpdateLDrawStaticDataDetails.ReportProgress(processedCount, "Working...");
-                    if (index == 10)
-                    {
-                        Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Part Type for Part(s) | Processing " + LDrawRef + " (" + processedCount.ToString("#,##0") + " of " + LDrawRefList.Count.ToString("#,##0") + ") | Found: " + foundList_LDrawPartType.Count.ToString("#,##0") + " | Not Found: " + notFoundList_LDrawPartType.Count.ToString("#,##0"));
-                        index = 0;
-                    }
-                    processedCount += 1;
-                    index += 1;
-                }
-                #endregion
 
-                //await RunTaskAsync(BasePartCollectionXML);
 
-                // ** UPLOAD BasePartCollection TO AZURE **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Uploading BasePartCollection.xml to Azure...");
-                if (dataUpdated)
-                {
-                    BasePartCollection bpc = new BasePartCollection().DeserialiseFromXMLString(BasePartCollectionXML.OuterXml);
-                    xmlString = bpc.SerializeToString(true);
-                    byte[] bytes = Encoding.UTF8.GetBytes(xmlString);
-                    using (var ms = new MemoryStream(bytes))
-                    {
-                        //await BasePartCollectionBlob.UploadAsync(ms, true);
-                    }
-                }
 
-                // ** Show confirmation **
-                lblStatus.Text = "";
-                string confirmation = "Completed successfully..." + Environment.NewLine;
-                confirmation += "LDrawDescription: Found = " + foundList_LDrawDescription.Count.ToString("#,##0") + " | Not Found=" + notFoundList_LDrawDescription.Count.ToString("#,##0") + Environment.NewLine;
-                confirmation += "LDrawPartType: Found = " + foundList_LDrawPartType.Count.ToString("#,##0") + " | Not Found=" + notFoundList_LDrawPartType.Count.ToString("#,##0") + Environment.NewLine;
-                MessageBox.Show(confirmation);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+
+
+
+
+            //    #region ** GET ALL PARTS WITH "UNKNOWN" LDraw Part Type **
+            //    LDrawRefNodeList = BasePartCollectionXML.SelectNodes("//BasePart[@LDrawPartType='" + BasePart.LDrawPartType.UNKNOWN.ToString() + "']/@LDrawRef");
+            //    LDrawRefList = LDrawRefNodeList.Cast<XmlNode>()
+            //                                       .Select(x => x.InnerText)
+            //                                       .OrderBy(x => x).ToList();
+
+            //    // ** Get LDrawPartType for all parts **
+            //    Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Part Type for Part(s)...");
+            //    List<string> foundList_LDrawPartType = new List<string>();
+            //    List<string> notFoundList_LDrawPartType = new List<string>();
+            //    index = 0;
+            //    processedCount = 0;
+            //    Delegates.ToolStripProgressBar_SetMax(this, pbStatus, LDrawRefList.Count);
+            //    foreach (string LDrawRef in LDrawRefList)
+            //    {
+            //        //string LDrawPartType = StaticData.GetLDrawPartType_FromLDrawFile(LDrawRef);
+            //        //if (LDrawPartType.Equals("") || LDrawPartType.Equals(BasePart.LDrawPartType.UNKNOWN.ToString()))
+            //        //{
+            //        //    notFoundList_LDrawPartType.Add(LDrawRef);
+            //        //}
+            //        //else
+            //        //{
+            //        //    BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawPartType").InnerXml = LDrawPartType;
+            //        //    foundList_LDrawPartType.Add(LDrawRef);
+            //        //    dataUpdated = true;
+            //        //}
+
+            //        // ** UPDATE SCREEN **
+            //        //bw_UpdateLDrawStaticDataDetails.ReportProgress(processedCount, "Working...");
+            //        if (index == 10)
+            //        {
+            //            Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting LDraw Part Type for Part(s) | Processing " + LDrawRef + " (" + processedCount.ToString("#,##0") + " of " + LDrawRefList.Count.ToString("#,##0") + ") | Found: " + foundList_LDrawPartType.Count.ToString("#,##0") + " | Not Found: " + notFoundList_LDrawPartType.Count.ToString("#,##0"));
+            //            index = 0;
+            //        }
+            //        processedCount += 1;
+            //        index += 1;
+            //    }
+            //    #endregion
+
+            //    //await RunTaskAsync(BasePartCollectionXML);
+
+            //    // ** UPLOAD BasePartCollection TO AZURE **
+            //    Delegates.ToolStripLabel_SetText(this, lblStatus, "Uploading BasePartCollection.xml to Azure...");
+            //    if (dataUpdated)
+            //    {
+            //        BasePartCollection bpc = new BasePartCollection().DeserialiseFromXMLString(BasePartCollectionXML.OuterXml);
+            //        xmlString = bpc.SerializeToString(true);
+            //        byte[] bytes = Encoding.UTF8.GetBytes(xmlString);
+            //        using (var ms = new MemoryStream(bytes))
+            //        {
+            //            //await BasePartCollectionBlob.UploadAsync(ms, true);
+            //        }
+            //    }
+
+            //    // ** Show confirmation **
+            //    lblStatus.Text = "";
+            //    string confirmation = "Completed successfully..." + Environment.NewLine;
+            //    confirmation += "LDrawDescription: Found = " + foundList_LDrawDescription.Count.ToString("#,##0") + " | Not Found=" + notFoundList_LDrawDescription.Count.ToString("#,##0") + Environment.NewLine;
+            //    confirmation += "LDrawPartType: Found = " + foundList_LDrawPartType.Count.ToString("#,##0") + " | Not Found=" + notFoundList_LDrawPartType.Count.ToString("#,##0") + Environment.NewLine;
+            //    MessageBox.Show(confirmation);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         // NEED TO FINISH THE BELOW
@@ -932,97 +939,97 @@ namespace Generator
 
         private void FlushStaticDataFile()
         {
-            //string fileName = "BasePartCollection.xml";
-            string fileName = "CompositePartCollection.xml";
-            try
-            {
-                // ** DOWNLOAD Collection FROM AZURE **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Downloading " + fileName + " from Azure...");
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "static-data").GetBlobClient(fileName);
-                byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                using (var ms = new MemoryStream(fileContent))
-                {
-                    blob.DownloadTo(ms);
-                }
-                string xmlString = Encoding.UTF8.GetString(fileContent);
-                //BasePartCollection bpc = new BasePartCollection().DeserialiseFromXMLString(xmlString);
-                CompositePartCollection cpc = new CompositePartCollection().DeserialiseFromXMLString(xmlString);
+            ////string fileName = "BasePartCollection.xml";
+            //string fileName = "CompositePartCollection.xml";
+            //try
+            //{
+            //    // ** DOWNLOAD Collection FROM AZURE **
+            //    Delegates.ToolStripLabel_SetText(this, lblStatus, "Downloading " + fileName + " from Azure...");
+            //    BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "static-data").GetBlobClient(fileName);
+            //    byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
+            //    using (var ms = new MemoryStream(fileContent))
+            //    {
+            //        blob.DownloadTo(ms);
+            //    }
+            //    string xmlString = Encoding.UTF8.GetString(fileContent);
+            //    //BasePartCollection bpc = new BasePartCollection().DeserialiseFromXMLString(xmlString);
+            //    CompositePartCollection cpc = new CompositePartCollection().DeserialiseFromXMLString(xmlString);
 
-                // ** UPLOAD Collection TO AZURE **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Uploading " + fileName + " to Azure...");
-                //xmlString = bpc.SerializeToString(true);
-                xmlString = cpc.SerializeToString(true);
-                byte[] bytes = Encoding.UTF8.GetBytes(xmlString);
-                using (var ms = new MemoryStream(bytes))
-                {
-                    blob.Upload(ms, true);
-                }
+            //    // ** UPLOAD Collection TO AZURE **
+            //    Delegates.ToolStripLabel_SetText(this, lblStatus, "Uploading " + fileName + " to Azure...");
+            //    //xmlString = bpc.SerializeToString(true);
+            //    xmlString = cpc.SerializeToString(true);
+            //    byte[] bytes = Encoding.UTF8.GetBytes(xmlString);
+            //    using (var ms = new MemoryStream(bytes))
+            //    {
+            //        blob.Upload(ms, true);
+            //    }
 
-                // ** Show confirmation **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "");
-                MessageBox.Show(fileName + " successfully flushed...");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //    // ** Show confirmation **
+            //    Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+            //    MessageBox.Show(fileName + " successfully flushed...");
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         private void UploadImage()
         {
-            try
-            {
-                // ** VALIDATIONS **
-                if (fldLDrawRef.Text.Equals(""))
-                {
-                    throw new Exception("No LDraw Ref entered...");
-                }
-                if (fldLDrawColourID.Text.Equals(""))
-                {
-                    throw new Exception("No LDraw Colour ID entered...");
-                }
-                //if (fldElementRef.Text.Equals(""))
-                //{
-                //    throw new Exception("No Element Ref entered...");
-                //}
-                if (fldSourceURL.Text.Equals(""))
-                {
-                    throw new Exception("No Source URL entered...");
-                }
-                string LDrawRef = fldLDrawRef.Text;
-                string LDrawColourID = fldLDrawColourID.Text;
-                string elementRef = fldElementRef.Text;
-                //string elementURL = "https://cdn.rebrickable.com/media/thumbs/parts/elements/" + elementRef + ".jpg/250x250p.jpg";
-                string sourceURL = fldSourceURL.Text;
+            //try
+            //{
+            //    // ** VALIDATIONS **
+            //    if (fldLDrawRef.Text.Equals(""))
+            //    {
+            //        throw new Exception("No LDraw Ref entered...");
+            //    }
+            //    if (fldLDrawColourID.Text.Equals(""))
+            //    {
+            //        throw new Exception("No LDraw Colour ID entered...");
+            //    }
+            //    //if (fldElementRef.Text.Equals(""))
+            //    //{
+            //    //    throw new Exception("No Element Ref entered...");
+            //    //}
+            //    if (fldSourceURL.Text.Equals(""))
+            //    {
+            //        throw new Exception("No Source URL entered...");
+            //    }
+            //    string LDrawRef = fldLDrawRef.Text;
+            //    string LDrawColourID = fldLDrawColourID.Text;
+            //    string elementRef = fldElementRef.Text;
+            //    //string elementURL = "https://cdn.rebrickable.com/media/thumbs/parts/elements/" + elementRef + ".jpg/250x250p.jpg";
+            //    string sourceURL = fldSourceURL.Text;
 
-                // ** Download image from Rebrickable **
-                byte[] imageb = new byte[0];
-                try
-                {
-                    //imageb = new WebClient().DownloadData(elementURL);
-                    imageb = new WebClient().DownloadData(sourceURL);
-                }
-                catch
-                { }
+            //    // ** Download image from Rebrickable **
+            //    byte[] imageb = new byte[0];
+            //    try
+            //    {
+            //        //imageb = new WebClient().DownloadData(elementURL);
+            //        imageb = new WebClient().DownloadData(sourceURL);
+            //    }
+            //    catch
+            //    { }
 
-                // ** Upload image to Azure **
-                if (imageb.Length == 0)
-                {
-                    throw new Exception("No data found on Rebrickable for " + elementRef);
-                }
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-element").GetBlobClient(LDrawRef + "_" + LDrawColourID + ".png");
-                using (var ms = new MemoryStream(imageb))
-                {
-                    blob.Upload(ms, true);
-                }
+            //    // ** Upload image to Azure **
+            //    if (imageb.Length == 0)
+            //    {
+            //        throw new Exception("No data found on Rebrickable for " + elementRef);
+            //    }
+            //    BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-element").GetBlobClient(LDrawRef + "_" + LDrawColourID + ".png");
+            //    using (var ms = new MemoryStream(imageb))
+            //    {
+            //        blob.Upload(ms, true);
+            //    }
 
-                // Show confirmation **
-                MessageBox.Show(LDrawRef + "_" + LDrawColourID + ".png uploaded to Azure...");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //    // Show confirmation **
+            //    MessageBox.Show(LDrawRef + "_" + LDrawColourID + ".png uploaded to Azure...");
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         //private async void UploadInstructionsFromWeb()
@@ -1171,71 +1178,71 @@ namespace Generator
 
         private void GenerateMiniFigLDrawFiles()
         {
-            try
-            {
-                // ** VALIDATION **
-                if (fldMiniFigRef.Text.Equals(""))
-                {
-                    throw new Exception("No MiniFig Ref entered...");
-                }
-                string MiniFigRef = fldMiniFigRef.Text;
+            //try
+            //{
+            //    // ** VALIDATION **
+            //    if (fldMiniFigRef.Text.Equals(""))
+            //    {
+            //        throw new Exception("No MiniFig Ref entered...");
+            //    }
+            //    string MiniFigRef = fldMiniFigRef.Text;
 
-                #region ** CREATE Legs File & UPLOAD TO AZURE **
-                string datText = "";
-                datText += "0 Minifig Hips and Legs (" + MiniFigRef + ")" + Environment.NewLine;
-                datText += "0 Name: " + MiniFigRef + "Legs.dat" + Environment.NewLine;
-                datText += "0 Author: Antony Lodge" + Environment.NewLine;
-                datText += "0 !LDRAW_ORG Shortcut UPDATE 2016-01" + Environment.NewLine;
-                datText += "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt" + Environment.NewLine;
-                datText += Environment.NewLine;
-                datText += "0 BFC CERTIFY CCW" + Environment.NewLine;
-                datText += Environment.NewLine;
-                datText += "1 15 0 0 0 1 0 0 0 1 0 0 0 1 3815.dat" + Environment.NewLine;
-                datText += "1 15 0 12 0 1 0 0 0 1 0 0 0 1 3816.dat" + Environment.NewLine;
-                datText += "1 15 0 12 0 1 0 0 0 1 0 0 0 1 3817.dat" + Environment.NewLine;
-                byte[] bytes = Encoding.UTF8.GetBytes(datText);
-                ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(MiniFigRef + "Legs.dat");
-                share.Create(bytes.Length);
-                using (MemoryStream ms = new MemoryStream(bytes))
-                {
-                    share.Upload(ms);
-                }
-                #endregion
+            //    #region ** CREATE Legs File & UPLOAD TO AZURE **
+            //    string datText = "";
+            //    datText += "0 Minifig Hips and Legs (" + MiniFigRef + ")" + Environment.NewLine;
+            //    datText += "0 Name: " + MiniFigRef + "Legs.dat" + Environment.NewLine;
+            //    datText += "0 Author: Antony Lodge" + Environment.NewLine;
+            //    datText += "0 !LDRAW_ORG Shortcut UPDATE 2016-01" + Environment.NewLine;
+            //    datText += "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt" + Environment.NewLine;
+            //    datText += Environment.NewLine;
+            //    datText += "0 BFC CERTIFY CCW" + Environment.NewLine;
+            //    datText += Environment.NewLine;
+            //    datText += "1 15 0 0 0 1 0 0 0 1 0 0 0 1 3815.dat" + Environment.NewLine;
+            //    datText += "1 15 0 12 0 1 0 0 0 1 0 0 0 1 3816.dat" + Environment.NewLine;
+            //    datText += "1 15 0 12 0 1 0 0 0 1 0 0 0 1 3817.dat" + Environment.NewLine;
+            //    byte[] bytes = Encoding.UTF8.GetBytes(datText);
+            //    ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(MiniFigRef + "Legs.dat");
+            //    share.Create(bytes.Length);
+            //    using (MemoryStream ms = new MemoryStream(bytes))
+            //    {
+            //        share.Upload(ms);
+            //    }
+            //    #endregion
 
-                #region ** CREATE TORSO File & UPLOAD TO AZURE **
-                datText = "";
-                datText += "0 Minifig Torso (" + MiniFigRef + ")" + Environment.NewLine;
-                datText += "0 Name: " + MiniFigRef + "Torso.dat" + Environment.NewLine;
-                datText += "0 Author: Antony Lodge" + Environment.NewLine;
-                datText += "0 !LDRAW_ORG Shortcut UPDATE 2016-01" + Environment.NewLine;
-                datText += "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt" + Environment.NewLine;
-                datText += Environment.NewLine;
-                datText += "0 BFC CERTIFY CCW" + Environment.NewLine;
-                datText += Environment.NewLine;
-                datText += "1 15 0 0 0 1 0 0 0 1 0 0 0 1 973.dat" + Environment.NewLine;
-                datText += "1 15 -15.552 9 0 0.985 -0.17 0 0.17 0.985 0 0 0 1 3818.dat" + Environment.NewLine;
-                datText += "1 15 15.552 9 0 0.985 0.17 0 -0.17 0.985 0 0 0 1 3819.dat" + Environment.NewLine;
-                datText += "1 14 -23.6904 26.774 -9.8982 0.985 -0.1202 0.1202 0.17 0.6964 -0.6964 0 0.707 0.707 3820.dat" + Environment.NewLine;
-                datText += "1 14 23.6904 26.774 -9.8982 0.985 0.1202 -0.1202 -0.17 0.6964 -0.6964 0 0.707 0.707 3820.dat" + Environment.NewLine;
-                bytes = Encoding.UTF8.GetBytes(datText);
-                share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(MiniFigRef + "Torso.dat");
-                share.Create(bytes.Length);
-                using (MemoryStream ms = new MemoryStream(bytes))
-                {
-                    share.Upload(ms);
-                }
-                #endregion
+            //    #region ** CREATE TORSO File & UPLOAD TO AZURE **
+            //    datText = "";
+            //    datText += "0 Minifig Torso (" + MiniFigRef + ")" + Environment.NewLine;
+            //    datText += "0 Name: " + MiniFigRef + "Torso.dat" + Environment.NewLine;
+            //    datText += "0 Author: Antony Lodge" + Environment.NewLine;
+            //    datText += "0 !LDRAW_ORG Shortcut UPDATE 2016-01" + Environment.NewLine;
+            //    datText += "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt" + Environment.NewLine;
+            //    datText += Environment.NewLine;
+            //    datText += "0 BFC CERTIFY CCW" + Environment.NewLine;
+            //    datText += Environment.NewLine;
+            //    datText += "1 15 0 0 0 1 0 0 0 1 0 0 0 1 973.dat" + Environment.NewLine;
+            //    datText += "1 15 -15.552 9 0 0.985 -0.17 0 0.17 0.985 0 0 0 1 3818.dat" + Environment.NewLine;
+            //    datText += "1 15 15.552 9 0 0.985 0.17 0 -0.17 0.985 0 0 0 1 3819.dat" + Environment.NewLine;
+            //    datText += "1 14 -23.6904 26.774 -9.8982 0.985 -0.1202 0.1202 0.17 0.6964 -0.6964 0 0.707 0.707 3820.dat" + Environment.NewLine;
+            //    datText += "1 14 23.6904 26.774 -9.8982 0.985 0.1202 -0.1202 -0.17 0.6964 -0.6964 0 0.707 0.707 3820.dat" + Environment.NewLine;
+            //    bytes = Encoding.UTF8.GetBytes(datText);
+            //    share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(MiniFigRef + "Torso.dat");
+            //    share.Create(bytes.Length);
+            //    using (MemoryStream ms = new MemoryStream(bytes))
+            //    {
+            //        share.Upload(ms);
+            //    }
+            //    #endregion
 
-                // ** SHOW CONFIRMATION **
-                string confString = "LDraw parts successfully created for:" + Environment.NewLine;
-                confString += MiniFigRef + "Legs" + Environment.NewLine;
-                confString += MiniFigRef + "Torso" + Environment.NewLine;
-                MessageBox.Show(confString);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //    // ** SHOW CONFIRMATION **
+            //    string confString = "LDraw parts successfully created for:" + Environment.NewLine;
+            //    confString += MiniFigRef + "Legs" + Environment.NewLine;
+            //    confString += MiniFigRef + "Torso" + Environment.NewLine;
+            //    MessageBox.Show(confString);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
 
@@ -1306,104 +1313,104 @@ namespace Generator
 
         private void bw_UploadData_DoWork(object sender, DoWorkEventArgs e)
         {
-            try
-            {                
-                // ** PROCESS FILES IN ELEMENT DIRECTORY **
-                string filePath = @"D:\LEGO STUFF - Documents\IMAGES\BASEPART";
-                List<string> PathList = Directory.GetFiles(filePath).ToList();
-                Delegates.ToolStripProgressBar_SetMax(this, pbStatus, PathList.Count);
-                int index = 0;
-                int uploadedFileCount = 0;
-                foreach (string path in PathList)
-                {
-                    if (uploadedFileCount == 100) break;
+            //try
+            //{                
+            //    // ** PROCESS FILES IN ELEMENT DIRECTORY **
+            //    string filePath = @"D:\LEGO STUFF - Documents\IMAGES\BASEPART";
+            //    List<string> PathList = Directory.GetFiles(filePath).ToList();
+            //    Delegates.ToolStripProgressBar_SetMax(this, pbStatus, PathList.Count);
+            //    int index = 0;
+            //    int uploadedFileCount = 0;
+            //    foreach (string path in PathList)
+            //    {
+            //        if (uploadedFileCount == 100) break;
 
-                    // ** Upload BLOB **
-                    string filename = Path.GetFileNameWithoutExtension(path) + ".png";
-                    BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-ldraw").GetBlobClient("official/" + filename);
-                    using (var stream = File.OpenRead(path))
-                    {                        
-                        blob.Upload(stream, true);
-                        //await blob.UploadAsync(ms, true);                        
-                    }
+            //        // ** Upload BLOB **
+            //        string filename = Path.GetFileNameWithoutExtension(path) + ".png";
+            //        BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-ldraw").GetBlobClient("official/" + filename);
+            //        using (var stream = File.OpenRead(path))
+            //        {                        
+            //            blob.Upload(stream, true);
+            //            //await blob.UploadAsync(ms, true);                        
+            //        }
 
-                    // ** UPDATE SCREEN **
-                    bw_UploadData.ReportProgress(uploadedFileCount, "Working...");
-                    if (index == 5)
-                    {
-                        Delegates.ToolStripLabel_SetText(this, lblStatus, "Uploading file(s) to Azure | Processed " + filename + " (" + uploadedFileCount.ToString("#,##0") + " of " + PathList.Count.ToString("#,##0") + ")");
-                        index = 0;
-                    }
-                    index += 1;
-                    uploadedFileCount += 1;
-                }
-                //int blobCount = container.ListBlobs().ToList().Count; 
-                MessageBox.Show("Processed " + PathList.Count.ToString("#,##0") + " file(s) successfully...");               
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //        // ** UPDATE SCREEN **
+            //        bw_UploadData.ReportProgress(uploadedFileCount, "Working...");
+            //        if (index == 5)
+            //        {
+            //            Delegates.ToolStripLabel_SetText(this, lblStatus, "Uploading file(s) to Azure | Processed " + filename + " (" + uploadedFileCount.ToString("#,##0") + " of " + PathList.Count.ToString("#,##0") + ")");
+            //            index = 0;
+            //        }
+            //        index += 1;
+            //        uploadedFileCount += 1;
+            //    }
+            //    //int blobCount = container.ListBlobs().ToList().Count; 
+            //    MessageBox.Show("Processed " + PathList.Count.ToString("#,##0") + " file(s) successfully...");               
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         private void bw_UploadData_DoWork1(object sender, DoWorkEventArgs e)
         {
-            try
-            {               
-                string LDrawType = "official";
-                //string LDrawType = "unofficial";
-                byte[] partBytes = File.ReadAllBytes(@"D:\LEGO STUFF - Documents\" + LDrawType + ".zip");
-                using (var zippedStream = new MemoryStream(partBytes))
-                {
-                    using (var archive = new ZipArchive(zippedStream))
-                    {
-                        // ** Get list of all part files **
-                        List<ZipArchiveEntry> entryList =   (from r in archive.Entries
-                                                            where r.FullName.StartsWith("ldraw/parts")
-                                                            && (r.FullName.StartsWith("ldraw/parts/s") == false && r.FullName.StartsWith("ldraw/parts/textures") == false)
-                                                            //where r.FullName.StartsWith("parts")
-                                                            //&& (r.FullName.StartsWith("parts/s") == false && r.FullName.StartsWith("parts/textures") == false)
-                                                            select r).ToList();
-                        Delegates.ToolStripProgressBar_SetMax(this, pbStatus, entryList.Count);
-                        int index = 0;
-                        int uploadedFileCount = 0;
-                        foreach (ZipArchiveEntry entry in entryList)
-                        {
-                            //if (uploadedFileCount == 100) break;
+            //try
+            //{               
+            //    string LDrawType = "official";
+            //    //string LDrawType = "unofficial";
+            //    byte[] partBytes = File.ReadAllBytes(@"D:\LEGO STUFF - Documents\" + LDrawType + ".zip");
+            //    using (var zippedStream = new MemoryStream(partBytes))
+            //    {
+            //        using (var archive = new ZipArchive(zippedStream))
+            //        {
+            //            // ** Get list of all part files **
+            //            List<ZipArchiveEntry> entryList =   (from r in archive.Entries
+            //                                                where r.FullName.StartsWith("ldraw/parts")
+            //                                                && (r.FullName.StartsWith("ldraw/parts/s") == false && r.FullName.StartsWith("ldraw/parts/textures") == false)
+            //                                                //where r.FullName.StartsWith("parts")
+            //                                                //&& (r.FullName.StartsWith("parts/s") == false && r.FullName.StartsWith("parts/textures") == false)
+            //                                                select r).ToList();
+            //            Delegates.ToolStripProgressBar_SetMax(this, pbStatus, entryList.Count);
+            //            int index = 0;
+            //            int uploadedFileCount = 0;
+            //            foreach (ZipArchiveEntry entry in entryList)
+            //            {
+            //                //if (uploadedFileCount == 100) break;
 
-                            BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "ldraw-parts").GetBlobClient(LDrawType + "/" + entry.Name);
-                            using (var stream = entry.Open())
-                            using (var reader = new StreamReader(stream))
-                            {
-                                string fileText = reader.ReadToEnd();                               
-                                byte[] bytes = Encoding.UTF8.GetBytes(fileText);
-                                using (var ms = new MemoryStream(bytes))
-                                {
-                                    // ** Upload BLOB **                                                               
-                                    blob.Upload(stream, true);
-                                    //await blob.UploadAsync(ms, true);  
-                                }
-                            }
+            //                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "ldraw-parts").GetBlobClient(LDrawType + "/" + entry.Name);
+            //                using (var stream = entry.Open())
+            //                using (var reader = new StreamReader(stream))
+            //                {
+            //                    string fileText = reader.ReadToEnd();                               
+            //                    byte[] bytes = Encoding.UTF8.GetBytes(fileText);
+            //                    using (var ms = new MemoryStream(bytes))
+            //                    {
+            //                        // ** Upload BLOB **                                                               
+            //                        blob.Upload(stream, true);
+            //                        //await blob.UploadAsync(ms, true);  
+            //                    }
+            //                }
 
-                            // ** UPDATE SCREEN **
-                            bw_UploadData.ReportProgress(uploadedFileCount, "Working...");
-                            if (index == 5)
-                            {
-                                Delegates.ToolStripLabel_SetText(this, lblStatus, "Uploading file(s) to Azure | Processed " + entry.Name + " (" + uploadedFileCount.ToString("#,##0") + " of " + entryList.Count.ToString("#,##0") + ")");
-                                index = 0;
-                            }
-                            index += 1;
-                            uploadedFileCount += 1;
-                        }
-                        //int blobCount = container.GetDirectoryReference(LDrawType).ListBlobs().ToList().Count;
-                        MessageBox.Show("Processed " + entryList.Count.ToString("#,##0") + " file(s) successfully...");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //                // ** UPDATE SCREEN **
+            //                bw_UploadData.ReportProgress(uploadedFileCount, "Working...");
+            //                if (index == 5)
+            //                {
+            //                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Uploading file(s) to Azure | Processed " + entry.Name + " (" + uploadedFileCount.ToString("#,##0") + " of " + entryList.Count.ToString("#,##0") + ")");
+            //                    index = 0;
+            //                }
+            //                index += 1;
+            //                uploadedFileCount += 1;
+            //            }
+            //            //int blobCount = container.GetDirectoryReference(LDrawType).ListBlobs().ToList().Count;
+            //            MessageBox.Show("Processed " + entryList.Count.ToString("#,##0") + " file(s) successfully...");
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         #endregion
@@ -1455,46 +1462,46 @@ namespace Generator
         }
 
 
-        private async void GetRebrickableData()
-        {
-            try
-            {
+        //private async void GetRebrickableData()
+        //{
+        //    try
+        //    {
                 
 
-                string url = "https://rebrickable.com/api/v3/lego/sets/41621-1/parts/";
-                string contents = "";
-                using (var httpClient = new HttpClient())
-                {
-                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
-                    {
-                        request.Headers.TryAddWithoutValidation("Accept", "application/json");
-                        request.Headers.TryAddWithoutValidation("Authorization", "key " + Global_Variables.RebrickableKey);
-                        var response = await httpClient.SendAsync(request);
-                        if (response.StatusCode == HttpStatusCode.OK)
-                        {
-                            contents = await response.Content.ReadAsStringAsync();
-                        }
-                    }
-                }
+        //        string url = "https://rebrickable.com/api/v3/lego/sets/41621-1/parts/";
+        //        string contents = "";
+        //        using (var httpClient = new HttpClient())
+        //        {
+        //            using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
+        //            {
+        //                request.Headers.TryAddWithoutValidation("Accept", "application/json");
+        //                request.Headers.TryAddWithoutValidation("Authorization", "key " + Global_Variables.RebrickableKey);
+        //                var response = await httpClient.SendAsync(request);
+        //                if (response.StatusCode == HttpStatusCode.OK)
+        //                {
+        //                    contents = await response.Content.ReadAsStringAsync();
+        //                }
+        //            }
+        //        }
 
-                // ** Load JSON string to XML **
-                var xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(Encoding.ASCII.GetBytes(contents), new XmlDictionaryReaderQuotas()));
-                string XMLString = xml.ToString();
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(XMLString);
-
-
-                XmlNodeList partItemList = doc.SelectNodes("//item[@type='object']");
+        //        // ** Load JSON string to XML **
+        //        var xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(Encoding.ASCII.GetBytes(contents), new XmlDictionaryReaderQuotas()));
+        //        string XMLString = xml.ToString();
+        //        XmlDocument doc = new XmlDocument();
+        //        doc.LoadXml(XMLString);
 
 
-                string test = "";
+        //        XmlNodeList partItemList = doc.SelectNodes("//item[@type='object']");
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+
+        //        string test = "";
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
 
 
 

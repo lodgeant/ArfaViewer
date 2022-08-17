@@ -533,8 +533,7 @@ namespace Generator
 
         private async void UploadInstructionsFromWeb()
         {
-            // Change this function to let the API do all the heavy lifting - just providfe the API with the Set Ref and the list of Instruction Refs
-
+            //TODO_H: Change this function to let the API do all the heavy lifting - just providfe the API with the Set Ref and the list of Instruction Refs
             try
             {
                 #region ** VALIDATIONS **
@@ -546,6 +545,8 @@ namespace Generator
                 // ** Check whether instructions are already present. If they are, confirm whether they should be downloaded again **
                 ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
                 if (share.Exists())
+                //bool PDFExists = StaticData.CheckIfPDFInstructionsExistForSet(setRef);
+                //if (PDFExists)
                 {
                     // Make sure user wants to re-upload instructions
                     DialogResult res = MessageBox.Show("Instructions already exist for " + setRef + " - do you really want to re-upload again?", "Instruction Re-Upload Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -620,9 +621,7 @@ namespace Generator
                 lblStatus.Text = "Uploading " + setRef + " to Azure FS...";
                 share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
                 const int AzureUploadLimit = 4194304;
-                //byte[] bytes = File.ReadAllBytes(targetPdf);
                 using (var stream = new MemoryStream(File.ReadAllBytes(targetPdf)))
-                //using (FileStream stream = File.OpenRead(targetPdf))
                 {
                     share.Create(stream.Length);
                     pbStatus.Maximum = (int)stream.Length;

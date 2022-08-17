@@ -267,9 +267,6 @@
             this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
             this.chkShowElementImages = new System.Windows.Forms.CheckBox();
             this.chkShowFBXDetails = new System.Windows.Forms.CheckBox();
-            this.btnUploadInstructionsFromWeb = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
-            this.fldSetInstructions = new System.Windows.Forms.ToolStripTextBox();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -329,9 +326,6 @@
             this.btnLoadSet,
             this.btnSaveSet,
             this.toolStripSeparator2,
-            this.fldSetInstructions,
-            this.btnUploadInstructionsFromWeb,
-            this.toolStripSeparator25,
             this.btnOpenSetInstructions,
             this.btnOpenSetURLs,
             this.toolStripSeparator22});
@@ -1151,6 +1145,7 @@
             // 
             // btnAddPartToBasePartCollection
             // 
+            this.btnAddPartToBasePartCollection.BackColor = System.Drawing.Color.LightSalmon;
             this.btnAddPartToBasePartCollection.Image = ((System.Drawing.Image)(resources.GetObject("btnAddPartToBasePartCollection.Image")));
             this.btnAddPartToBasePartCollection.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddPartToBasePartCollection.Name = "btnAddPartToBasePartCollection";
@@ -2409,26 +2404,6 @@
             this.chkShowFBXDetails.Text = "Show FBX Details";
             this.chkShowFBXDetails.UseVisualStyleBackColor = false;
             // 
-            // btnUploadInstructionsFromWeb
-            // 
-            this.btnUploadInstructionsFromWeb.Image = ((System.Drawing.Image)(resources.GetObject("btnUploadInstructionsFromWeb.Image")));
-            this.btnUploadInstructionsFromWeb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnUploadInstructionsFromWeb.Name = "btnUploadInstructionsFromWeb";
-            this.btnUploadInstructionsFromWeb.Size = new System.Drawing.Size(186, 22);
-            this.btnUploadInstructionsFromWeb.Text = "Upload Instructions from Web";
-            this.btnUploadInstructionsFromWeb.Click += new System.EventHandler(this.btnUploadInstructionsFromWeb_Click);
-            // 
-            // toolStripSeparator25
-            // 
-            this.toolStripSeparator25.Name = "toolStripSeparator25";
-            this.toolStripSeparator25.Size = new System.Drawing.Size(6, 25);
-            // 
-            // fldSetInstructions
-            // 
-            this.fldSetInstructions.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldSetInstructions.Name = "fldSetInstructions";
-            this.fldSetInstructions.Size = new System.Drawing.Size(150, 25);
-            // 
             // Generator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2767,9 +2742,6 @@
         private System.Windows.Forms.CheckBox chkShowPartcolourImages;
         private System.Windows.Forms.CheckBox chkShowElementImages;
         private System.Windows.Forms.CheckBox chkShowFBXDetails;
-        private System.Windows.Forms.ToolStripButton btnUploadInstructionsFromWeb;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
-        private System.Windows.Forms.ToolStripTextBox fldSetInstructions;
     }
 }
 

@@ -29,15 +29,21 @@ namespace Generator
 {
     public class APIProxy
     {
-        public string AzureStorageConnString;
-        public string AzureDBConnString;
+        //public string AzureStorageConnString;
+        //public string AzureDBConnString;
+        private string UnityLegoPartPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";    // Used for SyncFBXFiles
+        private string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
+        private string AzureDBConnString = "Server=tcp:arfa-db.database.windows.net,1433;Initial Catalog=ArfaDB;Persist Security Info=False;User ID=lodgeant;Password=Sammy_Lodge123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private string RebrickableKey = "856437d0f14f81e4d3356d27bf1b419e";
 
 
-        public APIProxy(string AzureStorageConnString, string AzureDBConnString)
-        {
-            this.AzureStorageConnString = AzureStorageConnString;
-            this.AzureDBConnString = AzureDBConnString;
-        }
+
+
+        //public APIProxy(string AzureStorageConnString, string AzureDBConnString)
+        //{
+        //    this.AzureStorageConnString = AzureStorageConnString;
+        //    this.AzureDBConnString = AzureDBConnString;
+        //}
 
                 
         //public string GetSetXMLString(string SetRef)
@@ -70,11 +76,11 @@ namespace Generator
         //    UploadXMLStringToBlob(blob, xmlString);
         //}
 
-        public void DeleteSet(string setRef)
-        {
-            BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(setRef + ".xml");
-            blob.Delete();
-        }
+        //public void DeleteSet(string setRef)
+        //{
+        //    BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(setRef + ".xml");
+        //    blob.Delete();
+        //}
 
         //public bool CheckIfSetExists(string setRef)
         //{
@@ -135,9 +141,15 @@ namespace Generator
                     // ** If the image was not already in the Azure images, upload it to Azure for use in future **
                     // ** Download element image from source API **                    
                     byte[] imageb = null;
-                    if (imageUrlList.Count == 0)
+                    //if (imageUrlList.Count == 0)
+                    if (imageUrlList.Count == 1)
                     {
-                        imageb = new WebClient().DownloadData(imageUrlList[0]);
+                        //imageb = new WebClient().DownloadData(imageUrlList[0]);
+                        try
+                        {
+                            imageb = new WebClient().DownloadData(imageUrlList[0]);
+                        }
+                        catch { }
                     }
                     else
                     {
@@ -167,10 +179,7 @@ namespace Generator
             }
             return image;
         }
-
-        public void UploadImage()   // Not used yet.
-        {
-        }
+                
 
 
         // ** PartColour Functions **
@@ -507,7 +516,7 @@ namespace Generator
 
         public bool CheckIfPDFInstructionsExistForSet(string setRef)
         {
-            ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
+            ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
             return share.Exists();
         }
 
@@ -902,13 +911,61 @@ namespace Generator
 
 
 
+        // ** Rebrickable Functions **
+
+        public string GetRebrickableSetJSONString(string SetRef)
+        {
+            string url = "https://rebrickable.com/api/v3/lego/sets/" + SetRef + "/parts/";
+            string JSONString = "";
+            using (var httpClient = new HttpClient())
+            {
+                using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
+                {
+                    request.Headers.TryAddWithoutValidation("Accept", "application/json");
+                    request.Headers.TryAddWithoutValidation("Authorization", "key " + this.RebrickableKey);                    
+                    var task = Task.Run(() => httpClient.SendAsync(request));
+                    task.Wait();
+                    var response = task.Result;
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        JSONString = response.Content.ReadAsStringAsync().Result;
+                    }
+                }
+            }
+            return JSONString;
+        }
 
 
-        
 
 
+        // ** Other functions - not sure where to put them **
 
+        public Dictionary<string, XmlDocument> GetMiniFigXMLDict(XmlDocument setXML)
+        {
+            Dictionary<string, XmlDocument> MiniFigXMLDict = new Dictionary<string, XmlDocument>();
 
+            XmlNodeList MiniFigNodeList = setXML.SelectNodes("//SubModel[@SubModelLevel='1' and @LDrawModelType='MINIFIG']");
+            List<string> MiniFigSetList = MiniFigNodeList.Cast<XmlNode>()
+                                           .Select(x => x.SelectSingleNode("@Description").InnerXml.Split('_')[0])
+                                           .OrderBy(x => x).ToList();
+            foreach (string MiniFigRef in MiniFigSetList)
+            {
+                // ** Get the Set XML doc for the MiniFig **
+                //TODO: This need upgrading to get the MiniFig XML from DB (if that's where it ends up1)
+                BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(MiniFigRef + ".xml");
+                if (blob.Exists())
+                {
+                    // ** Get MiniFig XML **
+                    XmlDocument MiniFigXmlDoc = new XmlDocument();
+                    byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
+                    using (var ms = new MemoryStream(fileContent)) blob.DownloadTo(ms);                   
+                    string xmlString = Encoding.UTF8.GetString(fileContent);
+                    MiniFigXmlDoc.LoadXml(xmlString);
+                    if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false) MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);                    
+                }
+            }
+            return MiniFigXMLDict;
+        }
 
 
 

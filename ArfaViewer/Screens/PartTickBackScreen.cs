@@ -98,13 +98,9 @@ namespace Generator
                 toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
                                 new ToolStripControlHost(chkWholeSetShowBig),
                                 });
-
-
                 toolStrip7.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
                                 new ToolStripControlHost(chkWholeSetShowMissingOnly),
                                 });
-
-
 
                 // ** Set up Scintilla **
                 SetupScintillaPanel1();
@@ -841,10 +837,14 @@ namespace Generator
 
                     // ** UPDATE SUMMARY **
                     DataTable partListTable = GeneratePartListTable(partListNodeList);
-                    partListTable.DefaultView.Sort = "LDraw Colour Name";
-                    partListTable = partListTable.DefaultView.ToTable();
-                    Delegates.DataGridView_SetDataSource(this, dgSetPartListSummary, partListTable);
-                    AdjustPartListSummaryRowFormatting(dgSetPartListSummary);
+                    //if(partListTable != null)
+                    //{
+                        partListTable.DefaultView.Sort = "LDraw Colour Name";
+                        partListTable = partListTable.DefaultView.ToTable();
+                        Delegates.DataGridView_SetDataSource(this, dgSetPartListSummary, partListTable);
+                        AdjustPartListSummaryRowFormatting(dgSetPartListSummary);
+                    //}                    
+                   
 
 
 

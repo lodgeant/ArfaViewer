@@ -76,24 +76,13 @@ namespace Generator
                 toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
                                 btnExit,
                                 toolStripSeparator1,
-
-                                //btnRefreshStaticData,
                                 toolStripSeparator2,
-
                                 lblSetRef,
                                 fldCurrentSetRef,
                                 btnLoadSet,
-                                btnSaveSet,
-                                //btnDeleteSet,                                                               
+                                btnSaveSet,                                                                                         
                                 new ToolStripControlHost(chkShowSubParts),
-                                new ToolStripControlHost(chkShowPages),
-                                //toolStripSeparator4,
-
-
-                                fldSetInstructions,
-                                btnUploadInstructionsFromWeb,
-                                toolStripSeparator25,
-
+                                new ToolStripControlHost(chkShowPages),                                
                                 btnOpenSetURLs,
                                 btnOpenSetInstructions,
                                 toolStripSeparator22,
@@ -813,10 +802,10 @@ namespace Generator
             DuplicateStep("AFTER");
         }
 
-        private void btnUploadInstructionsFromWeb_Click(object sender, EventArgs e)
-        {
-            UploadInstructionsFromWeb();
-        }
+        //private void btnUploadInstructionsFromWeb_Click(object sender, EventArgs e)
+        //{
+        //    UploadInstructionsFromWeb();
+        //}
 
         #endregion
 
@@ -1160,21 +1149,15 @@ namespace Generator
                 fldCurrentSetRef.Enabled = value;
                 btnLoadSet.Enabled = value;
                 btnSaveSet.Enabled = value;
-                //btnDeleteSet.Enabled = value;
-
-                fldSetInstructions.Enabled = value;
-                btnUploadInstructionsFromWeb.Enabled = value;
-
                 btnOpenSetInstructions.Enabled = value;
                 btnOpenSetURLs.Enabled = value;
                 chkShowSubParts.Enabled = value;
                 chkShowPages.Enabled = value;
                 tabControl1.Enabled = value;                
-                //btnRefreshStaticData.Enabled = value;
                 chkShowPartcolourImages.Enabled = value;
                 chkShowElementImages.Enabled = value;
                 chkShowFBXDetails.Enabled = value;
-                pnlSetImage.Enabled = value;
+                //pnlSetImage.Enabled = value;
             }
         }
 
@@ -1257,7 +1240,7 @@ namespace Generator
                     // ** MERGE STANDALONE MINIFIG XML's INTO SET XML **   
                     fullSetXml = new XmlDocument();
                     fullSetXml.LoadXml(currentSetXml.OuterXml);
-                    Dictionary<string, XmlDocument> MiniFigXMLDict = GetMiniFigXMLDict(currentSetXml);
+                    Dictionary<string, XmlDocument> MiniFigXMLDict = StaticData.GetMiniFigXMLDict(currentSetXml);
                     if (MiniFigXMLDict.Count > 0) fullSetXml = Set.MergeMiniFigsIntoSetXML(fullSetXml, MiniFigXMLDict);
                     
                     // ** GENERATE SET SUMMARY TREEVIEW **
@@ -1390,37 +1373,37 @@ namespace Generator
             }
         }
 
-        private Dictionary<string, XmlDocument> GetMiniFigXMLDict(XmlDocument currentSetxmlDoc)
-        {
-            Dictionary<string, XmlDocument> MiniFigXMLDict = new Dictionary<string, XmlDocument>();
+        //private Dictionary<string, XmlDocument> GetMiniFigXMLDict(XmlDocument currentSetxmlDoc)
+        //{
+        //    Dictionary<string, XmlDocument> MiniFigXMLDict = new Dictionary<string, XmlDocument>();
 
-            XmlNodeList MiniFigNodeList = currentSetxmlDoc.SelectNodes("//SubModel[@SubModelLevel='1' and @LDrawModelType='MINIFIG']");
-            List<string> MiniFigSetList = MiniFigNodeList.Cast<XmlNode>()
-                                           .Select(x => x.SelectSingleNode("@Description").InnerXml.Split('_')[0])
-                                           .OrderBy(x => x).ToList();
-            foreach (string MiniFigRef in MiniFigSetList)
-            {
-                // ** Get the Set XML doc for the MiniFig **                   
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(MiniFigRef + ".xml");
-                if (blob.Exists())
-                {
-                    // ** Get MiniFig XML **
-                    XmlDocument MiniFigXmlDoc = new XmlDocument();
-                    byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                    using (var ms = new MemoryStream(fileContent))
-                    {
-                        blob.DownloadTo(ms);
-                    }
-                    string xmlString = Encoding.UTF8.GetString(fileContent);
-                    MiniFigXmlDoc.LoadXml(xmlString);
-                    if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false)
-                    {
-                        MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);
-                    }
-                }
-            }
-            return MiniFigXMLDict;
-        }
+        //    XmlNodeList MiniFigNodeList = currentSetxmlDoc.SelectNodes("//SubModel[@SubModelLevel='1' and @LDrawModelType='MINIFIG']");
+        //    List<string> MiniFigSetList = MiniFigNodeList.Cast<XmlNode>()
+        //                                   .Select(x => x.SelectSingleNode("@Description").InnerXml.Split('_')[0])
+        //                                   .OrderBy(x => x).ToList();
+        //    foreach (string MiniFigRef in MiniFigSetList)
+        //    {
+        //        // ** Get the Set XML doc for the MiniFig **                   
+        //        BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(MiniFigRef + ".xml");
+        //        if (blob.Exists())
+        //        {
+        //            // ** Get MiniFig XML **
+        //            XmlDocument MiniFigXmlDoc = new XmlDocument();
+        //            byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
+        //            using (var ms = new MemoryStream(fileContent))
+        //            {
+        //                blob.DownloadTo(ms);
+        //            }
+        //            string xmlString = Encoding.UTF8.GetString(fileContent);
+        //            MiniFigXmlDoc.LoadXml(xmlString);
+        //            if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false)
+        //            {
+        //                MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);
+        //            }
+        //        }
+        //    }
+        //    return MiniFigXMLDict;
+        //}
 
         private void ClearAllFields()
         {
@@ -2034,7 +2017,7 @@ namespace Generator
                     LDrawDetails LDrawDetails = ldd_coll.LDrawDetailsList[0];
 
                     // ** GET FBX DETAILS FOR PART MODEL **
-                    //TODO_H: The below is too slow - needs speeding up!
+                    //TODO: The below is too slow - needs speeding up!
                     FBXDetails fbxDetails = new FBXDetails();
                     if(chkShowFBXDetails.Checked) fbxDetails = StaticData.GetFBXDetails(LDrawRef, partType);
 
@@ -2183,7 +2166,7 @@ namespace Generator
 
         #region ** REBRICKABLE MATCHING FUNCTIONS **
 
-        private async void CompareSetPartsWithRebrickable()
+        private void CompareSetPartsWithRebrickable()
         {
             try
             {
@@ -2200,21 +2183,7 @@ namespace Generator
                 for (int a = 0; a < sourceTable.Rows.Count; a++) sourceTable.Rows[a]["Matched"] = "False";
 
                 // ** GET TARGET TABLE FROM REBRICKABLE **                
-                string url = "https://rebrickable.com/api/v3/lego/sets/" + SetRef + "/parts/";
-                string JSONString = "";
-                using (var httpClient = new HttpClient())
-                {
-                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
-                    {
-                        request.Headers.TryAddWithoutValidation("Accept", "application/json");
-                        request.Headers.TryAddWithoutValidation("Authorization", "key " + Global_Variables.RebrickableKey);
-                        var response = await httpClient.SendAsync(request);
-                        if (response.StatusCode == HttpStatusCode.OK)
-                        {
-                            JSONString = await response.Content.ReadAsStringAsync();
-                        }
-                    }
-                }
+                string JSONString = StaticData.GetRebrickableSetJSONString(SetRef);
                 DataTable targetTable = GeneratePartListTableFromRebrickable(JSONString);
                 targetTable.DefaultView.Sort = "LDraw Colour ID, LDraw Ref";
                 targetTable = targetTable.DefaultView.ToTable();
@@ -2270,7 +2239,9 @@ namespace Generator
         }
 
         private DataTable GeneratePartListTableFromRebrickable(string JSONString)
-        {            
+        {
+            DataTable partListTable = new DataTable("partListTable", "partListTable");
+            string LDrawRef_debug = "";
             try
             {
                 // ** Load JSON string to XML **
@@ -2294,6 +2265,7 @@ namespace Generator
                         LDrawRef = partNode.SelectSingleNode("part/external_ids/LDraw/item").InnerXml;
                     }
                     if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);
+                    LDrawRef_debug = LDrawRef;
 
                     // ** Get Element images **                
                     if (chkShowElementImages.Checked)
@@ -2306,7 +2278,7 @@ namespace Generator
                 #endregion
 
                 // ** GENERATE COLUMNS **
-                DataTable partListTable = new DataTable("partListTable", "partListTable");
+                //DataTable partListTable = new DataTable("partListTable", "partListTable");
                 partListTable.Columns.Add("Part Image", typeof(Bitmap));
                 partListTable.Columns.Add("LDraw Ref", typeof(string));
                 partListTable.Columns.Add("LDraw Description", typeof(string));
@@ -2319,11 +2291,16 @@ namespace Generator
                 foreach (XmlNode partNode in partItemList)
                 {
                     // ** GET LDRAW VARIABLES **                    
-                    string LDrawRef = partNode.SelectSingleNode("part/part_num").InnerXml;
+                    string LDrawRef = "";
+                    if(partNode.SelectSingleNode("part/part_num") != null)
+                    {
+                        LDrawRef = partNode.SelectSingleNode("part/part_num").InnerXml;
+                    }
                     if (partNode.SelectSingleNode("part/external_ids/LDraw") != null)
                     {
                         LDrawRef = partNode.SelectSingleNode("part/external_ids/LDraw/item").InnerXml;
                     }
+                    LDrawRef_debug = LDrawRef;
                     int LDrawColourID = int.Parse(partNode.SelectSingleNode("color/id").InnerXml);
                     int Qty = int.Parse(partNode.SelectSingleNode("quantity").InnerXml); 
                     string LDrawColourName = (from r in PartColourCollection.PartColourList
@@ -2356,7 +2333,8 @@ namespace Generator
             {
                 //MessageBox.Show(ex.Message);
                 //MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
-                return null;                
+                //return null;
+                return partListTable;
             }
         }
 
@@ -4713,14 +4691,14 @@ namespace Generator
                     // ** BASIC **
 
                     // ** GENERATE MAIN PART **
-                    string line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + LDrawRef + ".dat" + Environment.NewLine;
-                    byte[] bytes = Encoding.UTF8.GetBytes(line);
-                    ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + LDrawRef + ".dat");
-                    share.Create(bytes.Length);
-                    using (MemoryStream ms = new MemoryStream(bytes))
-                    {
-                        share.Upload(ms);
-                    }  
+                    //string line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + LDrawRef + ".dat" + Environment.NewLine;
+                    //byte[] bytes = Encoding.UTF8.GetBytes(line);
+                    //ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + LDrawRef + ".dat");
+                    //share.Create(bytes.Length);
+                    //using (MemoryStream ms = new MemoryStream(bytes))
+                    //{
+                    //    share.Upload(ms);
+                    //}  
                 }
                 else if (partType == BasePart.PartType.COMPOSITE)
                 {
@@ -4859,59 +4837,59 @@ namespace Generator
 
         public static void SyncFBXFiles()
         {            
-            try
-            {
-                // ** GET ALL FBX FILES IN "static-data\files-fbx" ON AZURE SHARE **                
-                List<Azure.Storage.Files.Shares.Models.ShareFileItem> FSFileList = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFilesAndDirectories().ToList();
-                List<string> FileList_FS = FSFileList.Select(x => x.Name).ToList();
+            //try
+            //{
+            //    // ** GET ALL FBX FILES IN "static-data\files-fbx" ON AZURE SHARE **                
+            //    List<Azure.Storage.Files.Shares.Models.ShareFileItem> FSFileList = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFilesAndDirectories().ToList();
+            //    List<string> FileList_FS = FSFileList.Select(x => x.Name).ToList();
 
-                // ** COPY FILES ACROSS THAT ARE NEW OR NEWER **
-                List<string> updatedFileList = new List<string>();
-                foreach (string filename in FileList_FS)
-                {
-                    ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(filename);
-                    DateTime lastModified_TS = share.GetProperties().Value.LastModified.UtcDateTime;
-                    DateTime lastModified_Unity;
-                    bool CopyFile = false;
-                    if (File.Exists(Path.Combine(Global_Variables.UnityLegoPartPath, filename)) == false)
-                    {
-                        CopyFile = true;
-                    }
-                    else
-                    {
-                        lastModified_Unity = new FileInfo(Path.Combine(Global_Variables.UnityLegoPartPath, filename)).LastWriteTimeUtc;
-                        if (lastModified_Unity < lastModified_TS)
-                        {
-                            CopyFile = true;
-                        }
-                    }
-                    if (CopyFile)
-                    {
-                        // ** Download file from Azure and save into Unity Resources\Lego Part Model directory **                        
-                        string target = Path.Combine(Global_Variables.UnityLegoPartPath, filename);
-                        byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
-                        Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
-                        using (var fs = new FileStream(target, FileMode.Create, FileAccess.Write))
-                        {
-                            download.Content.CopyTo(fs);
-                        }
-                        File.SetLastWriteTimeUtc(target, lastModified_TS);
-                        updatedFileList.Add(filename);
-                    }
-                }
+            //    // ** COPY FILES ACROSS THAT ARE NEW OR NEWER **
+            //    List<string> updatedFileList = new List<string>();
+            //    foreach (string filename in FileList_FS)
+            //    {
+            //        ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(filename);
+            //        DateTime lastModified_TS = share.GetProperties().Value.LastModified.UtcDateTime;
+            //        DateTime lastModified_Unity;
+            //        bool CopyFile = false;
+            //        if (File.Exists(Path.Combine(Global_Variables.UnityLegoPartPath, filename)) == false)
+            //        {
+            //            CopyFile = true;
+            //        }
+            //        else
+            //        {
+            //            lastModified_Unity = new FileInfo(Path.Combine(Global_Variables.UnityLegoPartPath, filename)).LastWriteTimeUtc;
+            //            if (lastModified_Unity < lastModified_TS)
+            //            {
+            //                CopyFile = true;
+            //            }
+            //        }
+            //        if (CopyFile)
+            //        {
+            //            // ** Download file from Azure and save into Unity Resources\Lego Part Model directory **                        
+            //            string target = Path.Combine(Global_Variables.UnityLegoPartPath, filename);
+            //            byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
+            //            Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
+            //            using (var fs = new FileStream(target, FileMode.Create, FileAccess.Write))
+            //            {
+            //                download.Content.CopyTo(fs);
+            //            }
+            //            File.SetLastWriteTimeUtc(target, lastModified_TS);
+            //            updatedFileList.Add(filename);
+            //        }
+            //    }
 
-                // ** SHOW CONFIRMATION **
-                string confirmation = updatedFileList.Count + " file(s) added/updated in Unity Resource directory" + Environment.NewLine;
-                foreach (string filename in updatedFileList)
-                {
-                    confirmation += filename + Environment.NewLine;
-                }
-                MessageBox.Show(confirmation, "Syncing FBX file(s)...");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //    // ** SHOW CONFIRMATION **
+            //    string confirmation = updatedFileList.Count + " file(s) added/updated in Unity Resource directory" + Environment.NewLine;
+            //    foreach (string filename in updatedFileList)
+            //    {
+            //        confirmation += filename + Environment.NewLine;
+            //    }
+            //    MessageBox.Show(confirmation, "Syncing FBX file(s)...");
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         #endregion
@@ -5046,21 +5024,21 @@ namespace Generator
 
                 // ** LOAD Set XML into Object - NEW **
                 string setRef = "TEST-1";
-                //CloudBlockBlob blob = blobClient.GetContainerReference("set-xmls").GetBlockBlobReference(setRef + ".xml");
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(setRef + ".xml");
-                if (blob.Exists() == false)
-                {
-                    throw new Exception("Set not found...");
-                }
-                //string xmlString = Encoding.UTF8.GetString(HelperFunctions.DownloadAzureFile(blob));
-                byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                using (var ms = new MemoryStream(fileContent))
-                {
-                    blob.DownloadTo(ms);
-                }
-                string xmlString = Encoding.UTF8.GetString(fileContent);
-                currentSetXml = new XmlDocument();
-                currentSetXml.LoadXml(xmlString);
+                ////CloudBlockBlob blob = blobClient.GetContainerReference("set-xmls").GetBlockBlobReference(setRef + ".xml");
+                //BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(setRef + ".xml");
+                //if (blob.Exists() == false)
+                //{
+                //    throw new Exception("Set not found...");
+                //}
+                ////string xmlString = Encoding.UTF8.GetString(HelperFunctions.DownloadAzureFile(blob));
+                //byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
+                //using (var ms = new MemoryStream(fileContent))
+                //{
+                //    blob.DownloadTo(ms);
+                //}
+                //string xmlString = Encoding.UTF8.GetString(fileContent);
+                //currentSetXml = new XmlDocument();
+                //currentSetXml.LoadXml(xmlString);
 
                 // get all part nodes
                 String LDRString = "";
@@ -5260,163 +5238,163 @@ namespace Generator
 
         private void SubModelImportPartPosRot()
         {            
-            try
-            {
-                #region ** VALIDATION **
-                if (tvSetSummary.SelectedNode == null)
-                {
-                    throw new Exception("No Model or SubModel node selected...");
-                }
-                string Type = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[0];
-                if (Type != "MODEL" & Type != "SUBMODEL")
-                {
-                    throw new Exception("Can only import data on Model or SubModel nodes");
-                }
-                #endregion
+            //try
+            //{
+            //    #region ** VALIDATION **
+            //    if (tvSetSummary.SelectedNode == null)
+            //    {
+            //        throw new Exception("No Model or SubModel node selected...");
+            //    }
+            //    string Type = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[0];
+            //    if (Type != "MODEL" & Type != "SUBMODEL")
+            //    {
+            //        throw new Exception("Can only import data on Model or SubModel nodes");
+            //    }
+            //    #endregion
 
-                // ** Get current Model or SubModel **              
-                string SubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
-                string SubModelRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[2];
-                string SetRef = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']/ancestor::Set/@Ref").InnerXml;
+            //    // ** Get current Model or SubModel **              
+            //    string SubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
+            //    string SubModelRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[2];
+            //    string SetRef = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']/ancestor::Set/@Ref").InnerXml;
 
-                // ** GET SET PARTS FOR SUB MODEL **                         
-                string SetPartXMLString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + SubModelRef + "']/*/Part";
-                //string SetPartXMLString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + SubModelRef + "']//Part";
-                XmlNodeList setPartNodeList = currentSetXml.SelectNodes(SetPartXMLString);
+            //    // ** GET SET PARTS FOR SUB MODEL **                         
+            //    string SetPartXMLString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + SubModelRef + "']/*/Part";
+            //    //string SetPartXMLString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + SubModelRef + "']//Part";
+            //    XmlNodeList setPartNodeList = currentSetXml.SelectNodes(SetPartXMLString);
 
-                #region ** GET SUBMODEL PARTS **
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "submodel-xmls").GetBlobClient(SubSetRef + "." + SubModelRef + ".xml");
-                if (blob.Exists() == false)
-                {
-                    throw new Exception("SubModel XML file " + SubSetRef + "." + SubModelRef + ".xml not found...");
-                }
-                byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                using (var ms = new MemoryStream(fileContent))
-                {
-                    blob.DownloadTo(ms);
-                }
-                string xmlString = Encoding.UTF8.GetString(fileContent);
-                XmlDocument SubModelXMLDoc = new XmlDocument();
-                SubModelXMLDoc.LoadXml(xmlString);
-                string SubModelPartXMLString = "//Part";
-                //string SubModelPartXMLString = "//Part[@IsSubPart='false']";
-                XmlNodeList subModelPartNodeList = SubModelXMLDoc.SelectNodes(SubModelPartXMLString);
-                #endregion
+            //    #region ** GET SUBMODEL PARTS **
+            //    BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "submodel-xmls").GetBlobClient(SubSetRef + "." + SubModelRef + ".xml");
+            //    if (blob.Exists() == false)
+            //    {
+            //        throw new Exception("SubModel XML file " + SubSetRef + "." + SubModelRef + ".xml not found...");
+            //    }
+            //    byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
+            //    using (var ms = new MemoryStream(fileContent))
+            //    {
+            //        blob.DownloadTo(ms);
+            //    }
+            //    string xmlString = Encoding.UTF8.GetString(fileContent);
+            //    XmlDocument SubModelXMLDoc = new XmlDocument();
+            //    SubModelXMLDoc.LoadXml(xmlString);
+            //    string SubModelPartXMLString = "//Part";
+            //    //string SubModelPartXMLString = "//Part[@IsSubPart='false']";
+            //    XmlNodeList subModelPartNodeList = SubModelXMLDoc.SelectNodes(SubModelPartXMLString);
+            //    #endregion
 
-                #region ** GENERATE SOURCE AND TARGET TABLES **
-                DataTable sourceTable = GenerateStepPartTable(setPartNodeList);
-                sourceTable.Columns.Add("Matched", typeof(string));
-                DataTable targetTable = GenerateStepPartTable(subModelPartNodeList);
-                targetTable.Columns.Add("Matched", typeof(string));
-                for (int a = 0; a < sourceTable.Rows.Count; a++) sourceTable.Rows[a]["Matched"] = "False";
-                for (int a = 0; a < targetTable.Rows.Count; a++) targetTable.Rows[a]["Matched"] = "False";
-                #endregion
+            //    #region ** GENERATE SOURCE AND TARGET TABLES **
+            //    DataTable sourceTable = GenerateStepPartTable(setPartNodeList);
+            //    sourceTable.Columns.Add("Matched", typeof(string));
+            //    DataTable targetTable = GenerateStepPartTable(subModelPartNodeList);
+            //    targetTable.Columns.Add("Matched", typeof(string));
+            //    for (int a = 0; a < sourceTable.Rows.Count; a++) sourceTable.Rows[a]["Matched"] = "False";
+            //    for (int a = 0; a < targetTable.Rows.Count; a++) targetTable.Rows[a]["Matched"] = "False";
+            //    #endregion
 
-                #region ** RUN MATCHING PROCESS **
-                bool overallMatch = true;
-                for (int a = 0; a < sourceTable.Rows.Count; a++)
-                {
-                    // ** GET VARIABLES **
-                    string Set_LDrawRef = sourceTable.Rows[a]["LDraw Ref"].ToString();
-                    string Set_LDrawColourID = sourceTable.Rows[a]["LDraw Colour ID"].ToString();
-                    string SubModel_LDrawRef = "";
-                    string SubModel_LDrawColourID = "";
-                    if (a < targetTable.Rows.Count)
-                    {
-                        SubModel_LDrawRef = targetTable.Rows[a]["LDraw Ref"].ToString();
-                        SubModel_LDrawColourID = targetTable.Rows[a]["LDraw Colour ID"].ToString();
-                    }
-                    bool match = true;
-                    if (Set_LDrawRef != SubModel_LDrawRef)
-                    {
-                        match = false;
-                    }
-                    if (Set_LDrawColourID != SubModel_LDrawColourID)
-                    {
-                        match = false;
-                    }
-                    sourceTable.Rows[a]["Matched"] = match;
-                    if (a < targetTable.Rows.Count)
-                    {
-                        targetTable.Rows[a]["Matched"] = match;
-                    }
-                }
-                int SourceUnmatchedCount = (from r in sourceTable.AsEnumerable()
-                                            where r.Field<string>("Matched").Equals("False")
-                                            select r).Count();
-                int TargetUnmatchedCount = (from r in targetTable.AsEnumerable()
-                                            where r.Field<string>("Matched").Equals("False")
-                                            select r).Count();
-                if (SourceUnmatchedCount > 0 || TargetUnmatchedCount > 0)
-                {
-                    overallMatch = false;
-                }
-                #endregion
+            //    #region ** RUN MATCHING PROCESS **
+            //    bool overallMatch = true;
+            //    for (int a = 0; a < sourceTable.Rows.Count; a++)
+            //    {
+            //        // ** GET VARIABLES **
+            //        string Set_LDrawRef = sourceTable.Rows[a]["LDraw Ref"].ToString();
+            //        string Set_LDrawColourID = sourceTable.Rows[a]["LDraw Colour ID"].ToString();
+            //        string SubModel_LDrawRef = "";
+            //        string SubModel_LDrawColourID = "";
+            //        if (a < targetTable.Rows.Count)
+            //        {
+            //            SubModel_LDrawRef = targetTable.Rows[a]["LDraw Ref"].ToString();
+            //            SubModel_LDrawColourID = targetTable.Rows[a]["LDraw Colour ID"].ToString();
+            //        }
+            //        bool match = true;
+            //        if (Set_LDrawRef != SubModel_LDrawRef)
+            //        {
+            //            match = false;
+            //        }
+            //        if (Set_LDrawColourID != SubModel_LDrawColourID)
+            //        {
+            //            match = false;
+            //        }
+            //        sourceTable.Rows[a]["Matched"] = match;
+            //        if (a < targetTable.Rows.Count)
+            //        {
+            //            targetTable.Rows[a]["Matched"] = match;
+            //        }
+            //    }
+            //    int SourceUnmatchedCount = (from r in sourceTable.AsEnumerable()
+            //                                where r.Field<string>("Matched").Equals("False")
+            //                                select r).Count();
+            //    int TargetUnmatchedCount = (from r in targetTable.AsEnumerable()
+            //                                where r.Field<string>("Matched").Equals("False")
+            //                                select r).Count();
+            //    if (SourceUnmatchedCount > 0 || TargetUnmatchedCount > 0)
+            //    {
+            //        overallMatch = false;
+            //    }
+            //    #endregion
 
-                #region ** IF OVERALL MATCH = FALSE, SHOW Matching Screen **
-                if (overallMatch == false)
-                {
-                    // ** REARRANGE SOURCE TABLE COLUMNS **
-                    string[] columnNames = new string[] { "Step No", "Part Image", "LDraw Ref", "LDraw Colour ID", "LDraw Colour Name", "Colour Image", "Unity FBX", "Base Part Collection", "Part Type", "Is SubPart", "Step Node Index", "Placement Movements", "SuBSet Ref", "PosX", "PosY", "PosZ", "RotX", "RotY", "RotZ" };
-                    var colIndex = 0;
-                    foreach (var colName in columnNames)
-                    {
-                        sourceTable.Columns[colName].SetOrdinal(colIndex++);
-                    }
+            //    #region ** IF OVERALL MATCH = FALSE, SHOW Matching Screen **
+            //    if (overallMatch == false)
+            //    {
+            //        // ** REARRANGE SOURCE TABLE COLUMNS **
+            //        string[] columnNames = new string[] { "Step No", "Part Image", "LDraw Ref", "LDraw Colour ID", "LDraw Colour Name", "Colour Image", "Unity FBX", "Base Part Collection", "Part Type", "Is SubPart", "Step Node Index", "Placement Movements", "SuBSet Ref", "PosX", "PosY", "PosZ", "RotX", "RotY", "RotZ" };
+            //        var colIndex = 0;
+            //        foreach (var colName in columnNames)
+            //        {
+            //            sourceTable.Columns[colName].SetOrdinal(colIndex++);
+            //        }
 
-                    // ** SHOW MATCHING SCREEN **
-                    MatchingScreen form = new MatchingScreen();
-                    form.sourceTable = sourceTable;
-                    form.targetTable = targetTable;
-                    form.Refresh_Screen();
-                    form.Visible = true;
-                    return;
-                }
-                #endregion
+            //        // ** SHOW MATCHING SCREEN **
+            //        MatchingScreen form = new MatchingScreen();
+            //        form.sourceTable = sourceTable;
+            //        form.targetTable = targetTable;
+            //        form.Refresh_Screen();
+            //        form.Visible = true;
+            //        return;
+            //    }
+            //    #endregion
 
-                #region ** UPDATE SET XML (IF OVERALL MATCH = TRUE) **
-                int PartCount = 0;
-                int SubPartCount = 0;
-                for (int a = 0; a < subModelPartNodeList.Count; a++)
-                {
-                    string Set_LDrawRef = subModelPartNodeList[a].SelectSingleNode("@LDrawRef").InnerXml;
-                    string Set_LDrawColourID = subModelPartNodeList[a].SelectSingleNode("@LDrawColourID").InnerXml;
-                    bool IsSubPart = bool.Parse(subModelPartNodeList[a].SelectSingleNode("@IsSubPart").InnerXml);
-                    if (IsSubPart == false)
-                    {
-                        PartCount += 1;
-                    }
-                    else
-                    {
-                        SubPartCount += 1;
-                    }
-                    string PosX = subModelPartNodeList[a].SelectSingleNode("@PosX").InnerXml;
-                    string PosY = subModelPartNodeList[a].SelectSingleNode("@PosY").InnerXml;
-                    string PosZ = subModelPartNodeList[a].SelectSingleNode("@PosZ").InnerXml;
-                    string RotX = subModelPartNodeList[a].SelectSingleNode("@RotX").InnerXml;
-                    string RotY = subModelPartNodeList[a].SelectSingleNode("@RotY").InnerXml;
-                    string RotZ = subModelPartNodeList[a].SelectSingleNode("@RotZ").InnerXml;
-                    setPartNodeList[a].SelectSingleNode("@PosX").InnerXml = PosX;
-                    setPartNodeList[a].SelectSingleNode("@PosY").InnerXml = PosY;
-                    setPartNodeList[a].SelectSingleNode("@PosZ").InnerXml = PosZ;
-                    setPartNodeList[a].SelectSingleNode("@RotX").InnerXml = RotX;
-                    setPartNodeList[a].SelectSingleNode("@RotY").InnerXml = RotY;
-                    setPartNodeList[a].SelectSingleNode("@RotZ").InnerXml = RotZ;
-                }
+            //    #region ** UPDATE SET XML (IF OVERALL MATCH = TRUE) **
+            //    int PartCount = 0;
+            //    int SubPartCount = 0;
+            //    for (int a = 0; a < subModelPartNodeList.Count; a++)
+            //    {
+            //        string Set_LDrawRef = subModelPartNodeList[a].SelectSingleNode("@LDrawRef").InnerXml;
+            //        string Set_LDrawColourID = subModelPartNodeList[a].SelectSingleNode("@LDrawColourID").InnerXml;
+            //        bool IsSubPart = bool.Parse(subModelPartNodeList[a].SelectSingleNode("@IsSubPart").InnerXml);
+            //        if (IsSubPart == false)
+            //        {
+            //            PartCount += 1;
+            //        }
+            //        else
+            //        {
+            //            SubPartCount += 1;
+            //        }
+            //        string PosX = subModelPartNodeList[a].SelectSingleNode("@PosX").InnerXml;
+            //        string PosY = subModelPartNodeList[a].SelectSingleNode("@PosY").InnerXml;
+            //        string PosZ = subModelPartNodeList[a].SelectSingleNode("@PosZ").InnerXml;
+            //        string RotX = subModelPartNodeList[a].SelectSingleNode("@RotX").InnerXml;
+            //        string RotY = subModelPartNodeList[a].SelectSingleNode("@RotY").InnerXml;
+            //        string RotZ = subModelPartNodeList[a].SelectSingleNode("@RotZ").InnerXml;
+            //        setPartNodeList[a].SelectSingleNode("@PosX").InnerXml = PosX;
+            //        setPartNodeList[a].SelectSingleNode("@PosY").InnerXml = PosY;
+            //        setPartNodeList[a].SelectSingleNode("@PosZ").InnerXml = PosZ;
+            //        setPartNodeList[a].SelectSingleNode("@RotX").InnerXml = RotX;
+            //        setPartNodeList[a].SelectSingleNode("@RotY").InnerXml = RotY;
+            //        setPartNodeList[a].SelectSingleNode("@RotZ").InnerXml = RotZ;
+            //    }
 
-                // ** Refresh screen **
-                RefreshScreen();
+            //    // ** Refresh screen **
+            //    RefreshScreen();
 
-                // ** SHOW CONFIRMATION **
-                MessageBox.Show("Successfully updated " + PartCount + " Part(s) and " + SubPartCount + " Sub Part(s)...");
+            //    // ** SHOW CONFIRMATION **
+            //    MessageBox.Show("Successfully updated " + PartCount + " Part(s) and " + SubPartCount + " Sub Part(s)...");
 
-                #endregion
+            //    #endregion
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         private void EnableControls_All(bool value)
@@ -5443,151 +5421,6 @@ namespace Generator
 
 
 
-        
-
-
-
-
-        private async void UploadInstructionsFromWeb()
-        {
-            try
-            {
-                #region ** VALIDATIONS **
-                if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
-                if (fldSetInstructions.Text.Equals("")) throw new Exception("No Instructions entered...");
-                string setRef = fldCurrentSetRef.Text;
-                List<string> insRefList = fldSetInstructions.Text.Split(',').ToList();
-
-                // ** Check whether instructions are already present. If they are, confirm whether they should be downloaded again **
-                ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
-                if (share.Exists())
-                {
-                    // Make sure user wants to re-upload instructions
-                    DialogResult res = MessageBox.Show("Instructions already exist for " + setRef + " - do you really want to re-upload again?", "Instruction Re-Upload Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (res == DialogResult.No) return;
-                }
-                #endregion
-
-                #region ** DOWNLOAD INSTRUCTIONS FROM BrickSet.com TO TEMP **
-                List<string> filelist = new List<string>();
-                int index = 1;
-                foreach (string insRef in insRefList)
-                {
-                    string url = "https://www.lego.com/cdn/product-assets/product.bi.core.pdf/" + insRef + ".pdf";
-                    string downloadPath = Path.Combine(Path.GetTempPath(), insRef + ".pdf");
-                    using (WebClient webClient = new WebClient())
-                    {
-                        webClient.DownloadProgressChanged += (s, e1) =>
-                        {
-                            pbStatus.Value = e1.ProgressPercentage;
-                            lblStatus.Text = "Downloading " + insRef + " from Brickset.com (" + index + " of " + insRefList.Count + ") | Downloaded " + e1.ProgressPercentage + "%";
-                        };
-                        webClient.DownloadFileCompleted += (s, e1) =>
-                        {
-                            pbStatus.Value = 0;
-                            lblStatus.Text = "";
-                        };
-                        Task downloadTask = webClient.DownloadFileTaskAsync(new Uri(url), downloadPath);
-                        await downloadTask;
-                    }
-                    filelist.Add(downloadPath);
-                    index += 1;
-                }
-                #endregion
-
-                #region ** COMBINE ALL PDFs INTO A SINGLE ONE **
-                lblStatus.Text = "Merging PDFs...";
-                string targetPdf = Path.Combine(Path.GetTempPath(), setRef + ".pdf");
-                using (FileStream stream = new FileStream(targetPdf, FileMode.Create))
-                {
-                    using (iTextSharp.text.Document document = new iTextSharp.text.Document())
-                    {
-                        PdfCopy pdf = new PdfCopy(document, stream);
-                        document.Open();
-                        document.NewPage();
-                        foreach (string file in filelist)
-                        {
-                            using (PdfReader reader = new PdfReader(file)) pdf.AddDocument(reader);
-                        }
-                    }
-                }
-                foreach (string file in filelist) File.Delete(file);                
-                #endregion
-
-                // ** Upload data to Azure BLOB **               
-                //lblStatus.Text = "Uploading " + setRef + " to Azure BLOB...";               
-                //CloudBlockBlob blockBlob = blobClient.GetContainerReference("files-instructions").GetBlockBlobReference(setRef + ".pdf");
-                //Task uploadTask = blockBlob.UploadFromFileAsync(targetPdf, FileMode.Open);
-                //await uploadTask;
-
-                // ** Upload data to Azure FS - USES DIRECT LINK TO FOLDER **  
-                //lblStatus.Text = "Uploading " + setRef + " to Azure FS...";
-                //string FSPath = Path.Combine(@"\\lodgeaccount.file.core.windows.net\lodgeant-fs\files-instructions", setRef + ".pdf");                
-                //using (Stream source = File.Open(targetPdf, FileMode.Open))
-                //{
-                //    using (Stream destination = File.Create(FSPath))
-                //    {
-                //        await source.CopyToAsync(destination);
-                //    }
-                //}
-
-                #region ** UPLOAD DATA TO AZURE FS **  
-                lblStatus.Text = "Uploading " + setRef + " to Azure FS...";
-                share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
-                const int AzureUploadLimit = 4194304;
-                //byte[] bytes = File.ReadAllBytes(targetPdf);
-                using (var stream = new MemoryStream(File.ReadAllBytes(targetPdf)))
-                //using (FileStream stream = File.OpenRead(targetPdf))
-                {
-                    share.Create(stream.Length);
-                    pbStatus.Maximum = (int)stream.Length;
-                    long uploadIndex = 0;
-
-                    var progressHandler = new Progress<long>();
-                    progressHandler.ProgressChanged += (s, e1) =>
-                    {
-                        int uploadedValue = (int)uploadIndex + (int)e1;
-                        double pc = (uploadedValue / (double)(stream.Length)) * 100;
-                        pbStatus.Value = uploadedValue;
-                        lblStatus.Text = "Uploading " + setRef + " to Azure FS | Uploaded " + pc.ToString("#,##0") + "%";
-                    };
-
-                    if (stream.Length <= AzureUploadLimit)
-                    {
-                        await share.UploadRangeAsync(new Azure.HttpRange(0, stream.Length), stream, progressHandler: progressHandler);
-                    }
-                    else
-                    {
-                        int bytesRead;
-                        byte[] buffer = new byte[AzureUploadLimit];
-                        while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
-                        {
-                            MemoryStream ms = new MemoryStream(buffer, 0, bytesRead);
-                            await share.UploadRangeAsync(new Azure.HttpRange(uploadIndex, ms.Length), ms, progressHandler: progressHandler);
-                            uploadIndex += ms.Length;
-                        }
-                    }
-                }
-                lblStatus.Text = "";
-                pbStatus.Value = 0;
-                #endregion
-
-                // ** Delete TEMP file **
-                File.Delete(targetPdf);
-
-                // ** CLEAR FIELDS **
-                lblStatus.Text = "";
-                //fldInstructionsSetRef.Text = "";
-                fldSetInstructions.Text = "";
-
-                // ** SHOW CONFIRMATION **                
-                MessageBox.Show(setRef + " uploaded to Azure...");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
 
 
 

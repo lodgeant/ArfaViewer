@@ -24,6 +24,9 @@ namespace Generator
 
 
 
+       
+
+
         // ** SetDetails Functions **
 
         public static BaseClasses.SetDetails GetSetDetails(string SetRef)
@@ -71,14 +74,6 @@ namespace Generator
 
 
 
-
-
-        // THE FOLLOWING TO BE DEMISED
-
-        //public static void DeleteSet(string setRef)
-        //{            
-        //    Global_Variables.APIProxy.DeleteSet(setRef);
-        //}
 
 
         // ** PartColour functions **
@@ -268,10 +263,21 @@ namespace Generator
         }
 
 
+        // ** Rebrickable Functions
 
-       
+        public static string GetRebrickableSetJSONString(string SetRef)
+        {
+            return Global_Variables.APIProxy.GetRebrickableSetJSONString(SetRef);
+        }
 
 
+
+        // ** Other functions - not sure where to put them **
+
+        public static Dictionary<string, XmlDocument> GetMiniFigXMLDict(XmlDocument setXML)
+        {
+            return Global_Variables.APIProxy.GetMiniFigXMLDict(setXML);
+        }
 
 
 

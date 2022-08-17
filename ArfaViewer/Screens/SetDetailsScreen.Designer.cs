@@ -33,6 +33,11 @@
             this.btnExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.btnUploadInstructionsFromWeb = new System.Windows.Forms.ToolStripButton();
+            this.pbStatus = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripLabel19 = new System.Windows.Forms.ToolStripLabel();
+            this.lblStatus = new System.Windows.Forms.ToolStripLabel();
             this.tsPartDetails = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.fldSetRef = new System.Windows.Forms.ToolStripTextBox();
@@ -83,13 +88,9 @@
             this.fldLDrawRefAc = new System.Windows.Forms.ToolStripTextBox();
             this.lblLDrawColourNameAc = new System.Windows.Forms.ToolStripLabel();
             this.fldLDrawColourNameAc = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.btnUploadInstructionsFromWeb = new System.Windows.Forms.ToolStripButton();
-            this.pbStatus = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripLabel19 = new System.Windows.Forms.ToolStripLabel();
-            this.lblStatus = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.toolStrip3.SuspendLayout();
             this.tsPartDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -101,7 +102,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgSetDetailsSummary)).BeginInit();
             this.c.SuspendLayout();
             this.tsPartSummary.SuspendLayout();
-            this.toolStrip3.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -140,6 +140,44 @@
             this.groupBox3.TabIndex = 29;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Set Details";
+            // 
+            // toolStrip3
+            // 
+            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnUploadInstructionsFromWeb,
+            this.pbStatus,
+            this.toolStripLabel19,
+            this.lblStatus});
+            this.toolStrip3.Location = new System.Drawing.Point(3, 41);
+            this.toolStrip3.Name = "toolStrip3";
+            this.toolStrip3.Size = new System.Drawing.Size(2189, 25);
+            this.toolStrip3.TabIndex = 77;
+            this.toolStrip3.Text = "toolStrip5";
+            // 
+            // btnUploadInstructionsFromWeb
+            // 
+            this.btnUploadInstructionsFromWeb.Image = ((System.Drawing.Image)(resources.GetObject("btnUploadInstructionsFromWeb.Image")));
+            this.btnUploadInstructionsFromWeb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUploadInstructionsFromWeb.Name = "btnUploadInstructionsFromWeb";
+            this.btnUploadInstructionsFromWeb.Size = new System.Drawing.Size(142, 22);
+            this.btnUploadInstructionsFromWeb.Text = "Upload Ins. from Web";
+            this.btnUploadInstructionsFromWeb.Click += new System.EventHandler(this.btnUploadInstructionsFromWeb_Click);
+            // 
+            // pbStatus
+            // 
+            this.pbStatus.Name = "pbStatus";
+            this.pbStatus.Size = new System.Drawing.Size(100, 22);
+            // 
+            // toolStripLabel19
+            // 
+            this.toolStripLabel19.Name = "toolStripLabel19";
+            this.toolStripLabel19.Size = new System.Drawing.Size(0, 22);
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(52, 22);
+            this.lblStatus.Text = "lblStatus";
             // 
             // tsPartDetails
             // 
@@ -368,7 +406,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer1.Size = new System.Drawing.Size(2195, 505);
-            this.splitContainer1.SplitterDistance = 731;
+            this.splitContainer1.SplitterDistance = 207;
             this.splitContainer1.TabIndex = 30;
             // 
             // groupBox1
@@ -378,7 +416,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(731, 505);
+            this.groupBox1.Size = new System.Drawing.Size(207, 505);
             this.groupBox1.TabIndex = 28;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Themes";
@@ -389,7 +427,7 @@
             this.tvThemesSummary.HideSelection = false;
             this.tvThemesSummary.Location = new System.Drawing.Point(3, 41);
             this.tvThemesSummary.Name = "tvThemesSummary";
-            this.tvThemesSummary.Size = new System.Drawing.Size(725, 461);
+            this.tvThemesSummary.Size = new System.Drawing.Size(201, 461);
             this.tvThemesSummary.TabIndex = 85;
             this.tvThemesSummary.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvThemesSummary_AfterSelect);
             // 
@@ -403,7 +441,7 @@
             this.toolStripSeparator6});
             this.toolStrip2.Location = new System.Drawing.Point(3, 16);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(725, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(201, 25);
             this.toolStrip2.TabIndex = 27;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -452,7 +490,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1460, 505);
+            this.groupBox2.Size = new System.Drawing.Size(1984, 505);
             this.groupBox2.TabIndex = 29;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Set Details Summary for Theme";
@@ -464,7 +502,7 @@
             this.dgSetDetailsSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgSetDetailsSummary.Location = new System.Drawing.Point(3, 41);
             this.dgSetDetailsSummary.Name = "dgSetDetailsSummary";
-            this.dgSetDetailsSummary.Size = new System.Drawing.Size(1454, 439);
+            this.dgSetDetailsSummary.Size = new System.Drawing.Size(1978, 439);
             this.dgSetDetailsSummary.TabIndex = 78;
             this.dgSetDetailsSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSetDetailsSummary_CellClick);
             // 
@@ -474,7 +512,7 @@
             this.lblSetDetailsCount});
             this.c.Location = new System.Drawing.Point(3, 480);
             this.c.Name = "c";
-            this.c.Size = new System.Drawing.Size(1454, 22);
+            this.c.Size = new System.Drawing.Size(1978, 22);
             this.c.TabIndex = 68;
             this.c.Text = "statusStrip2";
             // 
@@ -499,7 +537,7 @@
             this.fldLDrawColourNameAc});
             this.tsPartSummary.Location = new System.Drawing.Point(3, 16);
             this.tsPartSummary.Name = "tsPartSummary";
-            this.tsPartSummary.Size = new System.Drawing.Size(1454, 25);
+            this.tsPartSummary.Size = new System.Drawing.Size(1978, 25);
             this.tsPartSummary.TabIndex = 27;
             this.tsPartSummary.Text = "toolStrip4";
             // 
@@ -571,44 +609,6 @@
             this.fldLDrawColourNameAc.Name = "fldLDrawColourNameAc";
             this.fldLDrawColourNameAc.Size = new System.Drawing.Size(125, 25);
             // 
-            // toolStrip3
-            // 
-            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnUploadInstructionsFromWeb,
-            this.pbStatus,
-            this.toolStripLabel19,
-            this.lblStatus});
-            this.toolStrip3.Location = new System.Drawing.Point(3, 41);
-            this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(2189, 25);
-            this.toolStrip3.TabIndex = 77;
-            this.toolStrip3.Text = "toolStrip5";
-            // 
-            // btnUploadInstructionsFromWeb
-            // 
-            this.btnUploadInstructionsFromWeb.Image = ((System.Drawing.Image)(resources.GetObject("btnUploadInstructionsFromWeb.Image")));
-            this.btnUploadInstructionsFromWeb.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnUploadInstructionsFromWeb.Name = "btnUploadInstructionsFromWeb";
-            this.btnUploadInstructionsFromWeb.Size = new System.Drawing.Size(142, 22);
-            this.btnUploadInstructionsFromWeb.Text = "Upload Ins. from Web";
-            this.btnUploadInstructionsFromWeb.Click += new System.EventHandler(this.btnUploadInstructionsFromWeb_Click);
-            // 
-            // pbStatus
-            // 
-            this.pbStatus.Name = "pbStatus";
-            this.pbStatus.Size = new System.Drawing.Size(100, 22);
-            // 
-            // toolStripLabel19
-            // 
-            this.toolStripLabel19.Name = "toolStripLabel19";
-            this.toolStripLabel19.Size = new System.Drawing.Size(0, 22);
-            // 
-            // lblStatus
-            // 
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(52, 22);
-            this.lblStatus.Text = "lblStatus";
-            // 
             // SetDetailsScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -623,6 +623,8 @@
             this.toolStrip1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.toolStrip3.ResumeLayout(false);
+            this.toolStrip3.PerformLayout();
             this.tsPartDetails.ResumeLayout(false);
             this.tsPartDetails.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -640,8 +642,6 @@
             this.c.PerformLayout();
             this.tsPartSummary.ResumeLayout(false);
             this.tsPartSummary.PerformLayout();
-            this.toolStrip3.ResumeLayout(false);
-            this.toolStrip3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
