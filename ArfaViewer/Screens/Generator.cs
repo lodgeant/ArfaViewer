@@ -150,6 +150,9 @@ namespace Generator
                                     });
                 #endregion
 
+                // ** Populate the Ref field based on external request **
+                fldCurrentSetRef.Text = prePopulatedSetRef;
+
                 // ** Set up Scintilla **
                 SetupScintillaPanel1();
                 SetupScintillaPanel2();
@@ -157,9 +160,6 @@ namespace Generator
 
                 // ** REFRESH STATIC DATA **    
                 RefreshLDrawColourNameDropdown();
-
-
-                fldCurrentSetRef.Text = prePopulatedSetRef;
 
                 // ** UPDATE LABELS **                
                 //fldCurrentSetRef.Text = "621-1";
@@ -809,7 +809,7 @@ namespace Generator
 
         #endregion
 
-        #region ** REFRESH STATIC DATA FUNCTIONS **
+        #region ** REFRESH STATIC DATA FUNCTIONS - DEMISED **
 
         //private void EnableControls_RefreshStaticData(bool value)
         //{
@@ -875,20 +875,6 @@ namespace Generator
         //}
 
         #endregion
-
-        private void RefreshLDrawColourNameDropdown()
-        {
-            //List<string> partColourNameList =   (from r in Global_Variables.pcc.PartColourList
-            //                                    select r.LDrawColourName).OrderBy(x => x).ToList();                
-            //XmlNodeList LDrawColourNameNodeList = Global_Variables.PartColourCollectionXML.SelectNodes("//PartColour/@LDrawColourName");
-            //List<string> partColourNameList = LDrawColourNameNodeList.Cast<XmlNode>()
-            //                                   .Select(x => x.InnerText)
-            //                                   .OrderBy(x => x).ToList();
-            List<string> partColourNameList = StaticData.GetAllLDrawColourNames();
-            fldLDrawColourName.Items.Clear();
-            fldLDrawColourName.Items.AddRange(partColourNameList.ToArray());
-        }
-
 
         #region ** SET FUNCTIONS **
 
@@ -1313,7 +1299,6 @@ namespace Generator
             }
         }
                 
-
         private void ClearAllFields()
         {
             try
@@ -1405,107 +1390,6 @@ namespace Generator
             }
         }
 
-        //private List<TreeNode> GenerateNodes(XmlNodeList childNodeList)
-        //{
-        //    // ** Define which node types to ignore **
-        //    HashSet<String> NodeTypesToIgnore = new HashSet<string>() { "#COMMENT" };
-
-        //    // ** Cycle through all nodes **
-        //    List<TreeNode> treeNodeList = new List<TreeNode>();
-        //    int nodeStepIndex = 0;
-        //    int nodePlacementIndex = 0;
-        //    foreach (XmlNode xmlNode in childNodeList)
-        //    {
-        //        String nodeType = xmlNode.LocalName.ToUpper();
-        //        if (NodeTypesToIgnore.Contains(nodeType) == false)
-        //        {
-        //            TreeNode treeNode = new TreeNode();
-        //            if (nodeType.Equals("SUBMODEL"))
-        //            {
-        //                string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
-        //                string SubModelRef = xmlNode.SelectSingleNode("@Ref").InnerXml;
-        //                string SubModelDescription = xmlNode.SelectSingleNode("@Description").InnerXml;
-        //                treeNode.Text = SubModelRef + "|" + SubModelDescription;
-        //                treeNode.Tag = nodeType + "|" + parentSubSetRef + "|" + SubModelRef + "|";
-        //                treeNode.ImageIndex = 3;
-        //                treeNode.SelectedImageIndex = 3;
-        //            }
-        //            else if (nodeType.Equals("STEP"))
-        //            {
-        //                string PureStepNo = xmlNode.SelectSingleNode("@PureStepNo").InnerXml;
-        //                string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
-        //                string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
-        //                //string parentSubModelRef = xmlNode.SelectSingleNode("parent::SubModel/@Ref").InnerXml;
-
-        //                String StepBook = "";
-        //                String StepPage = "";
-        //                String extraString = "";
-        //                if (chkShowPages.Checked)
-        //                {
-        //                    if (xmlNode.SelectSingleNode("@StepBook") != null)
-        //                    {
-        //                        StepBook = xmlNode.SelectSingleNode("@StepBook").InnerXml;
-        //                        StepPage = xmlNode.SelectSingleNode("@StepPage").InnerXml;                                
-        //                        if (StepBook != "0" && StepPage != "0")
-        //                        {
-        //                            extraString = " [b" + StepBook + ".p" + StepPage + "]";
-        //                        }
-        //                    }
-        //                }
-        //                treeNode.Text = PureStepNo + extraString;                        
-        //                treeNode.Tag = nodeType + "|" + parentSubSetRef + "|" + parentModelRef + "|" + PureStepNo;
-        //                treeNode.ImageIndex = 4;
-        //                treeNode.SelectedImageIndex = 4;
-        //                nodeStepIndex = 0;
-        //                // ** Update Colour of Step (if required) **
-        //            }
-        //            else if (nodeType.Equals("PART"))
-        //            {
-        //                string LDrawRef = xmlNode.SelectSingleNode("@LDrawRef").InnerXml;
-        //                String LDrawColourID = xmlNode.SelectSingleNode("@LDrawColourID").InnerXml;
-        //                string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
-        //                string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
-        //                string parentPureStepNo = xmlNode.SelectSingleNode("ancestor::Step/@PureStepNo").InnerXml;
-        //                treeNode.Text = LDrawRef + "|" + LDrawColourID;
-        //                treeNode.Tag = nodeType + "|" + parentSubSetRef + "|" + parentModelRef + "|" + parentPureStepNo + "|" + LDrawRef + "|" + LDrawColourID + "|" + nodeStepIndex;
-        //                if (LDrawRef.Contains("stk"))
-        //                {
-        //                    treeNode.ImageIndex = 9;
-        //                    treeNode.SelectedImageIndex = 9;
-        //                }
-        //                else
-        //                {
-        //                    treeNode.ImageIndex = 5;
-        //                    treeNode.SelectedImageIndex = 5;
-        //                }
-        //                nodeStepIndex += 1;
-        //                nodePlacementIndex = 0;
-        //            }
-        //            else if (nodeType.Equals("PLACEMENTMOVEMENT"))
-        //            {
-        //                string Axis = xmlNode.SelectSingleNode("@Axis").InnerXml;
-        //                String Value = xmlNode.SelectSingleNode("@Value").InnerXml;
-        //                string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
-        //                string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
-        //                string parentPureStepNo = xmlNode.SelectSingleNode("ancestor::Step/@PureStepNo").InnerXml;
-        //                string LDrawRef = xmlNode.SelectSingleNode("ancestor::Part/@LDrawRef").InnerXml;
-        //                String LDrawColourID = xmlNode.SelectSingleNode("ancestor::Part/@LDrawColourID").InnerXml;
-        //                treeNode.Text = Axis + "=" + Value;
-        //                treeNode.Tag = nodeType + "|" + parentSubSetRef + "|" + parentModelRef + "|" + parentPureStepNo + "|" + LDrawRef + "|" + LDrawColourID + "|" + nodePlacementIndex;
-        //                treeNode.ImageIndex = 8;
-        //                treeNode.SelectedImageIndex = 8;
-        //                nodePlacementIndex += 1;
-        //            }
-        //            if (xmlNode.HasChildNodes)
-        //            {
-        //                treeNode.Nodes.AddRange(GenerateNodes(xmlNode.ChildNodes).ToArray());
-        //            }
-        //            treeNodeList.Add(treeNode);
-        //        }
-        //    }
-        //    return treeNodeList;
-        //}
-   
         private DataTable GeneratePartListTable(XmlNodeList partListNodeList)
         {
             try
@@ -1873,10 +1757,7 @@ namespace Generator
                 {
                     #region ** GET LDRAW VARIABLES ** 
                     string SubSetRef = "";
-                    if (partNode.SelectSingleNode("@SubSetRef") != null)
-                    {
-                        SubSetRef = partNode.SelectSingleNode("@SubSetRef").InnerXml;
-                    }
+                    if (partNode.SelectSingleNode("@SubSetRef") != null) SubSetRef = partNode.SelectSingleNode("@SubSetRef").InnerXml;                   
                     string UnityRef = partNode.SelectSingleNode("@UnityRef").InnerXml;
                     string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
                     bool IsSubPart = bool.Parse(partNode.SelectSingleNode("@IsSubPart").InnerXml);
@@ -1915,6 +1796,7 @@ namespace Generator
                                          where r.LDrawRef.Equals(parentLDrawRef)
                                          select r.lDrawPartType.ToString()).FirstOrDefault();
                     }
+                    if (LDrawPartType == null) LDrawPartType = "";
                     #endregion
 
                     // ** Check for official/unoffical part **                    
@@ -2070,7 +1952,6 @@ namespace Generator
         }
 
         #endregion
-
 
 
         #region ** REBRICKABLE MATCHING FUNCTIONS **
@@ -2248,13 +2129,6 @@ namespace Generator
         }
 
         #endregion
-
-
-
-
-
-
-
 
 
         #region ** SUBSET FUNCTIONS **
@@ -3515,10 +3389,7 @@ namespace Generator
                         fldPartRotZ.Text = partNode.SelectSingleNode("@RotZ").InnerXml;
 
                         // ** Post LDraw Size **
-                        string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                        //string LDrawSize = Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawSize").InnerXml;
-                        //if (LDrawSize.Equals("0")) LDrawSize = "";
-                        //fldLDrawSize.Text = LDrawSize;
+                        string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;                        
                         int LDrawSize = StaticData.GetLDrawSize(LDrawRef);                        
                         if (LDrawSize > 0) fldLDrawSize.Text = LDrawSize.ToString();
                     }
@@ -3530,22 +3401,15 @@ namespace Generator
             }
         }
 
-
-
-
         private void Handle_fldLDrawImage_Click()
         {
             try
             {
                 string LDrawRef = fldLDrawRef.Text;
                 if (LDrawRef != "")
-                {
-                    //Bitmap LDrawImage = GetLDrawImage(LDrawRef);
+                {                    
                     Bitmap LDrawImage = ArfaImage.GetImage(ImageType.LDRAW, new string[] { LDrawRef });
-                    if (LDrawImage == null)
-                    {
-                        throw new Exception("LDraw image for " + LDrawRef + " not found in Azure...");
-                    }
+                    if (LDrawImage == null) throw new Exception("LDraw image for " + LDrawRef + " not found in Azure...");                    
                     PartViewer.image = LDrawImage;
                     PartViewer form = new PartViewer();
                     form.Visible = true;
@@ -3610,6 +3474,130 @@ namespace Generator
             MoveNode(BulkValue);
         }
 
+        //private void MoveNode_OLD(int directionAdj)
+        //{
+        //    try
+        //    {
+        //        // ** Get selected node details **               
+        //        string Type = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[0];
+        //        //String Ref = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
+
+        //        // ** Get node details **
+        //        XmlNode selectedNode = null;
+        //        XmlNodeList parentNodeList = null;
+        //        string parentSubSetRef = "";
+        //        string parentModelRef = "";
+        //        if (Type.Equals("SUBSET"))
+        //        {
+        //            string SubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
+        //            selectedNode = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']");
+        //            parentNodeList = currentSetXml.SelectNodes("//SubSet");
+        //        }
+        //        else if (Type.Equals("MODEL"))
+        //        {
+        //            string ModelRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[2];
+        //            parentSubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
+        //            selectedNode = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + ModelRef + "']");
+        //            parentNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@SubModelLevel=1]");
+        //        }
+        //        else if (Type.Equals("SUBMODEL"))
+        //        {
+        //            // ** Get variables **
+        //            string SubModelRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[2];
+        //            parentSubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
+        //            string parentSubModelRef = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + SubModelRef + "']//parent::SubModel/@Ref").InnerXml;
+        //            selectedNode = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + SubModelRef + "']");
+        //            parentNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']/SubModel");
+        //        }
+        //        else if (Type.Equals("STEP"))
+        //        {
+        //            // ** Get variables **                   
+        //            parentModelRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[2];
+        //            string pureStepNo = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[3];
+        //            parentSubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
+        //            selectedNode = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']");
+        //            parentNodeList = selectedNode.ParentNode.ChildNodes;
+        //        }
+        //        else if (Type.Equals("PART"))
+        //        {
+        //            parentSubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
+        //            parentModelRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[2];
+        //            string parentPureStepNo = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[3];
+        //            string LDrawRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[4];
+        //            string LDrawColourID = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[5];
+        //            int nodeIndex = int.Parse(tvSetSummary.SelectedNode.Tag.ToString().Split('|')[6]);
+        //            selectedNode = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentModelRef + "']//Step[@PureStepNo='" + parentPureStepNo + "']//Part[" + (nodeIndex + 1) + "]");
+        //            parentNodeList = selectedNode.ParentNode.ChildNodes;
+        //        }
+        //        else
+        //        {
+        //            throw new Exception("Cannot move selected node");
+        //        }
+
+
+
+
+
+        //        //XmlNode parent = priusNode.ParentNode.
+        //        //XmlNode previousNode = priusNode.PreviousSibling;
+        //        //parent.InsertBefore(priusNode, previousNode);
+
+
+
+        //        // ** Work out new node index **
+        //        int selectedNodeIndex = 0;
+        //        for (int a = 0; a < parentNodeList.Count; a++)
+        //        {
+        //            if (parentNodeList[a] == selectedNode)
+        //            {
+        //                selectedNodeIndex = a;
+        //                break;
+        //            }
+        //        }
+        //        int newNodeIndex = selectedNodeIndex + directionAdj;
+        //        if (newNodeIndex < 0) newNodeIndex = 0;
+
+
+        //        // ** Add the nodes back into the parent except the SelectedNode **
+        //        XmlNode parentNode = selectedNode.ParentNode;
+        //        List<XmlNode> nodeList = new List<XmlNode>();
+        //        foreach (XmlNode childNode in parentNode.ChildNodes)
+        //        {
+        //            if (childNode != selectedNode)
+        //            {
+        //                nodeList.Add(childNode);
+        //            }
+        //        }
+        //        nodeList.Insert(newNodeIndex, selectedNode);
+
+        //        // ** Post nodes back into parent **                
+        //        foreach (XmlNode childNode in parentNode.ChildNodes)
+        //        {
+        //            parentNode.RemoveChild(childNode);
+        //        }
+        //        foreach (XmlNode node in nodeList)
+        //        {
+        //            parentNode.AppendChild(node);
+        //        }
+
+        //        // ** Adjust SubSet PureStep Numbers **
+        //        if (Type.Equals("SUBMODEL") || Type.Equals("STEP"))
+        //        {
+        //            AdjustSubSetStepNumbers(parentSubSetRef, parentModelRef);
+        //        }
+
+        //        // ** Clear fields **
+        //        ClearAllFields();
+
+        //        // ** Refresh screen **
+        //        RefreshScreen();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
+
         private void MoveNode(int directionAdj)
         {
             try
@@ -3620,21 +3608,21 @@ namespace Generator
 
                 // ** Get node details **
                 XmlNode selectedNode = null;
-                XmlNodeList parentNodeList = null;
+                //XmlNodeList parentNodeList = null;
                 string parentSubSetRef = "";
                 string parentModelRef = "";
                 if (Type.Equals("SUBSET"))
                 {
                     string SubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
                     selectedNode = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']");
-                    parentNodeList = currentSetXml.SelectNodes("//SubSet");
+                    //parentNodeList = currentSetXml.SelectNodes("//SubSet");
                 }
                 else if (Type.Equals("MODEL"))
                 {
                     string ModelRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[2];
                     parentSubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
                     selectedNode = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + ModelRef + "']");
-                    parentNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@SubModelLevel=1]");
+                    //parentNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@SubModelLevel=1]");
                 }
                 else if (Type.Equals("SUBMODEL"))
                 {
@@ -3643,7 +3631,7 @@ namespace Generator
                     parentSubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
                     string parentSubModelRef = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + SubModelRef + "']//parent::SubModel/@Ref").InnerXml;
                     selectedNode = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + SubModelRef + "']");
-                    parentNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']/SubModel");
+                    //parentNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']/SubModel");
                 }
                 else if (Type.Equals("STEP"))
                 {
@@ -3652,7 +3640,7 @@ namespace Generator
                     string pureStepNo = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[3];
                     parentSubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
                     selectedNode = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']");
-                    parentNodeList = selectedNode.ParentNode.ChildNodes;
+                    //parentNodeList = selectedNode.ParentNode.ChildNodes;
                 }
                 else if (Type.Equals("PART"))
                 {
@@ -3661,48 +3649,32 @@ namespace Generator
                     string parentPureStepNo = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[3];
                     string LDrawRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[4];
                     string LDrawColourID = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[5];
-                    int nodeIndex = int.Parse(tvSetSummary.SelectedNode.Tag.ToString().Split('|')[6]);
-                    selectedNode = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentModelRef + "']//Step[@PureStepNo='" + parentPureStepNo + "']//Part[" + (nodeIndex + 1) + "]");
-                    parentNodeList = selectedNode.ParentNode.ChildNodes;
+                    //int nodeIndex = int.Parse(tvSetSummary.SelectedNode.Tag.ToString().Split('|')[6]);
+                    int nodeIndex = tvSetSummary.SelectedNode.Index;
+                    selectedNode = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentModelRef + "']//Step[@PureStepNo='" + parentPureStepNo + "']/Part[" + (nodeIndex + 1) + "]");
+                    //parentNodeList = selectedNode.ParentNode.ChildNodes;
                 }
                 else
                 {
                     throw new Exception("Cannot move selected node");
                 }
 
-                // ** Work out new node index **
-                int selectedNodeIndex = 0;
-                for (int a = 0; a < parentNodeList.Count; a++)
+                // ** Move node in relevant direction **
+                XmlNode parent = selectedNode.ParentNode;
+                if(directionAdj == -1)
                 {
-                    if (parentNodeList[a] == selectedNode)
-                    {
-                        selectedNodeIndex = a;
-                        break;
-                    }
+                    XmlNode previousNode = selectedNode.PreviousSibling;
+                    parent.InsertBefore(selectedNode, previousNode);
                 }
-                int newNodeIndex = selectedNodeIndex + directionAdj;
-                if (newNodeIndex < 0) newNodeIndex = 0;
-
-
-                // ** Add the nodes back into the parent except the SelectedNode **
-                XmlNode parentNode = selectedNode.ParentNode;
-                List<XmlNode> nodeList = new List<XmlNode>();
-                foreach (XmlNode childNode in parentNode.ChildNodes)
+                else
                 {
-                    if (childNode != selectedNode) nodeList.Add(childNode);
+                    XmlNode nextNode = selectedNode.NextSibling;
+                    parent.InsertAfter(selectedNode, nextNode);
                 }
-                nodeList.Insert(newNodeIndex, selectedNode);
-
-                // ** Post nodes back into parent **                
-                foreach (XmlNode childNode in parentNode.ChildNodes) parentNode.RemoveChild(childNode);
-                foreach (XmlNode node in nodeList) parentNode.AppendChild(node);
 
                 // ** Adjust SubSet PureStep Numbers **
-                if (Type.Equals("SUBMODEL") || Type.Equals("STEP"))
-                {
-                    AdjustSubSetStepNumbers(parentSubSetRef, parentModelRef);
-                }
-
+                if (Type.Equals("SUBMODEL") || Type.Equals("STEP")) AdjustSubSetStepNumbers(parentSubSetRef, parentModelRef);
+                
                 // ** Clear fields **
                 ClearAllFields();
 
@@ -3716,6 +3688,23 @@ namespace Generator
         }
 
         #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         #region ** GET LDRAW DATA FUNCTIONS - DEMISED **
 
@@ -3762,7 +3751,7 @@ namespace Generator
         //        return value;
         //    }
         //}
-                
+
         //public static string GetLDrawDescription_FromLDrawFile(string LDrawRef)
         //{
         //    string value = "";
@@ -4258,46 +4247,6 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
-
-        //private List<string> GetAllSubPartsForLDrawRef(string LDrawRef, int LDrawColourID)
-        //{
-        //    List<string> SubPartList = new List<string>();
-        //    try
-        //    {
-        //        string ParentLDrawFileText = StaticData.GetLDrawFileDetails(LDrawRef);
-        //        string[] lines = ParentLDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-        //        foreach (string fileLine in lines)
-        //        {
-        //            if (fileLine.StartsWith("1"))
-        //            {
-        //                string[] DatLine = fileLine.Split(' ');
-        //                string SubPart_LDrawRef = DatLine[14].ToLower().Replace(".dat", "");
-        //                int SubPart_LDrawColourID = int.Parse(DatLine[1]);
-        //                //if (SubPart_LDrawRef.Contains("c0"))
-        //                //{
-        //                //    // LINE HAS REFERENCE TO ANOTHER PART WITH HAS SUB PARTS **
-        //                //    List<string> SubPartList2 = GetAllSubPartsForLDrawRef(SubPart_LDrawRef, SubPart_LDrawColourID);
-        //                //    SubPartList.AddRange(SubPartList2);
-        //                //}
-        //                //else
-        //                //{
-        //                    // LINE ONLY HAS REFERENCE TO ANOTHER SINGLE PART                            
-        //                    if (SubPart_LDrawColourID == 16)
-        //                    {
-        //                        //SubPart_LDrawColourID = -1;
-        //                        SubPart_LDrawColourID = LDrawColourID;
-        //                    }
-        //                    SubPartList.Add(SubPart_LDrawRef + "|" + SubPart_LDrawColourID);
-        //                //}
-        //            }
-        //        }
-        //        return SubPartList;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return new List<string>();
-        //    }
-        //}
 
         //private void SubModelImportPartPosRot_OLD1()
         //{
@@ -5327,13 +5276,18 @@ namespace Generator
             }
         }
 
-
-
-
-
-
-
-
+        private void RefreshLDrawColourNameDropdown()
+        {
+            //List<string> partColourNameList =   (from r in Global_Variables.pcc.PartColourList
+            //                                    select r.LDrawColourName).OrderBy(x => x).ToList();                
+            //XmlNodeList LDrawColourNameNodeList = Global_Variables.PartColourCollectionXML.SelectNodes("//PartColour/@LDrawColourName");
+            //List<string> partColourNameList = LDrawColourNameNodeList.Cast<XmlNode>()
+            //                                   .Select(x => x.InnerText)
+            //                                   .OrderBy(x => x).ToList();
+            List<string> partColourNameList = StaticData.GetAllLDrawColourNames();
+            fldLDrawColourName.Items.Clear();
+            fldLDrawColourName.Items.AddRange(partColourNameList.ToArray());
+        }
 
 
     }

@@ -2387,6 +2387,8 @@
             // chkShowElementImages
             // 
             this.chkShowElementImages.AutoSize = true;
+            this.chkShowElementImages.Checked = true;
+            this.chkShowElementImages.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkShowElementImages.Location = new System.Drawing.Point(1232, 20);
             this.chkShowElementImages.Name = "chkShowElementImages";
             this.chkShowElementImages.Size = new System.Drawing.Size(131, 17);

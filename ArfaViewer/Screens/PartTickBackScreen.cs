@@ -40,8 +40,6 @@ namespace Generator
 
 
 
-
-
         public PartTickBackScreen()
         {
             InitializeComponent();
@@ -933,12 +931,12 @@ namespace Generator
                         row.DefaultCellStyle.Font = new System.Drawing.Font(this.Font, FontStyle.Strikeout);                        
                         row.DefaultCellStyle.BackColor = Color.LightGreen;
                     }
-                    if (qtyFound > 0)
+                    if (qtyFound > 0 && qtyFound < qty)
                     {
-                        if (qtyFound < qty)
-                        {                            
+                        //if (qtyFound < qty)
+                        //{                            
                             row.DefaultCellStyle.BackColor = Color.Orange;
-                        }
+                        //}
                     }
                 }
                 dg.Columns["LDraw Description"].Width = 150;

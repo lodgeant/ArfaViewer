@@ -43,8 +43,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.fldSourceURL = new System.Windows.Forms.TextBox();
             this.btnUploadImage = new System.Windows.Forms.Button();
-            this.fldElementRef = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.fldLDrawRef = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.fldLDrawColourID = new System.Windows.Forms.TextBox();
@@ -113,7 +111,7 @@
             this.statusStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pbStatus,
             this.lblStatus});
-            this.statusStrip2.Location = new System.Drawing.Point(0, 295);
+            this.statusStrip2.Location = new System.Drawing.Point(0, 241);
             this.statusStrip2.Name = "statusStrip2";
             this.statusStrip2.Size = new System.Drawing.Size(825, 22);
             this.statusStrip2.TabIndex = 36;
@@ -144,6 +142,7 @@
             // 
             // btnFlushStaticDataFile
             // 
+            this.btnFlushStaticDataFile.BackColor = System.Drawing.Color.Orange;
             this.btnFlushStaticDataFile.Location = new System.Drawing.Point(136, 38);
             this.btnFlushStaticDataFile.Name = "btnFlushStaticDataFile";
             this.btnFlushStaticDataFile.Size = new System.Drawing.Size(135, 31);
@@ -154,6 +153,7 @@
             // 
             // btnUpdateLDrawStaticDataDetails
             // 
+            this.btnUpdateLDrawStaticDataDetails.BackColor = System.Drawing.Color.Orange;
             this.btnUpdateLDrawStaticDataDetails.Location = new System.Drawing.Point(136, 75);
             this.btnUpdateLDrawStaticDataDetails.Name = "btnUpdateLDrawStaticDataDetails";
             this.btnUpdateLDrawStaticDataDetails.Size = new System.Drawing.Size(135, 46);
@@ -187,24 +187,6 @@
             this.btnUploadImage.Text = "Upload Image to BLOB";
             this.btnUploadImage.UseVisualStyleBackColor = false;
             this.btnUploadImage.Click += new System.EventHandler(this.btnUploadImage_Click);
-            // 
-            // fldElementRef
-            // 
-            this.fldElementRef.Enabled = false;
-            this.fldElementRef.Location = new System.Drawing.Point(501, 92);
-            this.fldElementRef.Name = "fldElementRef";
-            this.fldElementRef.Size = new System.Drawing.Size(80, 20);
-            this.fldElementRef.TabIndex = 45;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Enabled = false;
-            this.label2.Location = new System.Drawing.Point(429, 95);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(68, 13);
-            this.label2.TabIndex = 44;
-            this.label2.Text = "Element Ref:";
             // 
             // fldLDrawRef
             // 
@@ -240,6 +222,7 @@
             // 
             // btnSyncFBXFiles
             // 
+            this.btnSyncFBXFiles.BackColor = System.Drawing.Color.Orange;
             this.btnSyncFBXFiles.Location = new System.Drawing.Point(136, 127);
             this.btnSyncFBXFiles.Name = "btnSyncFBXFiles";
             this.btnSyncFBXFiles.Size = new System.Drawing.Size(135, 31);
@@ -264,7 +247,7 @@
             this.groupBox2.Controls.Add(this.btnGenerateMiniFigLDrawFiles);
             this.groupBox2.Controls.Add(this.fldMiniFigRef);
             this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(422, 223);
+            this.groupBox2.Location = new System.Drawing.Point(432, 137);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(320, 64);
             this.groupBox2.TabIndex = 61;
@@ -313,7 +296,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(825, 317);
+            this.ClientSize = new System.Drawing.Size(825, 263);
             this.Controls.Add(this.btnShowSetDetailsScreen);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnShowPartTickBackScreen);
@@ -322,8 +305,6 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.fldLDrawRef);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.fldElementRef);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.btnUploadImage);
             this.Controls.Add(this.fldSourceURL);
             this.Controls.Add(this.label1);
@@ -363,8 +344,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox fldSourceURL;
         private System.Windows.Forms.Button btnUploadImage;
-        private System.Windows.Forms.TextBox fldElementRef;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox fldLDrawRef;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox fldLDrawColourID;

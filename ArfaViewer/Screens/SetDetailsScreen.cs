@@ -200,7 +200,6 @@ namespace Generator
                 tvThemesSummary.SelectedNode.BackColor = SystemColors.Highlight;
                 tvThemesSummary.SelectedNode.ForeColor = SystemColors.HighlightText;
 
-
                 // ** Determine Theme & SubTheme **
                 lastSelectedNode = tvThemesSummary.SelectedNode;
                 lastSelectedNodeFullPath = tvThemesSummary.SelectedNode.FullPath;
@@ -209,13 +208,8 @@ namespace Generator
                 string subTheme = "";
                 if (themeStringList.Count > 1) subTheme = themeStringList[1];
 
-
+                // ** Refresh Screen **
                 RefreshSetDetailsSummary();
-
-
-                //MessageBox.Show("Theme: " + theme + " | SubTheme: " + subTheme);
-
-
             }
             catch (Exception ex)
             {

@@ -22,9 +22,12 @@ namespace Generator
             return Global_Variables.APIProxy.GetImage(imageType, _params);
         }
 
+        public static string UploadPartImageToBLOB(string sourceURL, string LDrawRef, string LDrawColourID)
+        {
+            return Global_Variables.APIProxy.UploadPartImageToBLOB(sourceURL, LDrawRef, LDrawColourID);
+        }
 
 
-       
 
 
         // ** SetDetails Functions **
@@ -71,9 +74,6 @@ namespace Generator
         {
             return Global_Variables.APIProxy.CheckIfPDFInstructionsExistForSet(setRef);
         }
-
-
-
 
 
         // ** PartColour functions **
@@ -158,14 +158,7 @@ namespace Generator
         }
 
         public static int GetLDrawSize(string LDrawRef)
-        {
-            // ** Get data from BASEPART database table **
-            //String sql = "SELECT LDRAW_SIZE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
-            //var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
-            //int LDrawSize = (int)results.Rows[0]["LDRAW_SIZE"];
-            //return LDrawSize;
-
-            // ** Get data from API **
+        {            
             return Global_Variables.APIProxy.GetLDrawSize_UsingLDrawRef(LDrawRef);
         }
 

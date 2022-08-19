@@ -310,7 +310,8 @@ namespace Generator
             // ** Get data from BASEPART database table **
             String sql = "SELECT LDRAW_SIZE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
             var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            int LDrawSize = (int)results.Rows[0]["LDRAW_SIZE"];
+            int LDrawSize = 0;
+            if (results.Rows.Count > 0) LDrawSize = (int)results.Rows[0]["LDRAW_SIZE"];
             return LDrawSize;
         }
 
@@ -1018,22 +1019,56 @@ namespace Generator
             foreach (string MiniFigRef in MiniFigSetList)
             {
                 // ** Get the Set XML doc for the MiniFig **
-                //TODO: This need upgrading to get the MiniFig XML from DB (if that's where it ends up1)
-                BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(MiniFigRef + ".xml");
-                if (blob.Exists())
+                //BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(MiniFigRef + ".xml");
+                //if (blob.Exists())
+                //{
+                //    // ** Get MiniFig XML **
+                //    XmlDocument MiniFigXmlDoc = new XmlDocument();
+                //    byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
+                //    using (var ms = new MemoryStream(fileContent)) blob.DownloadTo(ms);                   
+                //    string xmlString = Encoding.UTF8.GetString(fileContent);
+                //    MiniFigXmlDoc.LoadXml(xmlString);
+                //    if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false) MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);                    
+                //}
+                SetDetails MiniFig_SetDetails = StaticData.GetSetDetails(MiniFigRef);
+                if(MiniFig_SetDetails != null)
                 {
                     // ** Get MiniFig XML **
                     XmlDocument MiniFigXmlDoc = new XmlDocument();
-                    byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                    using (var ms = new MemoryStream(fileContent)) blob.DownloadTo(ms);                   
-                    string xmlString = Encoding.UTF8.GetString(fileContent);
+                    string xmlString = MiniFig_SetDetails.Instructions;
                     MiniFigXmlDoc.LoadXml(xmlString);
-                    if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false) MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);                    
+                    if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false) MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);
                 }
             }
             return MiniFigXMLDict;
         }
 
+
+        public string UploadPartImageToBLOB(string sourceURL, string LDrawRef, string LDrawColourID)
+        {
+            string response = "";
+            try
+            {
+                // ** Download image from Rebrickable **
+                byte[] imageb = new byte[0];
+                try
+                {
+                    imageb = new WebClient().DownloadData(sourceURL);
+                }
+                catch
+                { }
+
+                // ** Upload image to Azure **
+                if (imageb.Length == 0) throw new Exception("No data found on Rebrickable for URL");
+                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-element").GetBlobClient(LDrawRef + "|" + LDrawColourID + ".png");
+                using (var ms = new MemoryStream(imageb)) blob.Upload(ms, true);
+                return response;
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
+        }
 
 
 
