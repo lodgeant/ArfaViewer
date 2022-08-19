@@ -1232,73 +1232,20 @@ namespace Generator
         {
             try
             {                 
-                #region ** Process refresh only if a SET has been loaded **
+                // ** Process refresh only if a SET has been loaded **
                 if (currentSetXml != null)
                 {
-                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Generating Treeview...");
-
-                    // ** MERGE STANDALONE MINIFIG XML's INTO SET XML **   
+                    // ** MERGE STANDALONE MINIFIG XML's INTO SET XML **
+                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Merging MiniFig XML's...");
                     fullSetXml = new XmlDocument();
                     fullSetXml.LoadXml(currentSetXml.OuterXml);
                     Dictionary<string, XmlDocument> MiniFigXMLDict = StaticData.GetMiniFigXMLDict(currentSetXml);
                     if (MiniFigXMLDict.Count > 0) fullSetXml = Set.MergeMiniFigsIntoSetXML(fullSetXml, MiniFigXMLDict);
-                    
-                    // ** GENERATE SET SUMMARY TREEVIEW **
-                    // ** Add SET details to Treeview node **    
-                    List<string> nodeList = new List<string>();
-                    string SetRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;
-                    string SetDescription = currentSetXml.SelectSingleNode("//Set/@Description").InnerXml;
-                    TreeNode SetTN = new TreeNode(SetRef + "|" + SetDescription);
-                    SetTN.Tag = "SET|" + SetRef;
-                    SetTN.ImageIndex = 0;
-                    SetTN.SelectedImageIndex = 0;
-                    nodeList.Add("SET|" + SetRef + "|" + SetDescription);
-                    
-                    #region ** Add all SUBSET details to Treeview node **                    
-                    if (currentSetXml.SelectNodes("//SubSet") != null)
-                    {
-                        XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
-                        foreach (XmlNode SubSetNode in SubSetNodeList)
-                        {
-                            // ** GET VARIABLES **
-                            string SubSetRef = SubSetNode.SelectSingleNode("@Ref").InnerXml;
-                            string SubSetDescription = SubSetNode.SelectSingleNode("@Description").InnerXml;
-                            TreeNode SubSetTN = new TreeNode(SubSetRef + "|" + SubSetDescription);
-                            SubSetTN.Tag = "SUBSET|" + SubSetRef;
-                            SubSetTN.ImageIndex = 1;
-                            SubSetTN.SelectedImageIndex = 1;
-                            nodeList.Add("SUBSET|" + SubSetRef + "|" + SubSetDescription);
-                            SetTN.Nodes.Add(SubSetTN);
-
-                            // ** POPULATE ALL MODEL DETAILS **
-                            if (currentSetXml.SelectNodes("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@SubModelLevel='1']") != null)
-                            {
-                                XmlNodeList ModelNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@SubModelLevel='1']");
-                                foreach (XmlNode ModelNode in ModelNodeList)
-                                {
-                                    string ModelRef = ModelNode.SelectSingleNode("@Ref").InnerXml;
-                                    string ModelDescription = ModelDescription = ModelNode.SelectSingleNode("@Description").InnerXml;
-                                    string ModelType = ModelNode.SelectSingleNode("@LDrawModelType").InnerXml;
-                                    TreeNode modelTN = new TreeNode(ModelRef + "|" + ModelDescription);
-                                    modelTN.Tag = "MODEL|" + SubSetRef + "|" + ModelRef;
-                                    int imageIndex = 2;
-                                    if (ModelType.Equals("MINIFIG")) imageIndex = 7;                                    
-                                    modelTN.ImageIndex = imageIndex;
-                                    modelTN.SelectedImageIndex = imageIndex;
-                                    nodeList.Add("MODEL|" + ModelRef + "|" + ModelDescription);
-                                    SubSetTN.Nodes.Add(modelTN);
-
-                                    // ** POPULATE ALL SUBMODEL & STEP DETAILS **
-                                    List<TreeNode> treeNodeList = GenerateNodes(ModelNode.ChildNodes);
-                                    modelTN.Nodes.AddRange(treeNodeList.ToArray());
-                                }
-                            }
-                        }
-                    }
-                    #endregion
 
                     // ** Populate Summary Treeview with data **
-                    Delegates.TreeView_AddNodes(this, tvSetSummary, SetTN);
+                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Generating Treeview...");
+                    string SetRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;                   
+                    Delegates.TreeView_AddNodes(this, tvSetSummary, Set.GetSetTreeViewFromSetXML(currentSetXml, false, true, true, true));
 
                     // ** Update Scintilla XML areas **                    
                     Delegates.Scintilla_SetText(this, TextArea, XDocument.Parse(currentSetXml.OuterXml).ToString());
@@ -1306,104 +1253,66 @@ namespace Generator
 
                     // ** Update Set Image **
                     pnlSetImage.BackgroundImage = ArfaImage.GetImage(ImageType.SET, new string[] { SetRef });
+
+                    #region ** UPDATE PART LIST SUMMARIES - Current Set XML **
+                    {
+                        Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Updating Current Set parts list...");
+                        XmlNodeList partListNodeList = currentSetXml.SelectNodes("//PartListPart");
+                        Stopwatch watch = new Stopwatch(); watch.Start();
+                        DataTable partListTable = GeneratePartListTable(partListNodeList);
+                        watch.Stop(); long msecs = watch.ElapsedMilliseconds;
+                        partListTable.DefaultView.Sort = "LDraw Colour Name";
+                        partListTable = partListTable.DefaultView.ToTable();
+                        Delegates.DataGridView_SetDataSource(this, dgPartListSummary, partListTable);
+                        AdjustPartListSummaryRowFormatting(dgPartListSummary);
+
+                        // ** UPDATE SUMMARY LABEL **
+                        int elementCount = partListTable.Rows.Count;
+                        int partCount = (from r in partListTable.AsEnumerable()
+                                         select r.Field<int>("Qty")).ToList().Sum();
+                        int colourCount = (from r in partListTable.AsEnumerable()
+                                           group r by r.Field<string>("LDraw Colour Name") into g
+                                           select new { ColourName = g.Key }).Count();
+                        int lDrawPartCount = (from r in partListTable.AsEnumerable()
+                                              group r by r.Field<string>("LDraw Ref") into g
+                                              select new { ColourName = g.Key }).Count();
+                        Delegates.ToolStripLabel_SetText(this, lblPartListCount, partCount.ToString("#,##0") + " Part(s), " + elementCount.ToString("#,##0") + " Element(s), " + lDrawPartCount.ToString("#,##0") + " LDraw Part(s), " + colourCount.ToString("#,##0") + " Colour(s)");
+                    }
+                    #endregion
+
+                    #region ** UPDATE PART LIST SUMMARIES - Full Set XML **
+                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Updating Full Set parts list...");
+                    if (fullSetXml != null)
+                    {
+                        XmlNodeList partListNodeList = fullSetXml.SelectNodes("//PartListPart");
+                        DataTable partListTable = GeneratePartListTable(partListNodeList);
+                        partListTable.DefaultView.Sort = "LDraw Colour Name";
+                        partListTable = partListTable.DefaultView.ToTable();
+                        Delegates.DataGridView_SetDataSource(this, dgPartListWithMFsSummary, partListTable);
+                        AdjustPartListSummaryRowFormatting(dgPartListWithMFsSummary);
+
+                        // ** UPDATE SUMMARY LABEL **
+                        int elementCount = partListTable.Rows.Count;
+                        int partCount = (from r in partListTable.AsEnumerable()
+                                         select r.Field<int>("Qty")).ToList().Sum();
+                        int colourCount = (from r in partListTable.AsEnumerable()
+                                           group r by r.Field<string>("LDraw Colour Name") into g
+                                           select new { ColourName = g.Key }).Count();
+                        int lDrawPartCount = (from r in partListTable.AsEnumerable()
+                                              group r by r.Field<string>("LDraw Ref") into g
+                                              select new { ColourName = g.Key }).Count();
+                        Delegates.ToolStripLabel_SetText(this, lblPartListWithMFsCount, partCount.ToString("#,##0") + " Part(s), " + elementCount.ToString("#,##0") + " Element(s), " + lDrawPartCount.ToString("#,##0") + " LDraw Part(s), " + colourCount.ToString("#,##0") + " Colour(s)");
+                    }
+                    #endregion
+
                 }
-                #endregion
-
-                //System.Threading.Thread.Sleep(2000);
-
-                #region ** UPDATE PART LIST SUMMARIES - Current Set XML **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Updating Current Set parts list...");                               
-                if (currentSetXml != null)
-                {
-                    XmlNodeList partListNodeList = currentSetXml.SelectNodes("//PartListPart");
-                    Stopwatch watch = new Stopwatch(); watch.Start();
-                    DataTable partListTable = GeneratePartListTable(partListNodeList);
-                    watch.Stop(); long msecs = watch.ElapsedMilliseconds;
-                    partListTable.DefaultView.Sort = "LDraw Colour Name";
-                    partListTable = partListTable.DefaultView.ToTable();                    
-                    Delegates.DataGridView_SetDataSource(this, dgPartListSummary, partListTable);
-                    AdjustPartListSummaryRowFormatting(dgPartListSummary);
-
-                    // ** UPDATE SUMMARY LABEL **
-                    int elementCount = partListTable.Rows.Count;
-                    int partCount = (from r in partListTable.AsEnumerable()
-                                     select r.Field<int>("Qty")).ToList().Sum();
-                    int colourCount = (from r in partListTable.AsEnumerable()
-                                       group r by r.Field<string>("LDraw Colour Name") into g
-                                       select new { ColourName = g.Key }).Count();
-                    int lDrawPartCount = (from r in partListTable.AsEnumerable()
-                                          group r by r.Field<string>("LDraw Ref") into g
-                                          select new { ColourName = g.Key }).Count();
-                    Delegates.ToolStripLabel_SetText(this, lblPartListCount, partCount.ToString("#,##0") + " Part(s), " + elementCount.ToString("#,##0") + " Element(s), " + lDrawPartCount.ToString("#,##0") + " LDraw Part(s), " + colourCount.ToString("#,##0") + " Colour(s)");
-                }
-                #endregion
-
-                //System.Threading.Thread.Sleep(2000);
-
-                #region ** UPDATE PART LIST SUMMARIES - Full Set XML **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Updating Full Set parts list...");
-                if (fullSetXml != null)
-                {
-                    XmlNodeList partListNodeList = fullSetXml.SelectNodes("//PartListPart");
-                    DataTable partListTable = GeneratePartListTable(partListNodeList);
-                    partListTable.DefaultView.Sort = "LDraw Colour Name";
-                    partListTable = partListTable.DefaultView.ToTable();                   
-                    Delegates.DataGridView_SetDataSource(this, dgPartListWithMFsSummary, partListTable);
-                    AdjustPartListSummaryRowFormatting(dgPartListWithMFsSummary);
-
-                    // ** UPDATE SUMMARY LABEL **
-                    int elementCount = partListTable.Rows.Count;
-                    int partCount = (from r in partListTable.AsEnumerable()
-                                 select r.Field<int>("Qty")).ToList().Sum();
-                    int colourCount = (from r in partListTable.AsEnumerable()
-                                   group r by r.Field<string>("LDraw Colour Name") into g
-                                   select new { ColourName = g.Key }).Count();
-                    int lDrawPartCount = (from r in partListTable.AsEnumerable()
-                                      group r by r.Field<string>("LDraw Ref") into g
-                                      select new { ColourName = g.Key }).Count();
-                    Delegates.ToolStripLabel_SetText(this, lblPartListWithMFsCount, partCount.ToString("#,##0") + " Part(s), " + elementCount.ToString("#,##0") + " Element(s), " + lDrawPartCount.ToString("#,##0") + " LDraw Part(s), " + colourCount.ToString("#,##0") + " Colour(s)");
-                }
-                #endregion
-
-                //System.Threading.Thread.Sleep(2000);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-
-        //private Dictionary<string, XmlDocument> GetMiniFigXMLDict(XmlDocument currentSetxmlDoc)
-        //{
-        //    Dictionary<string, XmlDocument> MiniFigXMLDict = new Dictionary<string, XmlDocument>();
-
-        //    XmlNodeList MiniFigNodeList = currentSetxmlDoc.SelectNodes("//SubModel[@SubModelLevel='1' and @LDrawModelType='MINIFIG']");
-        //    List<string> MiniFigSetList = MiniFigNodeList.Cast<XmlNode>()
-        //                                   .Select(x => x.SelectSingleNode("@Description").InnerXml.Split('_')[0])
-        //                                   .OrderBy(x => x).ToList();
-        //    foreach (string MiniFigRef in MiniFigSetList)
-        //    {
-        //        // ** Get the Set XML doc for the MiniFig **                   
-        //        BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(MiniFigRef + ".xml");
-        //        if (blob.Exists())
-        //        {
-        //            // ** Get MiniFig XML **
-        //            XmlDocument MiniFigXmlDoc = new XmlDocument();
-        //            byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-        //            using (var ms = new MemoryStream(fileContent))
-        //            {
-        //                blob.DownloadTo(ms);
-        //            }
-        //            string xmlString = Encoding.UTF8.GetString(fileContent);
-        //            MiniFigXmlDoc.LoadXml(xmlString);
-        //            if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false)
-        //            {
-        //                MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);
-        //            }
-        //        }
-        //    }
-        //    return MiniFigXMLDict;
-        //}
+                
 
         private void ClearAllFields()
         {
@@ -1496,106 +1405,106 @@ namespace Generator
             }
         }
 
-        private List<TreeNode> GenerateNodes(XmlNodeList childNodeList)
-        {
-            // ** Define which node types to ignore **
-            HashSet<String> NodeTypesToIgnore = new HashSet<string>() { "#COMMENT" };
+        //private List<TreeNode> GenerateNodes(XmlNodeList childNodeList)
+        //{
+        //    // ** Define which node types to ignore **
+        //    HashSet<String> NodeTypesToIgnore = new HashSet<string>() { "#COMMENT" };
 
-            // ** Cycle through all nodes **
-            List<TreeNode> treeNodeList = new List<TreeNode>();
-            int nodeStepIndex = 0;
-            int nodePlacementIndex = 0;
-            foreach (XmlNode xmlNode in childNodeList)
-            {
-                String nodeType = xmlNode.LocalName.ToUpper();
-                if (NodeTypesToIgnore.Contains(nodeType) == false)
-                {
-                    TreeNode treeNode = new TreeNode();
-                    if (nodeType.Equals("SUBMODEL"))
-                    {
-                        string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
-                        string SubModelRef = xmlNode.SelectSingleNode("@Ref").InnerXml;
-                        string SubModelDescription = xmlNode.SelectSingleNode("@Description").InnerXml;
-                        treeNode.Text = SubModelRef + "|" + SubModelDescription;
-                        treeNode.Tag = nodeType + "|" + parentSubSetRef + "|" + SubModelRef + "|";
-                        treeNode.ImageIndex = 3;
-                        treeNode.SelectedImageIndex = 3;
-                    }
-                    else if (nodeType.Equals("STEP"))
-                    {
-                        string PureStepNo = xmlNode.SelectSingleNode("@PureStepNo").InnerXml;
-                        string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
-                        string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
-                        //string parentSubModelRef = xmlNode.SelectSingleNode("parent::SubModel/@Ref").InnerXml;
+        //    // ** Cycle through all nodes **
+        //    List<TreeNode> treeNodeList = new List<TreeNode>();
+        //    int nodeStepIndex = 0;
+        //    int nodePlacementIndex = 0;
+        //    foreach (XmlNode xmlNode in childNodeList)
+        //    {
+        //        String nodeType = xmlNode.LocalName.ToUpper();
+        //        if (NodeTypesToIgnore.Contains(nodeType) == false)
+        //        {
+        //            TreeNode treeNode = new TreeNode();
+        //            if (nodeType.Equals("SUBMODEL"))
+        //            {
+        //                string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
+        //                string SubModelRef = xmlNode.SelectSingleNode("@Ref").InnerXml;
+        //                string SubModelDescription = xmlNode.SelectSingleNode("@Description").InnerXml;
+        //                treeNode.Text = SubModelRef + "|" + SubModelDescription;
+        //                treeNode.Tag = nodeType + "|" + parentSubSetRef + "|" + SubModelRef + "|";
+        //                treeNode.ImageIndex = 3;
+        //                treeNode.SelectedImageIndex = 3;
+        //            }
+        //            else if (nodeType.Equals("STEP"))
+        //            {
+        //                string PureStepNo = xmlNode.SelectSingleNode("@PureStepNo").InnerXml;
+        //                string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
+        //                string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
+        //                //string parentSubModelRef = xmlNode.SelectSingleNode("parent::SubModel/@Ref").InnerXml;
 
-                        String StepBook = "";
-                        String StepPage = "";
-                        String extraString = "";
-                        if (chkShowPages.Checked)
-                        {
-                            if (xmlNode.SelectSingleNode("@StepBook") != null)
-                            {
-                                StepBook = xmlNode.SelectSingleNode("@StepBook").InnerXml;
-                                StepPage = xmlNode.SelectSingleNode("@StepPage").InnerXml;                                
-                                if (StepBook != "0" && StepPage != "0")
-                                {
-                                    extraString = " [b" + StepBook + ".p" + StepPage + "]";
-                                }
-                            }
-                        }
-                        treeNode.Text = PureStepNo + extraString;                        
-                        treeNode.Tag = nodeType + "|" + parentSubSetRef + "|" + parentModelRef + "|" + PureStepNo;
-                        treeNode.ImageIndex = 4;
-                        treeNode.SelectedImageIndex = 4;
-                        nodeStepIndex = 0;
-                        // ** Update Colour of Step (if required) **
-                    }
-                    else if (nodeType.Equals("PART"))
-                    {
-                        string LDrawRef = xmlNode.SelectSingleNode("@LDrawRef").InnerXml;
-                        String LDrawColourID = xmlNode.SelectSingleNode("@LDrawColourID").InnerXml;
-                        string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
-                        string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
-                        string parentPureStepNo = xmlNode.SelectSingleNode("ancestor::Step/@PureStepNo").InnerXml;
-                        treeNode.Text = LDrawRef + "|" + LDrawColourID;
-                        treeNode.Tag = nodeType + "|" + parentSubSetRef + "|" + parentModelRef + "|" + parentPureStepNo + "|" + LDrawRef + "|" + LDrawColourID + "|" + nodeStepIndex;
-                        if (LDrawRef.Contains("stk"))
-                        {
-                            treeNode.ImageIndex = 9;
-                            treeNode.SelectedImageIndex = 9;
-                        }
-                        else
-                        {
-                            treeNode.ImageIndex = 5;
-                            treeNode.SelectedImageIndex = 5;
-                        }
-                        nodeStepIndex += 1;
-                        nodePlacementIndex = 0;
-                    }
-                    else if (nodeType.Equals("PLACEMENTMOVEMENT"))
-                    {
-                        string Axis = xmlNode.SelectSingleNode("@Axis").InnerXml;
-                        String Value = xmlNode.SelectSingleNode("@Value").InnerXml;
-                        string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
-                        string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
-                        string parentPureStepNo = xmlNode.SelectSingleNode("ancestor::Step/@PureStepNo").InnerXml;
-                        string LDrawRef = xmlNode.SelectSingleNode("ancestor::Part/@LDrawRef").InnerXml;
-                        String LDrawColourID = xmlNode.SelectSingleNode("ancestor::Part/@LDrawColourID").InnerXml;
-                        treeNode.Text = Axis + "=" + Value;
-                        treeNode.Tag = nodeType + "|" + parentSubSetRef + "|" + parentModelRef + "|" + parentPureStepNo + "|" + LDrawRef + "|" + LDrawColourID + "|" + nodePlacementIndex;
-                        treeNode.ImageIndex = 8;
-                        treeNode.SelectedImageIndex = 8;
-                        nodePlacementIndex += 1;
-                    }
-                    if (xmlNode.HasChildNodes)
-                    {
-                        treeNode.Nodes.AddRange(GenerateNodes(xmlNode.ChildNodes).ToArray());
-                    }
-                    treeNodeList.Add(treeNode);
-                }
-            }
-            return treeNodeList;
-        }
+        //                String StepBook = "";
+        //                String StepPage = "";
+        //                String extraString = "";
+        //                if (chkShowPages.Checked)
+        //                {
+        //                    if (xmlNode.SelectSingleNode("@StepBook") != null)
+        //                    {
+        //                        StepBook = xmlNode.SelectSingleNode("@StepBook").InnerXml;
+        //                        StepPage = xmlNode.SelectSingleNode("@StepPage").InnerXml;                                
+        //                        if (StepBook != "0" && StepPage != "0")
+        //                        {
+        //                            extraString = " [b" + StepBook + ".p" + StepPage + "]";
+        //                        }
+        //                    }
+        //                }
+        //                treeNode.Text = PureStepNo + extraString;                        
+        //                treeNode.Tag = nodeType + "|" + parentSubSetRef + "|" + parentModelRef + "|" + PureStepNo;
+        //                treeNode.ImageIndex = 4;
+        //                treeNode.SelectedImageIndex = 4;
+        //                nodeStepIndex = 0;
+        //                // ** Update Colour of Step (if required) **
+        //            }
+        //            else if (nodeType.Equals("PART"))
+        //            {
+        //                string LDrawRef = xmlNode.SelectSingleNode("@LDrawRef").InnerXml;
+        //                String LDrawColourID = xmlNode.SelectSingleNode("@LDrawColourID").InnerXml;
+        //                string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
+        //                string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
+        //                string parentPureStepNo = xmlNode.SelectSingleNode("ancestor::Step/@PureStepNo").InnerXml;
+        //                treeNode.Text = LDrawRef + "|" + LDrawColourID;
+        //                treeNode.Tag = nodeType + "|" + parentSubSetRef + "|" + parentModelRef + "|" + parentPureStepNo + "|" + LDrawRef + "|" + LDrawColourID + "|" + nodeStepIndex;
+        //                if (LDrawRef.Contains("stk"))
+        //                {
+        //                    treeNode.ImageIndex = 9;
+        //                    treeNode.SelectedImageIndex = 9;
+        //                }
+        //                else
+        //                {
+        //                    treeNode.ImageIndex = 5;
+        //                    treeNode.SelectedImageIndex = 5;
+        //                }
+        //                nodeStepIndex += 1;
+        //                nodePlacementIndex = 0;
+        //            }
+        //            else if (nodeType.Equals("PLACEMENTMOVEMENT"))
+        //            {
+        //                string Axis = xmlNode.SelectSingleNode("@Axis").InnerXml;
+        //                String Value = xmlNode.SelectSingleNode("@Value").InnerXml;
+        //                string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
+        //                string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
+        //                string parentPureStepNo = xmlNode.SelectSingleNode("ancestor::Step/@PureStepNo").InnerXml;
+        //                string LDrawRef = xmlNode.SelectSingleNode("ancestor::Part/@LDrawRef").InnerXml;
+        //                String LDrawColourID = xmlNode.SelectSingleNode("ancestor::Part/@LDrawColourID").InnerXml;
+        //                treeNode.Text = Axis + "=" + Value;
+        //                treeNode.Tag = nodeType + "|" + parentSubSetRef + "|" + parentModelRef + "|" + parentPureStepNo + "|" + LDrawRef + "|" + LDrawColourID + "|" + nodePlacementIndex;
+        //                treeNode.ImageIndex = 8;
+        //                treeNode.SelectedImageIndex = 8;
+        //                nodePlacementIndex += 1;
+        //            }
+        //            if (xmlNode.HasChildNodes)
+        //            {
+        //                treeNode.Nodes.AddRange(GenerateNodes(xmlNode.ChildNodes).ToArray());
+        //            }
+        //            treeNodeList.Add(treeNode);
+        //        }
+        //    }
+        //    return treeNodeList;
+        //}
    
         private DataTable GeneratePartListTable(XmlNodeList partListNodeList)
         {

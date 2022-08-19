@@ -271,6 +271,38 @@ namespace Generator
         }
 
 
+        // ** TickBack Functions **
+
+        public static BaseClasses.TickBack GetTickBack(string TickBackName)
+        {
+            TickBack tb = null;
+            TickBackCollection tbc = Global_Variables.APIProxy.GetTickBackData_UsingTickBackNameList(new List<string>() { TickBackName });
+            if (tbc.TickBackList.Count > 0) tb = tbc.TickBackList[0];
+            return tb;
+        }
+
+        public static void AddTickBack(BaseClasses.TickBack tb)
+        {
+            Global_Variables.APIProxy.AddTickBack(tb);
+        }
+
+        public static void UpdateTickBack(BaseClasses.TickBack tb)
+        {
+            Global_Variables.APIProxy.UpdateTickBack(tb);
+        }
+
+        public static void DeleteTickBack(string TickBackName)
+        {
+            Global_Variables.APIProxy.DeleteTickBack(TickBackName);
+        }
+
+
+
+
+
+
+
+
 
         // ** Other functions - not sure where to put them **
 

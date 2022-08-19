@@ -938,12 +938,79 @@ namespace Generator
 
 
 
+
+
+        // ** TickBack Functions **
+
+        public TickBackCollection GetTickBackData_UsingTickBackNameList(List<string> IDList)
+        {
+            // ** Generate TickBackCollection from TICKBACK data in database **
+            TickBackCollection coll = new TickBackCollection();
+            if (IDList.Count > 0)
+            {
+                string sql = "SELECT ID,NAME,DATA FROM TICKBACK ";
+                sql += "WHERE NAME IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
+                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+                coll = TickBackCollection.GetTickBackCollectionFromDataTable(results);
+            }
+            return coll;
+        }
+
+        public void AddTickBack(BaseClasses.TickBack tb)
+        {
+            string sql;
+
+            sql = "SELECT MAX(ID) 'RESULT' FROM TICKBACK";
+            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+            int oldID = 0;
+            if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
+            int newID = oldID + 1;
+
+            // ** Generate SQL Statement **
+            sql = "INSERT INTO TICKBACK" + Environment.NewLine;
+            sql += "(ID,NAME,DATA)" + Environment.NewLine;
+            sql += "VALUES" + Environment.NewLine;
+            sql += "(";
+            sql += newID + ",";
+            sql += "'" + tb.Name + "',";
+            sql += "'" + tb.Data + "'";            
+            sql += ")";
+
+            // ** Execute SQL statement **
+            ExecuteSQLStatement(this.AzureDBConnString, sql);
+        }
+
+        public void UpdateTickBack(BaseClasses.TickBack tb)
+        {
+            // ** Generate SQL Statement **
+            string sql = "UPDATE TICKBACK SET " + Environment.NewLine;
+            sql += "NAME='" + tb.Name + "',";
+            sql += "DATA='" + tb.Data + "'";            
+            sql += " WHERE NAME='" + tb.Name + "'";
+
+            // ** Execute SQL statement **
+            ExecuteSQLStatement(this.AzureDBConnString, sql);
+        }
+
+        public void DeleteTickBack(string TickBackName)
+        {
+            // ** Generate SQL Statement **
+            string sql = "DELETE FROM TICKBACK WHERE NAME='" + TickBackName + "'" + Environment.NewLine;
+
+            // ** Execute SQL statement **
+            ExecuteSQLStatement(this.AzureDBConnString, sql);
+        }
+
+
+
+
+
+
         // ** Other functions - not sure where to put them **
 
         public Dictionary<string, XmlDocument> GetMiniFigXMLDict(XmlDocument setXML)
         {
             Dictionary<string, XmlDocument> MiniFigXMLDict = new Dictionary<string, XmlDocument>();
-
             XmlNodeList MiniFigNodeList = setXML.SelectNodes("//SubModel[@SubModelLevel='1' and @LDrawModelType='MINIFIG']");
             List<string> MiniFigSetList = MiniFigNodeList.Cast<XmlNode>()
                                            .Select(x => x.SelectSingleNode("@Description").InnerXml.Split('_')[0])

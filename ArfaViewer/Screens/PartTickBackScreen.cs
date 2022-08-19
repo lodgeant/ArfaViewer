@@ -35,6 +35,10 @@ namespace Generator
         private string SelectedNodeTag = "";       
         private Dictionary<string, int> ScrollingRowIndexDict = new Dictionary<string, int>();
         private Dictionary<string, int> ScrollingPnlIndexDict = new Dictionary<string, int>();
+        //private TreeNode lastSelectedTreeNode;
+        //private string lastSelectedNodeFullPath = "";
+
+
 
 
 
@@ -79,7 +83,7 @@ namespace Generator
                                 btnExit,
                                 toolStripSeparator1,                                                               
                                 lblTickBackRef,
-                                fldTickBackRef,
+                                fldTickBackName,
                                 btnLoadTickBack,
                                 btnSaveTickBack,
                                 btnDeleteTickBack,
@@ -91,22 +95,24 @@ namespace Generator
                                 });
                 #endregion
 
-                toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {                                
+                #region ** ADD OTHER TOOLSTRIP ITEMS **
+                tsSelectedObject.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {                                
                                 new ToolStripControlHost(chkSelectedObjectShowBig),
                                 new ToolStripControlHost(chkSelectedObjectShowMissingOnly)
                                 });
                 toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
                                 new ToolStripControlHost(chkWholeSetShowBig),
                                 });
-                toolStrip7.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+                tsWholeSet.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
                                 new ToolStripControlHost(chkWholeSetShowMissingOnly),
                                 });
+                #endregion
 
                 // ** Set up Scintilla **
                 SetupScintillaPanel1();
 
-                fldTickBackRef.Text = "621-1";
-                fldSetRef.Text = "621-1";
+                fldTickBackName.Text = "4742-1";
+                fldSetRef.Text = "4742-1";
             }
             catch (Exception ex)
             {
@@ -245,42 +251,24 @@ namespace Generator
             if (dgSetPartListSummary.Rows.Count > 0) AdjustPartListSummaryRowFormatting(dgSetPartListSummary);
         }
 
+        private void btnExpandAll_Click(object sender, EventArgs e)
+        {
+            if (tvSetSummary.Nodes.Count > 0) tvSetSummary.Nodes[0].ExpandAll();
+        }
 
+        private void btnCollapseAll_Click(object sender, EventArgs e)
+        {
+            if (tvSetSummary.Nodes.Count > 0) tvSetSummary.Nodes[0].Collapse(false);
+        }
 
-        #endregion
-
-        #region ** TICKBACK FUNCTIONS **
-
-        private void LoadTickBack()
+        private void btnButtonWidthMinus_Click(object sender, EventArgs e)
         {
             try
             {
-                // ** Validation Checks **
-                if (fldTickBackRef.Text.Equals(""))
-                {
-                    throw new Exception("No TickBack Ref entered...");
-                }
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "tickback-xmls").GetBlobClient(fldTickBackRef.Text + ".xml");
-                if (blob.Exists() == false)
-                {
-                    throw new Exception("TickBack " + fldTickBackRef.Text + " not found...");
-                }
-
-                // ** LOAD Set XML into Object **   
-                byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                using (var ms = new MemoryStream(fileContent))
-                {
-                    blob.DownloadTo(ms);
-                }
-                string xmlString = Encoding.UTF8.GetString(fileContent);
-                currentSetXml = new XmlDocument();
-                currentSetXml.LoadXml(xmlString);
-
-                // ** Clear fields **
-                //ClearAllFields();
-
-                // ** Generate Treeview then Refresh screen **
-                GenerateTreeview();
+                int oldValue = int.Parse(fldButtonWidth.Text);
+                if (oldValue == 1) return;
+                int newvalue = oldValue - 1;
+                fldButtonWidth.Text = newvalue.ToString();
                 RefreshScreen();
             }
             catch (Exception ex)
@@ -289,137 +277,13 @@ namespace Generator
             }
         }
 
-        private void SaveTickBack()
+        private void btnButtonWidthPlus_Click(object sender, EventArgs e)
         {
             try
             {
-                // ** Validation Checks **
-                if (fldTickBackRef.Text.Equals(""))
-                {
-                    throw new Exception("No TickBack Ref entered...");
-                }
-                string tickBackRef = fldTickBackRef.Text;
-
-                // ** SAVE TICKBACK **
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "tickback-xmls").GetBlobClient(tickBackRef + ".xml");
-                //string flushedXML = new Set().DeserialiseFromXMLString(currentSetXml.OuterXml).SerializeToString(true);
-                //byte[] bytes = Encoding.UTF8.GetBytes(flushedXML);
-                byte[] bytes = Encoding.UTF8.GetBytes(currentSetXml.OuterXml);
-                using (var ms = new MemoryStream(bytes))
-                {
-                    blob.Upload(ms, true);
-                }
-                MessageBox.Show("TickBack " + tickBackRef + " saved...");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void DeleteTickBackk()
-        {
-            try
-            {
-                // ** Validation Checks **
-                if (fldTickBackRef.Text.Equals(""))
-                {
-                    throw new Exception("No TickBack Ref entered...");
-                }
-                string tickBackRef = fldTickBackRef.Text;
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "tickback-xmls").GetBlobClient(tickBackRef + ".xml");
-                if (blob.Exists() == false)
-                {
-                    throw new Exception("TickBack " + tickBackRef + " not found...");
-                }
-
-                // Make sure user wants to delete
-                DialogResult res = MessageBox.Show("Are you sure you want to Delete?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (res == DialogResult.Yes)
-                {
-                    // ** Delete Set **
-                    blob.Delete();
-
-                    // ** Clear all fields **                    
-                    currentSetXml = null;
-                    GenerateTreeview();
-                    RefreshScreen();
-
-                    // ** Show confirm **
-                    MessageBox.Show("TickBack " + tickBackRef + " deleted...");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void LoadFromSet()
-        {
-            try
-            {
-                // ** Validation Checks **
-                if (fldSetRef.Text.Equals(""))
-                {
-                    throw new Exception("No Set Ref entered...");
-                }
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(fldSetRef.Text + ".xml");
-                if (blob.Exists() == false)
-                {
-                    throw new Exception("Set " + fldSetRef.Text + " not found...");
-                }
-
-                // ** LOAD Set XML into Object **   
-                byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                using (var ms = new MemoryStream(fileContent))
-                {
-                    blob.DownloadTo(ms);
-                }
-                string xmlString = Encoding.UTF8.GetString(fileContent);
-                currentSetXml = new XmlDocument();
-                currentSetXml.LoadXml(xmlString);
-
-                #region ** MERGE STANDALONE MINIFIG XML's INTO SET XML ** 
-                XmlNodeList MiniFigNodeList = currentSetXml.SelectNodes("//SubModel[@SubModelLevel='1' and @LDrawModelType='MINIFIG']");
-                List<string> MiniFigSetList = MiniFigNodeList.Cast<XmlNode>()
-                                               .Select(x => x.SelectSingleNode("@Description").InnerXml.Split('_')[0])
-                                               .OrderBy(x => x).ToList();
-                Dictionary<string, XmlDocument> MiniFigXMLDict = new Dictionary<string, XmlDocument>();
-                foreach (string MiniFigRef in MiniFigSetList)
-                {
-                    // ** Get the Set XML doc for the MiniFig **                   
-                    blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(MiniFigRef + ".xml");
-                    if (blob.Exists())
-                    {
-                        // ** Get MiniFig XML **
-                        XmlDocument MiniFigXmlDoc = new XmlDocument();
-                        fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                        using (var ms = new MemoryStream(fileContent))
-                        {
-                            blob.DownloadTo(ms);
-                        }
-                        xmlString = Encoding.UTF8.GetString(fileContent);
-                        MiniFigXmlDoc.LoadXml(xmlString);
-                        if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false)
-                        {
-                            MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);
-                        }
-                    }
-                }
-                if (MiniFigXMLDict.Count > 0)
-                {
-                    currentSetXml = Set.MergeMiniFigsIntoSetXML(currentSetXml, MiniFigXMLDict);
-                }
-                #endregion
-
-                // ** Clear fields **
-                //ClearAllFields();
-                SelectedNodeTag = "";
-                fldTickBackRef.Text = "";
-
-                // ** Generate Treeview then Refresh screen **
-                GenerateTreeview();
+                int oldValue = int.Parse(fldButtonWidth.Text);
+                int newvalue = oldValue + 1;
+                fldButtonWidth.Text = newvalue.ToString();
                 RefreshScreen();
             }
             catch (Exception ex)
@@ -444,8 +308,22 @@ namespace Generator
 
         #endregion
 
-        //private TreeNode lastSelectedTreeNode;
-        //private string lastSelectedNodeFullPath = "";
+        #region ** TREEVIEW FUNCTIONS **
+
+        private void RefreshSetSummaryTreeview()
+        {
+            try
+            {
+                // ** UPDATE TEEVIEW **
+                tvSetSummary.Nodes.Clear();
+                tvSetSummary.Nodes.Add(Set.GetSetTreeViewFromSetXML(currentSetXml, false, false, false, false));
+                if (tvSetSummary.Nodes.Count > 0) tvSetSummary.Nodes[0].ExpandAll();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         private void tvSetSummary_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -484,93 +362,263 @@ namespace Generator
             }
         }
 
-        #region ** GENERATE TREEVIEW FUNCTIONS **
+        #endregion
 
-        private void GenerateTreeview()
+        #region ** PART BUTTON FUNCTIONS **
+
+        private void Handle_TickBack_Button_Click(object sender, EventArgs e)
         {
             try
             {
-                tvSetSummary.Nodes.Clear();
+                // ** GET DETAILS OF SENDING CONTROL **
+                string[] nameDetails = ((Button)sender).Name.Split('_');
+                string LDrawRef = nameDetails[3];
+                string LDrawColourID = nameDetails[4];
+                ScrollingPnlIndexDict["pnlButtonsWholeSet"] = pnlButtonsWholeSet.VerticalScroll.Value;
 
-                #region ** UPDATE TEEVIEW **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Processing refresh...");
-                if (currentSetXml != null)
+                #region ** ELEMENT IMAGE CLICKED **
+                if (((Button)sender).Name.StartsWith("btn_ElementImage"))
                 {
-                    List<string> nodeList = new List<string>();
+                    // ** Update Overall PartListPart section **
+                    int Qty = int.Parse(currentSetXml.SelectSingleNode("//PartListPart[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "']/@Qty").InnerXml);
+                    currentSetXml.SelectSingleNode("//PartListPart[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "']/@QtyFound").InnerXml = Qty.ToString();
 
-                    #region ** POPULATE Set DETAILS **                    
-                    string SetRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;
-                    string SetDescription = currentSetXml.SelectSingleNode("//Set/@Description").InnerXml;
-                    TreeNode SetTN = new TreeNode(SetRef + "|" + SetDescription);
-                    SetTN.Tag = "SET|" + SetRef;
-                    SetTN.ImageIndex = 0;
-                    SetTN.SelectedImageIndex = 0;
-                    nodeList.Add("SET|" + SetRef + "|" + SetDescription);
-                    #endregion
-
-                    #region ** POPULATE ALL SubSet DETAILS **                    
-                    if (currentSetXml.SelectNodes("//SubSet") != null)
+                    // FIND ALL PARTS IN ALL SUBSETS AND MARK AS TickedBack = true
+                    XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
+                    List<string> SubSetList = SubSetNodeList.Cast<XmlNode>()
+                                                       .Select(x => x.SelectSingleNode("@Ref").InnerXml)
+                                                       //.OrderBy(x => x)
+                                                       .ToList();
+                    foreach (string subSetRef in SubSetList)
                     {
-                        XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
-                        foreach (XmlNode SubSetNode in SubSetNodeList)
-                        {
-                            // ** GET VARIABLES **
-                            string SubSetRef = SubSetNode.SelectSingleNode("@Ref").InnerXml;
-                            string SubSetDescription = SubSetNode.SelectSingleNode("@Description").InnerXml;
-                            TreeNode SubSetTN = new TreeNode(SubSetRef + "|" + SubSetDescription);
-                            SubSetTN.Tag = "SUBSET|" + SubSetRef;
-                            SubSetTN.ImageIndex = 1;
-                            SubSetTN.SelectedImageIndex = 1;
-                            nodeList.Add("SUBSET|" + SubSetRef + "|" + SubSetDescription);
-                            SetTN.Nodes.Add(SubSetTN);
-
-                            #region ** POPULATE ALL MODEL DETAILS **
-                            if (currentSetXml.SelectNodes("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@SubModelLevel='1']") != null)
-                            {
-                                XmlNodeList ModelNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@SubModelLevel='1']");
-                                foreach (XmlNode ModelNode in ModelNodeList)
-                                {
-                                    string ModelRef = ModelNode.SelectSingleNode("@Ref").InnerXml;
-                                    string ModelDescription = ModelDescription = ModelNode.SelectSingleNode("@Description").InnerXml;
-                                    string ModelType = ModelNode.SelectSingleNode("@LDrawModelType").InnerXml;
-                                    TreeNode modelTN = new TreeNode(ModelRef + "|" + ModelDescription);
-                                    modelTN.Tag = "MODEL|" + SubSetRef + "|" + ModelRef;
-                                    int imageIndex = 0;
-                                    if (ModelType.Equals("MINIFIG"))
-                                    {
-                                        imageIndex = 7;
-                                    }
-                                    else
-                                    {
-                                        imageIndex = 2;
-                                    }
-                                    modelTN.ImageIndex = imageIndex;
-                                    modelTN.SelectedImageIndex = imageIndex;
-                                    nodeList.Add("MODEL|" + ModelRef + "|" + ModelDescription);
-                                    SubSetTN.Nodes.Add(modelTN);
-
-                                    // ** POPULATE ALL SUBMODEL & STEP DETAILS **
-                                    //List<TreeNode> treeNodeList = GenerateNodes(ModelNode.ChildNodes);
-                                    //modelTN.Nodes.AddRange(treeNodeList.ToArray());
-                                }
-                            }
-                            #endregion
-
-                        }
+                        string XMLString = "//SubSet[@Ref='" + subSetRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false' and @TickedBack='false']";
+                        XmlNodeList partNodeList = currentSetXml.SelectNodes(XMLString);
+                        foreach (XmlNode partNode in partNodeList) partNode.SelectSingleNode("@TickedBack").InnerXml = "true";
                     }
-                    Delegates.TreeView_AddNodes(this, tvSetSummary, SetTN);
-                    #endregion
 
-                    // ** Update Scintilla XML areas **                    
-                    Delegates.Scintilla_SetText(this, TextArea, XDocument.Parse(currentSetXml.OuterXml).ToString());
+                    // ** REFRESH SCREEN **
+                    RefreshScreen();
                 }
                 #endregion
 
-                if (tvSetSummary.Nodes.Count > 0) tvSetSummary.Nodes[0].ExpandAll();
+                #region ** BTN MINUS CLICKED **
+                if (((Button)sender).Name.StartsWith("btn_Minus"))
+                {
+                    // ** Update PartList Qty Found **
+                    int QtyFound = int.Parse(currentSetXml.SelectSingleNode("//PartListPart[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "']/@QtyFound").InnerXml);
+                    QtyFound -= 1;
+                    currentSetXml.SelectSingleNode("//PartListPart[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "']/@QtyFound").InnerXml = QtyFound.ToString();
+
+                    // find the last part in all the SubSets and mark as TickBack = false
+                    XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
+                    List<string> SubSetList = SubSetNodeList.Cast<XmlNode>()
+                                                       .Select(x => x.SelectSingleNode("@Ref").InnerXml)
+                                                       //.OrderBy(x => x)
+                                                       .ToList();
+                    foreach (string subSetRef in SubSetList)
+                    {
+                        string XMLString = "//SubSet[@Ref='" + subSetRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false' and @TickedBack='true']";
+                        XmlNodeList partNodeList = currentSetXml.SelectNodes(XMLString);
+                        if (partNodeList.Count > 0)
+                        {
+                            XmlNode partNode = partNodeList[partNodeList.Count - 1];
+                            partNode.SelectSingleNode("@TickedBack").InnerXml = "false";
+                        }
+                    }
+
+                    // ** REFRESH SCREEN **
+                    RefreshScreen();
+                }
+                #endregion
+
+                #region ** BTN PLUS CLICKED **
+                if (((Button)sender).Name.StartsWith("btn_Plus"))
+                {
+                    // ** Update PartList Qty Found **
+                    int QtyFound = int.Parse(currentSetXml.SelectSingleNode("//PartListPart[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "']/@QtyFound").InnerXml);
+                    QtyFound += 1;
+                    currentSetXml.SelectSingleNode("//PartListPart[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "']/@QtyFound").InnerXml = QtyFound.ToString();
+
+                    // find the 1st part in all the SubSets and mark as TickBack = true
+                    XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
+                    List<string> SubSetList = SubSetNodeList.Cast<XmlNode>()
+                                                       .Select(x => x.SelectSingleNode("@Ref").InnerXml)
+                                                       //.OrderBy(x => x)
+                                                       .ToList();
+                    foreach (string subSetRef in SubSetList)
+                    {
+                        string XMLString = "//SubSet[@Ref='" + subSetRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false' and @TickedBack='false']";
+                        XmlNodeList partNodeList = currentSetXml.SelectNodes(XMLString);
+                        if (partNodeList.Count > 0)
+                        {
+                            XmlNode partNode = partNodeList[0];
+                            partNode.SelectSingleNode("@TickedBack").InnerXml = "true";
+                        }
+                    }
+
+                    // ** REFRESH SCREEN **
+                    RefreshScreen();
+                }
+                #endregion
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private List<Control> GeneratePartButtonControls(XmlNodeList partListNodeList)
+        {
+            List<Control> controlList = new List<Control>();
+            try
+            {
+                // ** GET VARIABLES **
+                int xBound;
+                if (int.TryParse(fldButtonWidth.Text, out xBound) == false)
+                {
+                    xBound = 5;
+                }
+                int index = 0;
+                int xIndex = 0;
+                int yIndex = 0;
+
+                // ** CYCLE THROUGH EACH ELEMENT AND GENERATE CONTROLS **
+                IEnumerable<XmlNode> rowList = partListNodeList.Cast<XmlNode>().OrderBy(r => r.Attributes["LDrawColourID"].Value);
+                foreach (XmlNode partNode in rowList)
+                {
+                    // ** GET LDRAW VARIABLES **
+                    string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
+                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
+                    int Qty = int.Parse(partNode.SelectSingleNode("@Qty").InnerXml);
+                    int QtyFound = int.Parse(partNode.SelectSingleNode("@QtyFound").InnerXml);
+                    //if (QtyFound < Qty)
+                    //{
+                    //}   
+
+                    #region ** CREATE GROUPBOX CONTROL FOR PART **
+                    GroupBox gb = new GroupBox();
+                    gb.SuspendLayout();
+                    gb.Name = "gp_" + index + "_" + LDrawRef + "_" + LDrawColourID;
+                    gb.Text = LDrawRef + " | " + LDrawColourID;
+                    gb.Size = new Size(175, 185);
+                    gb.TabStop = false;
+                    // ** Update Location **
+                    int locationX = xIndex * 175;
+                    int locationY = yIndex * 185;
+                    gb.Location = new System.Drawing.Point(locationX, locationY);
+                    gb.BackColor = Color.White;
+                    if (QtyFound == Qty) gb.BackColor = Color.LightGreen;
+                    if (QtyFound > 0 && QtyFound < Qty) gb.BackColor = Color.Orange;
+                    controlList.Add(gb);
+                    #endregion
+
+                    #region ** ADD ELEMENT IMAGE BUTTON **
+                    Button btn = new Button();
+                    btn.Location = new System.Drawing.Point(6, 14);
+                    btn.Name = "btn_ElementImage_" + index + "_" + LDrawRef + "_" + LDrawColourID;
+                    btn.Size = new Size(120, 120);
+                    btn.TabIndex = 0;
+                    btn.UseVisualStyleBackColor = true;
+                    //btn.BackgroundImage = Generator.GetElementImage(LDrawRef, LDrawColourID);
+                    btn.BackgroundImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+                    btn.BackgroundImageLayout = ImageLayout.Zoom;
+                    btn.Click += new System.EventHandler(Handle_TickBack_Button_Click);
+                    gb.Controls.Add(btn);
+                    #endregion
+
+                    #region ** ADD PARTCOLOUR IMAGE BUTTON **
+                    btn = new Button();
+                    btn.Enabled = false;
+                    btn.Location = new System.Drawing.Point(127, 94);
+                    btn.Name = "btn_PartColourImage_" + index + "_" + LDrawRef + "_" + LDrawColourID;
+                    btn.Size = new Size(40, 40);
+                    btn.TabIndex = 0;
+                    //btn.Text = LDrawColourID.ToString();
+                    btn.UseVisualStyleBackColor = true;
+                    btn.BackgroundImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
+                    btn.BackgroundImageLayout = ImageLayout.Zoom;
+                    gb.Controls.Add(btn);
+                    #endregion
+
+                    #region ** ADD QTY BUTTON **
+                    btn = new Button();
+                    btn.Enabled = false;
+                    btn.Location = new System.Drawing.Point(127, 14);
+                    btn.Name = "btn_Qty_" + index + "_" + LDrawRef + "_" + LDrawColourID;
+                    btn.Size = new Size(40, 40);
+                    btn.TabIndex = 0;
+                    btn.Text = Qty.ToString();
+                    btn.UseVisualStyleBackColor = true;
+                    btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    gb.Controls.Add(btn);
+                    #endregion
+
+                    #region ** ADD QTY FOUND BUTTON **
+                    btn = new Button();
+                    btn.Enabled = false;
+                    btn.Location = new System.Drawing.Point(46, 135);
+                    btn.Name = "btn_QtyFound_" + index + "_" + LDrawRef + "_" + LDrawColourID;
+                    btn.Size = new Size(40, 40);
+                    btn.TabIndex = 0;
+                    btn.Text = QtyFound.ToString();
+                    btn.UseVisualStyleBackColor = true;
+                    btn.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+                    btn.ForeColor = Color.Blue;
+                    gb.Controls.Add(btn);
+                    #endregion
+
+                    #region ** ADD [-] BUTTON **
+                    if (QtyFound > 0)
+                    {
+                        btn = new Button();
+                        //if (QtyFound == 0) btn.Enabled = false;
+                        btn.Location = new System.Drawing.Point(6, 135);
+                        btn.Name = "btn_Minus_" + index + "_" + LDrawRef + "_" + LDrawColourID;
+                        btn.Size = new Size(40, 40);
+                        btn.TabIndex = 0;
+                        btn.Text = "-";
+                        btn.UseVisualStyleBackColor = true;
+                        btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                        btn.ForeColor = Color.Red;
+                        btn.Click += new System.EventHandler(Handle_TickBack_Button_Click);
+                        gb.Controls.Add(btn);
+                    }
+                    #endregion
+
+                    #region ** ADD [+] BUTTON **
+                    if (QtyFound < Qty)
+                    {
+                        btn = new Button();
+                        //if (QtyFound == Qty) btn.Enabled = false;
+                        btn.Location = new System.Drawing.Point(86, 135);
+                        btn.Name = "btn_Plus_" + index + "_" + LDrawRef + "_" + LDrawColourID;
+                        btn.Size = new Size(40, 40);
+                        btn.TabIndex = 0;
+                        btn.Text = "+";
+                        btn.UseVisualStyleBackColor = true;
+                        btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                        btn.ForeColor = Color.Green;
+                        btn.Click += new System.EventHandler(Handle_TickBack_Button_Click);
+                        gb.Controls.Add(btn);
+                    }
+                    #endregion
+
+                    // ** Update indexes **
+                    index += 1;
+                    xIndex += 1;
+                    if (xIndex == xBound)
+                    {
+                        xIndex = 0;
+                        yIndex += 1;
+                    }
+                }
+                return controlList;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }
 
@@ -589,7 +637,7 @@ namespace Generator
             else
             {
                 btnExit.Enabled = value;
-                fldTickBackRef.Enabled = value;
+                fldTickBackName.Enabled = value;
                 btnLoadTickBack.Enabled = value;
                 btnSaveTickBack.Enabled = value;
                 btnDeleteTickBack.Enabled = value;                
@@ -668,204 +716,40 @@ namespace Generator
         private void bw_RefreshScreen_DoWork(object sender, DoWorkEventArgs e)
         {
             try
-            {
-                #region ** UPDATE TEEVIEW **
-                //Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Processing refresh...");
-                //if (currentSetXml != null)
-                //{
-                //    List<string> nodeList = new List<string>();
-
-                //    #region ** POPULATE Set DETAILS **                    
-                //    string SetRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;
-                //    string SetDescription = currentSetXml.SelectSingleNode("//Set/@Description").InnerXml;
-                //    TreeNode SetTN = new TreeNode(SetRef + "|" + SetDescription);
-                //    SetTN.Tag = "SET|" + SetRef;
-                //    SetTN.ImageIndex = 0;
-                //    SetTN.SelectedImageIndex = 0;
-                //    nodeList.Add("SET|" + SetRef + "|" + SetDescription);
-                //    #endregion
-
-                //    #region ** POPULATE ALL SubSet DETAILS **                    
-                //    if (currentSetXml.SelectNodes("//SubSet") != null)
-                //    {
-                //        XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
-                //        foreach (XmlNode SubSetNode in SubSetNodeList)
-                //        {
-                //            // ** GET VARIABLES **
-                //            string SubSetRef = SubSetNode.SelectSingleNode("@Ref").InnerXml;
-                //            string SubSetDescription = SubSetNode.SelectSingleNode("@Description").InnerXml;
-                //            TreeNode SubSetTN = new TreeNode(SubSetRef + "|" + SubSetDescription);
-                //            SubSetTN.Tag = "SUBSET|" + SubSetRef;
-                //            SubSetTN.ImageIndex = 1;
-                //            SubSetTN.SelectedImageIndex = 1;
-                //            nodeList.Add("SUBSET|" + SubSetRef + "|" + SubSetDescription);
-                //            SetTN.Nodes.Add(SubSetTN);
-
-                //            #region ** POPULATE ALL MODEL DETAILS **
-                //            if (currentSetXml.SelectNodes("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@SubModelLevel='1']") != null)
-                //            {
-                //                XmlNodeList ModelNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@SubModelLevel='1']");
-                //                foreach (XmlNode ModelNode in ModelNodeList)
-                //                {
-                //                    string ModelRef = ModelNode.SelectSingleNode("@Ref").InnerXml;
-                //                    string ModelDescription = ModelDescription = ModelNode.SelectSingleNode("@Description").InnerXml;
-                //                    string ModelType = ModelNode.SelectSingleNode("@LDrawModelType").InnerXml;
-                //                    TreeNode modelTN = new TreeNode(ModelRef + "|" + ModelDescription);
-                //                    modelTN.Tag = "MODEL|" + SubSetRef + "|" + ModelRef;
-                //                    int imageIndex = 0;
-                //                    if (ModelType.Equals("MINIFIG"))
-                //                    {
-                //                        imageIndex = 7;
-                //                    }
-                //                    else
-                //                    {
-                //                        imageIndex = 2;
-                //                    }
-                //                    modelTN.ImageIndex = imageIndex;
-                //                    modelTN.SelectedImageIndex = imageIndex;
-                //                    nodeList.Add("MODEL|" + ModelRef + "|" + ModelDescription);
-                //                    SubSetTN.Nodes.Add(modelTN);
-
-                //                    // ** POPULATE ALL SUBMODEL & STEP DETAILS **
-                //                    //List<TreeNode> treeNodeList = GenerateNodes(ModelNode.ChildNodes);
-                //                    //modelTN.Nodes.AddRange(treeNodeList.ToArray());
-                //                }
-                //            }
-                //            #endregion
-
-                //        }
-                //    }
-                //    Delegates.TreeView_AddNodes(this, tvSetSummary, SetTN);
-                //    #endregion
-
-                //    // ** Update Scintilla XML areas **                    
-                //    Delegates.Scintilla_SetText(this, TextArea, XDocument.Parse(currentSetXml.OuterXml).ToString());
-                //}
-                #endregion
-
-                // ** Update Scintilla XML areas **
-                if (currentSetXml != null)
-                {
-                    Delegates.Scintilla_SetText(this, TextArea, XDocument.Parse(currentSetXml.OuterXml).ToString());
-                }
-
-
+            {     
                 #region ** UPDATE SET PART LIST SUMMARY (on both tabs) **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Updating Set parts list...");               
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Updating Set parts list...");
                 if (currentSetXml != null)
                 {
-                    // ** Get Part dictionary ACROSS ALL SubSets **                   
-                    Dictionary<string, int> masterPartCount = new Dictionary<string, int>();
-                    XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
-                    List<string> SubSetList = SubSetNodeList.Cast<XmlNode>()
-                                                       .Select(x => x.SelectSingleNode("@Ref").InnerXml)
-                                                       //.OrderBy(x => x)
-                                                       .ToList();
-                    foreach (string subSetRef in SubSetList)
-                    {
-                        #region ** Generate Part Count Dictionary **
-                        Dictionary<string, int> partCountdDict = new Dictionary<string, int>();
-                        XmlNodeList BuildPartsNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + subSetRef + "']//Part[@IsSubPart='false']");
-                        foreach (XmlNode partNode in BuildPartsNodeList)
-                        {
-                            // ** Get variables **
-                            string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                            string LDrawColourID = partNode.SelectSingleNode("@LDrawColourID").InnerXml;
-                            string partKey = LDrawRef + "|" + LDrawColourID;
-
-                            // ** Get Part Count details **
-                            if (partCountdDict.ContainsKey(partKey) == false)
-                            {
-                                partCountdDict.Add(partKey, 0);
-                            }
-                            partCountdDict[partKey] += 1;
-                        }
-                        #endregion
-
-                        #region ** Compare part count with master part count **
-                        foreach (string partKey in partCountdDict.Keys)
-                        {
-                            if (masterPartCount.ContainsKey(partKey) == false)
-                            {
-                                masterPartCount.Add(partKey, partCountdDict[partKey]);
-                            }
-                            else
-                            {
-                                int partQty = partCountdDict[partKey];
-                                int masterQty = masterPartCount[partKey];
-                                if (partQty > masterQty)
-                                {
-                                    masterPartCount[partKey] = partQty;
-                                }
-                            }
-                        }
-                        #endregion
-                    }
-
-                    #region ** Generate Master PartList **
-                    PartList pl = new PartList();
-                    foreach (string partKey in masterPartCount.Keys)
-                    {
-                        // ** Get variables **           
-                        string LDrawRef = partKey.Split('|')[0];
-                        int LDrawColourID = int.Parse(partKey.Split('|')[1]);
-
-                        // ** Generate part **
-                        PartListPart plp = new PartListPart();
-                        plp.LDrawRef = LDrawRef;
-                        plp.LDrawColourID = LDrawColourID;
-                        plp.Qty = masterPartCount[partKey];
-
-                        int QtyFound = 0;
-                        foreach (string subSetRef in SubSetList)
-                        {
-                            string XMLString = "//SubSet[@Ref='" + subSetRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false' and @TickedBack='true']";
-                            XmlNodeList SpecificPartNodeList = currentSetXml.SelectNodes(XMLString);
-                            if (SpecificPartNodeList.Count > QtyFound) QtyFound = SpecificPartNodeList.Count;
-
-                        }
-                        plp.QtyFound = QtyFound;
-                        pl.partList.Add(plp);
-                    }
-                    #endregion
-
-                    // ** Get Node List **
-                    XmlDocument PartListXML = new XmlDocument();
-                    string PartListXMLString = pl.SerializeToString(true);
-                    PartListXML.LoadXml(PartListXMLString);
-                    XmlNodeList partListNodeList = PartListXML.SelectNodes("//PartListPart");
+                    // ** Update Scintilla XML areas **
+                    Delegates.Scintilla_SetText(this, TextArea, XDocument.Parse(currentSetXml.OuterXml).ToString());
 
                     // ** UPDATE SUMMARY **
+                    XmlNodeList partListNodeList = currentSetXml.SelectNodes("//PartListPart");
                     DataTable partListTable = GeneratePartListTable(partListNodeList);
-                    //if(partListTable != null)
-                    //{
-                        partListTable.DefaultView.Sort = "LDraw Colour Name";
-                        partListTable = partListTable.DefaultView.ToTable();
-                        Delegates.DataGridView_SetDataSource(this, dgSetPartListSummary, partListTable);
-                        AdjustPartListSummaryRowFormatting(dgSetPartListSummary);
-                    //}                    
-                   
-
-
+                    partListTable.DefaultView.Sort = "LDraw Colour Name";
+                    partListTable = partListTable.DefaultView.ToTable();
+                    Delegates.DataGridView_SetDataSource(this, dgSetPartListSummary, partListTable);
+                    AdjustPartListSummaryRowFormatting(dgSetPartListSummary);
 
                     // ** UPDATE CONTROL BUTTON SUMMARY **                    
                     Delegates.Panel_AddControlRange(this, pnlButtonsWholeSet, GeneratePartButtonControls(partListNodeList));
 
                     // ** RESTORE SCROLLING INDEX (IF REQUIRED) ** 
-                    if (ScrollingPnlIndexDict.ContainsKey("pnlButtonsWholeSet"))
-                    {
-                        //pnlButtonsWholeSet.AutoScrollPosition = ScrollingPnlIndexDict["pnlButtonsWholeSet"];
-                        //pnlButtonsWholeSet.VerticalScroll.Value = ScrollingPnlIndexDict["pnlButtonsWholeSet"];
-                        //pnlButtonsWholeSet.AutoScrollPosition = new Point(0, 500);
-                        //pnlButtonsWholeSet.VerticalScroll.Value = 500;
-                    }
-
-
-                    
-
+                    //if (ScrollingPnlIndexDict.ContainsKey("pnlButtonsWholeSet"))
+                    //{
+                    //    pnlButtonsWholeSet.AutoScrollPosition = ScrollingPnlIndexDict["pnlButtonsWholeSet"];
+                    //    pnlButtonsWholeSet.VerticalScroll.Value = ScrollingPnlIndexDict["pnlButtonsWholeSet"];
+                    //    pnlButtonsWholeSet.AutoScrollPosition = new Point(0, 500);
+                    //    pnlButtonsWholeSet.VerticalScroll.Value = 500;
+                    //}
 
                     // ** Get tickedBack count **
                     int tickedBackPartCount = 0;
+                    XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
+                    List<string> SubSetList = SubSetNodeList.Cast<XmlNode>()
+                                                       .Select(x => x.SelectSingleNode("@Ref").InnerXml)                                                      
+                                                       .ToList();
                     foreach (string subSetRef in SubSetList)
                     {
                         string tickback_XMLString = "//SubSet[@Ref='" + subSetRef + "']//Part[@TickedBack='true']";
@@ -876,20 +760,18 @@ namespace Generator
                     // ** UPDATE SUMMARY LABEL **
                     int elementCount = partListTable.Rows.Count;
                     int partCount = (from r in partListTable.AsEnumerable()
-                                 select r.Field<int>("Qty")).ToList().Sum();
+                                     select r.Field<int>("Qty")).ToList().Sum();
                     int colourCount = (from r in partListTable.AsEnumerable()
-                                   group r by r.Field<string>("LDraw Colour Name") into g
-                                   select new { ColourName = g.Key }).Count();
+                                       group r by r.Field<string>("LDraw Colour Name") into g
+                                       select new { ColourName = g.Key }).Count();
                     int lDrawPartCount = (from r in partListTable.AsEnumerable()
-                                      group r by r.Field<string>("LDraw Ref") into g
-                                      select new { ColourName = g.Key }).Count();
+                                          group r by r.Field<string>("LDraw Ref") into g
+                                          select new { ColourName = g.Key }).Count();
                     double pc = 0;
                     if (partCount > 0) pc = (((double)tickedBackPartCount / (double)partCount) * 100);
                     Delegates.ToolStripLabel_SetText(this, lblSetPartListCount, partCount.ToString("#,##0") + " Part(s), " + elementCount.ToString("#,##0") + " Element(s), " + lDrawPartCount.ToString("#,##0") + " LDraw Part(s), " + colourCount.ToString("#,##0") + " Colour(s) | " + tickedBackPartCount + " of " + partCount + " part(s) found [" + pc.ToString("#,##0") + "%]");
                 }
-
                 #endregion
-
 
                 #region ** UPDATE OBJECT SUMMARY **                 
                 string Type = SelectedNodeTag.Split('|')[0];
@@ -899,51 +781,15 @@ namespace Generator
                     string SubSetRef = SelectedNodeTag.Split('|')[1];
                     string ModelRef = SelectedNodeTag.Split('|')[2];
 
-                    #region ** Generate Part Count Dictionary **
-                    Dictionary<string, int> partCountdDict = new Dictionary<string, int>();
-                    XmlNodeList BuildPartsNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']//Part[@IsSubPart='false']");
-                    foreach (XmlNode partNode in BuildPartsNodeList)
-                    {
-                        // ** Get variables **
-                        string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                        string LDrawColourID = partNode.SelectSingleNode("@LDrawColourID").InnerXml;
-                        string partKey = LDrawRef + "|" + LDrawColourID;
-
-                        // ** Get Part Count details **
-                        if (partCountdDict.ContainsKey(partKey) == false)
-                        {
-                            partCountdDict.Add(partKey, 0);
-                        }
-                        partCountdDict[partKey] += 1;
-                    }
-                    #endregion
-
-                    #region ** Generate Master PartList **
-                    PartList pl = new PartList();
-                    foreach (string partKey in partCountdDict.Keys)
-                    {
-                        // ** Get variables **           
-                        string LDrawRef = partKey.Split('|')[0];
-                        int LDrawColourID = int.Parse(partKey.Split('|')[1]);
-
-                        // ** Generate part **
-                        PartListPart plp = new PartListPart();
-                        plp.LDrawRef = LDrawRef;
-                        plp.LDrawColourID = LDrawColourID;
-                        plp.Qty = partCountdDict[partKey];
-
-                        string XMLString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false' and @TickedBack='true']";
-                        XmlNodeList SpecificPartNodeList = currentSetXml.SelectNodes(XMLString);
-                        int QtyFound = SpecificPartNodeList.Count;
-                                                
-                        plp.QtyFound = QtyFound;
-                        pl.partList.Add(plp);
-                    }
-                    #endregion
-
-                    // ** Get Node List **
-                    XmlDocument PartListXML = new XmlDocument();
-                    string PartListXMLString = pl.SerializeToString(true);
+                    // ** Get Partlist for the Model within the SubSet **
+                    string ModelXMLString = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']").OuterXml;
+                    XmlDocument ModelXML = new XmlDocument();
+                    ModelXML.LoadXml(ModelXMLString);
+                    PartList pl = PartList.GetPartList_ForModel(ModelXML);
+                    
+                    // ** Get PartList node list which will be used to render the part data **
+                    string PartListXMLString = pl.SerializeToString(true);                   
+                    XmlDocument PartListXML = new XmlDocument();                    
                     PartListXML.LoadXml(PartListXMLString);
                     XmlNodeList partListNodeList = PartListXML.SelectNodes("//PartListPart");
 
@@ -981,77 +827,84 @@ namespace Generator
             }
         }
 
+        //TODO_H: This is duplicate code that is also used in the Generator screen.
         private DataTable GeneratePartListTable(XmlNodeList partListNodeList)
         {
             try
             {
+                #region ** GET DATA UPFRONT **
+                // Get a list of LDrawColourIDs & LDrawRefs
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Getting data...");
+                Delegates.ToolStripProgressBar_SetMax(this, pbStatus, partListNodeList.Count);
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                int index = 0;
+                List<int> LDrawColourIDList = new List<int>();
+                List<string> LDrawRefList = new List<string>();
+                foreach (XmlNode partNode in partListNodeList)
+                {
+                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
+                    if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
+                    string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
+                    if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);
+                    if (chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });                    
+                    if (chkShowPartcolourImages.Checked) ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
+                    Delegates.ToolStripProgressBar_SetValue(this, pbStatus, index);
+                    index += 1;
+                }
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
+                BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
+                #endregion
+
                 // ** GENERATE COLUMNS **
                 DataTable partListTable = new DataTable("partListTable", "partListTable");
                 partListTable.Columns.Add("Part Image", typeof(Bitmap));
                 partListTable.Columns.Add("LDraw Ref", typeof(string));
                 partListTable.Columns.Add("LDraw Description", typeof(string));
-                //partListTable.Columns.Add("LDraw Colour ID", typeof(int));
+                partListTable.Columns.Add("LDraw Colour ID", typeof(int));
                 partListTable.Columns.Add("LDraw Colour Name", typeof(string));
-                //partListTable.Columns.Add("Colour Image", typeof(Bitmap));
+                partListTable.Columns.Add("Colour Image", typeof(Bitmap));
                 partListTable.Columns.Add("Qty", typeof(int));
                 partListTable.Columns.Add("Qty Found", typeof(int));
 
                 // ** CYCLE THROUGH PART NODES AND GENERATE PART ROWS **  
-                Delegates.ToolStripProgressBar_SetMax(this, pbStatus, partListNodeList.Count);
-                int nodeIndex = 1;
                 foreach (XmlNode partNode in partListNodeList)
                 {
                     // ** GET LDRAW VARIABLES **
                     string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
                     int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
-                    //String LDrawColourName = (from r in Global_Variables.pcc.PartColourList
-                    //                          where r.LDrawColourID == LDrawColourID
-                    //                          select r.LDrawColourName).FirstOrDefault();
-                    //string LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName").InnerXml;
-                    string LDrawColourName = StaticData.GetLDrawColourName(LDrawColourID);
-                    //string LDrawDescription = Global_Variables.BasePartCollectionXML.SelectSingleNode("//BasePart[@LDrawRef='" + LDrawRef + "']/@LDrawDescription").InnerXml;
-                    string LDrawDescription = StaticData.GetLDrawDescription(LDrawRef);
                     int Qty = int.Parse(partNode.SelectSingleNode("@Qty").InnerXml);
                     int QtyFound = int.Parse(partNode.SelectSingleNode("@QtyFound").InnerXml);
-
-                    // ** Update progress **
-                    Delegates.ToolStripProgressBar_SetValue(this, pbStatus, nodeIndex);
-                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Updating parts list | Processing " + LDrawRef + "|" + LDrawColourID + " (" + nodeIndex + " of " + partListNodeList.Count + ")...");
+                    string LDrawColourName = (from r in PartColourCollection.PartColourList
+                                              where r.LDrawColourID == LDrawColourID
+                                              select r.LDrawColourName).FirstOrDefault();
+                    string LDrawDescription = (from r in BasePartCollection.BasePartList
+                                               where r.LDrawRef.Equals(LDrawRef)
+                                               select r.LDrawDescription).FirstOrDefault();
 
                     // ** Get element & Partcolour images **
-                    //Bitmap elementImage = Generator.GetElementImage(LDrawRef, LDrawColourID);
-                    Bitmap elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
-                    //Bitmap partColourImage = Generator.GetPartColourImage(LDrawColourID);
-                    Bitmap partColourImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
+                    Bitmap elementImage = null;
+                    Bitmap partColourImage = null;
+                    if (chkShowElementImages.Checked) elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+                    if (chkShowPartcolourImages.Checked) partColourImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
 
-                    // ** Build row **
-                    object[] row = new object[partListTable.Columns.Count];
-                    //row[0] = elementImage;
-                    //row[1] = LDrawRef;
-                    //row[2] = LDrawDescription;
-                    //row[3] = LDrawColourID;
-                    //row[4] = LDrawColourName;
-                    //row[5] = partColourImage;
-                    //row[6] = Qty;
-                    //row[7] = QtyFound;
-                    row[0] = elementImage;
-                    row[1] = LDrawRef;
-                    row[2] = LDrawDescription;
-                    //row[2] = LDrawColourID;
-                    row[3] = LDrawColourName;                    
-                    row[4] = Qty;
-                    row[5] = QtyFound;
-                    partListTable.Rows.Add(row);
-
-                    // ** Update Node Index **
-                    nodeIndex += 1;
+                    // ** Build row and add to table **
+                    DataRow newRow = partListTable.NewRow();
+                    newRow["Part Image"] = elementImage;
+                    newRow["LDraw Ref"] = LDrawRef;
+                    newRow["LDraw Description"] = LDrawDescription;
+                    newRow["LDraw Colour ID"] = LDrawColourID;
+                    newRow["LDraw Colour Name"] = LDrawColourName;
+                    newRow["Colour Image"] = partColourImage;
+                    newRow["Qty"] = Qty;
+                    newRow["Qty Found"] = QtyFound;
+                    partListTable.Rows.Add(newRow);
                 }
-                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                
                 return partListTable;
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message);
                 MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
                 return null;
             }
@@ -1068,19 +921,21 @@ namespace Generator
                 // ** Format columns **                
                 dg.Columns["Part Image"].HeaderText = "";
                 ((DataGridViewImageColumn)dg.Columns["Part Image"]).ImageLayout = DataGridViewImageCellLayout.Zoom;
-                //dg.Columns["Colour Image"].HeaderText = "";
-                //((DataGridViewImageColumn)dg.Columns["Colour Image"]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+                dg.Columns["Colour Image"].HeaderText = "";
+                ((DataGridViewImageColumn)dg.Columns["Colour Image"]).ImageLayout = DataGridViewImageCellLayout.Zoom;
                 dg.AutoResizeColumns();
                 foreach (DataGridViewRow row in dg.Rows)
                 {
-                    if ((int)row.Cells["Qty Found"].Value == (int)row.Cells["Qty"].Value)
+                    int qtyFound = (int)row.Cells["Qty Found"].Value;
+                    int qty = (int)row.Cells["Qty"].Value;
+                    if (qtyFound == qty)
                     {
                         row.DefaultCellStyle.Font = new System.Drawing.Font(this.Font, FontStyle.Strikeout);                        
                         row.DefaultCellStyle.BackColor = Color.LightGreen;
                     }
-                    if ((int)row.Cells["Qty Found"].Value > 0)
+                    if (qtyFound > 0)
                     {
-                        if ((int)row.Cells["Qty Found"].Value < (int)row.Cells["Qty"].Value)
+                        if (qtyFound < qty)
                         {                            
                             row.DefaultCellStyle.BackColor = Color.Orange;
                         }
@@ -1088,17 +943,10 @@ namespace Generator
                 }
                 dg.Columns["LDraw Description"].Width = 150;
 
-
                 // ** Adjust part images to be small or big **
                 bool showBig = false;
-                if (dg.Name.Equals("dgObjectPartListSummary") && chkSelectedObjectShowBig.Checked)
-                {
-                    showBig = true;
-                }
-                if (dg.Name.Equals("dgSetPartListSummary") && chkWholeSetShowBig.Checked)
-                {
-                    showBig = true;
-                }
+                if (dg.Name.Equals("dgObjectPartListSummary") && chkSelectedObjectShowBig.Checked) showBig = true;               
+                if (dg.Name.Equals("dgSetPartListSummary") && chkWholeSetShowBig.Checked) showBig = true;               
                 if (showBig)
                 {
                     dg.Columns["Part Image"].Width = 50;
@@ -1115,12 +963,156 @@ namespace Generator
                 {
                     dg.FirstDisplayedScrollingRowIndex = ScrollingRowIndexDict[dg.Name];
                 }
-
-
             }
         }
 
         #endregion
+
+        #region ** TICKBACK FUNCTIONS **
+
+        private void LoadFromSet()
+        {
+            try
+            {
+                // ** Validation **
+                if (fldSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
+                string SetRef = fldSetRef.Text;
+                SetDetails setDetails = StaticData.GetSetDetails(SetRef);
+                if (setDetails == null) throw new Exception("Set " + SetRef + " not found...");
+
+                // ** LOAD Set XML into Object **
+                string xmlString = setDetails.Instructions;
+                currentSetXml = new XmlDocument();
+                currentSetXml.LoadXml(xmlString);
+
+                // ** MERGE STANDALONE MINIFIG XML's INTO SET XML **   
+                Dictionary<string, XmlDocument> MiniFigXMLDict = StaticData.GetMiniFigXMLDict(currentSetXml);
+                if (MiniFigXMLDict.Count > 0) currentSetXml = Set.MergeMiniFigsIntoSetXML(currentSetXml, MiniFigXMLDict);
+
+                // ** Clear fields **
+                SelectedNodeTag = "";
+                fldTickBackName.Text = "";
+
+                // ** Generate Treeview then Refresh screen **
+                RefreshSetSummaryTreeview();
+                RefreshScreen();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void SaveTickBack()
+        {
+            try
+            {
+                // ** Validation Checks **
+                if (fldTickBackName.Text.Equals("")) throw new Exception("No TickBack Ref entered...");
+                string TickBackName = fldTickBackName.Text;
+                if(currentSetXml == null) throw new Exception("No Set XML loaded...");
+
+                // ** SAVE TICKBACK **
+                //BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "tickback-xmls").GetBlobClient(tickBackRef + ".xml");
+                //string flushedXML = new Set().DeserialiseFromXMLString(currentSetXml.OuterXml).SerializeToString(true);
+                //byte[] bytes = Encoding.UTF8.GetBytes(flushedXML);
+                //byte[] bytes = Encoding.UTF8.GetBytes(currentSetXml.OuterXml);
+                //using (var ms = new MemoryStream(bytes)) blob.Upload(ms, true);
+                //MessageBox.Show("TickBack " + tickBackRef + " saved...");
+
+                // Check if Set already exists - if so update it, if not, add it.
+                string action = "UPDATE";
+                TickBack tickBack = StaticData.GetTickBack(TickBackName);
+                if (tickBack == null)
+                {
+                    action = "ADD";
+                    tickBack = new TickBack();                    
+                }
+                tickBack.Name = TickBackName;
+                tickBack.Data = currentSetXml.OuterXml;
+                
+                // ** Determine what action to take **
+                if (action.Equals("ADD")) StaticData.AddTickBack(tickBack);
+                else if (action.Equals("UPDATE")) StaticData.UpdateTickBack(tickBack);
+
+                // ** Tidy Up **
+                //ClearAllSetDetailsFields();
+                //RefreshScreen();
+                //RefreshSetDetailsSummary();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void LoadTickBack()
+        {
+            try
+            {
+                // ** Validation Checks **
+                if (fldTickBackName.Text.Equals("")) throw new Exception("No TickBack Ref entered...");
+                string tickBackName = fldTickBackName.Text;
+                
+                // ** Get Set details from API **
+                TickBack tickBack = StaticData.GetTickBack(tickBackName);
+                if (tickBack == null) throw new Exception("No details found for TickBack: " + tickBackName);
+                string tickBackXML = tickBack.Data;
+                currentSetXml = new XmlDocument();
+                currentSetXml.LoadXml(tickBackXML);
+
+                // ** Clear fields **
+                SelectedNodeTag = "";
+                
+                // ** Generate Treeview then Refresh screen **
+                RefreshSetSummaryTreeview();
+                RefreshScreen();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void DeleteTickBackk()
+        {
+            try
+            {
+                // ** Validation Checks **
+                if (fldTickBackName.Text.Equals("")) throw new Exception("No TickBack Ref entered...");                
+                string tickBackName = fldTickBackName.Text;
+                TickBack tickBack = StaticData.GetTickBack(tickBackName);
+                if (tickBack == null) throw new Exception("No details found for TickBack: " + tickBackName);
+
+                // Make sure user wants to delete
+                DialogResult res = MessageBox.Show("Are you sure you want to Delete?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    // ** Delete Set Details **
+                    StaticData.DeleteTickBack(tickBackName);
+
+                    // ** Clear all fields **                    
+                    currentSetXml = null;
+                    RefreshSetSummaryTreeview();
+                    RefreshScreen();
+
+                    // ** Show confirm **
+                    MessageBox.Show("TickBack " + tickBackName + " deleted...");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
+
+
+
+
+
 
         #region ** MOUSE DOUBLE CLICK FUNCTIONS **
 
@@ -1141,27 +1133,29 @@ namespace Generator
 
                 // ** GET VARIABLES **                  
                 string LDrawRef = (string)dgSetPartListSummary.SelectedRows[0].Cells["LDraw Ref"].Value;
-                //int LDrawColourID = (int)dgSetPartListSummary.SelectedRows[0].Cells["LDraw Colour ID"].Value;                
                 string LDrawColourName = (string)dgSetPartListSummary.SelectedRows[0].Cells["LDraw Colour Name"].Value;
-                //int LDrawColourID = -1;
-                //if (Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID") != null)
-                //{
-                //    LDrawColourID = int.Parse(Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID").InnerXml);
-                //}
                 int LDrawColourID = StaticData.GetLDrawColourID(LDrawColourName);
                 int Qty = (int)dgSetPartListSummary.SelectedRows[0].Cells["Qty"].Value;
                 int QtyFound = (int)dgSetPartListSummary.SelectedRows[0].Cells["Qty Found"].Value;
 
+
+
+
+
                 #region ** DETERMINE MOUSE AND KEY PRESS COMBO ** 
                 if (e.Button == MouseButtons.Left && (ModifierKeys & Keys.Alt) == Keys.Alt)
                 {
+                    // This marks all the parts as ticked back
                     if (Qty == QtyFound) return;
+
+                    // ** Update Overall PartListPart section **
+                    string PartListPart_XMLString = "//PartListPart[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "']/@QtyFound";
+                    currentSetXml.SelectSingleNode(PartListPart_XMLString).InnerXml = Qty.ToString();
 
                     // FIND ALL PARTS IN ALL SUBSETS AND MARK AS TickedBack = true
                     XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
                     List<string> SubSetList = SubSetNodeList.Cast<XmlNode>()
-                                                       .Select(x => x.SelectSingleNode("@Ref").InnerXml)
-                                                       //.OrderBy(x => x)
+                                                       .Select(x => x.SelectSingleNode("@Ref").InnerXml)                                                      
                                                        .ToList();
                     foreach (string subSetRef in SubSetList)
                     {
@@ -1170,12 +1164,17 @@ namespace Generator
                         foreach (XmlNode partNode in partNodeList)
                         {
                             partNode.SelectSingleNode("@TickedBack").InnerXml = "true";
-                        }                        
+                        }
                     }
                 }
                 else if (e.Button == MouseButtons.Right && (ModifierKeys & Keys.Alt) == Keys.Alt)
                 {
+                    // This marks all the parts as NOT ticked back
                     if (QtyFound == 0) return;
+
+                    // ** Update Overall PartListPart section **
+                    string PartListPart_XMLString = "//PartListPart[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "']/@QtyFound";
+                    currentSetXml.SelectSingleNode(PartListPart_XMLString).InnerXml = "0";
 
                     // FIND ALL PARTS IN ALL SUBSETS AND MARK AS TickedBack = true
                     XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
@@ -1197,6 +1196,12 @@ namespace Generator
                 {
                     if (Qty == QtyFound) return;
 
+                    // ** Update Overall PartListPart section **
+                    string PartListPart_XMLString = "//PartListPart[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "']/@QtyFound";
+                    int currentQtyFound = int.Parse(currentSetXml.SelectSingleNode(PartListPart_XMLString).InnerXml);
+                    currentQtyFound += 1;
+                    currentSetXml.SelectSingleNode(PartListPart_XMLString).InnerXml = currentQtyFound.ToString();
+
                     // find the 1st part in all the SubSets and mark as TickBack = true
                     XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
                     List<string> SubSetList = SubSetNodeList.Cast<XmlNode>()
@@ -1217,6 +1222,12 @@ namespace Generator
                 else if (e.Button == MouseButtons.Right)
                 {
                     if (QtyFound == 0) return;
+
+                    // ** Update Overall PartListPart section **
+                    string PartListPart_XMLString = "//PartListPart[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "']/@QtyFound";
+                    int currentQtyFound = int.Parse(currentSetXml.SelectSingleNode(PartListPart_XMLString).InnerXml);
+                    currentQtyFound -= 1;
+                    currentSetXml.SelectSingleNode(PartListPart_XMLString).InnerXml = currentQtyFound.ToString();
 
                     // find the last part in all the SubSets and mark as TickBack = false
                     XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
@@ -1246,6 +1257,16 @@ namespace Generator
             }
         }
 
+
+
+
+
+
+
+
+
+
+
         private void dgObjectPartListSummary_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
@@ -1255,56 +1276,56 @@ namespace Generator
 
                 // ** Select current row if RMB pressed **
                 if (e.Button == MouseButtons.Right && e.RowIndex != -1)
-                {                    
+                {
                     dgObjectPartListSummary.ClearSelection();
-                    dgObjectPartListSummary.Rows[e.RowIndex].Selected = true;                    
+                    dgObjectPartListSummary.Rows[e.RowIndex].Selected = true;
                 }
                 //ObjectPartListSummary_RowIndex = dgObjectPartListSummary.FirstDisplayedScrollingRowIndex;
                 ScrollingRowIndexDict["dgObjectPartListSummary"] = dgObjectPartListSummary.FirstDisplayedScrollingRowIndex;
 
                 // ** GET VARIABLES **                  
                 string LDrawRef = (string)dgObjectPartListSummary.SelectedRows[0].Cells["LDraw Ref"].Value;
-                //int LDrawColourID = (int)dgObjectPartListSummary.SelectedRows[0].Cells["LDraw Colour ID"].Value;
                 string LDrawColourName = (string)dgObjectPartListSummary.SelectedRows[0].Cells["LDraw Colour Name"].Value;
-                //int LDrawColourID = -1;
-                //if (Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID") != null)
-                //{
-                //    LDrawColourID = int.Parse(Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID").InnerXml);
-                //}
                 int LDrawColourID = StaticData.GetLDrawColourID(LDrawColourName);
                 int Qty = (int)dgObjectPartListSummary.SelectedRows[0].Cells["Qty"].Value;
-                int QtyFound = (int)dgObjectPartListSummary.SelectedRows[0].Cells["Qty Found"].Value;                              
+                int QtyFound = (int)dgObjectPartListSummary.SelectedRows[0].Cells["Qty Found"].Value;
                 string SubSetRef = SelectedNodeTag.Split('|')[1];
                 string ModelRef = SelectedNodeTag.Split('|')[2];
 
                 #region ** DETERMINE MOUSE AND KEY PRESS COMBO ** 
                 if (e.Button == MouseButtons.Left && (ModifierKeys & Keys.Alt) == Keys.Alt)
                 {
-                    if (Qty == QtyFound) return;
+                    //if (Qty == QtyFound) return;
 
-                    // FIND ALL PARTS IN MODEL AND MARK AS TickedBack = true                    
-                    string XMLString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false']";
-                    XmlNodeList partNodeList = currentSetXml.SelectNodes(XMLString);
-                    foreach (XmlNode partNode in partNodeList)
-                    {
-                        partNode.SelectSingleNode("@TickedBack").InnerXml = "true";
-                    }
+                    //// FIND ALL PARTS IN MODEL AND MARK AS TickedBack = true                    
+                    //string XMLString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false']";
+                    //XmlNodeList partNodeList = currentSetXml.SelectNodes(XMLString);
+                    //foreach (XmlNode partNode in partNodeList)
+                    //{
+                    //    partNode.SelectSingleNode("@TickedBack").InnerXml = "true";
+                    //}
                 }
                 else if (e.Button == MouseButtons.Right && (ModifierKeys & Keys.Alt) == Keys.Alt)
                 {
-                    if (QtyFound == 0) return;
+                    //if (QtyFound == 0) return;
 
-                    // FIND ALL PARTS IN MODEL AND MARK AS TickedBack = false                    
-                    string XMLString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false']";
-                    XmlNodeList partNodeList = currentSetXml.SelectNodes(XMLString);
-                    foreach (XmlNode partNode in partNodeList)
-                    {
-                        partNode.SelectSingleNode("@TickedBack").InnerXml = "false";
-                    }
+                    //// FIND ALL PARTS IN MODEL AND MARK AS TickedBack = false                    
+                    //string XMLString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false']";
+                    //XmlNodeList partNodeList = currentSetXml.SelectNodes(XMLString);
+                    //foreach (XmlNode partNode in partNodeList)
+                    //{
+                    //    partNode.SelectSingleNode("@TickedBack").InnerXml = "false";
+                    //}
                 }
                 else if (e.Button == MouseButtons.Left)
-                {                   
+                {
                     if (Qty == QtyFound) return;
+
+                    // ** Update Overall PartListPart section **
+                    string PartListPart_XMLString = "//PartListPart[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "']/@QtyFound";
+                    int currentQtyFound = int.Parse(currentSetXml.SelectSingleNode(PartListPart_XMLString).InnerXml);
+                    currentQtyFound += 1;
+                    currentSetXml.SelectSingleNode(PartListPart_XMLString).InnerXml = currentQtyFound.ToString();
 
                     // mark as TickBack = true
                     string XMLString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false' and @TickedBack='false']";
@@ -1316,6 +1337,12 @@ namespace Generator
                 else if (e.Button == MouseButtons.Right)
                 {
                     if (QtyFound == 0) return;
+
+                    // ** Update Overall PartListPart section **
+                    string PartListPart_XMLString = "//PartListPart[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "']/@QtyFound";
+                    int currentQtyFound = int.Parse(currentSetXml.SelectSingleNode(PartListPart_XMLString).InnerXml);
+                    currentQtyFound -= 1;
+                    currentSetXml.SelectSingleNode(PartListPart_XMLString).InnerXml = currentQtyFound.ToString();
 
                     // mark as TickBack = false
                     string XMLString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false' and @TickedBack='true']";
@@ -1339,286 +1366,11 @@ namespace Generator
 
 
 
-        private void Handle_TickBack_Button_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // ** GET DETAILS OF SENDING CONTROL **
-                string[] nameDetails = ((Button)sender).Name.Split('_');
-                string LDrawRef = nameDetails[3];
-                string LDrawColourID = nameDetails[4];
-                ScrollingPnlIndexDict["pnlButtonsWholeSet"] = pnlButtonsWholeSet.VerticalScroll.Value;
-
-                #region ** ELEMENT IMAGE CLICKED **
-                if (((Button)sender).Name.StartsWith("btn_ElementImage"))
-                {
-                    // FIND ALL PARTS IN ALL SUBSETS AND MARK AS TickedBack = true
-                    XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
-                    List<string> SubSetList = SubSetNodeList.Cast<XmlNode>()
-                                                       .Select(x => x.SelectSingleNode("@Ref").InnerXml)
-                                                       //.OrderBy(x => x)
-                                                       .ToList();
-                    foreach (string subSetRef in SubSetList)
-                    {
-                        string XMLString = "//SubSet[@Ref='" + subSetRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false' and @TickedBack='false']";
-                        XmlNodeList partNodeList = currentSetXml.SelectNodes(XMLString);
-                        foreach (XmlNode partNode in partNodeList)
-                        {
-                            partNode.SelectSingleNode("@TickedBack").InnerXml = "true";
-                        }
-                    }
-
-                    // ** REFRESH SCREEN **
-                    RefreshScreen();
-                }
-                #endregion
-
-                #region ** BTN MINUS CLICKED **
-                if (((Button)sender).Name.StartsWith("btn_Minus"))
-                {
-                    // find the last part in all the SubSets and mark as TickBack = false
-                    XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
-                    List<string> SubSetList = SubSetNodeList.Cast<XmlNode>()
-                                                       .Select(x => x.SelectSingleNode("@Ref").InnerXml)
-                                                       //.OrderBy(x => x)
-                                                       .ToList();
-                    foreach (string subSetRef in SubSetList)
-                    {
-                        string XMLString = "//SubSet[@Ref='" + subSetRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false' and @TickedBack='true']";
-                        XmlNodeList partNodeList = currentSetXml.SelectNodes(XMLString);
-                        if (partNodeList.Count > 0)
-                        {
-                            XmlNode partNode = partNodeList[partNodeList.Count - 1];
-                            partNode.SelectSingleNode("@TickedBack").InnerXml = "false";
-                        }
-                    }
-
-                    // ** REFRESH SCREEN **
-                    RefreshScreen();
-                }
-                #endregion
-
-                #region ** BTN PLUS CLICKED **
-                if (((Button)sender).Name.StartsWith("btn_Plus"))
-                {
-                    // find the 1st part in all the SubSets and mark as TickBack = true
-                    XmlNodeList SubSetNodeList = currentSetXml.SelectNodes("//SubSet");
-                    List<string> SubSetList = SubSetNodeList.Cast<XmlNode>()
-                                                       .Select(x => x.SelectSingleNode("@Ref").InnerXml)
-                                                       //.OrderBy(x => x)
-                                                       .ToList();
-                    foreach (string subSetRef in SubSetList)
-                    {
-                        string XMLString = "//SubSet[@Ref='" + subSetRef + "']//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false' and @TickedBack='false']";
-                        XmlNodeList partNodeList = currentSetXml.SelectNodes(XMLString);
-                        if (partNodeList.Count > 0)
-                        {
-                            XmlNode partNode = partNodeList[0];
-                            partNode.SelectSingleNode("@TickedBack").InnerXml = "true";
-                        }
-                    }
-
-                    // ** REFRESH SCREEN **
-                    RefreshScreen();
-                }
-                #endregion
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private List<Control> GeneratePartButtonControls(XmlNodeList partListNodeList)
-        {
-            List<Control> controlList = new List<Control>();
-            try
-            {
-                // ** GET VARIABLES **
-                int xBound;                
-                if (int.TryParse(fldButtonWidth.Text, out xBound) == false)
-                {
-                    xBound = 5;
-                }
-                int index = 0;
-                int xIndex = 0;
-                int yIndex = 0;
-
-                // ** CYCLE THROUGH EACH ELEMENT AND GENERATE CONTROLS **
-                IEnumerable<XmlNode> rowList = partListNodeList.Cast<XmlNode>().OrderBy(r => r.Attributes["LDrawColourID"].Value);
-                foreach (XmlNode partNode in rowList)                
-                {
-                    // ** GET LDRAW VARIABLES **
-                    string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
-                    int Qty = int.Parse(partNode.SelectSingleNode("@Qty").InnerXml);
-                    int QtyFound = int.Parse(partNode.SelectSingleNode("@QtyFound").InnerXml);
-                    //if (QtyFound < Qty)
-                    //{
-                    //}   
-
-                    #region ** CREATE GROUPBOX CONTROL FOR PART **
-                        GroupBox gb = new GroupBox();
-                        gb.SuspendLayout();
-                        gb.Name = "gp_" + index + "_" + LDrawRef + "_" + LDrawColourID;
-                        gb.Text = LDrawRef + " | " + LDrawColourID;
-                        gb.Size = new Size(175, 185);
-                        gb.TabStop = false;
-                        // ** Update Location **
-                        int locationX = xIndex * 175;
-                        int locationY = yIndex * 185;
-                        gb.Location = new System.Drawing.Point(locationX, locationY);
-                        gb.BackColor = Color.White;
-                        if (QtyFound == Qty) gb.BackColor = Color.LightGreen;
-                        if (QtyFound > 0 && QtyFound < Qty) gb.BackColor = Color.Orange;
-                        controlList.Add(gb);
-                        #endregion
-
-                    #region ** ADD ELEMENT IMAGE BUTTON **
-                    Button btn = new Button();
-                    btn.Location = new System.Drawing.Point(6, 14);
-                    btn.Name = "btn_ElementImage_" + index + "_" + LDrawRef + "_" + LDrawColourID;
-                    btn.Size = new Size(120, 120);
-                    btn.TabIndex = 0;
-                    btn.UseVisualStyleBackColor = true;
-                    //btn.BackgroundImage = Generator.GetElementImage(LDrawRef, LDrawColourID);
-                    btn.BackgroundImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
-                    btn.BackgroundImageLayout = ImageLayout.Zoom;
-                    btn.Click += new System.EventHandler(Handle_TickBack_Button_Click);
-                    gb.Controls.Add(btn);
-                    #endregion
-
-                    #region ** ADD PARTCOLOUR IMAGE BUTTON **
-                    btn = new Button();
-                    btn.Enabled = false;
-                    btn.Location = new System.Drawing.Point(127, 94);
-                    btn.Name = "btn_PartColourImage_" + index + "_" + LDrawRef + "_" + LDrawColourID;
-                    btn.Size = new Size(40, 40);
-                    btn.TabIndex = 0;
-                    //btn.Text = LDrawColourID.ToString();
-                    btn.UseVisualStyleBackColor = true;
-                    btn.BackgroundImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });                    
-                    btn.BackgroundImageLayout = ImageLayout.Zoom;
-                    gb.Controls.Add(btn);
-                    #endregion
-
-                    #region ** ADD QTY BUTTON **
-                    btn = new Button();
-                    btn.Enabled = false;
-                    btn.Location = new System.Drawing.Point(127, 14);
-                    btn.Name = "btn_Qty_" + index + "_" + LDrawRef + "_" + LDrawColourID;
-                    btn.Size = new Size(40, 40);
-                    btn.TabIndex = 0;
-                    btn.Text = Qty.ToString();
-                    btn.UseVisualStyleBackColor = true;
-                    btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                    gb.Controls.Add(btn);
-                    #endregion
-
-                    #region ** ADD QTY FOUND BUTTON **
-                    btn = new Button();
-                    btn.Enabled = false;
-                    btn.Location = new System.Drawing.Point(46, 135);
-                    btn.Name = "btn_QtyFound_" + index + "_" + LDrawRef + "_" + LDrawColourID;
-                    btn.Size = new Size(40, 40);
-                    btn.TabIndex = 0;
-                    btn.Text = QtyFound.ToString();                        
-                    btn.UseVisualStyleBackColor = true;
-                    btn.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-                    btn.ForeColor = Color.Blue;
-                    gb.Controls.Add(btn);
-                    #endregion
-
-                    #region ** ADD [-] BUTTON **
-                    if (QtyFound > 0)
-                    {
-                        btn = new Button();
-                        //if (QtyFound == 0) btn.Enabled = false;
-                        btn.Location = new System.Drawing.Point(6, 135);
-                        btn.Name = "btn_Minus_" + index + "_" + LDrawRef + "_" + LDrawColourID;
-                        btn.Size = new Size(40, 40);
-                        btn.TabIndex = 0;
-                        btn.Text = "-";
-                        btn.UseVisualStyleBackColor = true;
-                        btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                        btn.ForeColor = Color.Red;
-                        btn.Click += new System.EventHandler(Handle_TickBack_Button_Click);
-                        gb.Controls.Add(btn);
-                    }
-                    #endregion
-
-                    #region ** ADD [+] BUTTON **
-                    if (QtyFound < Qty)
-                    {
-                        btn = new Button();
-                        //if (QtyFound == Qty) btn.Enabled = false;
-                        btn.Location = new System.Drawing.Point(86, 135);
-                        btn.Name = "btn_Plus_" + index + "_" + LDrawRef + "_" + LDrawColourID;
-                        btn.Size = new Size(40, 40);
-                        btn.TabIndex = 0;
-                        btn.Text = "+";
-                        btn.UseVisualStyleBackColor = true;
-                        btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                        btn.ForeColor = Color.Green;
-                        btn.Click += new System.EventHandler(Handle_TickBack_Button_Click);
-                        gb.Controls.Add(btn);
-                    }
-                    #endregion
-
-                    // ** Update indexes **
-                    index += 1;
-                    xIndex += 1;
-                    if (xIndex == xBound)
-                    {
-                        xIndex = 0;
-                        yIndex += 1;
-                    }
-                    
-                }
-                return controlList;
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return null;
-            }
-        }
 
 
 
-        private void btnButtonWidthMinus_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                int oldValue = int.Parse(fldButtonWidth.Text);
-                if (oldValue == 1) return;
-                int newvalue = oldValue - 1;
-                fldButtonWidth.Text = newvalue.ToString();
-                RefreshScreen();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
 
-        private void btnButtonWidthPlus_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                int oldValue = int.Parse(fldButtonWidth.Text);                
-                int newvalue = oldValue + 1;
-                fldButtonWidth.Text = newvalue.ToString();
-                RefreshScreen();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-    
-    
-    
+
+
     }
 }

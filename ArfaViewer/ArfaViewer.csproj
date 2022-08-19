@@ -287,6 +287,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="config.xml" />
+    <Content Include="SQL\TICKBACK_Create_Table.sql" />
     <Content Include="SQL\BASEPART_Populate_Table.sql" />
     <Content Include="SQL\COMPOSITEPART_Create_Table.sql" />
     <Content Include="SQL\COMPOSITEPART_Populate_Table.sql" />

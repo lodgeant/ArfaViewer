@@ -51,10 +51,12 @@
     <Compile Include="HelperFunctions.cs" />
     <Compile Include="OfficalSet_MiniFig.cs" />
     <Compile Include="OfficalSets.cs" />
+    <Compile Include="TickBackCollection.cs" />
     <Compile Include="SetDetailsCollection.cs" />
     <Compile Include="SetDetails.cs" />
     <Compile Include="ThemeDetails.cs" />
     <Compile Include="ThemeDetailsCollection.cs" />
+    <Compile Include="TickBack.cs" />
     <Compile Include="User.cs" />
     <Compile Include="OfficalSet_Set.cs" />
     <Compile Include="Step.cs" />

@@ -35,7 +35,7 @@ namespace Generator
             this.btnExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.lblTickBackRef = new System.Windows.Forms.ToolStripLabel();
-            this.fldTickBackRef = new System.Windows.Forms.ToolStripTextBox();
+            this.fldTickBackName = new System.Windows.Forms.ToolStripTextBox();
             this.btnLoadTickBack = new System.Windows.Forms.ToolStripButton();
             this.btnSaveTickBack = new System.Windows.Forms.ToolStripButton();
             this.btnDeleteTickBack = new System.Windows.Forms.ToolStripButton();
@@ -54,12 +54,15 @@ namespace Generator
             this.tvSetSummary = new System.Windows.Forms.TreeView();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btnSetStructureRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnCollapseAll = new System.Windows.Forms.ToolStripButton();
+            this.btnExpandAll = new System.Windows.Forms.ToolStripButton();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.gpSelectedObject = new System.Windows.Forms.GroupBox();
             this.chkSelectedObjectShowMissingOnly = new System.Windows.Forms.CheckBox();
             this.dgObjectPartListSummary = new System.Windows.Forms.DataGridView();
             this.chkSelectedObjectShowBig = new System.Windows.Forms.CheckBox();
-            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.tsSelectedObject = new System.Windows.Forms.ToolStrip();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblObjectPartListCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.gpWholeSet = new System.Windows.Forms.GroupBox();
@@ -83,11 +86,13 @@ namespace Generator
             this.fldButtonWidth = new System.Windows.Forms.ToolStripTextBox();
             this.btnButtonWidthPlus = new System.Windows.Forms.ToolStripButton();
             this.chkWholeSetShowMissingOnly = new System.Windows.Forms.CheckBox();
-            this.toolStrip7 = new System.Windows.Forms.ToolStrip();
+            this.tsWholeSet = new System.Windows.Forms.ToolStrip();
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
             this.lblSetPartListCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkShowElementImages = new System.Windows.Forms.CheckBox();
+            this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
             this.toolStrip1.SuspendLayout();
             this.statusStrip3.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -123,7 +128,7 @@ namespace Generator
             this.btnExit,
             this.toolStripSeparator1,
             this.lblTickBackRef,
-            this.fldTickBackRef,
+            this.fldTickBackName,
             this.btnLoadTickBack,
             this.btnSaveTickBack,
             this.btnDeleteTickBack,
@@ -154,14 +159,14 @@ namespace Generator
             // lblTickBackRef
             // 
             this.lblTickBackRef.Name = "lblTickBackRef";
-            this.lblTickBackRef.Size = new System.Drawing.Size(27, 22);
-            this.lblTickBackRef.Text = "Ref:";
+            this.lblTickBackRef.Size = new System.Drawing.Size(94, 22);
+            this.lblTickBackRef.Text = "Tick Back Name:";
             // 
-            // fldTickBackRef
+            // fldTickBackName
             // 
-            this.fldTickBackRef.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldTickBackRef.Name = "fldTickBackRef";
-            this.fldTickBackRef.Size = new System.Drawing.Size(100, 25);
+            this.fldTickBackName.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldTickBackName.Name = "fldTickBackName";
+            this.fldTickBackName.Size = new System.Drawing.Size(100, 25);
             // 
             // btnLoadTickBack
             // 
@@ -322,7 +327,10 @@ namespace Generator
             // toolStrip2
             // 
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnSetStructureRefresh});
+            this.btnSetStructureRefresh,
+            this.toolStripSeparator21,
+            this.btnCollapseAll,
+            this.btnExpandAll});
             this.toolStrip2.Location = new System.Drawing.Point(3, 16);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(177, 25);
@@ -337,6 +345,29 @@ namespace Generator
             this.btnSetStructureRefresh.Size = new System.Drawing.Size(66, 22);
             this.btnSetStructureRefresh.Text = "Refresh";
             this.btnSetStructureRefresh.Click += new System.EventHandler(this.btnSetStructureRefresh_Click);
+            // 
+            // toolStripSeparator21
+            // 
+            this.toolStripSeparator21.Name = "toolStripSeparator21";
+            this.toolStripSeparator21.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnCollapseAll
+            // 
+            this.btnCollapseAll.Image = ((System.Drawing.Image)(resources.GetObject("btnCollapseAll.Image")));
+            this.btnCollapseAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnCollapseAll.Name = "btnCollapseAll";
+            this.btnCollapseAll.Size = new System.Drawing.Size(23, 22);
+            this.btnCollapseAll.ToolTipText = "Collapse";
+            this.btnCollapseAll.Click += new System.EventHandler(this.btnCollapseAll_Click);
+            // 
+            // btnExpandAll
+            // 
+            this.btnExpandAll.Image = ((System.Drawing.Image)(resources.GetObject("btnExpandAll.Image")));
+            this.btnExpandAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnExpandAll.Name = "btnExpandAll";
+            this.btnExpandAll.Size = new System.Drawing.Size(23, 22);
+            this.btnExpandAll.ToolTipText = "Expand All";
+            this.btnExpandAll.Click += new System.EventHandler(this.btnExpandAll_Click);
             // 
             // splitContainer2
             // 
@@ -360,7 +391,7 @@ namespace Generator
             this.gpSelectedObject.Controls.Add(this.chkSelectedObjectShowMissingOnly);
             this.gpSelectedObject.Controls.Add(this.dgObjectPartListSummary);
             this.gpSelectedObject.Controls.Add(this.chkSelectedObjectShowBig);
-            this.gpSelectedObject.Controls.Add(this.toolStrip3);
+            this.gpSelectedObject.Controls.Add(this.tsSelectedObject);
             this.gpSelectedObject.Controls.Add(this.statusStrip1);
             this.gpSelectedObject.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpSelectedObject.Location = new System.Drawing.Point(0, 0);
@@ -404,13 +435,13 @@ namespace Generator
             this.chkSelectedObjectShowBig.UseVisualStyleBackColor = false;
             this.chkSelectedObjectShowBig.CheckedChanged += new System.EventHandler(this.chkSelectedObjectShowBig_CheckedChanged);
             // 
-            // toolStrip3
+            // tsSelectedObject
             // 
-            this.toolStrip3.Location = new System.Drawing.Point(3, 16);
-            this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(617, 25);
-            this.toolStrip3.TabIndex = 108;
-            this.toolStrip3.Text = "toolStrip3";
+            this.tsSelectedObject.Location = new System.Drawing.Point(3, 16);
+            this.tsSelectedObject.Name = "tsSelectedObject";
+            this.tsSelectedObject.Size = new System.Drawing.Size(617, 25);
+            this.tsSelectedObject.TabIndex = 108;
+            this.tsSelectedObject.Text = "toolStrip3";
             // 
             // statusStrip1
             // 
@@ -432,7 +463,7 @@ namespace Generator
             // 
             this.gpWholeSet.Controls.Add(this.tabControl2);
             this.gpWholeSet.Controls.Add(this.chkWholeSetShowMissingOnly);
-            this.gpWholeSet.Controls.Add(this.toolStrip7);
+            this.gpWholeSet.Controls.Add(this.tsWholeSet);
             this.gpWholeSet.Controls.Add(this.statusStrip2);
             this.gpWholeSet.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpWholeSet.Location = new System.Drawing.Point(0, 0);
@@ -661,13 +692,13 @@ namespace Generator
             this.chkWholeSetShowMissingOnly.Text = "Show Missing Only";
             this.chkWholeSetShowMissingOnly.UseVisualStyleBackColor = false;
             // 
-            // toolStrip7
+            // tsWholeSet
             // 
-            this.toolStrip7.Location = new System.Drawing.Point(3, 16);
-            this.toolStrip7.Name = "toolStrip7";
-            this.toolStrip7.Size = new System.Drawing.Size(630, 25);
-            this.toolStrip7.TabIndex = 109;
-            this.toolStrip7.Text = "toolStrip7";
+            this.tsWholeSet.Location = new System.Drawing.Point(3, 16);
+            this.tsWholeSet.Name = "tsWholeSet";
+            this.tsWholeSet.Size = new System.Drawing.Size(630, 25);
+            this.tsWholeSet.TabIndex = 109;
+            this.tsWholeSet.Text = "toolStrip7";
             // 
             // statusStrip2
             // 
@@ -704,11 +735,35 @@ namespace Generator
             this.panel1.Size = new System.Drawing.Size(1450, 587);
             this.panel1.TabIndex = 28;
             // 
+            // chkShowElementImages
+            // 
+            this.chkShowElementImages.AutoSize = true;
+            this.chkShowElementImages.Location = new System.Drawing.Point(670, 2);
+            this.chkShowElementImages.Name = "chkShowElementImages";
+            this.chkShowElementImages.Size = new System.Drawing.Size(131, 17);
+            this.chkShowElementImages.TabIndex = 112;
+            this.chkShowElementImages.Text = "Show Element Images";
+            this.chkShowElementImages.UseVisualStyleBackColor = false;
+            // 
+            // chkShowPartcolourImages
+            // 
+            this.chkShowPartcolourImages.AutoSize = true;
+            this.chkShowPartcolourImages.Checked = true;
+            this.chkShowPartcolourImages.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowPartcolourImages.Location = new System.Drawing.Point(821, 2);
+            this.chkShowPartcolourImages.Name = "chkShowPartcolourImages";
+            this.chkShowPartcolourImages.Size = new System.Drawing.Size(141, 17);
+            this.chkShowPartcolourImages.TabIndex = 113;
+            this.chkShowPartcolourImages.Text = "Show Partcolour Images";
+            this.chkShowPartcolourImages.UseVisualStyleBackColor = false;
+            // 
             // PartTickBackScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1464, 666);
+            this.Controls.Add(this.chkShowPartcolourImages);
+            this.Controls.Add(this.chkShowElementImages);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip3);
             this.Controls.Add(this.toolStrip1);
@@ -763,7 +818,7 @@ namespace Generator
         private System.Windows.Forms.ToolStripButton btnExit;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel lblTickBackRef;
-        private System.Windows.Forms.ToolStripTextBox fldTickBackRef;
+        private System.Windows.Forms.ToolStripTextBox fldTickBackName;
         private System.Windows.Forms.ToolStripButton btnLoadTickBack;
         private System.Windows.Forms.ToolStripButton btnSaveTickBack;
         private System.Windows.Forms.ToolStripButton btnDeleteTickBack;
@@ -792,7 +847,7 @@ namespace Generator
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox chkSelectedObjectShowBig;
-        private System.Windows.Forms.ToolStrip toolStrip3;
+        private System.Windows.Forms.ToolStrip tsSelectedObject;
         private System.Windows.Forms.DataGridView dgObjectPartListSummary;
         private System.Windows.Forms.CheckBox chkSelectedObjectShowMissingOnly;
         private System.Windows.Forms.TabControl tabControl2;
@@ -802,7 +857,7 @@ namespace Generator
         private System.Windows.Forms.ToolStrip toolStrip4;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.CheckBox chkWholeSetShowMissingOnly;
-        private System.Windows.Forms.ToolStrip toolStrip7;
+        private System.Windows.Forms.ToolStrip tsWholeSet;
         private System.Windows.Forms.Panel pnlButtonsWholeSet;
         private System.Windows.Forms.GroupBox gp_0_3001_0;
         private System.Windows.Forms.Button button21;
@@ -816,5 +871,10 @@ namespace Generator
         private System.Windows.Forms.ToolStripTextBox fldButtonWidth;
         private System.Windows.Forms.ToolStripButton btnButtonWidthMinus;
         private System.Windows.Forms.ToolStripButton btnButtonWidthPlus;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
+        private System.Windows.Forms.ToolStripButton btnCollapseAll;
+        private System.Windows.Forms.ToolStripButton btnExpandAll;
+        private System.Windows.Forms.CheckBox chkShowElementImages;
+        private System.Windows.Forms.CheckBox chkShowPartcolourImages;
     }
 }

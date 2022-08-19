@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Windows.Forms;
 
 
 namespace BaseClasses
@@ -130,8 +131,7 @@ namespace BaseClasses
                 return null;
             }
         }
-
-             
+                     
         public static Set GenerateBaseSet(string setRef, string description, string type)
         {
             Set set = new Set() { Ref = setRef, Description = description };
@@ -155,6 +155,159 @@ namespace BaseClasses
             return set;
         }
 
+
+
+
+
+
+        public static TreeNode GetSetTreeViewFromSetXML(XmlDocument setXML, bool showPages, bool showSteps, bool showParts, bool showPlacementMovements)
+        {
+            TreeNode SetTN = new TreeNode();
+            List<string> nodeList = new List<string>();   // ## Debug
+            if (setXML != null)
+            {
+                // ** POPULATE Set DETAILS **                    
+                string SetRef = setXML.SelectSingleNode("//Set/@Ref").InnerXml;
+                string SetDescription = setXML.SelectSingleNode("//Set/@Description").InnerXml;
+                SetTN = new TreeNode() { Text = SetRef + "|" + SetDescription, Tag = "SET|" + SetRef, ImageIndex = 0, SelectedImageIndex = 0 };
+                nodeList.Add("SET|" + SetRef + "|" + SetDescription);   // ## Debug
+
+                // ** POPULATE ALL SubSet DETAILS **                    
+                if (setXML.SelectNodes("//SubSet") != null)
+                {
+                    XmlNodeList SubSetNodeList = setXML.SelectNodes("//SubSet");
+                    foreach (XmlNode SubSetNode in SubSetNodeList)
+                    {
+                        // ** GET VARIABLES **
+                        string SubSetRef = SubSetNode.SelectSingleNode("@Ref").InnerXml;
+                        string SubSetDescription = SubSetNode.SelectSingleNode("@Description").InnerXml;
+                        TreeNode SubSetTN = new TreeNode() { Text = SubSetRef + "|" + SubSetDescription, Tag = "SUBSET|" + SubSetRef, ImageIndex = 1, SelectedImageIndex = 1 };
+                        SetTN.Nodes.Add(SubSetTN);
+                        nodeList.Add("SUBSET|" + SubSetRef + "|" + SubSetDescription);   // ## Debug
+
+                        // ** POPULATE ALL MODEL DETAILS **
+                        if (setXML.SelectNodes("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@SubModelLevel='1']") != null)
+                        {
+                            XmlNodeList ModelNodeList = setXML.SelectNodes("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@SubModelLevel='1']");
+                            foreach (XmlNode ModelNode in ModelNodeList)
+                            {
+                                string ModelRef = ModelNode.SelectSingleNode("@Ref").InnerXml;
+                                string ModelDescription = ModelDescription = ModelNode.SelectSingleNode("@Description").InnerXml;
+                                string ModelType = ModelNode.SelectSingleNode("@LDrawModelType").InnerXml;
+                                TreeNode modelTN = new TreeNode(ModelRef + "|" + ModelDescription);
+                                modelTN.Tag = "MODEL|" + SubSetRef + "|" + ModelRef;
+                                int imageIndex = 2;
+                                if (ModelType.Equals("MINIFIG")) imageIndex = 7;                                
+                                modelTN.ImageIndex = imageIndex;
+                                modelTN.SelectedImageIndex = imageIndex;
+                                SubSetTN.Nodes.Add(modelTN);
+                                nodeList.Add("MODEL|" + ModelRef + "|" + ModelDescription);   // ## Debug
+
+                                // ** POPULATE ALL SUBMODEL & STEP DETAILS **                                
+                                List<TreeNode> treeNodeList = GenerateTreeNodeList_UsingXmlNodeList(ModelNode.ChildNodes, showPages, showSteps, showParts, showPlacementMovements);
+                                modelTN.Nodes.AddRange(treeNodeList.ToArray());                                                             
+                            }
+                        }
+                    }
+                }
+            }
+            return SetTN;
+        }
+
+        private static List<TreeNode> GenerateTreeNodeList_UsingXmlNodeList(XmlNodeList childNodeList, bool showPages, bool showSteps, bool showParts, bool showPlacementMovements)
+        {
+            // ** Define which node types to ignore **
+            HashSet<String> NodeTypesToIgnore = new HashSet<string>() { "#COMMENT" };
+
+            // ** Cycle through all nodes **
+            List<TreeNode> treeNodeList = new List<TreeNode>();
+            int nodeStepIndex = 0;
+            int nodePlacementIndex = 0;
+            foreach (XmlNode xmlNode in childNodeList)
+            {
+                String nodeType = xmlNode.LocalName.ToUpper();
+                if (NodeTypesToIgnore.Contains(nodeType) == false)
+                {
+                    TreeNode treeNode = new TreeNode();
+                    if (nodeType.Equals("SUBMODEL"))
+                    {
+                        string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
+                        string SubModelRef = xmlNode.SelectSingleNode("@Ref").InnerXml;
+                        string SubModelDescription = xmlNode.SelectSingleNode("@Description").InnerXml;                        
+                        treeNode = new TreeNode() {Text = SubModelRef + "|" + SubModelDescription, Tag = nodeType + "|" + parentSubSetRef + "|" + SubModelRef + "|", ImageIndex = 3, SelectedImageIndex = 3 };
+                        treeNodeList.Add(treeNode);
+                    }
+                    else if (nodeType.Equals("STEP"))
+                    {
+                        if(showSteps)
+                        {
+                            string PureStepNo = xmlNode.SelectSingleNode("@PureStepNo").InnerXml;
+                            string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
+                            string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
+                            //string parentSubModelRef = xmlNode.SelectSingleNode("parent::SubModel/@Ref").InnerXml;
+
+                            String StepBook = "";
+                            String StepPage = "";
+                            String extraString = "";
+                            if (showPages)
+                            {
+                                if (xmlNode.SelectSingleNode("@StepBook") != null)
+                                {
+                                    StepBook = xmlNode.SelectSingleNode("@StepBook").InnerXml;
+                                    StepPage = xmlNode.SelectSingleNode("@StepPage").InnerXml;
+                                    if (StepBook != "0" && StepPage != "0")
+                                    {
+                                        extraString = " [b" + StepBook + ".p" + StepPage + "]";
+                                    }
+                                }
+                            }                            
+                            treeNode = new TreeNode() { Text = PureStepNo + extraString, Tag = nodeType + "|" + parentSubSetRef + "|" + parentModelRef + "|" + PureStepNo, ImageIndex = 4, SelectedImageIndex = 4 };
+                            treeNodeList.Add(treeNode);
+                            nodeStepIndex = 0;
+                            // ** Update Colour of Step (if required) **
+                        }
+                    }
+                    else if (nodeType.Equals("PART"))
+                    {
+                        if (showParts)
+                        {
+                            string LDrawRef = xmlNode.SelectSingleNode("@LDrawRef").InnerXml;
+                            String LDrawColourID = xmlNode.SelectSingleNode("@LDrawColourID").InnerXml;
+                            string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
+                            string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
+                            string parentPureStepNo = xmlNode.SelectSingleNode("ancestor::Step/@PureStepNo").InnerXml;
+                            treeNode = new TreeNode() { Text = LDrawRef + "|" + LDrawColourID, Tag = nodeType + "|" + parentSubSetRef + "|" + parentModelRef + "|" + parentPureStepNo + "|" + LDrawRef + "|" + LDrawColourID + "|" + nodeStepIndex, ImageIndex = 5, SelectedImageIndex = 5 };
+                            if (LDrawRef.Contains("stk"))
+                            {
+                                treeNode.ImageIndex = 9;
+                                treeNode.SelectedImageIndex = 9;
+                            }
+                            treeNodeList.Add(treeNode);
+                            nodeStepIndex += 1;
+                            nodePlacementIndex = 0;
+                        }                           
+                    }
+                    else if (nodeType.Equals("PLACEMENTMOVEMENT"))
+                    {
+                        if (showPlacementMovements)
+                        {
+                            string Axis = xmlNode.SelectSingleNode("@Axis").InnerXml;
+                            String Value = xmlNode.SelectSingleNode("@Value").InnerXml;
+                            string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
+                            string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
+                            string parentPureStepNo = xmlNode.SelectSingleNode("ancestor::Step/@PureStepNo").InnerXml;
+                            string LDrawRef = xmlNode.SelectSingleNode("ancestor::Part/@LDrawRef").InnerXml;
+                            String LDrawColourID = xmlNode.SelectSingleNode("ancestor::Part/@LDrawColourID").InnerXml;
+                            treeNode = new TreeNode() { Text = Axis + "=" + Value, Tag = nodeType + "|" + parentSubSetRef + "|" + parentModelRef + "|" + parentPureStepNo + "|" + LDrawRef + "|" + LDrawColourID + "|" + nodePlacementIndex, ImageIndex = 8, SelectedImageIndex = 8 };
+                            treeNodeList.Add(treeNode);
+                            nodePlacementIndex += 1;
+                        }
+                    }
+                    if (xmlNode.HasChildNodes) treeNode.Nodes.AddRange(GenerateTreeNodeList_UsingXmlNodeList(xmlNode.ChildNodes, showPages, showSteps, showParts, showPlacementMovements).ToArray());
+                }
+            }
+            return treeNodeList;
+        }
 
 
     }
