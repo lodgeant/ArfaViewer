@@ -24,6 +24,7 @@ namespace Generator
                 case ImageType.SET:                             // params[0] = SetRef
                 case ImageType.PARTCOLOUR:                      // params[0] = LDrawColourID
                 case ImageType.LDRAW:                           // params[0] = LDrawRef
+                case ImageType.THEME:                           // params[0] = Theme + | + SubTheme
                     itemRef = _params[0];
                     break;
 
@@ -58,7 +59,8 @@ namespace Generator
         SET,
         PARTCOLOUR,
         ELEMENT,
-        LDRAW
+        LDRAW,
+        THEME
     }
 
 

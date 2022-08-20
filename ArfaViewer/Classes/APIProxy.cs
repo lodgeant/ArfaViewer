@@ -39,60 +39,18 @@ namespace Generator
 
 
 
-        //public APIProxy(string AzureStorageConnString, string AzureDBConnString)
-        //{
-        //    this.AzureStorageConnString = AzureStorageConnString;
-        //    this.AzureDBConnString = AzureDBConnString;
-        //}
+          
 
-                
-        //public string GetSetXMLString(string SetRef)
-        //{
-        //    //string xmlString = "";
-        //    BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(SetRef + ".xml");
-        //    //byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-        //    //using (var ms = new MemoryStream(fileContent)) blob.DownloadTo(ms);
-        //    //string xmlString = Encoding.UTF8.GetString(fileContent);
-        //    string xmlString = DownloadBlobToXMLString(blob);            
-        //    return xmlString;
-        //}
-
-        //public BaseClasses.Set GetSet(string SetRef)
-        //{
-        //    Set set = null;
-        //    BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(SetRef + ".xml");            
-        //    string xmlString = DownloadBlobToXMLString(blob);
-        //    if (xmlString != "") set = new Set().DeserialiseFromXMLString(xmlString);                      
-        //    return set;
-        //}
-
-
-
-
-        //public void UpdateSet(Set set)
-        //{
-        //    BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(set.Ref + ".xml");
-        //    string xmlString = set.SerializeToString(true);
-        //    UploadXMLStringToBlob(blob, xmlString);
-        //}
-
-        //public void DeleteSet(string setRef)
-        //{
-        //    BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(setRef + ".xml");
-        //    blob.Delete();
-        //}
-
-        //public bool CheckIfSetExists(string setRef)
-        //{
-        //    BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(setRef + ".xml");
-        //    return blob.Exists();
-        //}
 
         public bool CheckIfBlobExists(string containerName, string blobName)
         {
             BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, containerName).GetBlobClient(blobName);
             return blob.Exists();
         }
+
+
+
+        // ** Image Functions **
 
         public Bitmap GetImage(ImageType imageType, string[] _params)
         {
@@ -106,6 +64,10 @@ namespace Generator
                 // params[0] = SetRef
                 itemRef = _params[0];
                 imageUrlList.Add("https://img.bricklink.com/ItemImage/ON/0/" + itemRef + ".png");
+                imageUrlList.Add("https://img.bricklink.com/ItemImage/MN/0/" + itemRef + ".png");
+
+                //https://images.brickset.com/sets/large/1278-1.jpg
+
             }
             else if (imageType == ImageType.PARTCOLOUR)
             {
@@ -127,6 +89,15 @@ namespace Generator
                 imageUrlList.Add("https://www.ldraw.org/library/official/images/parts/" + _params[0] + ".png");
                 imageUrlList.Add("https://www.ldraw.org/library/unofficial/images/parts/" + _params[0] + ".png");
             }
+            else if (imageType == ImageType.THEME)
+            {
+                // params[0] = Theme + | + SubTheme
+                itemRef = _params[0];
+                //imageUrl not used
+            }
+
+
+
             #endregion
 
             BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
@@ -405,8 +376,8 @@ namespace Generator
             // ** Generate SetDetailsCollection from SET_DETAILS data in database **
             SetDetailsCollection coll = new SetDetailsCollection();            
             string sql = "SELECT ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS,INSTRUCTION_REFS FROM SET_DETAILS ";
-            sql += "WHERE THEME='" + theme + "'";
-            if(subTheme != "") sql += " AND SUB_THEME='" + subTheme + "'";           
+            sql += "WHERE THEME='" + theme.Replace("'", "''") + "'";
+            if(subTheme != "") sql += " AND SUB_THEME='" + subTheme.Replace("'", "''") + "'";           
             var results = GetSQLQueryResults(this.AzureDBConnString, sql);
             coll = SetDetailsCollection.GetSetDetailsCollectionFromDataTable(results);            
             return coll;
@@ -464,10 +435,10 @@ namespace Generator
             sql += "(";
             sql += newID + ",";
             sql += "'" + sd.Ref + "',";
-            sql += "'" + sd.Description + "',";
+            sql += "'" + sd.Description.Replace("'", "''") + "',";
             sql += "'" + sd.Type + "',";
-            sql += "'" + sd.Theme + "',";
-            sql += "'" + sd.SubTheme + "',";
+            sql += "'" + sd.Theme.Replace("'","''") + "',";
+            sql += "'" + sd.SubTheme.Replace("'", "''") + "',";
             sql += sd.Year + ",";
             sql += sd.PartCount + ",";
             sql += sd.SubSetCount + ",";
@@ -496,10 +467,10 @@ namespace Generator
         {
             // ** Generate SQL Statement **
             string sql = "UPDATE SET_DETAILS SET " + Environment.NewLine;
-            sql += "DESCRIPTION='" + sd.Description + "',";
+            sql += "DESCRIPTION='" + sd.Description.Replace("'", "''") + "',";
             sql += "TYPE='" + sd.Type + "',";            
-            sql += "THEME='" + sd.Theme + "',";
-            sql += "SUB_THEME='" + sd.SubTheme + "',";
+            sql += "THEME='" + sd.Theme.Replace("'", "''") + "',";
+            sql += "SUB_THEME='" + sd.SubTheme.Replace("'", "''") + "',";
             sql += "YEAR=" + sd.Year + ",";
             sql += "PART_COUNT=" + sd.PartCount + ",";
             sql += "SUBSET_COUNT=" + sd.SubSetCount + ",";
@@ -891,7 +862,7 @@ namespace Generator
             if (IDList.Count > 0)
             {
                 string sql = "SELECT THEME,SUB_THEME FROM SET_DETAILS  ";
-                sql += "WHERE THEME IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
+                sql += "WHERE THEME IN (" + string.Join(",", IDList.Select(s => "'" + s.Replace("'","''") + "'")) + ")";
                 sql += " GROUP BY THEME,SUB_THEME ORDER BY THEME,SUB_THEME";
 
                 var results = GetSQLQueryResults(this.AzureDBConnString, sql);
@@ -902,8 +873,8 @@ namespace Generator
 
         public int GetSetCountForThemeAndSubTheme(string theme, string subTheme)
         {           
-            String sql = "SELECT COUNT(ID) 'RESULT' FROM SET_DETAILS WHERE THEME='" + theme + "'";
-            if(subTheme != "") sql += " AND SUB_THEME='" + subTheme + "'";           
+            String sql = "SELECT COUNT(ID) 'RESULT' FROM SET_DETAILS WHERE THEME='" + theme.Replace("'", "''") + "'";
+            if(subTheme != "") sql += " AND SUB_THEME='" + subTheme.Replace("'", "''") + "'";           
             var results = GetSQLQueryResults(this.AzureDBConnString, sql);
             int count = (int)results.Rows[0]["RESULT"];           
             return count;
@@ -1043,8 +1014,7 @@ namespace Generator
             return MiniFigXMLDict;
         }
 
-
-        public string UploadPartImageToBLOB(string sourceURL, string LDrawRef, string LDrawColourID)
+        public string UploadImageToBLOB(string sourceURL, string ImageType, string ImageName)
         {
             string response = "";
             try
@@ -1059,12 +1029,12 @@ namespace Generator
                 { }
 
                 // ** Upload image to Azure **
-                if (imageb.Length == 0) throw new Exception("No data found on Rebrickable for URL");
-                BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "images-element").GetBlobClient(LDrawRef + "|" + LDrawColourID + ".png");
+                if (imageb.Length == 0) throw new Exception("No data found for URL");
+                BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "images-" + ImageType.ToLower()).GetBlobClient(ImageName + ".png");
                 using (var ms = new MemoryStream(imageb)) blob.Upload(ms, true);
                 return response;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return ex.Message;
             }
@@ -1075,6 +1045,7 @@ namespace Generator
 
 
         // ** HELPFUL METHODS **
+
         private static string DownloadBlobToXMLString(BlobClient blob)
         {
             string xmlString = "";

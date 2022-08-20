@@ -22,10 +22,11 @@ namespace Generator
             return Global_Variables.APIProxy.GetImage(imageType, _params);
         }
 
-        public static string UploadPartImageToBLOB(string sourceURL, string LDrawRef, string LDrawColourID)
+        public static string UploadImageToBLOB(string sourceURL, string ImageType, string ImageName)
         {
-            return Global_Variables.APIProxy.UploadPartImageToBLOB(sourceURL, LDrawRef, LDrawColourID);
+            return Global_Variables.APIProxy.UploadImageToBLOB(sourceURL, ImageType, ImageName);
         }
+
 
 
 
@@ -252,7 +253,6 @@ namespace Generator
         public static int GetSetCountForThemeAndSubTheme(string theme, string subTheme)
         {
             return Global_Variables.APIProxy.GetSetCountForThemeAndSubTheme(theme, subTheme);
-
         }
 
 

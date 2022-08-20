@@ -65,6 +65,8 @@ namespace Generator
                 }
                 lblSetDetailsCount.Text = "";
                 lblStatus.Text = "";
+                fldType.SelectedIndex = 0;                
+                fldStatus.SelectedIndex = 0;
                 #endregion
 
                 RefreshScreen();
@@ -140,6 +142,9 @@ namespace Generator
                 // ** Add Theme counts **                
                 ThemeTreeNodes = UpdateThemeCounts(ThemeTreeNodes);
 
+                // ** Add images to Themes & SubThemes **
+                ThemeTreeNodes = UpdateThemeImages(ThemeTreeNodes);
+                
                 // ** Set tvThemesSummary **
                 tvThemesSummary.Nodes.Clear();
                 tvThemesSummary.Nodes.AddRange(ThemeTreeNodes);
@@ -174,7 +179,67 @@ namespace Generator
             return ThemeTreeNodes;
         }
 
+        private TreeNode[] UpdateThemeImages(TreeNode[] ThemeTreeNodes)
+        {
+            int imageCount = 1;
+            ilTheme.Images.Clear();
+            ilTheme.Images.Add(ilThemeTemplate.Images[0]);
+            foreach (TreeNode themeNode in ThemeTreeNodes)
+            {
+                // Get Theme + SubTheme image
+                string themeImageName = themeNode.Tag.ToString();
+                Bitmap themeImage = ArfaImage.GetImage(ImageType.THEME, new string[] { themeImageName });
+
+                // Add image to Theme imagelist
+                int imageIndex = 0;
+                if (themeImage != null)
+                {                    
+                    ilTheme.Images.Add(themeImage);
+                    imageIndex = imageCount;
+                    imageCount += 1;
+                }
+                themeNode.ImageIndex = imageIndex;
+                themeNode.SelectedImageIndex = imageIndex;
+
+
+
+
+
+                // ** Check for Sub Themes **
+                if (themeNode.Nodes.Count > 0)
+                {
+                    foreach (TreeNode subThemeNode in themeNode.Nodes)
+                    {
+                        // Get Theme + SubTheme image
+                        string subThemeImageName = subThemeNode.Tag.ToString();
+                        Bitmap subThemeImage = ArfaImage.GetImage(ImageType.THEME, new string[] { subThemeImageName });
+
+                        // Add image to Theme imagelist
+                        int subTheme_imageIndex = 0;
+                        if (subThemeImage != null)
+                        {
+                            ilTheme.Images.Add(subThemeImage);
+                            subTheme_imageIndex = imageCount;
+                            imageCount += 1;
+                        }
+                        subThemeNode.ImageIndex = subTheme_imageIndex;
+                        subThemeNode.SelectedImageIndex = subTheme_imageIndex;
+                    }
+                }
+
+            }
+            return ThemeTreeNodes;
+        }
+
         #endregion
+
+
+
+
+
+
+
+
 
         #region ** TREENODE FUNCTIONS **
 
@@ -203,10 +268,10 @@ namespace Generator
                 // ** Determine Theme & SubTheme **
                 lastSelectedNode = tvThemesSummary.SelectedNode;
                 lastSelectedNodeFullPath = tvThemesSummary.SelectedNode.FullPath;
-                List<string> themeStringList = tvThemesSummary.SelectedNode.Tag.ToString().Split('|').ToList();
-                string theme = themeStringList[0];
-                string subTheme = "";
-                if (themeStringList.Count > 1) subTheme = themeStringList[1];
+
+                // ** Update Theme image **
+                string theme = tvThemesSummary.SelectedNode.Tag.ToString();
+                pnlThemeImage.BackgroundImage = ArfaImage.GetImage(ImageType.THEME, new string[] { theme });
 
                 // ** Refresh Screen **
                 RefreshSetDetailsSummary();
@@ -453,12 +518,14 @@ namespace Generator
         private void ClearAllSetDetailsFields()
         {
             fldSetRef.Text = "";
-            fldDescription.Text = "";
+            fldDescription.Text = "";            
             fldType.Text = "";
+            fldType.SelectedIndex = 0;
             fldTheme.Text = "";
             fldSubTheme.Text = "";
             fldYear.Text = "";
             fldStatus.Text = "";
+            fldStatus.SelectedIndex = 0;
             fldAssignedTo.Text = "";
             fldInstructionRefs.Text = "";
         }
@@ -528,6 +595,7 @@ namespace Generator
         private async void UploadInstructionsFromWeb()
         {
             //TODO_H: Change this function to let the API do all the heavy lifting - just providfe the API with the Set Ref and the list of Instruction Refs
+            string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
             try
             {
                 #region ** VALIDATIONS **
@@ -537,7 +605,7 @@ namespace Generator
                 List<string> insRefList = fldInstructionRefs.Text.Split(',').ToList();
 
                 // ** Check whether instructions are already present. If they are, confirm whether they should be downloaded again **
-                ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
+                ShareFileClient share = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
                 if (share.Exists())
                 //bool PDFExists = StaticData.CheckIfPDFInstructionsExistForSet(setRef);
                 //if (PDFExists)
@@ -613,7 +681,7 @@ namespace Generator
 
                 #region ** UPLOAD DATA TO AZURE FS **  
                 lblStatus.Text = "Uploading " + setRef + " to Azure FS...";
-                share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
+                share = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
                 const int AzureUploadLimit = 4194304;
                 using (var stream = new MemoryStream(File.ReadAllBytes(targetPdf)))
                 {

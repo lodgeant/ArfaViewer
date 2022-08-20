@@ -131,11 +131,6 @@ namespace Generator
             Generator.SyncFBXFiles();
         }
 
-        //private void btnUploadInstructionsFromWeb_Click(object sender, EventArgs e)
-        //{
-        //    UploadInstructionsFromWeb();
-        //}
-
         private void btnShowPartTickBackScreen_Click(object sender, EventArgs e)
         {
             PartTickBackScreen form = new PartTickBackScreen();
@@ -149,26 +144,21 @@ namespace Generator
 
         #endregion
 
-
-
         private void UploadImage()
         {
             try
             {
                 // ** VALIDATIONS **
-                if (fldLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");
-                if (fldLDrawColourID.Text.Equals("")) throw new Exception("No LDraw Colour ID entered...");
                 if (fldSourceURL.Text.Equals("")) throw new Exception("No Source URL entered...");
-                string LDrawRef = fldLDrawRef.Text;
-                string LDrawColourID = fldLDrawColourID.Text;
-                string sourceURL = fldSourceURL.Text;
-
+                if (fldImageType.Text.Equals("")) throw new Exception("No Type selected...");
+                if (fldImageName.Text.Equals("")) throw new Exception("No Image Name entered...");
+                
                 // ** Request data upload via API **
-                string response = StaticData.UploadPartImageToBLOB(sourceURL, LDrawRef, LDrawColourID);
+                string response = StaticData.UploadImageToBLOB(fldSourceURL.Text, fldImageType.Text, fldImageName.Text);
                 if (response != "") throw new Exception("Error ocurred while uploading: " + response);
 
                 // Show confirmation **
-                MessageBox.Show(LDrawRef + "|" + LDrawColourID + ".png uploaded to Azure...");
+                MessageBox.Show(fldImageName.Text + " uploaded to Azure...");
             }
             catch (Exception ex)
             {
@@ -1011,10 +1001,6 @@ namespace Generator
             //}
         }
 
-        
-
-        
-
         private void GenerateMiniFigLDrawFiles()
         {
             //try
@@ -1083,7 +1069,6 @@ namespace Generator
             //    MessageBox.Show(ex.Message);
             //}
         }
-
 
         // ######################################################################################################################################################
 
@@ -1291,15 +1276,11 @@ namespace Generator
             }
         }
 
-
-
-
         private void btnTest_Click(object sender, EventArgs e)
         {
             //GetRebrickableData();
             GetRebrickablePrice();
         }
-
 
         //private async void GetRebrickableData()
         //{
@@ -1341,8 +1322,6 @@ namespace Generator
         //        MessageBox.Show(ex.Message);
         //    }
         //}
-
-
 
         private void GetRebrickablePrice()
         {

@@ -43,10 +43,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.fldSourceURL = new System.Windows.Forms.TextBox();
             this.btnUploadImage = new System.Windows.Forms.Button();
-            this.fldLDrawRef = new System.Windows.Forms.TextBox();
+            this.fldImageName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.fldLDrawColourID = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.btnSyncFBXFiles = new System.Windows.Forms.Button();
             this.btnShowPartTickBackScreen = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -54,6 +52,8 @@
             this.fldMiniFigRef = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.btnShowSetDetailsScreen = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.fldImageType = new System.Windows.Forms.ComboBox();
             this.toolStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -66,7 +66,7 @@
             this.toolStripSeparator1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(825, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(883, 25);
             this.toolStrip1.TabIndex = 26;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -113,7 +113,7 @@
             this.lblStatus});
             this.statusStrip2.Location = new System.Drawing.Point(0, 241);
             this.statusStrip2.Name = "statusStrip2";
-            this.statusStrip2.Size = new System.Drawing.Size(825, 22);
+            this.statusStrip2.Size = new System.Drawing.Size(883, 22);
             this.statusStrip2.TabIndex = 36;
             this.statusStrip2.Text = "statusStrip2";
             // 
@@ -175,50 +175,34 @@
             // 
             this.fldSourceURL.Location = new System.Drawing.Point(501, 40);
             this.fldSourceURL.Name = "fldSourceURL";
-            this.fldSourceURL.Size = new System.Drawing.Size(312, 20);
+            this.fldSourceURL.Size = new System.Drawing.Size(363, 20);
             this.fldSourceURL.TabIndex = 42;
             // 
             // btnUploadImage
             // 
-            this.btnUploadImage.Location = new System.Drawing.Point(719, 66);
+            this.btnUploadImage.Location = new System.Drawing.Point(770, 67);
             this.btnUploadImage.Name = "btnUploadImage";
             this.btnUploadImage.Size = new System.Drawing.Size(94, 46);
-            this.btnUploadImage.TabIndex = 43;
+            this.btnUploadImage.TabIndex = 45;
             this.btnUploadImage.Text = "Upload Image to BLOB";
             this.btnUploadImage.UseVisualStyleBackColor = false;
             this.btnUploadImage.Click += new System.EventHandler(this.btnUploadImage_Click);
             // 
-            // fldLDrawRef
+            // fldImageName
             // 
-            this.fldLDrawRef.Location = new System.Drawing.Point(501, 66);
-            this.fldLDrawRef.Name = "fldLDrawRef";
-            this.fldLDrawRef.Size = new System.Drawing.Size(80, 20);
-            this.fldLDrawRef.TabIndex = 47;
+            this.fldImageName.Location = new System.Drawing.Point(501, 96);
+            this.fldImageName.Name = "fldImageName";
+            this.fldImageName.Size = new System.Drawing.Size(263, 20);
+            this.fldImageName.TabIndex = 44;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(436, 69);
+            this.label3.Location = new System.Drawing.Point(425, 99);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(61, 13);
+            this.label3.Size = new System.Drawing.Size(70, 13);
             this.label3.TabIndex = 46;
-            this.label3.Text = "LDraw Ref:";
-            // 
-            // fldLDrawColourID
-            // 
-            this.fldLDrawColourID.Location = new System.Drawing.Point(670, 66);
-            this.fldLDrawColourID.Name = "fldLDrawColourID";
-            this.fldLDrawColourID.Size = new System.Drawing.Size(43, 20);
-            this.fldLDrawColourID.TabIndex = 49;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(585, 69);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(88, 13);
-            this.label4.TabIndex = 48;
-            this.label4.Text = "LDraw Colour ID:";
+            this.label3.Text = "Image Name:";
             // 
             // btnSyncFBXFiles
             // 
@@ -247,7 +231,7 @@
             this.groupBox2.Controls.Add(this.btnGenerateMiniFigLDrawFiles);
             this.groupBox2.Controls.Add(this.fldMiniFigRef);
             this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(432, 137);
+            this.groupBox2.Location = new System.Drawing.Point(501, 139);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(320, 64);
             this.groupBox2.TabIndex = 61;
@@ -292,18 +276,41 @@
             this.btnShowSetDetailsScreen.UseVisualStyleBackColor = false;
             this.btnShowSetDetailsScreen.Click += new System.EventHandler(this.btnShowSetDetailsScreen_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(461, 69);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.TabIndex = 63;
+            this.label2.Text = "Type:";
+            // 
+            // fldImageType
+            // 
+            this.fldImageType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.fldImageType.FormattingEnabled = true;
+            this.fldImageType.Items.AddRange(new object[] {
+            "Element",
+            "PartColour",
+            "Set",
+            "Theme"});
+            this.fldImageType.Location = new System.Drawing.Point(501, 66);
+            this.fldImageType.Name = "fldImageType";
+            this.fldImageType.Size = new System.Drawing.Size(121, 21);
+            this.fldImageType.TabIndex = 43;
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(825, 263);
+            this.ClientSize = new System.Drawing.Size(883, 263);
+            this.Controls.Add(this.fldImageType);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.btnShowSetDetailsScreen);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnShowPartTickBackScreen);
             this.Controls.Add(this.btnSyncFBXFiles);
-            this.Controls.Add(this.fldLDrawColourID);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.fldLDrawRef);
+            this.Controls.Add(this.fldImageName);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnUploadImage);
             this.Controls.Add(this.fldSourceURL);
@@ -344,10 +351,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox fldSourceURL;
         private System.Windows.Forms.Button btnUploadImage;
-        private System.Windows.Forms.TextBox fldLDrawRef;
+        private System.Windows.Forms.TextBox fldImageName;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox fldLDrawColourID;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnSyncFBXFiles;
         private System.Windows.Forms.Button btnShowPartTickBackScreen;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -355,5 +360,7 @@
         private System.Windows.Forms.TextBox fldMiniFigRef;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnShowSetDetailsScreen;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox fldImageType;
     }
 }

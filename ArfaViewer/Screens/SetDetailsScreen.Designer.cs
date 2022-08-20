@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetDetailsScreen));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnExit = new System.Windows.Forms.ToolStripButton();
@@ -67,6 +68,8 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tvThemesSummary = new System.Windows.Forms.TreeView();
+            this.ilTheme = new System.Windows.Forms.ImageList(this.components);
+            this.pnlThemeImage = new System.Windows.Forms.Panel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btnThemesRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
@@ -88,6 +91,7 @@
             this.fldLDrawRefAc = new System.Windows.Forms.ToolStripTextBox();
             this.lblLDrawColourNameAc = new System.Windows.Forms.ToolStripLabel();
             this.fldLDrawColourNameAc = new System.Windows.Forms.ToolStripTextBox();
+            this.ilThemeTemplate = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.toolStrip3.SuspendLayout();
@@ -248,6 +252,7 @@
             // fldType
             // 
             this.fldType.BackColor = System.Drawing.Color.LightGray;
+            this.fldType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.fldType.Items.AddRange(new object[] {
             "OFFICIAL",
             "UNOFFICIAL"});
@@ -321,6 +326,7 @@
             // fldStatus
             // 
             this.fldStatus.BackColor = System.Drawing.Color.LightGray;
+            this.fldStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.fldStatus.Items.AddRange(new object[] {
             "NOT_STARTED",
             "IN_PROGRESS",
@@ -412,6 +418,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tvThemesSummary);
+            this.groupBox1.Controls.Add(this.pnlThemeImage);
             this.groupBox1.Controls.Add(this.toolStrip2);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
@@ -425,11 +432,29 @@
             // 
             this.tvThemesSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvThemesSummary.HideSelection = false;
+            this.tvThemesSummary.ImageIndex = 0;
+            this.tvThemesSummary.ImageList = this.ilTheme;
             this.tvThemesSummary.Location = new System.Drawing.Point(3, 41);
             this.tvThemesSummary.Name = "tvThemesSummary";
-            this.tvThemesSummary.Size = new System.Drawing.Size(201, 461);
-            this.tvThemesSummary.TabIndex = 85;
+            this.tvThemesSummary.SelectedImageIndex = 0;
+            this.tvThemesSummary.Size = new System.Drawing.Size(201, 354);
+            this.tvThemesSummary.TabIndex = 87;
             this.tvThemesSummary.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvThemesSummary_AfterSelect);
+            // 
+            // ilTheme
+            // 
+            this.ilTheme.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilTheme.ImageStream")));
+            this.ilTheme.TransparentColor = System.Drawing.Color.Transparent;
+            this.ilTheme.Images.SetKeyName(0, "package.png");
+            // 
+            // pnlThemeImage
+            // 
+            this.pnlThemeImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnlThemeImage.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlThemeImage.Location = new System.Drawing.Point(3, 395);
+            this.pnlThemeImage.Name = "pnlThemeImage";
+            this.pnlThemeImage.Size = new System.Drawing.Size(201, 107);
+            this.pnlThemeImage.TabIndex = 86;
             // 
             // toolStrip2
             // 
@@ -609,6 +634,12 @@
             this.fldLDrawColourNameAc.Name = "fldLDrawColourNameAc";
             this.fldLDrawColourNameAc.Size = new System.Drawing.Size(125, 25);
             // 
+            // ilThemeTemplate
+            // 
+            this.ilThemeTemplate.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilThemeTemplate.ImageStream")));
+            this.ilThemeTemplate.TransparentColor = System.Drawing.Color.Transparent;
+            this.ilThemeTemplate.Images.SetKeyName(0, "package.png");
+            // 
             // SetDetailsScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -676,7 +707,6 @@
         private System.Windows.Forms.ToolStripComboBox fldStatus;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TreeView tvThemesSummary;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton btnThemesRefresh;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
@@ -708,5 +738,9 @@
         private System.Windows.Forms.ToolStripProgressBar pbStatus;
         private System.Windows.Forms.ToolStripLabel toolStripLabel19;
         private System.Windows.Forms.ToolStripLabel lblStatus;
+        private System.Windows.Forms.ImageList ilTheme;
+        private System.Windows.Forms.ImageList ilThemeTemplate;
+        private System.Windows.Forms.TreeView tvThemesSummary;
+        private System.Windows.Forms.Panel pnlThemeImage;
     }
 }
