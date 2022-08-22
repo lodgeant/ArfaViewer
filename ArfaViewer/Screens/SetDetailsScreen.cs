@@ -996,7 +996,7 @@ namespace Generator
                 //Delegates.ToolStripButton_SetText(this, btnRefreshStaticData, "Refresh Static Data");
                 //btnRefreshStaticData.ForeColor = Color.Black;
                 pbStatus.Value = 0;
-                //EnableControls_RefreshStaticData(true);
+                EnableControls_ImportSetDetails(true);
                 Delegates.ToolStripLabel_SetText(this, lblStatus, "");
                 MessageBox.Show(ex.Message);
             }
@@ -1037,7 +1037,7 @@ namespace Generator
         private void bw_ImportSetDetails_DoWork(object sender, DoWorkEventArgs e)
         {
             try
-            {               
+            {
                 // ** Get Set Details from CSV file **                
                 string[] fileLines = File.ReadAllLines(importFilePath);
                 
@@ -1046,56 +1046,64 @@ namespace Generator
                 importedSetCount = 0;
                 ignoredSetCount = 0;
                 int lineIndex = 0;
+                List<string> failedImportList = new List<string>();
                 foreach (string line in fileLines)
                 {
                     if (lineIndex > 0)
                     {
                         bw_ImportSetDetails.ReportProgress(lineIndex, "Working...");
-
-                        // ** Get variables **
-                        string[] columnDetails = line.Split(',');
-                        string setRef = columnDetails[0];
-                        string setDescription = columnDetails[1];
-                        List<string> themeDetails = columnDetails[2].Split('-').ToList();
-                        string theme = themeDetails[0].Trim();
-                        string subTheme = "";
-                        if (themeDetails.Count > 1) subTheme = themeDetails[1].Trim();
-                        int setYear = int.Parse(columnDetails[3]);
-
-                        // Check if set already exists - if so, don't import again.
-                        Delegates.ToolStripLabel_SetText(this, lblStatus, "Importing file | Processed (" + lineIndex.ToString("#,##0") + " of " + fileLines.Length.ToString("#,##0") + ") " + setRef + ": " + setDescription);
-                        bool exists = StaticData.CheckIfSetDetailExists(setRef);
-                        if(exists)
+                        string setRef = "";
+                        try
                         {
-                            ignoredSetCount += 1;
+                            // ** Get variables **
+                            string[] columnDetails = line.Split(',');
+                            setRef = columnDetails[0];
+                            string setDescription = columnDetails[1];
+                            List<string> themeDetails = columnDetails[2].Split('-').ToList();
+                            string theme = themeDetails[0].Trim();
+                            string subTheme = "";
+                            if (themeDetails.Count > 1) subTheme = themeDetails[1].Trim();
+                            int setYear = int.Parse(columnDetails[3]);
+
+                            // Check if set already exists - if so, don't import again.
+                            Delegates.ToolStripLabel_SetText(this, lblStatus, "Importing file | Processed (" + lineIndex.ToString("#,##0") + " of " + fileLines.Length.ToString("#,##0") + ") " + setRef + ": " + setDescription);
+                            bool exists = StaticData.CheckIfSetDetailExists(setRef);
+                            if (exists)
+                            {
+                                ignoredSetCount += 1;
+                            }
+                            else
+                            {
+                                // ** Generate new Set Details object **
+                                SetDetails setDetails = new SetDetails();
+                                setDetails.Ref = setRef;
+                                setDetails.Description = setDescription;
+                                setDetails.Type = "OFFICIAL";
+                                setDetails.Theme = theme;
+                                setDetails.SubTheme = subTheme;
+                                setDetails.Year = setYear;
+                                setDetails.Status = "NOT_STARTED";
+                                setDetails.PartCount = 0;
+                                setDetails.SubSetCount = 1;
+                                setDetails.ModelCount = 1;
+                                setDetails.MiniFigCount = 0;
+
+                                // ** Generate base instructions and add to Set Details **
+                                Set set = Set.GenerateBaseSet(setRef, setDescription, "OFFICIAL");
+                                setDetails.Instructions = set.SerializeToString(true);
+
+                                // ** Add Set to DB **
+                                StaticData.AddSetDetails(setDetails);
+
+                                // ** Get image for set and upload to BLOB **
+                                ArfaImage.GetImage(ImageType.SET, new string[] { setDetails.Ref });
+
+                                importedSetCount += 1;
+                            }
                         }
-                        else
+                        catch(Exception ex)
                         {
-                            // ** Generate new Set Details object **
-                            SetDetails setDetails = new SetDetails();
-                            setDetails.Ref = setRef;
-                            setDetails.Description = setDescription;
-                            setDetails.Type = "OFFICIAL";
-                            setDetails.Theme = theme;
-                            setDetails.SubTheme = subTheme;
-                            setDetails.Year = setYear;
-                            setDetails.Status = "NOT_STARTED";
-                            setDetails.PartCount = 0;
-                            setDetails.SubSetCount = 1;
-                            setDetails.ModelCount = 1;
-                            setDetails.MiniFigCount = 0;
-
-                            // ** Generate base instructions and add to Set Details **
-                            Set set = Set.GenerateBaseSet(setRef, setDescription, "OFFICIAL");
-                            setDetails.Instructions = set.SerializeToString(true);
-
-                            // ** Add Set to DB **
-                            StaticData.AddSetDetails(setDetails);
-
-                            // ** Get image for set and upload to BLOB **
-                            ArfaImage.GetImage(ImageType.SET, new string[] { setDetails.Ref });
-
-                            importedSetCount += 1;
+                            failedImportList.Add(setRef + "|" + ex.Message);
                         }
                     }
                     lineIndex += 1;
@@ -1104,12 +1112,19 @@ namespace Generator
                 EnableControls_ImportSetDetails(true);
                 Delegates.ToolStripLabel_SetText(this, lblStatus, "");
 
-                // ** Show confirmation **  
-                MessageBox.Show("Successfully uploaded " + importedSetCount + " sets..." + ignoredSetCount + " were ignored.");
+                // ** Show confirmation **
+                string msg = "Successfully uploaded " + importedSetCount + " sets." + Environment.NewLine;
+                msg += "Ignored imports: " + ignoredSetCount + Environment.NewLine;
+                msg += "Failed imports: " + failedImportList.Count + Environment.NewLine;
+                foreach(string setRef in failedImportList) msg += setRef + Environment.NewLine;                
+                MessageBox.Show(msg);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                EnableControls_ImportSetDetails(true);
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+                MessageBox.Show(ex.Message);                
             }
         }
              

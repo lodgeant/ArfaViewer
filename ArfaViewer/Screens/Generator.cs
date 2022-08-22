@@ -5289,7 +5289,47 @@ namespace Generator
             fldLDrawColourName.Items.AddRange(partColourNameList.ToArray());
         }
 
+        private void dgPartListSummary_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 0)
+                {
+                    Bitmap image = (Bitmap)dgPartListSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    PartViewer.image = image;
+                    PartViewer form = new PartViewer();
+                    form.Visible = true;
+                }                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
+            }
+        }
 
+        private void dgPartListWithMFsSummary_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 0)
+                {
+                    Bitmap image = (Bitmap)dgPartListWithMFsSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    PartViewer.image = image;
+                    PartViewer form = new PartViewer();
+                    form.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
+            }
+        }
+    
+    
+    
+    
+    
+    
     }
 
 

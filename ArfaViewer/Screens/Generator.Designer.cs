@@ -2248,6 +2248,7 @@
             this.dgPartListSummary.Name = "dgPartListSummary";
             this.dgPartListSummary.Size = new System.Drawing.Size(655, 585);
             this.dgPartListSummary.TabIndex = 109;
+            this.dgPartListSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgPartListSummary_CellClick);
             // 
             // toolStrip11
             // 
@@ -2306,6 +2307,7 @@
             this.dgPartListWithMFsSummary.Name = "dgPartListWithMFsSummary";
             this.dgPartListWithMFsSummary.Size = new System.Drawing.Size(691, 585);
             this.dgPartListWithMFsSummary.TabIndex = 110;
+            this.dgPartListWithMFsSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgPartListWithMFsSummary_CellClick);
             // 
             // toolStrip12
             // 
