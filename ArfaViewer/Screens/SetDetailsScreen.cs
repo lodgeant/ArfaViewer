@@ -755,7 +755,7 @@ namespace Generator
                 if (sd == null) throw new Exception("Set Details don't exist for " + SetRef);
 
                 // ** Load Viewer Screen **
-                Generator form = new Generator(SetRef);
+                InstructionViewer form = new InstructionViewer(SetRef);
                 form.LoadSet();
                 form.Visible = true;
             }
@@ -802,27 +802,24 @@ namespace Generator
 
         private async void UploadInstructionsFromWeb()
         {
-            //TODO_H: Change this function to let the API do all the heavy lifting - just providfe the API with the Set Ref and the list of Instruction Refs
+            //TODO: Change this function to let the API do all the heavy lifting - just providfe the API with the Set Ref and the list of Instruction Refs
             string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
             try
             {
-                #region ** VALIDATIONS **
+                // ** VALIDATIONS **
                 if (fldSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
                 if (fldInstructionRefs.Text.Equals("")) throw new Exception("No Instruction Refs entered...");
                 string setRef = fldSetRef.Text;
                 List<string> insRefList = fldInstructionRefs.Text.Split(',').ToList();
 
                 // ** Check whether instructions are already present. If they are, confirm whether they should be downloaded again **
-                ShareFileClient share = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
-                if (share.Exists())
-                //bool PDFExists = StaticData.CheckIfPDFInstructionsExistForSet(setRef);
-                //if (PDFExists)
+                bool PDFExists = StaticData.CheckIfPDFInstructionsExistForSet(setRef);
+                if (PDFExists)
                 {
                     // Make sure user wants to re-upload instructions
                     DialogResult res = MessageBox.Show("Instructions already exist for " + setRef + " - do you really want to re-upload again?", "Instruction Re-Upload Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (res == DialogResult.No) return;
                 }
-                #endregion
 
                 #region ** DOWNLOAD INSTRUCTIONS FROM BrickSet.com TO TEMP **
                 List<string> filelist = new List<string>();
@@ -831,10 +828,12 @@ namespace Generator
                 {
                     string url = "https://www.lego.com/cdn/product-assets/product.bi.core.pdf/" + insRef + ".pdf";
                     string downloadPath = Path.Combine(Path.GetTempPath(), insRef + ".pdf");
+                    pbStatus.Maximum = 100;
                     using (WebClient webClient = new WebClient())
-                    {
+                    {                        
                         webClient.DownloadProgressChanged += (s, e1) =>
                         {
+                            //pbStatus.Maximum = (int)e1.TotalBytesToReceive;
                             pbStatus.Value = e1.ProgressPercentage;
                             lblStatus.Text = "Downloading " + insRef + " from Brickset.com (" + index + " of " + insRefList.Count + ") | Downloaded " + e1.ProgressPercentage + "%";
                         };
@@ -886,10 +885,10 @@ namespace Generator
                 //        await source.CopyToAsync(destination);
                 //    }
                 //}
-
+                                
                 #region ** UPLOAD DATA TO AZURE FS **  
                 lblStatus.Text = "Uploading " + setRef + " to Azure FS...";
-                share = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
+                ShareFileClient share = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
                 const int AzureUploadLimit = 4194304;
                 using (var stream = new MemoryStream(File.ReadAllBytes(targetPdf)))
                 {

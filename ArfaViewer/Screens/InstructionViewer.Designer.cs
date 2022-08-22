@@ -1,6 +1,6 @@
 ﻿namespace Generator
 {
-    partial class Generator
+    partial class InstructionViewer
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Generator));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InstructionViewer));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -79,7 +79,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gpSetStructure = new System.Windows.Forms.GroupBox();
             this.tvSetSummary = new System.Windows.Forms.TreeView();
             this.pnlSetImage = new System.Windows.Forms.Panel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
@@ -95,7 +95,7 @@
             this.btnMoveDownBy5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSetClear = new System.Windows.Forms.ToolStripButton();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.gpNodeMgmt = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.chkFBXMissingAc = new System.Windows.Forms.CheckBox();
             this.chkLDrawColourNameAcEquals = new System.Windows.Forms.CheckBox();
@@ -276,9 +276,9 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.gpSetStructure.SuspendLayout();
             this.toolStrip2.SuspendLayout();
-            this.groupBox8.SuspendLayout();
+            this.gpNodeMgmt.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPartSummary)).BeginInit();
             this.c.SuspendLayout();
@@ -738,27 +738,27 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.gpSetStructure);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox8);
+            this.splitContainer1.Panel2.Controls.Add(this.gpNodeMgmt);
             this.splitContainer1.Size = new System.Drawing.Size(1356, 670);
             this.splitContainer1.SplitterDistance = 328;
             this.splitContainer1.TabIndex = 32;
             // 
-            // groupBox1
+            // gpSetStructure
             // 
-            this.groupBox1.Controls.Add(this.tvSetSummary);
-            this.groupBox1.Controls.Add(this.pnlSetImage);
-            this.groupBox1.Controls.Add(this.toolStrip2);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(328, 670);
-            this.groupBox1.TabIndex = 28;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Set Structure";
+            this.gpSetStructure.Controls.Add(this.tvSetSummary);
+            this.gpSetStructure.Controls.Add(this.pnlSetImage);
+            this.gpSetStructure.Controls.Add(this.toolStrip2);
+            this.gpSetStructure.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpSetStructure.Location = new System.Drawing.Point(0, 0);
+            this.gpSetStructure.Name = "gpSetStructure";
+            this.gpSetStructure.Size = new System.Drawing.Size(328, 670);
+            this.gpSetStructure.TabIndex = 28;
+            this.gpSetStructure.TabStop = false;
+            this.gpSetStructure.Text = "Set Structure";
             // 
             // tvSetSummary
             // 
@@ -895,22 +895,22 @@
             this.btnSetClear.Text = "Clear";
             this.btnSetClear.Click += new System.EventHandler(this.btnSetClear_Click);
             // 
-            // groupBox8
+            // gpNodeMgmt
             // 
-            this.groupBox8.Controls.Add(this.groupBox3);
-            this.groupBox8.Controls.Add(this.gbPartDetails);
-            this.groupBox8.Controls.Add(this.gpStep);
-            this.groupBox8.Controls.Add(this.gpSubModel);
-            this.groupBox8.Controls.Add(this.gpModel);
-            this.groupBox8.Controls.Add(this.gpSubSet);
-            this.groupBox8.Controls.Add(this.gpSet);
-            this.groupBox8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox8.Location = new System.Drawing.Point(0, 0);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(1024, 670);
-            this.groupBox8.TabIndex = 33;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Node Management";
+            this.gpNodeMgmt.Controls.Add(this.groupBox3);
+            this.gpNodeMgmt.Controls.Add(this.gbPartDetails);
+            this.gpNodeMgmt.Controls.Add(this.gpStep);
+            this.gpNodeMgmt.Controls.Add(this.gpSubModel);
+            this.gpNodeMgmt.Controls.Add(this.gpModel);
+            this.gpNodeMgmt.Controls.Add(this.gpSubSet);
+            this.gpNodeMgmt.Controls.Add(this.gpSet);
+            this.gpNodeMgmt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpNodeMgmt.Location = new System.Drawing.Point(0, 0);
+            this.gpNodeMgmt.Name = "gpNodeMgmt";
+            this.gpNodeMgmt.Size = new System.Drawing.Size(1024, 670);
+            this.gpNodeMgmt.TabIndex = 33;
+            this.gpNodeMgmt.TabStop = false;
+            this.gpNodeMgmt.Text = "Node Management";
             // 
             // groupBox3
             // 
@@ -2435,11 +2435,11 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gpSetStructure.ResumeLayout(false);
+            this.gpSetStructure.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
-            this.groupBox8.ResumeLayout(false);
+            this.gpNodeMgmt.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPartSummary)).EndInit();
@@ -2527,7 +2527,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gpSetStructure;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton btnCollapseNodes;
         private System.Windows.Forms.ToolStripButton btnExpandAll;
@@ -2536,7 +2536,7 @@
         private System.Windows.Forms.ToolStripButton btnMoveDown;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripButton btnSetClear;
-        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.GroupBox gpNodeMgmt;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckBox chkIsSubPart;
         private System.Windows.Forms.DataGridView dgPartSummary;

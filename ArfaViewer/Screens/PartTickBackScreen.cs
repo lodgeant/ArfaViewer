@@ -825,7 +825,7 @@ namespace Generator
             }
         }
 
-        //TODO_H: This is duplicate code that is also used in the Generator screen.
+        //TODO: This is duplicate code that is also used in the Generator screen.
         private DataTable GeneratePartListTable(XmlNodeList partListNodeList)
         {
             try

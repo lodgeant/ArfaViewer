@@ -151,7 +151,6 @@
             // fldImportFilePath
             // 
             this.fldImportFilePath.BackColor = System.Drawing.Color.LightGray;
-            this.fldImportFilePath.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldImportFilePath.Name = "fldImportFilePath";
             this.fldImportFilePath.Size = new System.Drawing.Size(300, 25);
             this.fldImportFilePath.Text = "Z:\\static-data\\csv-sets\\Agents.csv";
@@ -275,7 +274,6 @@
             // fldSetRef
             // 
             this.fldSetRef.BackColor = System.Drawing.Color.LightGray;
-            this.fldSetRef.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSetRef.Name = "fldSetRef";
             this.fldSetRef.Size = new System.Drawing.Size(100, 25);
             // 
@@ -288,7 +286,6 @@
             // fldDescription
             // 
             this.fldDescription.BackColor = System.Drawing.Color.LightGray;
-            this.fldDescription.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldDescription.Name = "fldDescription";
             this.fldDescription.Size = new System.Drawing.Size(200, 25);
             // 
@@ -349,7 +346,6 @@
             // fldYear
             // 
             this.fldYear.BackColor = System.Drawing.Color.LightGray;
-            this.fldYear.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldYear.Name = "fldYear";
             this.fldYear.Size = new System.Drawing.Size(30, 25);
             // 
@@ -362,7 +358,6 @@
             // fldInstructionRefs
             // 
             this.fldInstructionRefs.BackColor = System.Drawing.Color.LightGray;
-            this.fldInstructionRefs.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldInstructionRefs.Name = "fldInstructionRefs";
             this.fldInstructionRefs.Size = new System.Drawing.Size(150, 25);
             // 
@@ -392,7 +387,6 @@
             // fldAssignedTo
             // 
             this.fldAssignedTo.BackColor = System.Drawing.Color.LightGray;
-            this.fldAssignedTo.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldAssignedTo.Name = "fldAssignedTo";
             this.fldAssignedTo.Size = new System.Drawing.Size(75, 25);
             // 
@@ -456,7 +450,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.gpThemeSummary);
             this.splitContainer1.Size = new System.Drawing.Size(1884, 530);
-            this.splitContainer1.SplitterDistance = 177;
+            this.splitContainer1.SplitterDistance = 240;
             this.splitContainer1.TabIndex = 30;
             // 
             // gpThemes
@@ -467,7 +461,7 @@
             this.gpThemes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpThemes.Location = new System.Drawing.Point(0, 0);
             this.gpThemes.Name = "gpThemes";
-            this.gpThemes.Size = new System.Drawing.Size(177, 530);
+            this.gpThemes.Size = new System.Drawing.Size(240, 530);
             this.gpThemes.TabIndex = 28;
             this.gpThemes.TabStop = false;
             this.gpThemes.Text = "Themes";
@@ -481,7 +475,7 @@
             this.tvThemesSummary.Location = new System.Drawing.Point(3, 41);
             this.tvThemesSummary.Name = "tvThemesSummary";
             this.tvThemesSummary.SelectedImageIndex = 0;
-            this.tvThemesSummary.Size = new System.Drawing.Size(171, 379);
+            this.tvThemesSummary.Size = new System.Drawing.Size(234, 379);
             this.tvThemesSummary.TabIndex = 87;
             this.tvThemesSummary.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvThemesSummary_AfterSelect);
             // 
@@ -497,7 +491,7 @@
             this.pnlThemeImage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlThemeImage.Location = new System.Drawing.Point(3, 420);
             this.pnlThemeImage.Name = "pnlThemeImage";
-            this.pnlThemeImage.Size = new System.Drawing.Size(171, 107);
+            this.pnlThemeImage.Size = new System.Drawing.Size(234, 107);
             this.pnlThemeImage.TabIndex = 86;
             // 
             // toolStrip2
@@ -510,7 +504,7 @@
             this.toolStripSeparator6});
             this.toolStrip2.Location = new System.Drawing.Point(3, 16);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(171, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(234, 25);
             this.toolStrip2.TabIndex = 27;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -559,7 +553,7 @@
             this.gpThemeSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpThemeSummary.Location = new System.Drawing.Point(0, 0);
             this.gpThemeSummary.Name = "gpThemeSummary";
-            this.gpThemeSummary.Size = new System.Drawing.Size(1703, 530);
+            this.gpThemeSummary.Size = new System.Drawing.Size(1640, 530);
             this.gpThemeSummary.TabIndex = 29;
             this.gpThemeSummary.TabStop = false;
             this.gpThemeSummary.Text = "Set Details Summary for Theme";
@@ -571,7 +565,7 @@
             this.dgSetDetailsSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgSetDetailsSummary.Location = new System.Drawing.Point(3, 41);
             this.dgSetDetailsSummary.Name = "dgSetDetailsSummary";
-            this.dgSetDetailsSummary.Size = new System.Drawing.Size(1697, 464);
+            this.dgSetDetailsSummary.Size = new System.Drawing.Size(1634, 464);
             this.dgSetDetailsSummary.TabIndex = 78;
             this.dgSetDetailsSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSetDetailsSummary_CellClick);
             // 
@@ -581,7 +575,7 @@
             this.lblSetDetailsCount});
             this.c.Location = new System.Drawing.Point(3, 505);
             this.c.Name = "c";
-            this.c.Size = new System.Drawing.Size(1697, 22);
+            this.c.Size = new System.Drawing.Size(1634, 22);
             this.c.TabIndex = 68;
             this.c.Text = "statusStrip2";
             // 
@@ -606,7 +600,7 @@
             this.fldLDrawColourNameAc});
             this.tsPartSummary.Location = new System.Drawing.Point(3, 16);
             this.tsPartSummary.Name = "tsPartSummary";
-            this.tsPartSummary.Size = new System.Drawing.Size(1697, 25);
+            this.tsPartSummary.Size = new System.Drawing.Size(1634, 25);
             this.tsPartSummary.TabIndex = 27;
             this.tsPartSummary.Text = "toolStrip4";
             // 
@@ -647,7 +641,6 @@
             // toolStripTextBox1
             // 
             this.toolStripTextBox1.BackColor = System.Drawing.Color.Wheat;
-            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 25);
             // 
@@ -660,7 +653,6 @@
             // fldLDrawRefAc
             // 
             this.fldLDrawRefAc.BackColor = System.Drawing.Color.Wheat;
-            this.fldLDrawRefAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawRefAc.Name = "fldLDrawRefAc";
             this.fldLDrawRefAc.Size = new System.Drawing.Size(100, 25);
             // 
@@ -674,7 +666,6 @@
             // fldLDrawColourNameAc
             // 
             this.fldLDrawColourNameAc.BackColor = System.Drawing.Color.Wheat;
-            this.fldLDrawColourNameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawColourNameAc.Name = "fldLDrawColourNameAc";
             this.fldLDrawColourNameAc.Size = new System.Drawing.Size(125, 25);
             // 

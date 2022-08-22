@@ -17,7 +17,6 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Files.Shares;
 using BaseClasses;
 using System.Net.Http;
-
 using System.Runtime.Serialization.Json;
 using System.Xml.Linq;
 
@@ -40,8 +39,7 @@ namespace Generator
                 lblStatus.Text = "";
                 log.Info(".......................................................................APPLICATION STARTED.......................................................................");
 
-                // ** Generate Proxy API & StaticData **
-                //Global_Variables.APIProxy = new APIProxy(Global_Variables.AzureStorageConnString, Global_Variables.AzureDBConnString);
+                // ** Generate Proxy API **
                 Global_Variables.APIProxy = new APIProxy();
 
 
@@ -96,7 +94,7 @@ namespace Generator
 
         private void btnShowGeneratorScreen_Click(object sender, EventArgs e)
         {
-            Generator form = new Generator("");
+            InstructionViewer form = new InstructionViewer("");
             form.Visible = true;
         }
 
@@ -128,7 +126,7 @@ namespace Generator
 
         private void btnSyncFBXFiles_Click(object sender, EventArgs e)
         {
-            Generator.SyncFBXFiles();
+            InstructionViewer.SyncFBXFiles();
         }
 
         private void btnShowPartTickBackScreen_Click(object sender, EventArgs e)
@@ -167,6 +165,10 @@ namespace Generator
         }
 
 
+
+
+
+        // ######################################################################################################################################################
 
         #region ** UpdateLDrawStaticDataDetails FUNCTIONS **
         // NEED TO UPDATE THIS TO USE ASYNC & AWAIT
@@ -1068,10 +1070,6 @@ namespace Generator
             //    MessageBox.Show(ex.Message);
             //}
         }
-
-        // ######################################################################################################################################################
-
-       
 
         // NEED TO UPDATE THE BELOW TO USE ASYNC & AWAIT
 

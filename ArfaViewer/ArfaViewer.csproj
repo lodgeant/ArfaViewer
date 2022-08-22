@@ -26,7 +26,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>https://lodgeaccount.blob.core.windows.net/click-once/ArfaViewer/</InstallUrl>
-    <ApplicationRevision>39</ApplicationRevision>
+    <ApplicationRevision>40</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -209,11 +209,11 @@
       <DependentUpon>PartTickBackScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Delegates.cs" />
-    <Compile Include="Screens\Generator.cs">
+    <Compile Include="Screens\InstructionViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Screens\Generator.Designer.cs">
-      <DependentUpon>Generator.cs</DependentUpon>
+    <Compile Include="Screens\InstructionViewer.Designer.cs">
+      <DependentUpon>InstructionViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Global_Variables.cs" />
     <Compile Include="Screens\MainScreen.cs">
@@ -242,8 +242,8 @@
     <Compile Include="Screens\SetDetailsScreen.Designer.cs">
       <DependentUpon>SetDetailsScreen.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Screens\Generator.resx">
-      <DependentUpon>Generator.cs</DependentUpon>
+    <EmbeddedResource Include="Screens\InstructionViewer.resx">
+      <DependentUpon>InstructionViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Screens\MainScreen.resx">
       <DependentUpon>MainScreen.cs</DependentUpon>

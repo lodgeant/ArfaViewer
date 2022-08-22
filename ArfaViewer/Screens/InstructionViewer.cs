@@ -25,7 +25,7 @@ using System.Net.Http;
 
 namespace Generator
 {
-    public partial class Generator : Form
+    public partial class InstructionViewer : Form
     {
         // ** Variables **
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -38,7 +38,7 @@ namespace Generator
         private string lastSelectedNodeFullPath = "";
 
 
-        public Generator(string prePopulatedSetRef)
+        public InstructionViewer(string prePopulatedSetRef)
         {
             InitializeComponent();
             try
@@ -1142,8 +1142,7 @@ namespace Generator
                 tabControl1.Enabled = value;                
                 chkShowPartcolourImages.Enabled = value;
                 chkShowElementImages.Enabled = value;
-                chkShowFBXDetails.Enabled = value;
-                //pnlSetImage.Enabled = value;
+                chkShowFBXDetails.Enabled = value;                
             }
         }
 
@@ -3689,23 +3688,6 @@ namespace Generator
 
         #endregion
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         #region ** GET LDRAW DATA FUNCTIONS - DEMISED **
 
         //public static string GetLDrawFileDetails(string LDrawRef)
@@ -5081,9 +5063,9 @@ namespace Generator
                 }
                 string Description = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentModelRef + "']/@Description").InnerXml;
                 string MiniFigRef = Description.Split('_')[0];
-                
-                // ** SHow new form **
-                Generator form = new Generator("");
+
+                // ** Show new form **
+                InstructionViewer form = new InstructionViewer("");
                 form.Visible = true;
                 form.fldCurrentSetRef.Text = MiniFigRef;
                 form.LoadSet();
