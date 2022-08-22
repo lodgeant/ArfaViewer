@@ -76,6 +76,12 @@ namespace Generator
             return Global_Variables.APIProxy.CheckIfPDFInstructionsExistForSet(setRef);
         }
 
+        public static bool CheckIfSetDetailExists(string SetRef)
+        {
+            return Global_Variables.APIProxy.CheckIfSetDetailExists(SetRef);
+        }
+
+
 
         // ** PartColour functions **
 

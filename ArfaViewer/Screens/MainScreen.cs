@@ -77,7 +77,7 @@ namespace Generator
                 //BlobClient blob = new BlobContainerClient(AzureStorageConnString, "images-element").GetBlobClient(itemRef + ".png");
                 //bool test = blob.Exists();
 
-
+                
 
             }
             catch (Exception ex)
@@ -165,7 +165,6 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
-
 
 
 

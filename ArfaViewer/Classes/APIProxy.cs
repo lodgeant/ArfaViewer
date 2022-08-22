@@ -28,9 +28,7 @@ using Microsoft.Data.SqlClient;
 namespace Generator
 {
     public class APIProxy
-    {
-        //public string AzureStorageConnString;
-        //public string AzureDBConnString;
+    {        
         private string UnityLegoPartPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";    // Used for SyncFBXFiles
         private string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
         private string AzureDBConnString = "Server=tcp:arfa-db.database.windows.net,1433;Initial Catalog=ArfaDB;Persist Security Info=False;User ID=lodgeant;Password=Sammy_Lodge123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
@@ -446,7 +444,7 @@ namespace Generator
             sql += sd.MiniFigCount + ",";
             sql += "'" + sd.Status + "',";
             sql += "'" + sd.AssignedTo + "',";
-            sql += "'" + sd.Instructions + "',";
+            sql += "'" + sd.Instructions.Replace("'", "''") + "',";
             sql += "'" + String.Join(",", sd.InstructionRefList) + "'";
             sql += ")";
 
@@ -478,7 +476,7 @@ namespace Generator
             sql += "MINIFIG_COUNT=" + sd.MiniFigCount + ",";
             sql += "STATUS='" + sd.Status + "',";
             sql += "ASSIGNED_TO='" + sd.AssignedTo + "',";
-            sql += "INSTRUCTIONS='" + sd.Instructions + "',";
+            sql += "INSTRUCTIONS='" + sd.Instructions.Replace("'", "''") + "',";
             sql += "INSTRUCTION_REFS='" + String.Join(",", sd.InstructionRefList) + "'";
             sql += " WHERE REF='" + sd.Ref + "'";
 
@@ -491,6 +489,15 @@ namespace Generator
             ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
             return share.Exists();
         }
+
+        public bool CheckIfSetDetailExists(string setRef)
+        {
+            bool exists = false;
+            SetDetailsCollection coll = GetSetDetailsData_UsingSetRefList(new List<string>() { setRef });
+            if (coll.SetDetailsList.Count > 0) exists = true;
+            return exists;
+        }
+
 
 
 

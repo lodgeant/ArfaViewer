@@ -33,12 +33,17 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.toolStripLabel10 = new System.Windows.Forms.ToolStripLabel();
+            this.fldImportFilePath = new System.Windows.Forms.ToolStripTextBox();
+            this.fldImportFilePathBrowse = new System.Windows.Forms.ToolStripButton();
+            this.btnImportSetDetailsFromCSVFile = new System.Windows.Forms.ToolStripButton();
+            this.gpSetDetails = new System.Windows.Forms.GroupBox();
+            this.statusStrip2 = new System.Windows.Forms.StatusStrip();
+            this.pbStatus = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.btnUploadInstructionsFromWeb = new System.Windows.Forms.ToolStripButton();
-            this.pbStatus = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripLabel19 = new System.Windows.Forms.ToolStripLabel();
-            this.lblStatus = new System.Windows.Forms.ToolStripLabel();
             this.tsPartDetails = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.fldSetRef = new System.Windows.Forms.ToolStripTextBox();
@@ -64,9 +69,8 @@
             this.btnSetDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnOpenInViewer = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gpThemes = new System.Windows.Forms.GroupBox();
             this.tvThemesSummary = new System.Windows.Forms.TreeView();
             this.ilTheme = new System.Windows.Forms.ImageList(this.components);
             this.pnlThemeImage = new System.Windows.Forms.Panel();
@@ -76,7 +80,7 @@
             this.btnCollapseNodes = new System.Windows.Forms.ToolStripButton();
             this.btnExpandAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gpThemeSummary = new System.Windows.Forms.GroupBox();
             this.dgSetDetailsSummary = new System.Windows.Forms.DataGridView();
             this.c = new System.Windows.Forms.StatusStrip();
             this.lblSetDetailsCount = new System.Windows.Forms.ToolStripStatusLabel();
@@ -93,16 +97,17 @@
             this.fldLDrawColourNameAc = new System.Windows.Forms.ToolStripTextBox();
             this.ilThemeTemplate = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip1.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.gpSetDetails.SuspendLayout();
+            this.statusStrip2.SuspendLayout();
             this.toolStrip3.SuspendLayout();
             this.tsPartDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.gpThemes.SuspendLayout();
             this.toolStrip2.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.gpThemeSummary.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSetDetailsSummary)).BeginInit();
             this.c.SuspendLayout();
             this.tsPartSummary.SuspendLayout();
@@ -112,10 +117,14 @@
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnExit,
-            this.toolStripSeparator1});
+            this.toolStripSeparator1,
+            this.toolStripLabel10,
+            this.fldImportFilePath,
+            this.fldImportFilePathBrowse,
+            this.btnImportSetDetailsFromCSVFile});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(2195, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1884, 25);
             this.toolStrip1.TabIndex = 26;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -133,28 +142,80 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // groupBox3
+            // toolStripLabel10
             // 
-            this.groupBox3.Controls.Add(this.toolStrip3);
-            this.groupBox3.Controls.Add(this.tsPartDetails);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox3.Location = new System.Drawing.Point(0, 530);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(2195, 123);
-            this.groupBox3.TabIndex = 29;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Set Details";
+            this.toolStripLabel10.Name = "toolStripLabel10";
+            this.toolStripLabel10.Size = new System.Drawing.Size(52, 22);
+            this.toolStripLabel10.Text = "FilePath:";
+            // 
+            // fldImportFilePath
+            // 
+            this.fldImportFilePath.BackColor = System.Drawing.Color.LightGray;
+            this.fldImportFilePath.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldImportFilePath.Name = "fldImportFilePath";
+            this.fldImportFilePath.Size = new System.Drawing.Size(300, 25);
+            this.fldImportFilePath.Text = "Z:\\static-data\\csv-sets\\Agents.csv";
+            // 
+            // fldImportFilePathBrowse
+            // 
+            this.fldImportFilePathBrowse.BackColor = System.Drawing.Color.Pink;
+            this.fldImportFilePathBrowse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fldImportFilePathBrowse.Name = "fldImportFilePathBrowse";
+            this.fldImportFilePathBrowse.Size = new System.Drawing.Size(23, 22);
+            this.fldImportFilePathBrowse.Text = "...";
+            // 
+            // btnImportSetDetailsFromCSVFile
+            // 
+            this.btnImportSetDetailsFromCSVFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnImportSetDetailsFromCSVFile.Name = "btnImportSetDetailsFromCSVFile";
+            this.btnImportSetDetailsFromCSVFile.Size = new System.Drawing.Size(178, 22);
+            this.btnImportSetDetailsFromCSVFile.Text = "Import Set Details from CSV File";
+            this.btnImportSetDetailsFromCSVFile.Click += new System.EventHandler(this.btnImportSetDetailsFromCSVFile_Click);
+            // 
+            // gpSetDetails
+            // 
+            this.gpSetDetails.Controls.Add(this.statusStrip2);
+            this.gpSetDetails.Controls.Add(this.toolStrip3);
+            this.gpSetDetails.Controls.Add(this.tsPartDetails);
+            this.gpSetDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.gpSetDetails.Location = new System.Drawing.Point(0, 555);
+            this.gpSetDetails.Name = "gpSetDetails";
+            this.gpSetDetails.Size = new System.Drawing.Size(1884, 98);
+            this.gpSetDetails.TabIndex = 29;
+            this.gpSetDetails.TabStop = false;
+            this.gpSetDetails.Text = "Set Details";
+            // 
+            // statusStrip2
+            // 
+            this.statusStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pbStatus,
+            this.lblStatus});
+            this.statusStrip2.Location = new System.Drawing.Point(3, 73);
+            this.statusStrip2.Name = "statusStrip2";
+            this.statusStrip2.Size = new System.Drawing.Size(1878, 22);
+            this.statusStrip2.TabIndex = 78;
+            this.statusStrip2.Text = "statusStrip2";
+            // 
+            // pbStatus
+            // 
+            this.pbStatus.ForeColor = System.Drawing.Color.Lime;
+            this.pbStatus.Name = "pbStatus";
+            this.pbStatus.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(52, 17);
+            this.lblStatus.Text = "lblStatus";
             // 
             // toolStrip3
             // 
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnUploadInstructionsFromWeb,
-            this.pbStatus,
-            this.toolStripLabel19,
-            this.lblStatus});
+            this.toolStripLabel19});
             this.toolStrip3.Location = new System.Drawing.Point(3, 41);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(2189, 25);
+            this.toolStrip3.Size = new System.Drawing.Size(1878, 25);
             this.toolStrip3.TabIndex = 77;
             this.toolStrip3.Text = "toolStrip5";
             // 
@@ -167,21 +228,10 @@
             this.btnUploadInstructionsFromWeb.Text = "Upload Ins. from Web";
             this.btnUploadInstructionsFromWeb.Click += new System.EventHandler(this.btnUploadInstructionsFromWeb_Click);
             // 
-            // pbStatus
-            // 
-            this.pbStatus.Name = "pbStatus";
-            this.pbStatus.Size = new System.Drawing.Size(100, 22);
-            // 
             // toolStripLabel19
             // 
             this.toolStripLabel19.Name = "toolStripLabel19";
             this.toolStripLabel19.Size = new System.Drawing.Size(0, 22);
-            // 
-            // lblStatus
-            // 
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(52, 22);
-            this.lblStatus.Text = "lblStatus";
             // 
             // tsPartDetails
             // 
@@ -209,11 +259,10 @@
             this.btnSetSave,
             this.btnSetDelete,
             this.toolStripSeparator2,
-            this.btnOpenInViewer,
-            this.toolStripSeparator5});
+            this.btnOpenInViewer});
             this.tsPartDetails.Location = new System.Drawing.Point(3, 16);
             this.tsPartDetails.Name = "tsPartDetails";
-            this.tsPartDetails.Size = new System.Drawing.Size(2189, 25);
+            this.tsPartDetails.Size = new System.Drawing.Size(1878, 25);
             this.tsPartDetails.TabIndex = 76;
             this.tsPartDetails.Text = "toolStrip5";
             // 
@@ -393,11 +442,6 @@
             this.btnOpenInViewer.Text = "Open In Viewer";
             this.btnOpenInViewer.Click += new System.EventHandler(this.btnOpenInViewer_Click);
             // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -406,27 +450,27 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.gpThemes);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer1.Size = new System.Drawing.Size(2195, 505);
-            this.splitContainer1.SplitterDistance = 207;
+            this.splitContainer1.Panel2.Controls.Add(this.gpThemeSummary);
+            this.splitContainer1.Size = new System.Drawing.Size(1884, 530);
+            this.splitContainer1.SplitterDistance = 177;
             this.splitContainer1.TabIndex = 30;
             // 
-            // groupBox1
+            // gpThemes
             // 
-            this.groupBox1.Controls.Add(this.tvThemesSummary);
-            this.groupBox1.Controls.Add(this.pnlThemeImage);
-            this.groupBox1.Controls.Add(this.toolStrip2);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(207, 505);
-            this.groupBox1.TabIndex = 28;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Themes";
+            this.gpThemes.Controls.Add(this.tvThemesSummary);
+            this.gpThemes.Controls.Add(this.pnlThemeImage);
+            this.gpThemes.Controls.Add(this.toolStrip2);
+            this.gpThemes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpThemes.Location = new System.Drawing.Point(0, 0);
+            this.gpThemes.Name = "gpThemes";
+            this.gpThemes.Size = new System.Drawing.Size(177, 530);
+            this.gpThemes.TabIndex = 28;
+            this.gpThemes.TabStop = false;
+            this.gpThemes.Text = "Themes";
             // 
             // tvThemesSummary
             // 
@@ -437,7 +481,7 @@
             this.tvThemesSummary.Location = new System.Drawing.Point(3, 41);
             this.tvThemesSummary.Name = "tvThemesSummary";
             this.tvThemesSummary.SelectedImageIndex = 0;
-            this.tvThemesSummary.Size = new System.Drawing.Size(201, 354);
+            this.tvThemesSummary.Size = new System.Drawing.Size(171, 379);
             this.tvThemesSummary.TabIndex = 87;
             this.tvThemesSummary.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvThemesSummary_AfterSelect);
             // 
@@ -451,9 +495,9 @@
             // 
             this.pnlThemeImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnlThemeImage.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlThemeImage.Location = new System.Drawing.Point(3, 395);
+            this.pnlThemeImage.Location = new System.Drawing.Point(3, 420);
             this.pnlThemeImage.Name = "pnlThemeImage";
-            this.pnlThemeImage.Size = new System.Drawing.Size(201, 107);
+            this.pnlThemeImage.Size = new System.Drawing.Size(171, 107);
             this.pnlThemeImage.TabIndex = 86;
             // 
             // toolStrip2
@@ -466,7 +510,7 @@
             this.toolStripSeparator6});
             this.toolStrip2.Location = new System.Drawing.Point(3, 16);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(201, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(171, 25);
             this.toolStrip2.TabIndex = 27;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -507,18 +551,18 @@
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
             // 
-            // groupBox2
+            // gpThemeSummary
             // 
-            this.groupBox2.Controls.Add(this.dgSetDetailsSummary);
-            this.groupBox2.Controls.Add(this.c);
-            this.groupBox2.Controls.Add(this.tsPartSummary);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1984, 505);
-            this.groupBox2.TabIndex = 29;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Set Details Summary for Theme";
+            this.gpThemeSummary.Controls.Add(this.dgSetDetailsSummary);
+            this.gpThemeSummary.Controls.Add(this.c);
+            this.gpThemeSummary.Controls.Add(this.tsPartSummary);
+            this.gpThemeSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpThemeSummary.Location = new System.Drawing.Point(0, 0);
+            this.gpThemeSummary.Name = "gpThemeSummary";
+            this.gpThemeSummary.Size = new System.Drawing.Size(1703, 530);
+            this.gpThemeSummary.TabIndex = 29;
+            this.gpThemeSummary.TabStop = false;
+            this.gpThemeSummary.Text = "Set Details Summary for Theme";
             // 
             // dgSetDetailsSummary
             // 
@@ -527,7 +571,7 @@
             this.dgSetDetailsSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgSetDetailsSummary.Location = new System.Drawing.Point(3, 41);
             this.dgSetDetailsSummary.Name = "dgSetDetailsSummary";
-            this.dgSetDetailsSummary.Size = new System.Drawing.Size(1978, 439);
+            this.dgSetDetailsSummary.Size = new System.Drawing.Size(1697, 464);
             this.dgSetDetailsSummary.TabIndex = 78;
             this.dgSetDetailsSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSetDetailsSummary_CellClick);
             // 
@@ -535,9 +579,9 @@
             // 
             this.c.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblSetDetailsCount});
-            this.c.Location = new System.Drawing.Point(3, 480);
+            this.c.Location = new System.Drawing.Point(3, 505);
             this.c.Name = "c";
-            this.c.Size = new System.Drawing.Size(1978, 22);
+            this.c.Size = new System.Drawing.Size(1697, 22);
             this.c.TabIndex = 68;
             this.c.Text = "statusStrip2";
             // 
@@ -562,7 +606,7 @@
             this.fldLDrawColourNameAc});
             this.tsPartSummary.Location = new System.Drawing.Point(3, 16);
             this.tsPartSummary.Name = "tsPartSummary";
-            this.tsPartSummary.Size = new System.Drawing.Size(1978, 25);
+            this.tsPartSummary.Size = new System.Drawing.Size(1697, 25);
             this.tsPartSummary.TabIndex = 27;
             this.tsPartSummary.Text = "toolStrip4";
             // 
@@ -644,16 +688,18 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2195, 653);
+            this.ClientSize = new System.Drawing.Size(1884, 653);
             this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.gpSetDetails);
             this.Controls.Add(this.toolStrip1);
             this.Name = "SetDetailsScreen";
             this.Text = "SetDetailsScreen";
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.gpSetDetails.ResumeLayout(false);
+            this.gpSetDetails.PerformLayout();
+            this.statusStrip2.ResumeLayout(false);
+            this.statusStrip2.PerformLayout();
             this.toolStrip3.ResumeLayout(false);
             this.toolStrip3.PerformLayout();
             this.tsPartDetails.ResumeLayout(false);
@@ -662,12 +708,12 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gpThemes.ResumeLayout(false);
+            this.gpThemes.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.gpThemeSummary.ResumeLayout(false);
+            this.gpThemeSummary.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSetDetailsSummary)).EndInit();
             this.c.ResumeLayout(false);
             this.c.PerformLayout();
@@ -683,7 +729,7 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btnExit;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox gpSetDetails;
         private System.Windows.Forms.ToolStrip tsPartDetails;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox fldSetRef;
@@ -706,14 +752,14 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel7;
         private System.Windows.Forms.ToolStripComboBox fldStatus;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gpThemes;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton btnThemesRefresh;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
         private System.Windows.Forms.ToolStripButton btnCollapseNodes;
         private System.Windows.Forms.ToolStripButton btnExpandAll;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gpThemeSummary;
         private System.Windows.Forms.DataGridView dgSetDetailsSummary;
         private System.Windows.Forms.StatusStrip c;
         private System.Windows.Forms.ToolStripStatusLabel lblSetDetailsCount;
@@ -730,17 +776,21 @@
         private System.Windows.Forms.ToolStripTextBox fldLDrawColourNameAc;
         private System.Windows.Forms.ToolStripLabel toolStripLabel8;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripLabel toolStripLabel9;
         private System.Windows.Forms.ToolStripTextBox fldInstructionRefs;
         private System.Windows.Forms.ToolStrip toolStrip3;
         private System.Windows.Forms.ToolStripButton btnUploadInstructionsFromWeb;
-        private System.Windows.Forms.ToolStripProgressBar pbStatus;
         private System.Windows.Forms.ToolStripLabel toolStripLabel19;
-        private System.Windows.Forms.ToolStripLabel lblStatus;
         private System.Windows.Forms.ImageList ilTheme;
         private System.Windows.Forms.ImageList ilThemeTemplate;
         private System.Windows.Forms.TreeView tvThemesSummary;
         private System.Windows.Forms.Panel pnlThemeImage;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel10;
+        private System.Windows.Forms.ToolStripTextBox fldImportFilePath;
+        private System.Windows.Forms.ToolStripButton fldImportFilePathBrowse;
+        private System.Windows.Forms.ToolStripButton btnImportSetDetailsFromCSVFile;
+        private System.Windows.Forms.StatusStrip statusStrip2;
+        private System.Windows.Forms.ToolStripProgressBar pbStatus;
+        private System.Windows.Forms.ToolStripStatusLabel lblStatus;
     }
 }

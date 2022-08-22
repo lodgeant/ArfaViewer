@@ -35,7 +35,6 @@ namespace Generator
         private string lastSelectedNodeFullPath = "";
 
 
-
         public SetDetailsScreen()
         {
             InitializeComponent();
@@ -69,7 +68,8 @@ namespace Generator
                 fldStatus.SelectedIndex = 0;
                 #endregion
 
-                RefreshScreen();
+                // ** Refresh Screen **
+                RefreshThemeTreeview();
             }
             catch (Exception ex)
             {
@@ -107,7 +107,7 @@ namespace Generator
 
         private void btnThemesRefresh_Click(object sender, EventArgs e)
         {
-            RefreshScreen();
+            RefreshThemeTreeview();
         }
 
         private void btnOpenInViewer_Click(object sender, EventArgs e)
@@ -125,11 +125,125 @@ namespace Generator
             UploadInstructionsFromWeb();
         }
 
+        private void btnImportSetDetailsFromCSVFile_Click(object sender, EventArgs e)
+        {
+            ImportSetDetails();
+        }
+
         #endregion
 
-        #region ** REFRESH FUNCTIONS **
+        #region ** REFRESH THEME TREEVIEW FUNCTIONS **
 
-        private void RefreshScreen()
+        //private void RefreshThemeTreeview_OLD()
+        //{
+        //    try
+        //    {
+        //        // ** Get all Theme Details from SET_DETAILS **
+        //        BaseClasses.ThemeDetailsCollection ThemeDetailsCollection = StaticData.GetAllThemeDetails();
+
+        //        // ** Convert ThemeDetails into TreeNode **
+        //        TreeNode[] ThemeTreeNodes = ThemeDetailsCollection.ConvertToTreeNodeList();
+
+        //        // ** Add Theme counts **                
+        //        ThemeTreeNodes = UpdateThemeCounts(ThemeTreeNodes);
+
+        //        // ** Add images to Themes & SubThemes **
+        //        ThemeTreeNodes = UpdateThemeImages(ThemeTreeNodes);
+                
+        //        // ** Set tvThemesSummary **
+        //        tvThemesSummary.Nodes.Clear();
+        //        tvThemesSummary.Nodes.AddRange(ThemeTreeNodes);
+
+        //        // ** Set Theme dropdown values **
+        //        fldTheme.Items.Clear();
+        //        foreach(ThemeDetails td in ThemeDetailsCollection.ThemeDetailsList) fldTheme.Items.Add(td.Theme);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
+
+        private BackgroundWorker bw_RefreshThemeTreeview;
+
+        private void EnableControls_RefreshThemeTreeview(bool value)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => EnableControls_RefreshThemeTreeview(value)));
+            }
+            else
+            {
+                btnExit.Enabled = value;
+                fldImportFilePath.Enabled = value;
+                fldImportFilePathBrowse.Enabled = value;
+                btnImportSetDetailsFromCSVFile.Enabled = value;
+                gpThemes.Enabled = value;
+                gpThemeSummary.Enabled = value;
+                gpSetDetails.Enabled = value;
+            }
+        }
+
+        private void RefreshThemeTreeview()
+        {
+            try
+            {
+                EnableControls_RefreshThemeTreeview(false);
+
+                // ** Reset imagelists **
+                ilTheme.Images.Clear();
+                ilTheme.Images.Add(ilThemeTemplate.Images[0]);
+
+                // ** Run background to process functions **
+                bw_RefreshThemeTreeview = new BackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                };
+                bw_RefreshThemeTreeview.DoWork += new DoWorkEventHandler(bw_RefreshThemeTreeview_DoWork);
+                bw_RefreshThemeTreeview.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RefreshThemeTreeview_RunWorkerCompleted);
+                bw_RefreshThemeTreeview.ProgressChanged += new ProgressChangedEventHandler(bw_RefreshThemeTreeview_ProgressChanged);
+                bw_RefreshThemeTreeview.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                //Delegates.ToolStripButton_SetText(this, btnRefreshStaticData, "Refresh Static Data");
+                //btnRefreshStaticData.ForeColor = Color.Black;
+                pbStatus.Value = 0;
+                EnableControls_RefreshThemeTreeview(true);
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshThemeTreeview_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, e.ProgressPercentage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshThemeTreeview_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                //Delegates.ToolStripButton_SetTextAndForeColor(this, btnRefreshStaticData, "Refresh Static Data", Color.Black);
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                EnableControls_RefreshThemeTreeview(true);
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshThemeTreeview_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -139,19 +253,37 @@ namespace Generator
                 // ** Convert ThemeDetails into TreeNode **
                 TreeNode[] ThemeTreeNodes = ThemeDetailsCollection.ConvertToTreeNodeList();
 
-                // ** Add Theme counts **                
+                // ** Get all image data up front **
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting Theme image data...");
+                Delegates.ToolStripProgressBar_SetMax(this, pbStatus, ThemeTreeNodes.Length);
+                int imageIndex = 0;
+                foreach(ThemeDetails td in ThemeDetailsCollection.ThemeDetailsList)
+                {
+                    bw_RefreshThemeTreeview.ReportProgress(imageIndex, "Working...");
+                    string theme = td.Theme;
+                    ArfaImage.GetImage(ImageType.THEME, new string[] { theme });
+                    foreach(string subTheme in td.SubThemeList) ArfaImage.GetImage(ImageType.THEME, new string[] { subTheme });                    
+                    imageIndex += 1;
+                }
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+
+                // ** Add Theme counts **
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "Adding Theme counts...");
                 ThemeTreeNodes = UpdateThemeCounts(ThemeTreeNodes);
 
                 // ** Add images to Themes & SubThemes **
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "Adding Theme images...");
                 ThemeTreeNodes = UpdateThemeImages(ThemeTreeNodes);
-                
-                // ** Set tvThemesSummary **
-                tvThemesSummary.Nodes.Clear();
-                tvThemesSummary.Nodes.AddRange(ThemeTreeNodes);
+
+                // ** Set tvThemesSummary **                
+                Delegates.TreeView_ClearNodes(this, tvThemesSummary);
+                Delegates.TreeView_AddRange(this, tvThemesSummary, ThemeTreeNodes);
 
                 // ** Set Theme dropdown values **
-                fldTheme.Items.Clear();
-                foreach(ThemeDetails td in ThemeDetailsCollection.ThemeDetailsList) fldTheme.Items.Add(td.Theme);
+                List<string> themeList = new List<string>();
+                foreach (ThemeDetails td in ThemeDetailsCollection.ThemeDetailsList) themeList.Add(td.Theme);                
+                Delegates.ToolStripComboBox_ClearItems(this, fldTheme);
+                Delegates.ToolStripComboBox_AddItems(this, fldTheme, themeList);
             }
             catch (Exception ex)
             {
@@ -181,9 +313,7 @@ namespace Generator
 
         private TreeNode[] UpdateThemeImages(TreeNode[] ThemeTreeNodes)
         {
-            int imageCount = 1;
-            ilTheme.Images.Clear();
-            ilTheme.Images.Add(ilThemeTemplate.Images[0]);
+            int imageCount = 1;            
             foreach (TreeNode themeNode in ThemeTreeNodes)
             {
                 // Get Theme + SubTheme image
@@ -194,16 +324,12 @@ namespace Generator
                 int imageIndex = 0;
                 if (themeImage != null)
                 {                    
-                    ilTheme.Images.Add(themeImage);
+                    Delegates.ImageList_AddItem(this, ilTheme, themeImage);
                     imageIndex = imageCount;
                     imageCount += 1;
                 }
                 themeNode.ImageIndex = imageIndex;
                 themeNode.SelectedImageIndex = imageIndex;
-
-
-
-
 
                 // ** Check for Sub Themes **
                 if (themeNode.Nodes.Count > 0)
@@ -217,8 +343,8 @@ namespace Generator
                         // Add image to Theme imagelist
                         int subTheme_imageIndex = 0;
                         if (subThemeImage != null)
-                        {
-                            ilTheme.Images.Add(subThemeImage);
+                        {                           
+                            Delegates.ImageList_AddItem(this, ilTheme, subThemeImage);
                             subTheme_imageIndex = imageCount;
                             imageCount += 1;
                         }
@@ -226,20 +352,11 @@ namespace Generator
                         subThemeNode.SelectedImageIndex = subTheme_imageIndex;
                     }
                 }
-
             }
             return ThemeTreeNodes;
         }
 
         #endregion
-
-
-
-
-
-
-
-
 
         #region ** TREENODE FUNCTIONS **
 
@@ -273,7 +390,7 @@ namespace Generator
                 string theme = tvThemesSummary.SelectedNode.Tag.ToString();
                 pnlThemeImage.BackgroundImage = ArfaImage.GetImage(ImageType.THEME, new string[] { theme });
 
-                // ** Refresh Screen **
+                // ** Refresh Set Details Summary **
                 RefreshSetDetailsSummary();
             }
             catch (Exception ex)
@@ -300,34 +417,111 @@ namespace Generator
             }
         }
 
+        #endregion
+
+        #region ** REFRESH SET DETAILS SUMMARY FUNCTIONS **
+
+        private BackgroundWorker bw_RefreshSetDetailsSummary;
+
+        private void EnableControls_RefreshSetDetailsSummary(bool value)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => EnableControls_RefreshSetDetailsSummary(value)));
+            }
+            else
+            {
+                btnExit.Enabled = value;
+                fldImportFilePath.Enabled = value;
+                fldImportFilePathBrowse.Enabled = value;
+                btnImportSetDetailsFromCSVFile.Enabled = value;
+                gpThemes.Enabled = value;
+                gpThemeSummary.Enabled = value;
+                gpSetDetails.Enabled = value;
+            }
+        }
+
         private void RefreshSetDetailsSummary()
         {
             try
             {
-                // ** Clear fields **
+                EnableControls_RefreshSetDetailsSummary(false);
+
+                // ** CLEAR FIELDS ** 
+                //tvSetSummary.Nodes.Clear();
+                //TextArea.Text = "";
+                //TextArea2.Text = "";
+                //dgPartListSummary.DataSource = null;
+                //lblPartListCount.Text = "";
+                //dgPartListWithMFsSummary.DataSource = null;
+                //lblPartListWithMFsCount.Text = "";
                 dgSetDetailsSummary.DataSource = null;
                 lblSetDetailsCount.Text = "";
 
-                // ** Determine Theme & SubTheme **                
-                //List<string> themeStringList = tvThemesSummary.SelectedNode.Tag.ToString().Split('|').ToList();
-                List<string> themeStringList = lastSelectedNode.Tag.ToString().Split('|').ToList();
-                string theme = themeStringList[0];
-                string subTheme = "";
-                if (themeStringList.Count > 1) subTheme = themeStringList[1];
 
-                // Get SetDetails for Theme & SubTheme
-                BaseClasses.SetDetailsCollection coll = StaticData.GetSetDetailsData_UsingThemeAndSubTheme(theme, subTheme);
+                // ** Run background to process functions **
+                bw_RefreshSetDetailsSummary = new BackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                };
+                bw_RefreshSetDetailsSummary.DoWork += new DoWorkEventHandler(bw_RefreshSetDetailsSummary_DoWork);
+                bw_RefreshSetDetailsSummary.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RefreshSetDetailsSummary_RunWorkerCompleted);
+                //bw_RefreshSetDetailsSummary.ProgressChanged += new ProgressChangedEventHandler(bw_RefreshScreen_ProgressChanged);
+                bw_RefreshSetDetailsSummary.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                //Delegates.ToolStripButton_SetText(this, btnRefreshStaticData, "Refresh Static Data");
+                //btnRefreshStaticData.ForeColor = Color.Black;
+                pbStatus.Value = 0;
+                EnableControls_RefreshSetDetailsSummary(true);
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+                MessageBox.Show(ex.Message);
+            }
+        }
 
-                // ** Post Set Details data **
-                DataTable setDetailsTable = GenerateSetDetailsTable(coll);
-                setDetailsTable.DefaultView.Sort = "Theme, Sub Theme, Ref";
-                setDetailsTable = setDetailsTable.DefaultView.ToTable();
-                Delegates.DataGridView_SetDataSource(this, dgSetDetailsSummary, setDetailsTable);
-                AdjustSetDetailsSummaryRowFormatting(dgSetDetailsSummary);
+        private void bw_RefreshSetDetailsSummary_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                //Delegates.ToolStripButton_SetTextAndForeColor(this, btnRefreshStaticData, "Refresh Static Data", Color.Black);
+                //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                EnableControls_RefreshSetDetailsSummary(true);
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
-                // ** Update summary label **
-                int setCount = setDetailsTable.Rows.Count;                
-                Delegates.ToolStripLabel_SetText(this, lblSetDetailsCount, setCount.ToString("#,##0") + " Set(s)");
+        private void bw_RefreshSetDetailsSummary_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                // ** Determine Theme & SubTheme **
+                if(lastSelectedNode != null)
+                {
+                    List<string> themeStringList = lastSelectedNode.Tag.ToString().Split('|').ToList();
+                    string theme = themeStringList[0];
+                    string subTheme = "";
+                    if (themeStringList.Count > 1) subTheme = themeStringList[1];
+
+                    // Get SetDetails for Theme & SubTheme
+                    BaseClasses.SetDetailsCollection coll = StaticData.GetSetDetailsData_UsingThemeAndSubTheme(theme, subTheme);
+
+                    // ** Post Set Details data **
+                    DataTable setDetailsTable = GenerateSetDetailsTable(coll);
+                    setDetailsTable.DefaultView.Sort = "Theme, Sub Theme, Ref";
+                    setDetailsTable = setDetailsTable.DefaultView.ToTable();
+                    Delegates.DataGridView_SetDataSource(this, dgSetDetailsSummary, setDetailsTable);
+                    AdjustSetDetailsSummaryRowFormatting(dgSetDetailsSummary);
+
+                    // ** Update summary label **
+                    int setCount = setDetailsTable.Rows.Count;
+                    Delegates.ToolStripLabel_SetText(this, lblSetDetailsCount, setCount.ToString("#,##0") + " Set(s)");
+                }               
             }
             catch (Exception ex)
             {
@@ -339,6 +533,23 @@ namespace Generator
         {
             try
             {
+                #region ** GET DATA UPFRONT **                
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Set Detail Summary - Getting image and instruction data...");
+                Delegates.ToolStripProgressBar_SetMax(this, pbStatus, coll.SetDetailsList.Count);
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                Dictionary<string, bool> SetInstructionsExist = new Dictionary<string, bool>();
+                int index = 0;                
+                foreach (SetDetails sd in coll.SetDetailsList)
+                {
+                    Delegates.ToolStripProgressBar_SetValue(this, pbStatus, index);
+                    if(SetInstructionsExist.ContainsKey(sd.Ref) == false) SetInstructionsExist.Add(sd.Ref, false);                   
+                    SetInstructionsExist[sd.Ref] = StaticData.CheckIfPDFInstructionsExistForSet(sd.Ref);
+                    ArfaImage.GetImage(ImageType.SET, new string[] { sd.Ref });
+                    index += 1;
+                }
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);                
+                #endregion
+
                 // ** GENERATE COLUMNS **
                 DataTable setDetailsTable = new DataTable("SetDetailsTable", "SetDetailsTable");
                 setDetailsTable.Columns.Add("Set Image", typeof(Bitmap));
@@ -375,8 +586,8 @@ namespace Generator
                     newRow["MiniFig Count"] = sd.MiniFigCount;
                     newRow["Status"] = sd.Status;
                     newRow["Assigned To"] = sd.AssignedTo;
-                    newRow["Instruction Refs"] = String.Join(",", sd.InstructionRefList);
-                    newRow["Instructions Exist"] = StaticData.CheckIfPDFInstructionsExistForSet(sd.Ref);
+                    newRow["Instruction Refs"] = String.Join(",", sd.InstructionRefList);                    
+                    newRow["Instructions Exist"] = SetInstructionsExist[sd.Ref];
                     setDetailsTable.Rows.Add(newRow);
                 }
                 return setDetailsTable;
@@ -480,7 +691,7 @@ namespace Generator
                
                 // ** Tidy Up **
                 ClearAllSetDetailsFields();
-                RefreshScreen();
+                RefreshThemeTreeview();
                 RefreshSetDetailsSummary();
             }
             catch (Exception ex)
@@ -506,7 +717,7 @@ namespace Generator
 
                 // ** Tidy Up **
                 ClearAllSetDetailsFields();
-                RefreshScreen();
+                RefreshThemeTreeview();
                 RefreshSetDetailsSummary();
             }
             catch (Exception ex)
@@ -528,6 +739,7 @@ namespace Generator
             fldStatus.SelectedIndex = 0;
             fldAssignedTo.Text = "";
             fldInstructionRefs.Text = "";
+            //pnlThemeImage.BackgroundImage = null;
         }
 
         private void OpenSetInViewer()
@@ -552,10 +764,6 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
-
-
-        #endregion
-
 
         private void dgSetDetailsSummary_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -733,6 +941,179 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
+
+        #endregion
+
+        #region ** IMPORT SET DETAILS FUNCTIONS **
+
+        private BackgroundWorker bw_ImportSetDetails;        
+        private string importFilePath = "";
+        private int importedSetCount = 0;
+        private int ignoredSetCount = 0;
+
+        private void EnableControls_ImportSetDetails(bool value)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => EnableControls_ImportSetDetails(value)));
+            }
+            else
+            {
+                btnExit.Enabled = value;
+                fldImportFilePath.Enabled = value;
+                fldImportFilePathBrowse.Enabled = value;
+                btnImportSetDetailsFromCSVFile.Enabled = value;
+                gpThemes.Enabled = value;
+                gpThemeSummary.Enabled = value;
+                gpSetDetails.Enabled = value;
+            }
+        }
+
+        private void ImportSetDetails()
+        {
+            try
+            {
+                // ** Validation **
+                if (fldImportFilePath.Text.Equals("")) throw new Exception("No File Path entered...");
+                importFilePath = fldImportFilePath.Text;
+                if(File.Exists(importFilePath) == false) throw new Exception("File Path doesn't exist...");
+
+                EnableControls_ImportSetDetails(false);
+
+                // ** Run background to process functions **
+                bw_ImportSetDetails = new BackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                };
+                bw_ImportSetDetails.DoWork += new DoWorkEventHandler(bw_ImportSetDetails_DoWork);
+                bw_ImportSetDetails.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_ImportSetDetails_RunWorkerCompleted);
+                bw_ImportSetDetails.ProgressChanged += new ProgressChangedEventHandler(bw_ImportSetDetails_ProgressChanged);
+                bw_ImportSetDetails.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                //Delegates.ToolStripButton_SetText(this, btnRefreshStaticData, "Refresh Static Data");
+                //btnRefreshStaticData.ForeColor = Color.Black;
+                pbStatus.Value = 0;
+                //EnableControls_RefreshStaticData(true);
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+                MessageBox.Show(ex.Message);
+            }
+        }
+               
+        private void bw_ImportSetDetails_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, e.ProgressPercentage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_ImportSetDetails_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                //Delegates.ToolStripButton_SetTextAndForeColor(this, btnRefreshStaticData, "Refresh Static Data", Color.Black);
+                //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                //EnableControls_ImportSetDetails(true);
+                //Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+                if (importedSetCount > 0)
+                {
+                    RefreshThemeTreeview();
+                    RefreshSetDetailsSummary();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_ImportSetDetails_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {               
+                // ** Get Set Details from CSV file **                
+                string[] fileLines = File.ReadAllLines(importFilePath);
+                
+                // ** Cycle through each line **
+                Delegates.ToolStripProgressBar_SetMax(this, pbStatus, fileLines.Length);
+                importedSetCount = 0;
+                ignoredSetCount = 0;
+                int lineIndex = 0;
+                foreach (string line in fileLines)
+                {
+                    if (lineIndex > 0)
+                    {
+                        bw_ImportSetDetails.ReportProgress(lineIndex, "Working...");
+
+                        // ** Get variables **
+                        string[] columnDetails = line.Split(',');
+                        string setRef = columnDetails[0];
+                        string setDescription = columnDetails[1];
+                        List<string> themeDetails = columnDetails[2].Split('-').ToList();
+                        string theme = themeDetails[0].Trim();
+                        string subTheme = "";
+                        if (themeDetails.Count > 1) subTheme = themeDetails[1].Trim();
+                        int setYear = int.Parse(columnDetails[3]);
+
+                        // Check if set already exists - if so, don't import again.
+                        Delegates.ToolStripLabel_SetText(this, lblStatus, "Importing file | Processed (" + lineIndex.ToString("#,##0") + " of " + fileLines.Length.ToString("#,##0") + ") " + setRef + ": " + setDescription);
+                        bool exists = StaticData.CheckIfSetDetailExists(setRef);
+                        if(exists)
+                        {
+                            ignoredSetCount += 1;
+                        }
+                        else
+                        {
+                            // ** Generate new Set Details object **
+                            SetDetails setDetails = new SetDetails();
+                            setDetails.Ref = setRef;
+                            setDetails.Description = setDescription;
+                            setDetails.Type = "OFFICIAL";
+                            setDetails.Theme = theme;
+                            setDetails.SubTheme = subTheme;
+                            setDetails.Year = setYear;
+                            setDetails.Status = "NOT_STARTED";
+                            setDetails.PartCount = 0;
+                            setDetails.SubSetCount = 1;
+                            setDetails.ModelCount = 1;
+                            setDetails.MiniFigCount = 0;
+
+                            // ** Generate base instructions and add to Set Details **
+                            Set set = Set.GenerateBaseSet(setRef, setDescription, "OFFICIAL");
+                            setDetails.Instructions = set.SerializeToString(true);
+
+                            // ** Add Set to DB **
+                            StaticData.AddSetDetails(setDetails);
+
+                            // ** Get image for set and upload to BLOB **
+                            ArfaImage.GetImage(ImageType.SET, new string[] { setDetails.Ref });
+
+                            importedSetCount += 1;
+                        }
+                    }
+                    lineIndex += 1;
+                }
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                EnableControls_ImportSetDetails(true);
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+
+                // ** Show confirmation **  
+                MessageBox.Show("Successfully uploaded " + importedSetCount + " sets..." + ignoredSetCount + " were ignored.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+             
+        #endregion
 
 
 

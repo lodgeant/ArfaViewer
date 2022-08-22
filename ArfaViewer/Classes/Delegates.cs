@@ -95,6 +95,26 @@ namespace Generator
             }
         }
 
+        public static void ToolStripComboBox_ClearItems(Form obj, ToolStripComboBox tscb)
+        {
+            if (obj.InvokeRequired)
+            {
+                obj.BeginInvoke(new MethodInvoker(() => ToolStripComboBox_ClearItems(obj, tscb)));
+            }
+            else
+            {
+                tscb.Items.Clear();
+                
+            }
+        }
+
+
+
+        
+
+
+
+
         public static void DataGridView_SetDataSource(Form obj, DataGridView dg, object source)
         {
             if (obj.InvokeRequired)
@@ -132,6 +152,19 @@ namespace Generator
                 tv.Nodes.Add(tn);
             }
         }
+
+        public static void TreeView_AddRange(Form obj, TreeView tv, TreeNode[] tns)
+        {
+            if (obj.InvokeRequired)
+            {
+                obj.BeginInvoke(new MethodInvoker(() => TreeView_AddRange(obj, tv, tns)));
+            }
+            else
+            {
+                tv.Nodes.AddRange(tns);
+            }
+        }
+
 
         public static void TreeView_ClearNodes(Form obj, TreeView tv)
         {
@@ -187,7 +220,19 @@ namespace Generator
 
 
 
-        
+
+
+        public static void ImageList_AddItem(Form obj, ImageList il, Bitmap image)
+        {
+            if (obj.InvokeRequired)
+            {
+                obj.BeginInvoke(new MethodInvoker(() => ImageList_AddItem(obj, il, image)));
+            }
+            else
+            {
+                il.Images.Add(image);                
+            }
+        }
 
 
 
