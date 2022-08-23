@@ -12,7 +12,18 @@ namespace BaseClasses
     public class PartColourCollection
     {
         [XmlElement("PartColour")]
-        public List<PartColour> PartColourList = new List<PartColour>();
+        public List<PartColour> PartColourList { get; set; }
+
+
+        public PartColourCollection()
+        {
+            PartColourList = new List<PartColour>();
+        }
+            
+
+
+
+
 
         public string SerializeToString(bool omitDeclaration)
         {

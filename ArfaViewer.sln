@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArfaViewer", "ArfaViewer\Ar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseClasses", "BaseClasses\BaseClasses.csproj", "{120079BA-3D0A-43CC-AA45-5FFD50721DEA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI1", "..\WebAPI1\WebAPI1\WebAPI1.csproj", "{0E6CDA2C-47F2-40DC-9219-84773C121CF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{120079BA-3D0A-43CC-AA45-5FFD50721DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{120079BA-3D0A-43CC-AA45-5FFD50721DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{120079BA-3D0A-43CC-AA45-5FFD50721DEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E6CDA2C-47F2-40DC-9219-84773C121CF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E6CDA2C-47F2-40DC-9219-84773C121CF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E6CDA2C-47F2-40DC-9219-84773C121CF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E6CDA2C-47F2-40DC-9219-84773C121CF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

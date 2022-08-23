@@ -33,11 +33,11 @@ namespace Generator
         private string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
         private string AzureDBConnString = "Server=tcp:arfa-db.database.windows.net,1433;Initial Catalog=ArfaDB;Persist Security Info=False;User ID=lodgeant;Password=Sammy_Lodge123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         private string RebrickableKey = "856437d0f14f81e4d3356d27bf1b419e";
+        
 
 
 
 
-          
 
 
         public bool CheckIfBlobExists(string containerName, string blobName)
@@ -148,25 +148,33 @@ namespace Generator
             }
             return image;
         }
-                
+
 
 
         // ** PartColour Functions **
 
-        public PartColourCollection GetPartColourData_All()
-        {
-            // ** Generate PartColourCollection from xml data in Blob **
-            //BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient("PartColourCollection.xml");
-            //string xmlString = DownloadBlobToXMLString(blob);
-            //PartColourCollection coll = new PartColourCollection().DeserialiseFromXMLString(xmlString);
+        //public PartColourCollection GetPartColourData_All_OLD()
+        //{
+        //    // ** Generate PartColourCollection from xml data in Blob **
+        //    //BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient("PartColourCollection.xml");
+        //    //string xmlString = DownloadBlobToXMLString(blob);
+        //    //PartColourCollection coll = new PartColourCollection().DeserialiseFromXMLString(xmlString);
 
-            // ** Generate PartColourCollection from PARTCOLOUR data in database **
-            String sql = "SELECT LDRAW_COLOUR_ID,LDRAW_COLOUR_NAME,LDRAW_COLOUR_HEX,LDRAW_COLOUR_ALPHA FROM PARTCOLOUR";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            PartColourCollection coll = PartColourCollection.GetPartColourCollectionFromDataTable(results);
+        //    // ** Generate PartColourCollection from PARTCOLOUR data in database **
+        //    String sql = "SELECT LDRAW_COLOUR_ID,LDRAW_COLOUR_NAME,LDRAW_COLOUR_HEX,LDRAW_COLOUR_ALPHA FROM PARTCOLOUR";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    PartColourCollection coll = PartColourCollection.GetPartColourCollectionFromDataTable(results);
 
-            return coll;
-        }
+        //    return coll;
+        //}
+
+        //public PartColourCollection GetPartColourData_All()
+        //{           
+        //    string url = "https://arfabrickviewer.azurewebsites.net/source/GetPartColourData_All";
+        //    string JSONString = GetJSONResponseFromURL(url);
+        //    PartColourCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<PartColourCollection>(JSONString);
+        //    return coll;
+        //}
 
         public PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)
         {
@@ -188,7 +196,7 @@ namespace Generator
             String sql = "SELECT LDRAW_COLOUR_ID FROM PARTCOLOUR WHERE LDRAW_COLOUR_NAME='" + LDrawColourName + "'";
             var results = GetSQLQueryResults(this.AzureDBConnString, sql);
             int result = (int)results.Rows[0]["LDRAW_COLOUR_ID"];
-            return result;
+            return result;            
         }
 
         public string GetLDrawColourName_UsingLDrawColourID(int LDrawColourID)
@@ -1110,7 +1118,22 @@ namespace Generator
             }            
         }
 
-
+        //private static string GetJSONResponseFromURL(string url)
+        //{
+        //    string JSONString = "";
+        //    using (var httpClient = new HttpClient())
+        //    {
+        //        using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
+        //        {
+        //            request.Headers.TryAddWithoutValidation("Accept", "application/json");
+        //            var task = Task.Run(() => httpClient.SendAsync(request));
+        //            task.Wait();
+        //            var response = task.Result;
+        //            if (response.StatusCode == HttpStatusCode.OK) JSONString = response.Content.ReadAsStringAsync().Result;
+        //        }
+        //    }
+        //    return JSONString;
+        //}
 
 
     }

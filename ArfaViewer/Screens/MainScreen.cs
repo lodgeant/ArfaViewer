@@ -75,7 +75,7 @@ namespace Generator
                 //BlobClient blob = new BlobContainerClient(AzureStorageConnString, "images-element").GetBlobClient(itemRef + ".png");
                 //bool test = blob.Exists();
 
-                
+                //APITest();
 
             }
             catch (Exception ex)
@@ -164,7 +164,35 @@ namespace Generator
             }
         }
 
+        //private void APITest()
+        //{
+        //    try
+        //    {
 
+        //        string url = "https://arfabrickviewer.azurewebsites.net/source/GetPartColourData_All";
+        //        string JSONString = "";
+        //        using (var httpClient = new HttpClient())
+        //        {
+        //            using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
+        //            {
+        //                request.Headers.TryAddWithoutValidation("Accept", "application/json");
+        //                var task = Task.Run(() => httpClient.SendAsync(request));
+        //                task.Wait();
+        //                var response = task.Result;
+        //                if (response.StatusCode == HttpStatusCode.OK)
+        //                {
+        //                    JSONString = response.Content.ReadAsStringAsync().Result;
+        //                }
+        //            }
+        //        }
+        //        PartColourCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<PartColourCollection>(JSONString);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
 
 
 
@@ -1390,5 +1418,8 @@ namespace Generator
         }
 
         
+        
+
+
     }
 }

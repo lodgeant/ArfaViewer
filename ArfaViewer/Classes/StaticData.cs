@@ -10,6 +10,11 @@ using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Drawing;
 using BaseClasses;
+using System.Runtime.Serialization.Json;
+using System.Net.Http;
+
+
+
 
 namespace Generator
 {
@@ -33,7 +38,7 @@ namespace Generator
 
         // ** SetDetails Functions **
 
-        public static BaseClasses.SetDetails GetSetDetails(string SetRef)
+        public static SetDetails GetSetDetails(string SetRef)
         {
             SetDetails sd = null;
             SetDetailsCollection sdc = Global_Variables.APIProxy.GetSetDetailsData_UsingSetRefList(new List<string>() { SetRef });
@@ -51,17 +56,17 @@ namespace Generator
             Global_Variables.APIProxy.UpdateSetDetailsCounts_UsingSetRef(SetRef, PartCount, SubSetCount, ModelCount, MiniFigCount);
         }
 
-        public static BaseClasses.SetDetailsCollection GetSetDetailsData_UsingThemeAndSubTheme(string theme, string subTheme)
+        public static SetDetailsCollection GetSetDetailsData_UsingThemeAndSubTheme(string theme, string subTheme)
         {
             return Global_Variables.APIProxy.GetSetDetailsData_UsingThemeAndSubTheme(theme, subTheme);
         }
 
-        public static void AddSetDetails(BaseClasses.SetDetails sd)
+        public static void AddSetDetails(SetDetails sd)
         {
             Global_Variables.APIProxy.AddSetDetails(sd);
         }
 
-        public static void UpdateSetDetails(BaseClasses.SetDetails sd)
+        public static void UpdateSetDetails(SetDetails sd)
         {
             Global_Variables.APIProxy.UpdateSetDetails(sd);
         }
@@ -104,8 +109,14 @@ namespace Generator
             //return LDrawColourID;
 
             // ** Get data from API **
-            return Global_Variables.APIProxy.GetLDrawColourID_UsingLDrawColourName(LDrawColourName);
+            //return Global_Variables.APIProxy.GetLDrawColourID_UsingLDrawColourName(LDrawColourName);
+
+            string url = Global_Variables.APIUrl + "GetLDrawColourID_UsingLDrawColourName?LDrawColourName=" + LDrawColourName;
+            string JSONString = GetJSONResponseFromURL(url);
+            return int.Parse(JSONString);
         }
+
+
 
         public static string GetLDrawColourName(int LDrawColourID)
         {
@@ -150,6 +161,14 @@ namespace Generator
             // ** Get data from API **
             return Global_Variables.APIProxy.GetAllLDrawColourNames();
         }
+
+
+       
+
+
+
+
+
 
 
         // ** BasePart functions **
@@ -310,7 +329,22 @@ namespace Generator
             return Global_Variables.APIProxy.GetMiniFigXMLDict(setXML);
         }
 
-
+        public static string GetJSONResponseFromURL(string url)
+        {
+            string JSONString = "";
+            using (var httpClient = new HttpClient())
+            {
+                using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
+                {
+                    request.Headers.TryAddWithoutValidation("Accept", "application/json");
+                    var task = Task.Run(() => httpClient.SendAsync(request));
+                    task.Wait();
+                    var response = task.Result;
+                    if (response.StatusCode == HttpStatusCode.OK) JSONString = response.Content.ReadAsStringAsync().Result;
+                }
+            }
+            return JSONString;
+        }
 
 
 

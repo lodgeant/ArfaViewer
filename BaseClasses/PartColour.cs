@@ -12,17 +12,17 @@ namespace BaseClasses
     public class PartColour
     {
         [XmlAttribute("LDrawColourID")]
-        public int LDrawColourID;
+        public int LDrawColourID { get; set; }
 
         [XmlAttribute("LDrawColourName")]
-        public string LDrawColourName;
+        public string LDrawColourName { get; set; }
 
         [XmlAttribute("LDrawColourHex")]
-        public string LDrawColourHex;
+        public string LDrawColourHex { get; set; }
 
         [XmlAttribute("LDrawColourAlpha")]
-        public int LDrawColourAlpha;
-                
+        public int LDrawColourAlpha { get; set; }
+
         //public int LegoColourID;
         //public string LegoColourName;
         //public int BrickLinkColourID;
