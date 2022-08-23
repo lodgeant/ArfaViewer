@@ -33,66 +33,17 @@ namespace Generator
         }
 
 
-
-
-
-        // ** SetDetails Functions **
-
-        public static SetDetails GetSetDetails(string SetRef)
-        {
-            SetDetails sd = null;
-            SetDetailsCollection sdc = Global_Variables.APIProxy.GetSetDetailsData_UsingSetRefList(new List<string>() { SetRef });
-            if (sdc.SetDetailsList.Count > 0) sd = sdc.SetDetailsList[0];            
-            return sd;
-        }
-
-        public static void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
-        {
-            Global_Variables.APIProxy.UpdateSetDetailsInstructions_UsingSetRef(setRef, xmlString);
-        }
-
-        public static void UpdateSetDetailsCounts_UsingSetRef(string SetRef, int PartCount, int SubSetCount, int ModelCount, int MiniFigCount)
-        {
-            Global_Variables.APIProxy.UpdateSetDetailsCounts_UsingSetRef(SetRef, PartCount, SubSetCount, ModelCount, MiniFigCount);
-        }
-
-        public static SetDetailsCollection GetSetDetailsData_UsingThemeAndSubTheme(string theme, string subTheme)
-        {
-            return Global_Variables.APIProxy.GetSetDetailsData_UsingThemeAndSubTheme(theme, subTheme);
-        }
-
-        public static void AddSetDetails(SetDetails sd)
-        {
-            Global_Variables.APIProxy.AddSetDetails(sd);
-        }
-
-        public static void UpdateSetDetails(SetDetails sd)
-        {
-            Global_Variables.APIProxy.UpdateSetDetails(sd);
-        }
-
-        public static void DeleteSetDetails(string SetRef)
-        {
-            Global_Variables.APIProxy.DeleteSetDetails(SetRef);
-        }
-
-        public static bool CheckIfPDFInstructionsExistForSet(string setRef)
-        {
-            return Global_Variables.APIProxy.CheckIfPDFInstructionsExistForSet(setRef);
-        }
-
-        public static bool CheckIfSetDetailExists(string SetRef)
-        {
-            return Global_Variables.APIProxy.CheckIfSetDetailExists(SetRef);
-        }
-
-
-
         // ** PartColour functions **
 
-        public static BaseClasses.PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)
+        public static PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)
         {
-            return Global_Variables.APIProxy.GetPartColourData_UsingLDrawColourIDList(IDList);
+            //return Global_Variables.APIProxy.GetPartColourData_UsingLDrawColourIDList(IDList);
+
+            string url = Global_Variables.APIUrl + "GetPartColourData_UsingLDrawColourIDList?";
+            foreach (int id in IDList) url += "IDList=" + id + "&";
+            string JSONString = GetJSONResponseFromURL(url);
+            PartColourCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<PartColourCollection>(JSONString);
+            return coll;
         }
 
         public static int GetLDrawColourID(string LDrawColourName)
@@ -102,12 +53,6 @@ namespace Generator
             //                    where r.LDrawColourName == LDrawColourName
             //                    select r.LDrawColourID).FirstOrDefault();
 
-            // ** Get data from PARTCOLOUR database table **
-            //String sql = "SELECT LDRAW_COLOUR_ID FROM PARTCOLOUR WHERE LDRAW_COLOUR_NAME='" + LDrawColourName + "'";
-            //var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);
-            //int LDrawColourID = (int)results.Rows[0]["LDRAW_COLOUR_ID"];
-            //return LDrawColourID;
-
             // ** Get data from API **
             //return Global_Variables.APIProxy.GetLDrawColourID_UsingLDrawColourName(LDrawColourName);
 
@@ -115,8 +60,6 @@ namespace Generator
             string JSONString = GetJSONResponseFromURL(url);
             return int.Parse(JSONString);
         }
-
-
 
         public static string GetLDrawColourName(int LDrawColourID)
         {
@@ -128,42 +71,118 @@ namespace Generator
             //                          where r.LDrawColourID == LDrawColourID
             //                          select r.LDrawColourName).FirstOrDefault();
 
-            // ** Get data from PARTCOLOUR database table **
-            //String sql = "SELECT LDRAW_COLOUR_NAME FROM PARTCOLOUR WHERE LDRAW_COLOUR_ID=" + LDrawColourID;
-            //var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);           
-            //string LDrawColourName = (string)results.Rows[0]["LDRAW_COLOUR_NAME"];            
-            //return LDrawColourName;
-
             // ** Get data from API **
-            return Global_Variables.APIProxy.GetLDrawColourName_UsingLDrawColourID(LDrawColourID);
+            //return Global_Variables.APIProxy.GetLDrawColourName_UsingLDrawColourID(LDrawColourID);
+
+            string url = Global_Variables.APIUrl + "GetLDrawColourName_UsingLDrawColourID?LDrawColourID=" + LDrawColourID;
+            string JSONString = GetJSONResponseFromURL(url);
+            return JSONString;
         }
 
         public static List<string> GetAllLDrawColourNames()
         {
-            //List<string> partColourNameList = new List<string>();
-
-            ////XmlNodeList LDrawColourNameNodeList = Global_Variables.PartColourCollectionXML.SelectNodes("//PartColour/@LDrawColourName");
-            ////partColourNameList =    LDrawColourNameNodeList.Cast<XmlNode>()
-            ////                        .Select(x => x.InnerText)
-            ////                        .OrderBy(x => x).ToList();
-            ////partColourNameList =   (from r in Global_Variables.PartColourCollection.PartColourList
-            ////                        select r.LDrawColourName).OrderBy(x => x).ToList();
-
-            //// ** Get data from PARTCOLOUR database table **
-            //String sql = "SELECT LDRAW_COLOUR_NAME FROM PARTCOLOUR ORDER BY LDRAW_COLOUR_NAME";
-            //var results = GetSQLQueryResults(Global_Variables.AzureDBConnString, sql);            
-            //foreach(DataRow row in results.Rows)
-            //{                
-            //    partColourNameList.Add((string)row["LDRAW_COLOUR_NAME"]);
-            //}
-            //return partColourNameList;
-
             // ** Get data from API **
-            return Global_Variables.APIProxy.GetAllLDrawColourNames();
+            //return Global_Variables.APIProxy.GetAllLDrawColourNames();
+
+            string url = Global_Variables.APIUrl + "GetAllLDrawColourNames";
+            string JSONString = GetJSONResponseFromURL(url);
+            List<string> partColourNameList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(JSONString);
+            return partColourNameList;
         }
 
 
-       
+
+        // ** SetDetails Functions **
+
+        public static SetDetails GetSetDetails(string SetRef)
+        {
+            //SetDetails sd = null;
+            //SetDetailsCollection sdc = Global_Variables.APIProxy.GetSetDetailsData_UsingSetRefList(new List<string>() { SetRef });
+            //if (sdc.SetDetailsList.Count > 0) sd = sdc.SetDetailsList[0];            
+            //return sd;
+
+            SetDetails sd = null;
+            string url = Global_Variables.APIUrl + "GetSetDetailsData_UsingSetRefList?IDList=" + SetRef;
+            string JSONString = GetJSONResponseFromURL(url);
+            SetDetailsCollection sdc = Newtonsoft.Json.JsonConvert.DeserializeObject<SetDetailsCollection>(JSONString);
+            if (sdc.SetDetailsList.Count > 0) sd = sdc.SetDetailsList[0];
+            return sd;
+        }
+
+        public static SetDetailsCollection GetSetDetailsData_UsingThemeAndSubTheme(string theme, string subTheme)
+        {
+            //return Global_Variables.APIProxy.GetSetDetailsData_UsingThemeAndSubTheme(theme, subTheme);
+
+            string url = Global_Variables.APIUrl + "GetSetDetailsData_UsingThemeAndSubTheme?theme=" + theme;
+            if(subTheme != "") url += "&subTheme=" + subTheme;            
+            string JSONString = GetJSONResponseFromURL(url);
+            SetDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetDetailsCollection>(JSONString);
+            return coll;
+        }
+
+        public static void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
+        {
+            //Global_Variables.APIProxy.UpdateSetDetailsInstructions_UsingSetRef(setRef, xmlString);
+
+            string url = Global_Variables.APIUrl + "UpdateSetDetailsInstructions_UsingSetRef?setRef=" + setRef + "&xmlString=" + xmlString;
+            PostRequestFromURL(url);            
+        }
+
+        public static void UpdateSetDetailsCounts_UsingSetRef(string SetRef, int PartCount, int SubSetCount, int ModelCount, int MiniFigCount)
+        {
+            //Global_Variables.APIProxy.UpdateSetDetailsCounts_UsingSetRef(SetRef, PartCount, SubSetCount, ModelCount, MiniFigCount);
+
+            string url = Global_Variables.APIUrl + "UpdateSetDetailsCounts_UsingSetRef?SetRef=" + SetRef + "&PartCount=" + PartCount + "&SubSetCount=" + SubSetCount + "&ModelCount=" + ModelCount + "&MiniFigCount=" + MiniFigCount;
+            PostRequestFromURL(url);
+        }
+
+        public static void AddSetDetails(SetDetails sd)
+        {
+            //Global_Variables.APIProxy.AddSetDetails(sd);
+
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(sd);
+            string url = Global_Variables.APIUrl + "AddSetDetails";
+            PostJSONRequestFromURL(url, json);
+        }
+
+        public static void UpdateSetDetails(SetDetails sd)
+        {
+            //Global_Variables.APIProxy.UpdateSetDetails(sd);
+
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(sd);
+            string url = Global_Variables.APIUrl + "UpdateSetDetails";
+            PostJSONRequestFromURL(url, json);
+        }
+
+        public static void DeleteSetDetails(string SetRef)
+        {
+            //Global_Variables.APIProxy.DeleteSetDetails(SetRef);
+
+            string url = Global_Variables.APIUrl + "DeleteSetDetails?setRef=" + SetRef;
+            PostRequestFromURL(url);
+        }
+
+        public static bool CheckIfPDFInstructionsExistForSet(string setRef)
+        {
+            //return Global_Variables.APIProxy.CheckIfPDFInstructionsExistForSet(setRef);
+
+            string url = Global_Variables.APIUrl + "CheckIfPDFInstructionsExistForSet?setRef=" + setRef;
+            string JSONString = GetJSONResponseFromURL(url);
+            return bool.Parse(JSONString);
+        }
+
+        public static bool CheckIfSetDetailExists(string SetRef)
+        {
+            //return Global_Variables.APIProxy.CheckIfSetDetailExists(SetRef);
+
+            string url = Global_Variables.APIUrl + "CheckIfSetDetailExists?setRef=" + SetRef;
+            string JSONString = GetJSONResponseFromURL(url);
+            return bool.Parse(JSONString);
+        }
+
+
+
+
 
 
 
@@ -173,7 +192,7 @@ namespace Generator
 
         // ** BasePart functions **
 
-        public static BaseClasses.BasePartCollection GetBasePartData_UsingLDrawRefList(List<string> IDList)
+        public static BasePartCollection GetBasePartData_UsingLDrawRefList(List<string> IDList)
         {  
             return Global_Variables.APIProxy.GetBasePartData_UsingLDrawRefList(IDList);
         }
@@ -344,6 +363,47 @@ namespace Generator
                 }
             }
             return JSONString;
+        }
+
+        public static void PostRequestFromURL(string url)
+        {            
+            using (var httpClient = new HttpClient())
+            {
+                using (var request = new HttpRequestMessage(new HttpMethod("POST"), url))
+                {
+                    request.Headers.TryAddWithoutValidation("accept", "*/*");
+                    request.Content = new StringContent("");
+                    request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+                    var task = Task.Run(() => httpClient.SendAsync(request));
+                    task.Wait();
+                    var response = task.Result;
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new Exception("Request failed: " + response.StatusCode);
+                    }
+                }
+            }            
+        }
+
+        public static void PostJSONRequestFromURL(string url, string content)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                using (var request = new HttpRequestMessage(new HttpMethod("POST"), url))
+                {
+                    request.Headers.TryAddWithoutValidation("accept", "*/*");
+                    request.Content = new StringContent(content);
+                    request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    
+                    var task = Task.Run(() => httpClient.SendAsync(request));
+                    task.Wait();
+                    var response = task.Result;
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new Exception("Request failed: " + response.StatusCode);
+                    }
+                }
+            }
         }
 
 

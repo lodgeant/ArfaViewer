@@ -28,12 +28,12 @@ using Microsoft.Data.SqlClient;
 namespace Generator
 {
     public class APIProxy
-    {        
+    {
         private string UnityLegoPartPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";    // Used for SyncFBXFiles
         private string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
         private string AzureDBConnString = "Server=tcp:arfa-db.database.windows.net,1433;Initial Catalog=ArfaDB;Persist Security Info=False;User ID=lodgeant;Password=Sammy_Lodge123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         private string RebrickableKey = "856437d0f14f81e4d3356d27bf1b419e";
-        
+
 
 
 
@@ -99,7 +99,7 @@ namespace Generator
             #endregion
 
             BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
-            if(blob.Exists())
+            if (blob.Exists())
             {
                 image = DownloadBlobToBitmap(blob);
             }
@@ -135,14 +135,14 @@ namespace Generator
                         }
                     }
                     if (imageb != null && imageb.Length > 0)
-                    {                        
+                    {
                         // ** Upload the image to Azure **                        
                         BlobClient newBlob = new BlobContainerClient(this.AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
                         using (var ms = new MemoryStream(imageb))
                         {
                             newBlob.Upload(ms, true);
                             image = new Bitmap(ms);
-                        }                        
+                        }
                     }
                 }
             }
@@ -150,7 +150,7 @@ namespace Generator
         }
 
 
-
+        // ** Functions - MOVED TO API **
         // ** PartColour Functions **
 
         //public PartColourCollection GetPartColourData_All_OLD()
@@ -176,53 +176,201 @@ namespace Generator
         //    return coll;
         //}
 
-        public PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)
-        {
-            // ** Generate PartColourCollection from PARTCOLOUR data in database **
-            PartColourCollection coll = new PartColourCollection();
-            if (IDList.Count > 0)
-            {
-                string sql = "SELECT LDRAW_COLOUR_ID,LDRAW_COLOUR_NAME,LDRAW_COLOUR_HEX,LDRAW_COLOUR_ALPHA FROM PARTCOLOUR ";
-                sql += "WHERE LDRAW_COLOUR_ID IN (" + string.Join(",", IDList) + ")";
-                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-                coll = PartColourCollection.GetPartColourCollectionFromDataTable(results);
-            }
-            return coll;
-        }
+        //public PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)
+        //{
+        //    // ** Generate PartColourCollection from PARTCOLOUR data in database **
+        //    PartColourCollection coll = new PartColourCollection();
+        //    if (IDList.Count > 0)
+        //    {
+        //        string sql = "SELECT LDRAW_COLOUR_ID,LDRAW_COLOUR_NAME,LDRAW_COLOUR_HEX,LDRAW_COLOUR_ALPHA FROM PARTCOLOUR ";
+        //        sql += "WHERE LDRAW_COLOUR_ID IN (" + string.Join(",", IDList) + ")";
+        //        var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //        coll = PartColourCollection.GetPartColourCollectionFromDataTable(results);
+        //    }
+        //    return coll;
+        //}
 
-        public int GetLDrawColourID_UsingLDrawColourName(string LDrawColourName)
-        {
-            // ** Get data from PARTCOLOUR database table **
-            String sql = "SELECT LDRAW_COLOUR_ID FROM PARTCOLOUR WHERE LDRAW_COLOUR_NAME='" + LDrawColourName + "'";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            int result = (int)results.Rows[0]["LDRAW_COLOUR_ID"];
-            return result;            
-        }
+        //public int GetLDrawColourID_UsingLDrawColourName(string LDrawColourName)
+        //{
+        //    // ** Get data from PARTCOLOUR database table **
+        //    String sql = "SELECT LDRAW_COLOUR_ID FROM PARTCOLOUR WHERE LDRAW_COLOUR_NAME='" + LDrawColourName + "'";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    int result = (int)results.Rows[0]["LDRAW_COLOUR_ID"];
+        //    return result;            
+        //}
 
-        public string GetLDrawColourName_UsingLDrawColourID(int LDrawColourID)
-        {
-            // ** Get data from PARTCOLOUR database table **
-            String sql = "SELECT LDRAW_COLOUR_NAME FROM PARTCOLOUR WHERE LDRAW_COLOUR_ID=" + LDrawColourID;
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            string LDrawColourName = (string)results.Rows[0]["LDRAW_COLOUR_NAME"];
-            return LDrawColourName;
-        }
+        //public string GetLDrawColourName_UsingLDrawColourID(int LDrawColourID)
+        //{
+        //    // ** Get data from PARTCOLOUR database table **
+        //    String sql = "SELECT LDRAW_COLOUR_NAME FROM PARTCOLOUR WHERE LDRAW_COLOUR_ID=" + LDrawColourID;
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    string LDrawColourName = (string)results.Rows[0]["LDRAW_COLOUR_NAME"];
+        //    return LDrawColourName;
+        //}
 
-        public List<string> GetAllLDrawColourNames()
-        {
-            List<string> partColourNameList = new List<string>();
+        //public List<string> GetAllLDrawColourNames()
+        //{
+        //    List<string> partColourNameList = new List<string>();
 
-            // ** Get data from PARTCOLOUR database table **
-            String sql = "SELECT LDRAW_COLOUR_NAME FROM PARTCOLOUR ORDER BY LDRAW_COLOUR_NAME";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    // ** Get data from PARTCOLOUR database table **
+        //    String sql = "SELECT LDRAW_COLOUR_NAME FROM PARTCOLOUR ORDER BY LDRAW_COLOUR_NAME";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
 
-            // ** Convert data into list **
-            foreach (DataRow row in results.Rows)
-            {
-                partColourNameList.Add((string)row["LDRAW_COLOUR_NAME"]);
-            }
-            return partColourNameList;
-        }
+        //    // ** Convert data into list **
+        //    foreach (DataRow row in results.Rows)
+        //    {
+        //        partColourNameList.Add((string)row["LDRAW_COLOUR_NAME"]);
+        //    }
+        //    return partColourNameList;
+        //}
+
+        // ** SetDetails Functions **
+
+        //public SetDetailsCollection GetSetDetailsData_UsingSetRefList(List<string> IDList)
+        //{
+        //    // ** Generate SetDetailsCollection from SET_DETAILS data in database **
+        //    SetDetailsCollection coll = new SetDetailsCollection();
+        //    if (IDList.Count > 0)
+        //    {
+        //        string sql = "SELECT ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS,INSTRUCTION_REFS FROM SET_DETAILS ";                
+        //        sql += "WHERE REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
+        //        var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //        coll = SetDetailsCollection.GetSetDetailsCollectionFromDataTable(results);
+        //    }
+        //    return coll;
+        //}
+
+        //public SetDetailsCollection GetSetDetailsData_UsingThemeAndSubTheme(string theme, string subTheme)
+        //{
+        //    // ** Generate SetDetailsCollection from SET_DETAILS data in database **
+        //    SetDetailsCollection coll = new SetDetailsCollection();            
+        //    string sql = "SELECT ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS,INSTRUCTION_REFS FROM SET_DETAILS ";
+        //    sql += "WHERE THEME='" + theme.Replace("'", "''") + "'";
+        //    if(subTheme != "") sql += " AND SUB_THEME='" + subTheme.Replace("'", "''") + "'";           
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    coll = SetDetailsCollection.GetSetDetailsCollectionFromDataTable(results);            
+        //    return coll;
+        //}
+
+        //public void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
+        //{
+        //    // check if set details exist, if they exist, do an update, if not do nothing.
+        //    SetDetailsCollection sdc = GetSetDetailsData_UsingSetRefList(new List<string>() { setRef });
+        //    if (sdc.SetDetailsList.Count == 1)
+        //    {
+        //        // ** Generate SQL Statement **
+        //        string sql = "UPDATE SET_DETAILS" + Environment.NewLine;
+        //        sql += "SET INSTRUCTIONS = '" + xmlString + "'" + Environment.NewLine;
+        //        sql += "WHERE REF='" + setRef + "'" + Environment.NewLine;
+
+        //        // ** Execute SQL statement **
+        //        ExecuteSQLStatement(this.AzureDBConnString, sql);
+        //    }
+        //}
+
+        //public void UpdateSetDetailsCounts_UsingSetRef(string SetRef, int PartCount, int SubSetCount, int ModelCount, int MiniFigCount)
+        //{
+        //    // check if set details exist, if they exist, do an update, if not do nothing.
+        //    SetDetailsCollection sdc = GetSetDetailsData_UsingSetRefList(new List<string>() { SetRef });
+        //    if (sdc.SetDetailsList.Count == 1)
+        //    {
+        //        // ** Generate SQL Statement **
+        //        string sql = "UPDATE SET_DETAILS SET" + Environment.NewLine;
+        //        sql += "PART_COUNT = " + PartCount + "," + Environment.NewLine;
+        //        sql += "SUBSET_COUNT = " + SubSetCount + "," + Environment.NewLine;
+        //        sql += "MODEL_COUNT = " + ModelCount + "," + Environment.NewLine;
+        //        sql += "MINIFIG_COUNT = " + MiniFigCount + Environment.NewLine;
+        //        sql += "WHERE REF='" + SetRef + "'" + Environment.NewLine;
+
+        //        // ** Execute SQL statement **
+        //        ExecuteSQLStatement(this.AzureDBConnString, sql);
+        //    }
+        //}
+
+        //public void AddSetDetails(BaseClasses.SetDetails sd)
+        //{
+        //    string sql;
+
+        //    sql = "SELECT MAX(ID) 'RESULT' FROM SET_DETAILS";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    int oldID = 0;
+        //    if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
+        //    int newID = oldID + 1;
+
+        //    // ** Generate SQL Statement **
+        //    sql = "INSERT INTO SET_DETAILS" + Environment.NewLine;
+        //    sql += "(ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS,INSTRUCTION_REFS)" + Environment.NewLine;
+        //    sql += "VALUES" + Environment.NewLine;
+        //    sql += "(";
+        //    sql += newID + ",";
+        //    sql += "'" + sd.Ref + "',";
+        //    sql += "'" + sd.Description.Replace("'", "''") + "',";
+        //    sql += "'" + sd.Type + "',";
+        //    sql += "'" + sd.Theme.Replace("'","''") + "',";
+        //    sql += "'" + sd.SubTheme.Replace("'", "''") + "',";
+        //    sql += sd.Year + ",";
+        //    sql += sd.PartCount + ",";
+        //    sql += sd.SubSetCount + ",";
+        //    sql += sd.ModelCount + ",";
+        //    sql += sd.MiniFigCount + ",";
+        //    sql += "'" + sd.Status + "',";
+        //    sql += "'" + sd.AssignedTo + "',";
+        //    sql += "'" + sd.Instructions.Replace("'", "''") + "',";
+        //    sql += "'" + String.Join(",", sd.InstructionRefList) + "'";
+        //    sql += ")";
+
+        //    // ** Execute SQL statement **
+        //    ExecuteSQLStatement(this.AzureDBConnString, sql);
+        //}
+
+        //public void DeleteSetDetails(string SetRef)
+        //{
+        //    // ** Generate SQL Statement **
+        //    string sql = "DELETE FROM SET_DETAILS WHERE REF='" + SetRef + "'" + Environment.NewLine;
+
+        //    // ** Execute SQL statement **
+        //    ExecuteSQLStatement(this.AzureDBConnString, sql);
+        //}
+
+        //public void UpdateSetDetails(BaseClasses.SetDetails sd)
+        //{
+        //    // ** Generate SQL Statement **
+        //    string sql = "UPDATE SET_DETAILS SET " + Environment.NewLine;
+        //    sql += "DESCRIPTION='" + sd.Description.Replace("'", "''") + "',";
+        //    sql += "TYPE='" + sd.Type + "',";            
+        //    sql += "THEME='" + sd.Theme.Replace("'", "''") + "',";
+        //    sql += "SUB_THEME='" + sd.SubTheme.Replace("'", "''") + "',";
+        //    sql += "YEAR=" + sd.Year + ",";
+        //    sql += "PART_COUNT=" + sd.PartCount + ",";
+        //    sql += "SUBSET_COUNT=" + sd.SubSetCount + ",";
+        //    sql += "MODEL_COUNT=" + sd.ModelCount + ",";
+        //    sql += "MINIFIG_COUNT=" + sd.MiniFigCount + ",";
+        //    sql += "STATUS='" + sd.Status + "',";
+        //    sql += "ASSIGNED_TO='" + sd.AssignedTo + "',";
+        //    sql += "INSTRUCTIONS='" + sd.Instructions.Replace("'", "''") + "',";
+        //    sql += "INSTRUCTION_REFS='" + String.Join(",", sd.InstructionRefList) + "'";
+        //    sql += " WHERE REF='" + sd.Ref + "'";
+
+        //    // ** Execute SQL statement **
+        //    ExecuteSQLStatement(this.AzureDBConnString, sql);
+        //}
+
+        //public bool CheckIfPDFInstructionsExistForSet(string setRef)
+        //{
+        //    ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
+        //    return share.Exists();
+        //}
+
+        //public bool CheckIfSetDetailExists(string setRef)
+        //{
+        //    bool exists = false;
+        //    SetDetailsCollection coll = GetSetDetailsData_UsingSetRefList(new List<string>() { setRef });
+        //    if (coll.SetDetailsList.Count > 0) exists = true;
+        //    return exists;
+        //}
+
+        private void Sep(){}
+
 
 
 
@@ -301,7 +449,7 @@ namespace Generator
             return partType;
         }
 
-        public void AddBasePart(BaseClasses.BasePart bp)
+        public void AddBasePart(BasePart bp)
         {
             string sql;
 
@@ -361,155 +509,6 @@ namespace Generator
 
 
 
-        // ** SetDetails Functions **
-
-        public SetDetailsCollection GetSetDetailsData_UsingSetRefList(List<string> IDList)
-        {
-            // ** Generate SetDetailsCollection from SET_DETAILS data in database **
-            SetDetailsCollection coll = new SetDetailsCollection();
-            if (IDList.Count > 0)
-            {
-                string sql = "SELECT ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS,INSTRUCTION_REFS FROM SET_DETAILS ";                
-                sql += "WHERE REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
-                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-                coll = SetDetailsCollection.GetSetDetailsCollectionFromDataTable(results);
-            }
-            return coll;
-        }
-
-        public SetDetailsCollection GetSetDetailsData_UsingThemeAndSubTheme(string theme, string subTheme)
-        {
-            // ** Generate SetDetailsCollection from SET_DETAILS data in database **
-            SetDetailsCollection coll = new SetDetailsCollection();            
-            string sql = "SELECT ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS,INSTRUCTION_REFS FROM SET_DETAILS ";
-            sql += "WHERE THEME='" + theme.Replace("'", "''") + "'";
-            if(subTheme != "") sql += " AND SUB_THEME='" + subTheme.Replace("'", "''") + "'";           
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            coll = SetDetailsCollection.GetSetDetailsCollectionFromDataTable(results);            
-            return coll;
-        }
-
-        public void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
-        {
-            // check if set details exist, if they exist, do an update, if not do nothing.
-            SetDetailsCollection sdc = GetSetDetailsData_UsingSetRefList(new List<string>() { setRef });
-            if (sdc.SetDetailsList.Count == 1)
-            {
-                // ** Generate SQL Statement **
-                string sql = "UPDATE SET_DETAILS" + Environment.NewLine;
-                sql += "SET INSTRUCTIONS = '" + xmlString + "'" + Environment.NewLine;
-                sql += "WHERE REF='" + setRef + "'" + Environment.NewLine;
-               
-                // ** Execute SQL statement **
-                ExecuteSQLStatement(this.AzureDBConnString, sql);
-            }
-        }
-
-        public void UpdateSetDetailsCounts_UsingSetRef(string SetRef, int PartCount, int SubSetCount, int ModelCount, int MiniFigCount)
-        {
-            // check if set details exist, if they exist, do an update, if not do nothing.
-            SetDetailsCollection sdc = GetSetDetailsData_UsingSetRefList(new List<string>() { SetRef });
-            if (sdc.SetDetailsList.Count == 1)
-            {
-                // ** Generate SQL Statement **
-                string sql = "UPDATE SET_DETAILS SET" + Environment.NewLine;
-                sql += "PART_COUNT = " + PartCount + "," + Environment.NewLine;
-                sql += "SUBSET_COUNT = " + SubSetCount + "," + Environment.NewLine;
-                sql += "MODEL_COUNT = " + ModelCount + "," + Environment.NewLine;
-                sql += "MINIFIG_COUNT = " + MiniFigCount + Environment.NewLine;
-                sql += "WHERE REF='" + SetRef + "'" + Environment.NewLine;
-
-                // ** Execute SQL statement **
-                ExecuteSQLStatement(this.AzureDBConnString, sql);
-            }
-        }
-
-        public void AddSetDetails(BaseClasses.SetDetails sd)
-        {
-            string sql;
-
-            sql = "SELECT MAX(ID) 'RESULT' FROM SET_DETAILS";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            int oldID = 0;
-            if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
-            int newID = oldID + 1;
-
-            // ** Generate SQL Statement **
-            sql = "INSERT INTO SET_DETAILS" + Environment.NewLine;
-            sql += "(ID,REF,DESCRIPTION,TYPE,THEME,SUB_THEME,YEAR,PART_COUNT,SUBSET_COUNT,MODEL_COUNT,MINIFIG_COUNT,STATUS,ASSIGNED_TO,INSTRUCTIONS,INSTRUCTION_REFS)" + Environment.NewLine;
-            sql += "VALUES" + Environment.NewLine;
-            sql += "(";
-            sql += newID + ",";
-            sql += "'" + sd.Ref + "',";
-            sql += "'" + sd.Description.Replace("'", "''") + "',";
-            sql += "'" + sd.Type + "',";
-            sql += "'" + sd.Theme.Replace("'","''") + "',";
-            sql += "'" + sd.SubTheme.Replace("'", "''") + "',";
-            sql += sd.Year + ",";
-            sql += sd.PartCount + ",";
-            sql += sd.SubSetCount + ",";
-            sql += sd.ModelCount + ",";
-            sql += sd.MiniFigCount + ",";
-            sql += "'" + sd.Status + "',";
-            sql += "'" + sd.AssignedTo + "',";
-            sql += "'" + sd.Instructions.Replace("'", "''") + "',";
-            sql += "'" + String.Join(",", sd.InstructionRefList) + "'";
-            sql += ")";
-
-            // ** Execute SQL statement **
-            ExecuteSQLStatement(this.AzureDBConnString, sql);
-        }
-
-        public void DeleteSetDetails(string SetRef)
-        {
-            // ** Generate SQL Statement **
-            string sql = "DELETE FROM SET_DETAILS WHERE REF='" + SetRef + "'" + Environment.NewLine;
-
-            // ** Execute SQL statement **
-            ExecuteSQLStatement(this.AzureDBConnString, sql);
-        }
-
-        public void UpdateSetDetails(BaseClasses.SetDetails sd)
-        {
-            // ** Generate SQL Statement **
-            string sql = "UPDATE SET_DETAILS SET " + Environment.NewLine;
-            sql += "DESCRIPTION='" + sd.Description.Replace("'", "''") + "',";
-            sql += "TYPE='" + sd.Type + "',";            
-            sql += "THEME='" + sd.Theme.Replace("'", "''") + "',";
-            sql += "SUB_THEME='" + sd.SubTheme.Replace("'", "''") + "',";
-            sql += "YEAR=" + sd.Year + ",";
-            sql += "PART_COUNT=" + sd.PartCount + ",";
-            sql += "SUBSET_COUNT=" + sd.SubSetCount + ",";
-            sql += "MODEL_COUNT=" + sd.ModelCount + ",";
-            sql += "MINIFIG_COUNT=" + sd.MiniFigCount + ",";
-            sql += "STATUS='" + sd.Status + "',";
-            sql += "ASSIGNED_TO='" + sd.AssignedTo + "',";
-            sql += "INSTRUCTIONS='" + sd.Instructions.Replace("'", "''") + "',";
-            sql += "INSTRUCTION_REFS='" + String.Join(",", sd.InstructionRefList) + "'";
-            sql += " WHERE REF='" + sd.Ref + "'";
-
-            // ** Execute SQL statement **
-            ExecuteSQLStatement(this.AzureDBConnString, sql);
-        }
-
-        public bool CheckIfPDFInstructionsExistForSet(string setRef)
-        {
-            ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-instructions").GetFileClient(setRef + ".pdf");
-            return share.Exists();
-        }
-
-        public bool CheckIfSetDetailExists(string setRef)
-        {
-            bool exists = false;
-            SetDetailsCollection coll = GetSetDetailsData_UsingSetRefList(new List<string>() { setRef });
-            if (coll.SetDetailsList.Count > 0) exists = true;
-            return exists;
-        }
-
-
-
-
-
         // ** CompositePart Functions **
 
         public CompositePartCollection GetCompositePartData_All()
@@ -543,26 +542,26 @@ namespace Generator
 
         public bool CheckIfCompositePartsExist(string LDrawRef)
         {
-            bool exists = false;            
+            bool exists = false;
             String sql = "SELECT COUNT(ID) 'RESULT' FROM COMPOSITEPART WHERE PARENT_LDRAW_REF='" + LDrawRef + "'";
             var results = GetSQLQueryResults(this.AzureDBConnString, sql);
             int result = (int)results.Rows[0]["RESULT"];
-            if(result > 0) exists = true;
+            if (result > 0) exists = true;
             return exists;
         }
 
         public CompositePartCollection GetCompositePartData_UsingParentLDrawRefList(string ParentLDrawRef)
         {
             // ** Generate CompositePartCollection from COMPOSITEPART data in database **
-            CompositePartCollection coll = new CompositePartCollection();            
+            CompositePartCollection coll = new CompositePartCollection();
             string sql = "SELECT ID,LDRAW_REF,LDRAW_DESCRIPTION,PARENT_LDRAW_REF,LDRAW_COLOUR_ID,POS_X,POS_Y,POS_Z,ROT_X,ROT_Y,ROT_Z FROM COMPOSITEPART ";
             sql += "WHERE PARENT_LDRAW_REF='" + ParentLDrawRef + "'";
             var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            coll = CompositePartCollection.GetCompositePartCollectionFromDataTable(results);            
+            coll = CompositePartCollection.GetCompositePartCollectionFromDataTable(results);
             return coll;
         }
 
-        public void AddCompositePart(BaseClasses.CompositePart cp)
+        public void AddCompositePart(CompositePart cp)
         {
             string sql;
 
@@ -632,6 +631,20 @@ namespace Generator
 
 
 
+
+
+
+
+        
+
+
+
+
+
+       
+
+
+
         // ** LDraw Details (File) Functions **
 
         public LDrawDetailsCollection GetLDrawDetailsData_UsingLDrawRefList(List<string> IDList)
@@ -674,7 +687,7 @@ namespace Generator
             return coll;
         }
 
-        public void AddLDrawDetails(BaseClasses.LDrawDetails ldd)
+        public void AddLDrawDetails(LDrawDetails ldd)
         {
             string sql;
 
@@ -943,7 +956,7 @@ namespace Generator
             return coll;
         }
 
-        public void AddTickBack(BaseClasses.TickBack tb)
+        public void AddTickBack(TickBack tb)
         {
             string sql;
 
@@ -967,7 +980,7 @@ namespace Generator
             ExecuteSQLStatement(this.AzureDBConnString, sql);
         }
 
-        public void UpdateTickBack(BaseClasses.TickBack tb)
+        public void UpdateTickBack(TickBack tb)
         {
             // ** Generate SQL Statement **
             string sql = "UPDATE TICKBACK SET " + Environment.NewLine;
@@ -1118,22 +1131,7 @@ namespace Generator
             }            
         }
 
-        //private static string GetJSONResponseFromURL(string url)
-        //{
-        //    string JSONString = "";
-        //    using (var httpClient = new HttpClient())
-        //    {
-        //        using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
-        //        {
-        //            request.Headers.TryAddWithoutValidation("Accept", "application/json");
-        //            var task = Task.Run(() => httpClient.SendAsync(request));
-        //            task.Wait();
-        //            var response = task.Result;
-        //            if (response.StatusCode == HttpStatusCode.OK) JSONString = response.Content.ReadAsStringAsync().Result;
-        //        }
-        //    }
-        //    return JSONString;
-        //}
+        
 
 
     }

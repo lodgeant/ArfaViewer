@@ -586,7 +586,7 @@ namespace Generator
                     newRow["MiniFig Count"] = sd.MiniFigCount;
                     newRow["Status"] = sd.Status;
                     newRow["Assigned To"] = sd.AssignedTo;
-                    newRow["Instruction Refs"] = String.Join(",", sd.InstructionRefList);                    
+                    newRow["Instruction Refs"] = String.Join(",", sd.InstructionRefList);
                     newRow["Instructions Exist"] = SetInstructionsExist[sd.Ref];
                     setDetailsTable.Rows.Add(newRow);
                 }
@@ -709,8 +709,10 @@ namespace Generator
                 string SetRef = fldSetRef.Text;
 
                 // Check if SetRef exists
-                SetDetails sd = StaticData.GetSetDetails(SetRef);
-                if (sd == null) throw new Exception("Set Details don't exist for " + SetRef);
+                //SetDetails sd = StaticData.GetSetDetails(SetRef);
+                //if (sd == null) throw new Exception("Set Details don't exist for " + SetRef);
+                bool exists = StaticData.CheckIfSetDetailExists(SetRef);
+                if(exists == false) throw new Exception("Set Details don't exist for " + SetRef);
 
                 // ** Delete Set Details **
                 StaticData.DeleteSetDetails(SetRef);

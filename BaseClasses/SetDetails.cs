@@ -16,46 +16,46 @@ namespace BaseClasses
     public class SetDetails
     {
         [XmlAttribute("Ref")]
-        public string Ref;
+        public string Ref { get; set; }
 
         [XmlAttribute("Description")]
-        public string Description;
+        public string Description { get; set; }
 
         [XmlAttribute("Type")]
-        public string Type;
+        public string Type { get; set; }
 
         [XmlAttribute("Theme")]
-        public string Theme;
+        public string Theme { get; set; }
 
         [XmlAttribute("SubTheme")]
-        public string SubTheme;
+        public string SubTheme { get; set; }
 
         [XmlAttribute("Year")]
-        public int Year;
+        public int Year { get; set; }
 
         [XmlAttribute("PartCount")]
-        public int PartCount;
+        public int PartCount { get; set; }
 
         [XmlAttribute("SubSetCount")]
-        public int SubSetCount;
+        public int SubSetCount { get; set; }
 
         [XmlAttribute("ModelCount")]
-        public int ModelCount;
+        public int ModelCount { get; set; }
 
         [XmlAttribute("MiniFigCount")]
-        public int MiniFigCount;
+        public int MiniFigCount { get; set; }
 
         [XmlAttribute("Status")]
-        public string Status;
+        public string Status { get; set; }
 
         [XmlAttribute("AssignedTo")]
-        public string AssignedTo;
+        public string AssignedTo { get; set; }
 
         [XmlAttribute("Instructions")]
-        public string Instructions;
+        public string Instructions { get; set; }
 
         [XmlAttribute("InstructionRefList")]
-        public List<string> InstructionRefList = new List<string>();
+        public List<string> InstructionRefList { get; set; }
 
 
 
@@ -115,7 +115,8 @@ namespace BaseClasses
             item.AssignedTo = (string)row["ASSIGNED_TO"];
             item.Instructions = row["INSTRUCTIONS"].ToString();
             string InstructionRefsListString = ((string)row["INSTRUCTION_REFS"]);
-            if(InstructionRefsListString != "") item.InstructionRefList = InstructionRefsListString.Split(',').ToList();            
+            item.InstructionRefList = new List<string>();
+            if (InstructionRefsListString != "") item.InstructionRefList = InstructionRefsListString.Split(',').ToList();            
             return item;
         }
 

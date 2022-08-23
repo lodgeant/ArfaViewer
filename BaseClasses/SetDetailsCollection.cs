@@ -12,7 +12,12 @@ namespace BaseClasses
     public class SetDetailsCollection
     {
         [XmlElement("SetDetails")]
-        public List<SetDetails> SetDetailsList = new List<SetDetails>();
+        public List<SetDetails> SetDetailsList { get; set; }
+
+        public SetDetailsCollection()
+        {
+            SetDetailsList = new List<SetDetails>();
+        }
 
         public string SerializeToString(bool omitDeclaration)
         {

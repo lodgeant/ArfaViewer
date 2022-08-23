@@ -77,6 +77,10 @@ namespace Generator
 
                 //APITest();
 
+
+                //StaticData.UpdateSetDetailsInstructions_UsingSetRef("1271-1", "Some more test data");
+
+
             }
             catch (Exception ex)
             {
