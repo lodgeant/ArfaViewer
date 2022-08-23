@@ -75,7 +75,7 @@ namespace Generator
             //return Global_Variables.APIProxy.GetLDrawColourName_UsingLDrawColourID(LDrawColourID);
 
             string url = Global_Variables.APIUrl + "GetLDrawColourName_UsingLDrawColourID?LDrawColourID=" + LDrawColourID;
-            string JSONString = GetJSONResponseFromURL(url);
+            string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
             return JSONString;
         }
 
@@ -109,6 +109,15 @@ namespace Generator
             return sd;
         }
 
+        public static SetDetailsCollection GetSetDetailsData_UsingSetRefList(List<string> IDList)
+        {
+            string url = Global_Variables.APIUrl + "GetSetDetailsData_UsingSetRefList?";
+            foreach (string id in IDList) url += "IDList=" + id + "&";
+            string JSONString = GetJSONResponseFromURL(url);
+            SetDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetDetailsCollection>(JSONString);
+            return coll;
+        }
+
         public static SetDetailsCollection GetSetDetailsData_UsingThemeAndSubTheme(string theme, string subTheme)
         {
             //return Global_Variables.APIProxy.GetSetDetailsData_UsingThemeAndSubTheme(theme, subTheme);
@@ -122,10 +131,11 @@ namespace Generator
 
         public static void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
         {
-            //Global_Variables.APIProxy.UpdateSetDetailsInstructions_UsingSetRef(setRef, xmlString);
+            //TODO_H: This needs to be done via the ASPI. However the POS emthod doesn't seem to be wroking due to the size of the Instruction XML.
+            Global_Variables.APIProxy.UpdateSetDetailsInstructions_UsingSetRef(setRef, xmlString);
 
-            string url = Global_Variables.APIUrl + "UpdateSetDetailsInstructions_UsingSetRef?setRef=" + setRef + "&xmlString=" + xmlString;
-            PostRequestFromURL(url);            
+            //string url = Global_Variables.APIUrl + "UpdateSetDetailsInstructions_UsingSetRef?setRef=" + setRef + "&xmlString=" + xmlString;
+            //PostRequestFromURL(url);            
         }
 
         public static void UpdateSetDetailsCounts_UsingSetRef(string SetRef, int PartCount, int SubSetCount, int ModelCount, int MiniFigCount)
@@ -181,11 +191,37 @@ namespace Generator
         }
 
 
+        // ** SetInstructions Functions **
 
+        public static SetInstructions GetSetInstructions(string SetRef)
+        {
+            SetInstructions si = null;
+            string url = Global_Variables.APIUrl + "GetSetInstructionsData_UsingSetRefList?IDList=" + SetRef;
+            string JSONString = GetJSONResponseFromURL(url);
+            SetInstructionsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetInstructionsCollection>(JSONString);
+            if (coll.SetInstructionsList.Count > 0) si = coll.SetInstructionsList[0];
+            return si;
+        }
 
+        public static void UpdateSetInstructions(SetInstructions si)
+        {
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(si);
+            string url = Global_Variables.APIUrl + "UpdateSetInstructions";
+            PostJSONRequestFromURL(url, json);
+        }
 
+        public static void DeleteSetInstructions(string SetRef)
+        {
+            string url = Global_Variables.APIUrl + "DeleteSetInstructions?setRef=" + SetRef;
+            PostRequestFromURL(url);
+        }
 
-
+        public static void AddSetInstructions(SetInstructions si)
+        {           
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(si);
+            string url = Global_Variables.APIUrl + "AddSetInstructions";
+            PostJSONRequestFromURL(url, json);
+        }
 
 
 

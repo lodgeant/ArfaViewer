@@ -51,6 +51,8 @@
     <Compile Include="HelperFunctions.cs" />
     <Compile Include="OfficalSet_MiniFig.cs" />
     <Compile Include="OfficalSets.cs" />
+    <Compile Include="SetInstructionsCollection.cs" />
+    <Compile Include="SetInstructions.cs" />
     <Compile Include="TickBackCollection.cs" />
     <Compile Include="SetDetailsCollection.cs" />
     <Compile Include="SetDetails.cs" />

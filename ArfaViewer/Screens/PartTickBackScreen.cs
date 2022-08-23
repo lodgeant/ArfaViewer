@@ -979,9 +979,9 @@ namespace Generator
                 if (setDetails == null) throw new Exception("Set " + SetRef + " not found...");
 
                 // ** LOAD Set XML into Object **
-                string xmlString = setDetails.Instructions;
-                currentSetXml = new XmlDocument();
-                currentSetXml.LoadXml(xmlString);
+                //string xmlString = setDetails.Instructions;
+                //currentSetXml = new XmlDocument();
+                //currentSetXml.LoadXml(xmlString);
 
                 // ** MERGE STANDALONE MINIFIG XML's INTO SET XML **   
                 Dictionary<string, XmlDocument> MiniFigXMLDict = StaticData.GetMiniFigXMLDict(currentSetXml);

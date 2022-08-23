@@ -80,6 +80,10 @@ namespace Generator
 
                 //StaticData.UpdateSetDetailsInstructions_UsingSetRef("1271-1", "Some more test data");
 
+                //string setRef = "7327-1";
+                //SetDetails sd = StaticData.GetSetDetails(setRef);
+                //StaticData.UpdateSetDetailsInstructions_UsingSetRef(setRef, sd.Instructions);
+
 
             }
             catch (Exception ex)

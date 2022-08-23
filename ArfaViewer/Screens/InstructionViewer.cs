@@ -886,17 +886,11 @@ namespace Generator
                 if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
                 string SetRef = fldCurrentSetRef.Text;
 
-                // ** Get Set details from API - OLD **
-                //Set set = StaticData.GetSet(SetRef);
-                //if (set == null) throw new Exception("Set " + SetRef + " not found...");
-                //string setXML = set.SerializeToString(true);
-                //currentSetXml = new XmlDocument();
-                //currentSetXml.LoadXml(setXML);
-
-                // ** Get Set details from API **
-                SetDetails setDetails = StaticData.GetSetDetails(SetRef);
-                if (setDetails == null) throw new Exception("Set " + SetRef + " not found...");
-                string setXML = setDetails.Instructions;
+                // ** Get Set Instructions from API **
+                //SetDetails setDetails = StaticData.GetSetDetails(SetRef);
+                SetInstructions setInstructions = StaticData.GetSetInstructions(SetRef);
+                if (setInstructions == null) throw new Exception("Set " + SetRef + " not found...");
+                string setXML = setInstructions.Data;
                 currentSetXml = new XmlDocument();
                 currentSetXml.LoadXml(setXML);
 
@@ -918,12 +912,12 @@ namespace Generator
                 if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
                 if (currentSetXml == null) throw new Exception("No Set currently loaded...");
 
-                // ** Update Set details - OLD **
-                //Set set = new Set().DeserialiseFromXMLString(currentSetXml.OuterXml);
-                //StaticData.UpdateSet(set);
-
                 // ** Update SetDetails **
-                StaticData.UpdateSetDetailsInstructions_UsingSetRef(fldCurrentSetRef.Text, currentSetXml.OuterXml);
+                //StaticData.UpdateSetDetailsInstructions_UsingSetRef(fldCurrentSetRef.Text, currentSetXml.OuterXml);
+
+                // ** Update SetInstructions **
+                SetInstructions setInstructions = new SetInstructions() { Ref = fldCurrentSetRef.Text, Data = currentSetXml.OuterXml };
+                StaticData.UpdateSetInstructions(setInstructions);
 
                 // ** Update counts on SetDetails **
                 int PartCount = 0;

@@ -467,7 +467,7 @@ namespace Generator
                 };
                 bw_RefreshSetDetailsSummary.DoWork += new DoWorkEventHandler(bw_RefreshSetDetailsSummary_DoWork);
                 bw_RefreshSetDetailsSummary.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RefreshSetDetailsSummary_RunWorkerCompleted);
-                //bw_RefreshSetDetailsSummary.ProgressChanged += new ProgressChangedEventHandler(bw_RefreshScreen_ProgressChanged);
+                bw_RefreshSetDetailsSummary.ProgressChanged += new ProgressChangedEventHandler(bw_RefreshSetDetailsSummary_ProgressChanged);
                 bw_RefreshSetDetailsSummary.RunWorkerAsync();
             }
             catch (Exception ex)
@@ -477,6 +477,18 @@ namespace Generator
                 pbStatus.Value = 0;
                 EnableControls_RefreshSetDetailsSummary(true);
                 Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshSetDetailsSummary_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, e.ProgressPercentage);
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message);
             }
         }
@@ -509,7 +521,7 @@ namespace Generator
                     if (themeStringList.Count > 1) subTheme = themeStringList[1];
 
                     // Get SetDetails for Theme & SubTheme
-                    BaseClasses.SetDetailsCollection coll = StaticData.GetSetDetailsData_UsingThemeAndSubTheme(theme, subTheme);
+                    SetDetailsCollection coll = StaticData.GetSetDetailsData_UsingThemeAndSubTheme(theme, subTheme);
 
                     // ** Post Set Details data **
                     DataTable setDetailsTable = GenerateSetDetailsTable(coll);
@@ -541,8 +553,9 @@ namespace Generator
                 int index = 0;                
                 foreach (SetDetails sd in coll.SetDetailsList)
                 {
-                    Delegates.ToolStripProgressBar_SetValue(this, pbStatus, index);
-                    if(SetInstructionsExist.ContainsKey(sd.Ref) == false) SetInstructionsExist.Add(sd.Ref, false);                   
+                    bw_RefreshSetDetailsSummary.ReportProgress(index, "Working...");
+                    //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, index);
+                    if (SetInstructionsExist.ContainsKey(sd.Ref) == false) SetInstructionsExist.Add(sd.Ref, false);                   
                     SetInstructionsExist[sd.Ref] = StaticData.CheckIfPDFInstructionsExistForSet(sd.Ref);
                     ArfaImage.GetImage(ImageType.SET, new string[] { sd.Ref });
                     index += 1;
@@ -566,7 +579,7 @@ namespace Generator
                 setDetailsTable.Columns.Add("Status", typeof(string));
                 setDetailsTable.Columns.Add("Assigned To", typeof(string));
                 setDetailsTable.Columns.Add("Instruction Refs", typeof(string));
-                setDetailsTable.Columns.Add("Instructions Exist", typeof(bool));
+                setDetailsTable.Columns.Add("Instruction PDFs Exist", typeof(bool));
 
                 // ** Cycle through details and populate rows **
                 foreach (SetDetails sd in coll.SetDetailsList)
@@ -587,7 +600,7 @@ namespace Generator
                     newRow["Status"] = sd.Status;
                     newRow["Assigned To"] = sd.AssignedTo;
                     newRow["Instruction Refs"] = String.Join(",", sd.InstructionRefList);
-                    newRow["Instructions Exist"] = SetInstructionsExist[sd.Ref];
+                    newRow["Instruction PDFs Exist"] = SetInstructionsExist[sd.Ref];
                     setDetailsTable.Rows.Add(newRow);
                 }
                 return setDetailsTable;
@@ -657,6 +670,7 @@ namespace Generator
                 if (fldDescription.Text.Equals("")) throw new Exception("No Description entered...");
                 if (fldType.Text.Equals("")) throw new Exception("No Type entered...");
                 if (fldTheme.Text.Equals("")) throw new Exception("No Theme entered...");
+                if (fldYear.Text.Equals("")) throw new Exception("No Year entered...");
                 if (fldStatus.Text.Equals("")) throw new Exception("No Status entered...");
 
                 // Check if Set already exists - if so update it, if not, add it.
@@ -670,10 +684,6 @@ namespace Generator
                     setDetails.SubSetCount = 1;
                     setDetails.ModelCount = 1;
                     setDetails.MiniFigCount = 0;
-
-                    // ** Generate base instructions and add to Set Details **
-                    Set set = Set.GenerateBaseSet(setRef, fldDescription.Text, fldType.Text);
-                    setDetails.Instructions = set.SerializeToString(true);
                 }
                 setDetails.Ref = setRef;
                 setDetails.Description = fldDescription.Text;
@@ -684,9 +694,17 @@ namespace Generator
                 setDetails.Status = fldStatus.Text;
                 setDetails.AssignedTo = fldAssignedTo.Text;
                 setDetails.InstructionRefList = fldInstructionRefs.Text.Split(',').ToList();
-                                
+
                 // ** Determine what action to take **
-                if (action.Equals("ADD")) StaticData.AddSetDetails(setDetails);               
+                if (action.Equals("ADD"))
+                {
+                    StaticData.AddSetDetails(setDetails);
+
+                    // ** Generate base instructions and add to Set Instructions **
+                    Set set = Set.GenerateBaseSet(setRef, fldDescription.Text, fldType.Text);                    
+                    SetInstructions si = new SetInstructions() { Ref = setRef, Data = set.SerializeToString(true) };
+                    StaticData.AddSetInstructions(si);
+                }
                 else if(action.Equals("UPDATE")) StaticData.UpdateSetDetails(setDetails);
                
                 // ** Tidy Up **
@@ -708,14 +726,13 @@ namespace Generator
                 if (fldSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
                 string SetRef = fldSetRef.Text;
 
-                // Check if SetRef exists
-                //SetDetails sd = StaticData.GetSetDetails(SetRef);
-                //if (sd == null) throw new Exception("Set Details don't exist for " + SetRef);
+                // ** Check if SetRef exists **
                 bool exists = StaticData.CheckIfSetDetailExists(SetRef);
                 if(exists == false) throw new Exception("Set Details don't exist for " + SetRef);
 
-                // ** Delete Set Details **
+                // ** Delete Set Details & SetInstructions **
                 StaticData.DeleteSetDetails(SetRef);
+                StaticData.DeleteSetInstructions(SetRef);
 
                 // ** Tidy Up **
                 ClearAllSetDetailsFields();
@@ -1075,7 +1092,7 @@ namespace Generator
                             }
                             else
                             {
-                                // ** Generate new Set Details object **
+                                // ** Generate new Set Details object and add to DB **
                                 SetDetails setDetails = new SetDetails();
                                 setDetails.Ref = setRef;
                                 setDetails.Description = setDescription;
@@ -1088,13 +1105,12 @@ namespace Generator
                                 setDetails.SubSetCount = 1;
                                 setDetails.ModelCount = 1;
                                 setDetails.MiniFigCount = 0;
-
-                                // ** Generate base instructions and add to Set Details **
-                                Set set = Set.GenerateBaseSet(setRef, setDescription, "OFFICIAL");
-                                setDetails.Instructions = set.SerializeToString(true);
-
-                                // ** Add Set to DB **
                                 StaticData.AddSetDetails(setDetails);
+
+                                // ** Generate base instructions and add to Set Instructions **
+                                Set set = Set.GenerateBaseSet(setRef, setDescription, "OFFICIAL");
+                                SetInstructions si = new SetInstructions() { Ref = setRef, Data = set.SerializeToString(true) };
+                                StaticData.AddSetInstructions(si);
 
                                 // ** Get image for set and upload to BLOB **
                                 ArfaImage.GetImage(ImageType.SET, new string[] { setDetails.Ref });

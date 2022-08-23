@@ -252,21 +252,7 @@ namespace Generator
         //    return coll;
         //}
 
-        //public void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
-        //{
-        //    // check if set details exist, if they exist, do an update, if not do nothing.
-        //    SetDetailsCollection sdc = GetSetDetailsData_UsingSetRefList(new List<string>() { setRef });
-        //    if (sdc.SetDetailsList.Count == 1)
-        //    {
-        //        // ** Generate SQL Statement **
-        //        string sql = "UPDATE SET_DETAILS" + Environment.NewLine;
-        //        sql += "SET INSTRUCTIONS = '" + xmlString + "'" + Environment.NewLine;
-        //        sql += "WHERE REF='" + setRef + "'" + Environment.NewLine;
-
-        //        // ** Execute SQL statement **
-        //        ExecuteSQLStatement(this.AzureDBConnString, sql);
-        //    }
-        //}
+       
 
         //public void UpdateSetDetailsCounts_UsingSetRef(string SetRef, int PartCount, int SubSetCount, int ModelCount, int MiniFigCount)
         //{
@@ -370,6 +356,28 @@ namespace Generator
         //}
 
         private void Sep(){}
+
+
+        public void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
+        {
+            // check if set details exist, if they exist, do an update, if not do nothing.
+            SetDetailsCollection sdc = StaticData.GetSetDetailsData_UsingSetRefList(new List<string>() { setRef });
+            if (sdc.SetDetailsList.Count == 1)
+            {
+                // ** Generate SQL Statement **
+                string sql = "UPDATE SET_DETAILS" + Environment.NewLine;
+                sql += "SET INSTRUCTIONS = '" + xmlString + "'" + Environment.NewLine;
+                sql += "WHERE REF='" + setRef + "'" + Environment.NewLine;
+
+                // ** Execute SQL statement **
+                ExecuteSQLStatement(this.AzureDBConnString, sql);
+            }
+        }
+
+
+
+
+
 
 
 
@@ -626,22 +634,6 @@ namespace Generator
 
 
         }
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
-       
 
 
 
@@ -1017,25 +1009,14 @@ namespace Generator
                                            .OrderBy(x => x).ToList();
             foreach (string MiniFigRef in MiniFigSetList)
             {
-                // ** Get the Set XML doc for the MiniFig **
-                //BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "set-xmls").GetBlobClient(MiniFigRef + ".xml");
-                //if (blob.Exists())
-                //{
-                //    // ** Get MiniFig XML **
-                //    XmlDocument MiniFigXmlDoc = new XmlDocument();
-                //    byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                //    using (var ms = new MemoryStream(fileContent)) blob.DownloadTo(ms);                   
-                //    string xmlString = Encoding.UTF8.GetString(fileContent);
-                //    MiniFigXmlDoc.LoadXml(xmlString);
-                //    if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false) MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);                    
-                //}
+                // ** Get the Set XML doc for the MiniFig **               
                 SetDetails MiniFig_SetDetails = StaticData.GetSetDetails(MiniFigRef);
                 if(MiniFig_SetDetails != null)
                 {
                     // ** Get MiniFig XML **
                     XmlDocument MiniFigXmlDoc = new XmlDocument();
-                    string xmlString = MiniFig_SetDetails.Instructions;
-                    MiniFigXmlDoc.LoadXml(xmlString);
+                    //string xmlString = MiniFig_SetDetails.Instructions;
+                    //MiniFigXmlDoc.LoadXml(xmlString);
                     if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false) MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);
                 }
             }

@@ -51,14 +51,14 @@ namespace BaseClasses
         [XmlAttribute("AssignedTo")]
         public string AssignedTo { get; set; }
 
-        [XmlAttribute("Instructions")]
-        public string Instructions { get; set; }
-
         [XmlAttribute("InstructionRefList")]
         public List<string> InstructionRefList { get; set; }
 
 
-
+        public SetDetails()
+        {
+            this.InstructionRefList = new List<string>();
+        }
 
 
 
@@ -112,8 +112,7 @@ namespace BaseClasses
             item.ModelCount = (int)row["MODEL_COUNT"];
             item.MiniFigCount = (int)row["MINIFIG_COUNT"];
             item.Status = (string)row["STATUS"];
-            item.AssignedTo = (string)row["ASSIGNED_TO"];
-            item.Instructions = row["INSTRUCTIONS"].ToString();
+            item.AssignedTo = (string)row["ASSIGNED_TO"];            
             string InstructionRefsListString = ((string)row["INSTRUCTION_REFS"]);
             item.InstructionRefList = new List<string>();
             if (InstructionRefsListString != "") item.InstructionRefList = InstructionRefsListString.Split(',').ToList();            
