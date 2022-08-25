@@ -554,10 +554,9 @@ namespace Generator
                 foreach (SetDetails sd in coll.SetDetailsList)
                 {
                     bw_RefreshSetDetailsSummary.ReportProgress(index, "Working...");
-                    //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, index);
                     if (SetInstructionsExist.ContainsKey(sd.Ref) == false) SetInstructionsExist.Add(sd.Ref, false);                   
                     SetInstructionsExist[sd.Ref] = StaticData.CheckIfPDFInstructionsExistForSet(sd.Ref);
-                    ArfaImage.GetImage(ImageType.SET, new string[] { sd.Ref });
+                    if (chkShowSetImages.Checked) ArfaImage.GetImage(ImageType.SET, new string[] { sd.Ref });                    
                     index += 1;
                 }
                 Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);                
@@ -586,7 +585,11 @@ namespace Generator
                 {
                     // ** Build row and add to table **                    
                     DataRow newRow = setDetailsTable.NewRow();
-                    newRow["Set Image"] = ArfaImage.GetImage(ImageType.SET, new string[] { sd.Ref });
+                    
+                    Bitmap setImage = null; 
+                    if (chkShowSetImages.Checked) setImage = ArfaImage.GetImage(ImageType.SET, new string[] { sd.Ref });                   
+                    newRow["Set Image"] = setImage;
+
                     newRow["Ref"] = sd.Ref;
                     newRow["Description"] = sd.Description;
                     newRow["Type"] = sd.Type;

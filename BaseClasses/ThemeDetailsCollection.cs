@@ -15,7 +15,14 @@ namespace BaseClasses
     public class ThemeDetailsCollection
     {
         [XmlElement("ThemeDetails")]
-        public List<ThemeDetails> ThemeDetailsList = new List<ThemeDetails>();
+        public List<ThemeDetails> ThemeDetailsList { get; set; }
+
+        public ThemeDetailsCollection()
+        {
+            ThemeDetailsList = new List<ThemeDetails>();
+        }
+
+
 
         public string SerializeToString(bool omitDeclaration)
         {

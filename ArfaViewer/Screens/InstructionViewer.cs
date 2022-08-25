@@ -21,7 +21,7 @@ using Azure.Storage.Files.Shares;
 using BaseClasses;
 using System.Runtime.Serialization.Json;
 using System.Net.Http;
-
+using System.Runtime.InteropServices;
 
 namespace Generator
 {
@@ -1678,41 +1678,42 @@ namespace Generator
         {
             try
             {
+
+
+
                 #region ** GET DATA UPFRONT **
-                // Get a list of LDrawColourIDs & LDrawRefs
+                //Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Set Detail Summary - Getting upfront data...");
+                //Delegates.ToolStripProgressBar_SetMax(this, pbStatus, partNodeList.Count);
+                //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
                 List<int> LDrawColourIDList = new List<int>();
                 List<string> LDrawRefList = new List<string>();
+                int index = 0;
                 foreach (XmlNode partNode in partNodeList)
                 {
+                    //bw_RefreshSetDetailsSummary.ReportProgress(index, "Working...");
+
                     int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
                     if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
                     string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
                     if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);
+                    if(chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+
+                    index += 1;
                 }
                 // ** Get a Collections for this data **
                 PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
                 BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
                 CompositePartCollection CompositePartCollection = StaticData.GetCompositePartData_UsingLDrawRefList(LDrawRefList);
-
-                // ** Get Element images **
-                if (chkShowElementImages.Checked)
-                {
-                    //Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Getting images...");
-                    //Delegates.ToolStripProgressBar_SetMax(this, pbStatus, partListNodeList.Count);
-                    //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
-                    int index = 0;
-                    foreach (XmlNode partNode in partNodeList)
-                    {
-                        string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                        int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
-                        Bitmap elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
-                        //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, index);
-                        index += 1;
-                    }
-                    //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
-                }
+                LDrawDetailsCollection LDrawDetailsCollection = StaticData.GetLDrawDetailsData_UsingLDrawRefList(LDrawRefList);
+                FBXDetailsCollection FBXDetailsCollection = new FBXDetailsCollection();
+                if (chkShowFBXDetails.Checked) FBXDetailsCollection = StaticData.GetFBXDetailsData_UsingLDrawRefList(LDrawRefList);               
                 #endregion
-                
+
+
+
+
+
+
                 #region ** GENERATE COLUMNS **
                 DataTable partTable = new DataTable("partTable", "partTable");                
                 partTable.Columns.Add("Part Image", typeof(Bitmap));
@@ -1796,20 +1797,26 @@ namespace Generator
                     bool IsOfficial = false;
                     if (LDrawPartType.Equals("OFFICIAL")) IsOfficial = true;
 
-                    // Get LDrawDetails for part **
-                    LDrawDetailsCollection ldd_coll = StaticData.GetLDrawDetailsData_UsingLDrawRefList(new List<string>() { LDrawRef });
-                    LDrawDetails LDrawDetails = ldd_coll.LDrawDetailsList[0];
+                    // Get LDrawDetails for part **                    
+                    LDrawDetails LDrawDetails = (from r in LDrawDetailsCollection.LDrawDetailsList
+                                                 where r.LDrawRef.Equals(LDrawRef)
+                                                 select r).FirstOrDefault();
 
                     // ** GET FBX DETAILS FOR PART MODEL **
-                    //TODO: The below is too slow - needs speeding up!
+                    //TODO: The below is too slow - needs speeding up!                    
                     FBXDetails fbxDetails = new FBXDetails();
-                    if(chkShowFBXDetails.Checked) fbxDetails = StaticData.GetFBXDetails(LDrawRef, partType);
+                    if (chkShowFBXDetails.Checked)
+                    {
+                        fbxDetails = (from r in FBXDetailsCollection.FBXDetailsList
+                                      where r.LDrawRef.Equals(LDrawRef)
+                                      select r).FirstOrDefault();
+                    }
 
                     // ** Check BasePart Collection **
                     bool basePartCollection = true;                   
-                    var BasePart = (from r in BasePartCollection.BasePartList
-                                    where r.LDrawRef.Equals(LDrawRef)
-                                    select r).FirstOrDefault();
+                    BasePart BasePart = (from r in BasePartCollection.BasePartList
+                                        where r.LDrawRef.Equals(LDrawRef)
+                                        select r).FirstOrDefault();
                     if(BasePart == null) basePartCollection = false;
                    
                     // ** GET ELEMENT & PARTCOLOUR IMAGES **
@@ -1858,7 +1865,7 @@ namespace Generator
                     newRow["LDraw Colour Name"] = LDrawColourName;
                     newRow["Colour Image"] = partColourImage;
                     newRow["Is Official"] = IsOfficial;
-                    newRow["Unity FBX"] = fbxDetails.allFBXExist;
+                    newRow["Unity FBX"] = fbxDetails.AllFBXExist;
                     newRow["Base Part Collection"] = basePartCollection;
                     newRow["Part Type"] = partType;
                     newRow["Is SubPart"] = IsSubPart;
@@ -1873,8 +1880,8 @@ namespace Generator
                     newRow["RotY"] = RotY;
                     newRow["RotZ"] = RotZ;
                     newRow["Sub Part Count"] = LDrawDetails.SubPartCount;
-                    newRow["FBX Size"] = fbxDetails.fbxSize;
-                    newRow["FBX Count"] = fbxDetails.fbxCount;
+                    newRow["FBX Size"] = fbxDetails.FBXSize;
+                    newRow["FBX Count"] = fbxDetails.FBXCount;
                     newRow["LDraw Part Type"] = LDrawPartType;
                     newRow["LDraw Description"] = LDrawDescription;
                     newRow["Unity Ref"] = UnityRef;
@@ -3428,7 +3435,7 @@ namespace Generator
             try
             {
                 if (dg.Rows.Count == 0) throw new Exception("No data populated in " + dg.Name);               
-                StringBuilder sb = BaseClasses.HelperFunctions.GenerateClipboardStringFromDataTable(dg);
+                StringBuilder sb = HelperFunctions.GenerateClipboardStringFromDataTable(dg);
                 Clipboard.SetText(sb.ToString());
             }
             catch (Exception ex)

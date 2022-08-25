@@ -91,7 +91,7 @@
             this.btnShowGeneratorScreen.Name = "btnShowGeneratorScreen";
             this.btnShowGeneratorScreen.Size = new System.Drawing.Size(102, 57);
             this.btnShowGeneratorScreen.TabIndex = 27;
-            this.btnShowGeneratorScreen.Text = "Generator Screen";
+            this.btnShowGeneratorScreen.Text = "Instruction Viewer";
             this.btnShowGeneratorScreen.UseVisualStyleBackColor = false;
             this.btnShowGeneratorScreen.Click += new System.EventHandler(this.btnShowGeneratorScreen_Click);
             // 

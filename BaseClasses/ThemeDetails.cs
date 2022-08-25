@@ -14,8 +14,15 @@ namespace BaseClasses
 
     public class ThemeDetails
     {
-        public string Theme;
-        public List<string> SubThemeList = new List<string>();
+        public string Theme { get; set; }
+        public List<string> SubThemeList { get; set; }
+
+
+
+        public ThemeDetails()
+        {
+            SubThemeList = new List<string>();
+        }
 
     }
 

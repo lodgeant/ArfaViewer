@@ -91,7 +91,6 @@ namespace Generator
         }
 
 
-
         // ** SetDetails Functions **
 
         public static SetDetails GetSetDetails(string SetRef)
@@ -127,15 +126,6 @@ namespace Generator
             string JSONString = GetJSONResponseFromURL(url);
             SetDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetDetailsCollection>(JSONString);
             return coll;
-        }
-
-        public static void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
-        {
-            //TODO_H: This needs to be done via the ASPI. However the POS emthod doesn't seem to be wroking due to the size of the Instruction XML.
-            Global_Variables.APIProxy.UpdateSetDetailsInstructions_UsingSetRef(setRef, xmlString);
-
-            //string url = Global_Variables.APIUrl + "UpdateSetDetailsInstructions_UsingSetRef?setRef=" + setRef + "&xmlString=" + xmlString;
-            //PostRequestFromURL(url);            
         }
 
         public static void UpdateSetDetailsCounts_UsingSetRef(string SetRef, int PartCount, int SubSetCount, int ModelCount, int MiniFigCount)
@@ -224,6 +214,109 @@ namespace Generator
         }
 
 
+        // ** LDrawDetails functions **
+
+        public static LDrawDetailsCollection GetLDrawDetailsData_UsingLDrawRefList(List<string> IDList)
+        {
+            //return Global_Variables.APIProxy.GetLDrawDetailsData_UsingLDrawRefList(IDList);
+
+            string url = Global_Variables.APIUrl + "GetLDrawDetailsData_UsingLDrawRefList?";
+            foreach (string id in IDList) url += "IDList=" + id + "&";
+            string JSONString = GetJSONResponseFromURL(url);
+            LDrawDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<LDrawDetailsCollection>(JSONString);
+            return coll;
+        }
+
+        public static void AddLDrawDetails(LDrawDetails ldd)
+        {
+            //Global_Variables.APIProxy.AddLDrawDetails(ldd);
+
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(ldd);
+            string url = Global_Variables.APIUrl + "AddLDrawDetails";
+            PostJSONRequestFromURL(url, json);
+        }
+
+
+        // ** FBXDetails functions **
+
+        public static FBXDetailsCollection GetFBXDetailsData_UsingLDrawRefList(List<string> IDList)
+        {
+            //return Global_Variables.APIProxy.GetFBXDetailsData_UsingLDrawRefList(IDList);
+
+            string url = Global_Variables.APIUrl + "GetFBXDetailsData_UsingLDrawRefList?";
+            foreach (string id in IDList) url += "IDList=" + id + "&";
+            string JSONString = GetJSONResponseFromURL(url);
+            FBXDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<FBXDetailsCollection>(JSONString);
+            return coll;
+        }
+
+        public static FBXDetails GetFBXDetails(string LDrawRef)
+        {
+            //return Global_Variables.APIProxy.GetFBXDetails(LDrawRef, partType);
+
+            FBXDetails td = null;
+            FBXDetailsCollection tdc = GetFBXDetailsData_UsingLDrawRefList(new List<string>() { LDrawRef });
+            if (tdc.FBXDetailsList.Count > 0) td = tdc.FBXDetailsList[0];
+            return td;
+        }
+
+
+
+
+
+
+        // ** ThemeDetails Functions **
+
+        public static ThemeDetailsCollection GetThemeDetailsData_UsingThemeList(List<string> ThemeList)
+        {            
+            string url = Global_Variables.APIUrl + "GetThemeDetailsData_UsingThemeList?";
+            foreach (string id in ThemeList) url += "ThemeList=" + id + "&";
+            string JSONString = GetJSONResponseFromURL(url);
+            ThemeDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<ThemeDetailsCollection>(JSONString);
+            return coll;
+        }
+
+        public static ThemeDetailsCollection GetAllThemeDetails()
+        {
+            //return Global_Variables.APIProxy.GetAllThemeDetails();
+
+            string url = Global_Variables.APIUrl + "GetAllThemeDetails";
+            string JSONString = GetJSONResponseFromURL(url);
+            ThemeDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<ThemeDetailsCollection>(JSONString);
+            return coll;
+        }
+
+        public static ThemeDetails GetThemeDetails(string Theme)
+        {
+            ThemeDetails td = null;
+            ThemeDetailsCollection tdc = GetThemeDetailsData_UsingThemeList(new List<string>() { Theme });
+            if (tdc.ThemeDetailsList.Count > 0) td = tdc.ThemeDetailsList[0];
+            return td;
+        }
+
+        public static int GetSetCountForThemeAndSubTheme(string theme, string subTheme)
+        {
+            //return Global_Variables.APIProxy.GetSetCountForThemeAndSubTheme(theme, subTheme);
+
+            string url = Global_Variables.APIUrl + "GetSetCountForThemeAndSubTheme?theme=" + theme;
+            if (subTheme != "") url += "&subTheme=" + subTheme;
+            string JSONString = GetJSONResponseFromURL(url);            
+            return int.Parse(JSONString);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         // ** BasePart functions **
@@ -268,12 +361,12 @@ namespace Generator
 
         // ** CompositePart functions **
 
-        public static BaseClasses.CompositePartCollection GetCompositePartData_UsingLDrawRefList(List<string> IDList)
+        public static CompositePartCollection GetCompositePartData_UsingLDrawRefList(List<string> IDList)
         {           
             return Global_Variables.APIProxy.GetCompositePartData_UsingLDrawRefList(IDList);
         }
 
-        public static BaseClasses.CompositePartCollection GetCompositePartData_UsingParentLDrawRefList(string ParentLDrawRef)
+        public static CompositePartCollection GetCompositePartData_UsingParentLDrawRefList(string ParentLDrawRef)
         {
             return Global_Variables.APIProxy.GetCompositePartData_UsingParentLDrawRefList(ParentLDrawRef);
         }
@@ -283,57 +376,36 @@ namespace Generator
             return Global_Variables.APIProxy.CheckIfCompositePartsExist(LDrawRef);
         }
 
-        public static void AddCompositePart(BaseClasses.CompositePart p)
+        public static void AddCompositePart(CompositePart p)
         {
             Global_Variables.APIProxy.AddCompositePart(p);
         }
 
-        public static BaseClasses.CompositePartCollection GetAllCompositeSubParts_FromLDrawDetails(string LDrawRef)
+        public static CompositePartCollection GetAllCompositeSubParts_FromLDrawDetails(string LDrawRef)
         {
-            return Global_Variables.APIProxy.GetAllCompositeSubParts_FromLDrawDetails(LDrawRef);
+            //return Global_Variables.APIProxy.GetAllCompositeSubParts_FromLDrawDetails(LDrawRef);
+
+            string url = Global_Variables.APIUrl + "GetAllCompositeSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
+            string JSONString = GetJSONResponseFromURL(url);
+            CompositePartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<CompositePartCollection>(JSONString);
+            return coll;
         }
 
 
-        // ** LDrawDetails functions **
 
-        public static void AddLDrawDetails(BaseClasses.LDrawDetails ldd)
-        {
-            Global_Variables.APIProxy.AddLDrawDetails(ldd);
-        }
-
-        public static BaseClasses.LDrawDetailsCollection GetLDrawDetailsData_UsingLDrawRefList(List<string> IDList)
-        {
-            return Global_Variables.APIProxy.GetLDrawDetailsData_UsingLDrawRefList(IDList);
-        }
+        
 
 
-        // ** FBXDetails functions **
-
-        public static BaseClasses.FBXDetails GetFBXDetails(string LDrawRef, string partType)
-        {
-            return Global_Variables.APIProxy.GetFBXDetails(LDrawRef, partType);
-        }
 
 
-        // ** ThemeDetails Functions **
 
-        public static BaseClasses.ThemeDetailsCollection GetAllThemeDetails()
-        {
-            return Global_Variables.APIProxy.GetAllThemeDetails();
-        }
 
-        public static ThemeDetails GetThemeDetails(string ThemeRef)
-        {
-            ThemeDetails td = null;
-            ThemeDetailsCollection tdc = Global_Variables.APIProxy.GetThemeDetailsData_UsingThemeList(new List<string>() { ThemeRef });
-            if (tdc.ThemeDetailsList.Count > 0) td = tdc.ThemeDetailsList[0];
-            return td;
-        }
 
-        public static int GetSetCountForThemeAndSubTheme(string theme, string subTheme)
-        {
-            return Global_Variables.APIProxy.GetSetCountForThemeAndSubTheme(theme, subTheme);
-        }
+
+
+
+
+
 
 
         // ** Rebrickable Functions
@@ -344,9 +416,10 @@ namespace Generator
         }
 
 
+
         // ** TickBack Functions **
 
-        public static BaseClasses.TickBack GetTickBack(string TickBackName)
+        public static TickBack GetTickBack(string TickBackName)
         {
             TickBack tb = null;
             TickBackCollection tbc = Global_Variables.APIProxy.GetTickBackData_UsingTickBackNameList(new List<string>() { TickBackName });

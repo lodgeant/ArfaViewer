@@ -96,6 +96,7 @@
             this.lblLDrawColourNameAc = new System.Windows.Forms.ToolStripLabel();
             this.fldLDrawColourNameAc = new System.Windows.Forms.ToolStripTextBox();
             this.ilThemeTemplate = new System.Windows.Forms.ImageList(this.components);
+            this.chkShowSetImages = new System.Windows.Forms.CheckBox();
             this.toolStrip1.SuspendLayout();
             this.gpSetDetails.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -151,6 +152,7 @@
             // fldImportFilePath
             // 
             this.fldImportFilePath.BackColor = System.Drawing.Color.LightGray;
+            this.fldImportFilePath.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldImportFilePath.Name = "fldImportFilePath";
             this.fldImportFilePath.Size = new System.Drawing.Size(300, 25);
             this.fldImportFilePath.Text = "Z:\\static-data\\csv-sets\\Agents.csv";
@@ -274,6 +276,7 @@
             // fldSetRef
             // 
             this.fldSetRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldSetRef.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSetRef.Name = "fldSetRef";
             this.fldSetRef.Size = new System.Drawing.Size(100, 25);
             // 
@@ -286,6 +289,7 @@
             // fldDescription
             // 
             this.fldDescription.BackColor = System.Drawing.Color.LightGray;
+            this.fldDescription.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldDescription.Name = "fldDescription";
             this.fldDescription.Size = new System.Drawing.Size(200, 25);
             // 
@@ -346,6 +350,7 @@
             // fldYear
             // 
             this.fldYear.BackColor = System.Drawing.Color.LightGray;
+            this.fldYear.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldYear.Name = "fldYear";
             this.fldYear.Size = new System.Drawing.Size(30, 25);
             // 
@@ -358,6 +363,7 @@
             // fldInstructionRefs
             // 
             this.fldInstructionRefs.BackColor = System.Drawing.Color.LightGray;
+            this.fldInstructionRefs.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldInstructionRefs.Name = "fldInstructionRefs";
             this.fldInstructionRefs.Size = new System.Drawing.Size(150, 25);
             // 
@@ -387,6 +393,7 @@
             // fldAssignedTo
             // 
             this.fldAssignedTo.BackColor = System.Drawing.Color.LightGray;
+            this.fldAssignedTo.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldAssignedTo.Name = "fldAssignedTo";
             this.fldAssignedTo.Size = new System.Drawing.Size(75, 25);
             // 
@@ -641,6 +648,7 @@
             // toolStripTextBox1
             // 
             this.toolStripTextBox1.BackColor = System.Drawing.Color.Wheat;
+            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 25);
             // 
@@ -653,6 +661,7 @@
             // fldLDrawRefAc
             // 
             this.fldLDrawRefAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldLDrawRefAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawRefAc.Name = "fldLDrawRefAc";
             this.fldLDrawRefAc.Size = new System.Drawing.Size(100, 25);
             // 
@@ -666,6 +675,7 @@
             // fldLDrawColourNameAc
             // 
             this.fldLDrawColourNameAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldLDrawColourNameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawColourNameAc.Name = "fldLDrawColourNameAc";
             this.fldLDrawColourNameAc.Size = new System.Drawing.Size(125, 25);
             // 
@@ -675,11 +685,25 @@
             this.ilThemeTemplate.TransparentColor = System.Drawing.Color.Transparent;
             this.ilThemeTemplate.Images.SetKeyName(0, "package.png");
             // 
+            // chkShowSetImages
+            // 
+            this.chkShowSetImages.AutoSize = true;
+            this.chkShowSetImages.BackColor = System.Drawing.Color.Yellow;
+            this.chkShowSetImages.Checked = true;
+            this.chkShowSetImages.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowSetImages.Location = new System.Drawing.Point(633, 7);
+            this.chkShowSetImages.Name = "chkShowSetImages";
+            this.chkShowSetImages.Size = new System.Drawing.Size(109, 17);
+            this.chkShowSetImages.TabIndex = 112;
+            this.chkShowSetImages.Text = "Show Set Images";
+            this.chkShowSetImages.UseVisualStyleBackColor = false;
+            // 
             // SetDetailsScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1884, 653);
+            this.Controls.Add(this.chkShowSetImages);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.gpSetDetails);
             this.Controls.Add(this.toolStrip1);
@@ -783,5 +807,6 @@
         private System.Windows.Forms.StatusStrip statusStrip2;
         private System.Windows.Forms.ToolStripProgressBar pbStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
+        private System.Windows.Forms.CheckBox chkShowSetImages;
     }
 }

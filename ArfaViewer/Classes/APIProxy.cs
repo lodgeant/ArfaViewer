@@ -40,12 +40,6 @@ namespace Generator
 
 
 
-        public bool CheckIfBlobExists(string containerName, string blobName)
-        {
-            BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, containerName).GetBlobClient(blobName);
-            return blob.Exists();
-        }
-
 
 
         // ** Image Functions **
@@ -252,7 +246,7 @@ namespace Generator
         //    return coll;
         //}
 
-       
+
 
         //public void UpdateSetDetailsCounts_UsingSetRef(string SetRef, int PartCount, int SubSetCount, int ModelCount, int MiniFigCount)
         //{
@@ -355,24 +349,264 @@ namespace Generator
         //    return exists;
         //}
 
+        //public void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
+        //{
+        //    // check if set details exist, if they exist, do an update, if not do nothing.
+        //    SetDetailsCollection sdc = StaticData.GetSetDetailsData_UsingSetRefList(new List<string>() { setRef });
+        //    if (sdc.SetDetailsList.Count == 1)
+        //    {
+        //        // ** Generate SQL Statement **
+        //        string sql = "UPDATE SET_DETAILS" + Environment.NewLine;
+        //        sql += "SET INSTRUCTIONS = '" + xmlString + "'" + Environment.NewLine;
+        //        sql += "WHERE REF='" + setRef + "'" + Environment.NewLine;
+
+        //        // ** Execute SQL statement **
+        //        ExecuteSQLStatement(this.AzureDBConnString, sql);
+        //    }
+        //}
+
+        // ** FBXDetails functions **
+
+        //public FBXDetailsCollection GetFBXDetailsData_UsingLDrawRefList(List<string> IDList)
+        //{
+        //    // All BASIC parts have their own FBX file.
+        //    // All COMPOSITIE parts are made up of their child FBX parts
+
+        //    // ** Get BasePart Details for all parts (Upfront) **
+        //    // THIS NEEDS TO BE ADDED
+
+        //    // ** Generate BasePartCollection from BASEPART data in database **
+        //    FBXDetailsCollection coll = new FBXDetailsCollection();
+        //    if (IDList.Count > 0)
+        //    {
+        //        foreach(string LDrawRef in IDList)
+        //        {
+        //            // ** Get partType for Part **
+        //            string partType = GetPartType_UsingLDrawRef(LDrawRef);
+
+        //            // ** Check Part Type **
+        //            long fbxSize = 0;
+        //            bool allFBXExist = false;
+        //            int fbxFoundCount = 0;
+        //            if (partType.Equals("BASIC"))
+        //            {
+        //                ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
+        //                if (share.Exists())
+        //                {
+        //                    fbxSize = share.GetProperties().Value.ContentLength;
+        //                    allFBXExist = true;
+        //                    fbxFoundCount += 1;
+        //                }
+        //            }
+        //            else if (partType.Equals("COMPOSITE"))
+        //            {
+        //                // Get all sub part Composite parts
+        //                CompositePartCollection cpc = GetAllCompositeSubParts_FromLDrawDetails(LDrawRef);
+        //                foreach (CompositePart cp in cpc.CompositePartList)
+        //                {
+        //                    ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(cp.LDrawRef + ".fbx");
+        //                    if (share.Exists())
+        //                    {
+        //                        fbxSize += share.GetProperties().Value.ContentLength;
+        //                        fbxFoundCount += 1;
+        //                    }
+        //                }
+        //                if (cpc.CompositePartList.Count == fbxFoundCount) allFBXExist = true;
+        //            }
+
+        //            // ** Generate FBXDetails object and return **
+        //            FBXDetails fbxDetails = new FBXDetails();
+        //            fbxDetails.FBXSize = fbxSize;
+        //            fbxDetails.AllFBXExist = allFBXExist;
+        //            fbxDetails.FBXCount = fbxFoundCount;
+        //            coll.FBXDetailsList.Add(fbxDetails);
+        //        }
+        //    }
+        //    return coll;
+        //}
+
+        // ** LDraw Details (File) Functions **
+
+        //public LDrawDetailsCollection GetLDrawDetailsData_UsingLDrawRefList(List<string> IDList)
+        //{
+        //    // ** Generate LDrawDetailsCollection from LDRAW_DETAILS data in database **
+        //    LDrawDetailsCollection coll = new LDrawDetailsCollection();
+        //    if (IDList.Count > 0)
+        //    {
+        //        // Check if entry already exists, if yes, add it, if not create and add it
+        //        // ** Try and get all the data from the database
+        //        string sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT,DATA,SUB_PART_LDRAW_REF_LIST FROM LDRAW_DETAILS ";
+        //        sql += "WHERE LDRAW_REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
+        //        var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //        coll = LDrawDetailsCollection.GetLDrawDetailsCollectionFromDataTable(results);
+
+        //        // ** Check if LDrawDetails are available in DB - if not download from FILESHARE **
+        //        // ** Check if all data was got from DB **
+        //        if (coll.LDrawDetailsList.Count != IDList.Count)
+        //        {
+        //            // ** Get difference between found refs and database refs **
+        //            List<string> foundRefs = new List<string>();
+        //            foreach (LDrawDetails ldd in coll.LDrawDetailsList) foundRefs.Add(ldd.LDrawRef);
+        //            List<string> firstDiffSecond = IDList.Except(foundRefs).ToList();
+
+        //            // Cycle through difs and add them to the database
+        //            foreach (string LDrawRef in IDList)
+        //            {
+        //                LDrawDetails lDrawDetails = GetLDrawDetails_FromLDrawFile(LDrawRef);
+        //                if(lDrawDetails != null)
+        //                {
+        //                    AddLDrawDetails(lDrawDetails);
+        //                    coll.LDrawDetailsList.Add(lDrawDetails);
+        //                }                       
+        //            }
+        //        }
+
+        //        // ** Check to esnure that all ietsm have been generated **
+        //        if (coll.LDrawDetailsList.Count != IDList.Count) coll = new LDrawDetailsCollection();               
+        //    }
+        //    return coll;
+        //}
+
+        //public LDrawDetails GetLDrawDetails_FromLDrawFile(string LDrawRef)
+        //{
+        //    LDrawDetails ldD = null;
+        //    try
+        //    {
+        //        string LDrawPartType = "";
+        //        ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\parts").GetFileClient(LDrawRef + ".dat");
+        //        LDrawPartType = BasePart.LDrawPartType.OFFICIAL.ToString();
+        //        if (share.Exists() == false)
+        //        {
+        //            share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial\parts").GetFileClient(LDrawRef + ".dat");
+        //            LDrawPartType = BasePart.LDrawPartType.UNOFFICIAL.ToString();
+        //            if (share.Exists() == false)
+        //            {
+        //                share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(LDrawRef + ".dat");
+        //                LDrawPartType = BasePart.LDrawPartType.UNOFFICIAL.ToString();
+        //            }
+        //        }
+        //        if (share.Exists())
+        //        {
+        //            //DateTime lastUpdatedUTC = share.GetProperties().Value.LastModified.UtcDateTime;
+        //            byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
+        //            Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
+        //            using (var ms = new MemoryStream(fileContent)) download.Content.CopyTo(ms);
+        //            string LDrawFileText = Encoding.UTF8.GetString(fileContent);
+
+        //            // ** Get Sub Part Ref List ** 
+        //            List<string> SubPartLDrawRefList = GetSubPartLDrawRefListFromLDrawFileText(LDrawFileText);
+
+        //            // ** Update LDraw Details object **
+        //            ldD = new LDrawDetails();
+        //            ldD.LDrawRef = LDrawRef;
+        //            ldD.LDrawDescription = LDrawDetails.GetLDrawDescriptionFromLDrawFileText(LDrawFileText);                    
+        //            ldD.SubPartCount = SubPartLDrawRefList.Count;                    
+        //            ldD.SubPartLDrawRefList = SubPartLDrawRefList;
+        //            ldD.PartType = "BASIC";
+        //            if (ldD.SubPartCount > 0) ldD.PartType = "COMPOSITE";
+        //            ldD.LDrawPartType = LDrawPartType;
+        //            ldD.Data = LDrawFileText;                    
+        //        }
+        //        return ldD;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return ldD;
+        //    }
+        //}
+
+        //public CompositePartCollection GetAllCompositeSubParts_FromLDrawDetails(string LDrawRef)
+        //{            
+        //    try
+        //    {                
+        //        LDrawDetailsCollection coll = GetLDrawDetailsData_UsingLDrawRefList(new List<string>() { LDrawRef });
+        //        CompositePartCollection comColl = new CompositePartCollection();
+        //        foreach (string subPartDetails in coll.LDrawDetailsList[0].SubPartLDrawRefList)
+        //        {
+        //            string SubPart_LDrawRef = subPartDetails.Split('|')[0];
+        //            int SubPart_LDrawColourID = int.Parse(subPartDetails.Split('|')[1]);
+
+        //            // ** Get the Sub Part description from the Sub Part file in FILESHARE **
+        //            LDrawDetails subPartLDD = GetLDrawDetails_FromLDrawFile(SubPart_LDrawRef);
+        //            string subPart_LDrawDescription = subPartLDD.LDrawDescription;
+        //            comColl.CompositePartList.Add(new CompositePart() { LDrawRef = SubPart_LDrawRef, LDrawColourID = SubPart_LDrawColourID, LDrawDescription = subPart_LDrawDescription });
+        //        }
+        //        // Assumes that Sub Parts don't make reference to other sub parts. Would need to change this if any Sub Parts are "c"
+        //        return comColl;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return new CompositePartCollection();
+        //    }
+        //}
+
+        //private List<string> GetSubPartLDrawRefListFromLDrawFileText(string LDrawFileText)
+        //{
+        //    List<string> SubPartLDrawRefList = new List<string>();
+        //    string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        //    foreach (string fileLine in lines)
+        //    {
+        //        if (fileLine.Trim().StartsWith("1") && fileLine.Contains("s\\") == false)
+        //        {
+        //            // Check if part is a real sub part **
+        //            string formattedLine = fileLine.Trim().Replace("   ", " ").Replace("  ", " ");
+        //            string[] DatLine = formattedLine.Split(' ');
+        //            string SubPart_LDrawRef = DatLine[14].ToLower().Replace(".dat", "");
+
+        //            // ** Check if sub part exists in LDraw directory **
+        //            ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\parts").GetFileClient(SubPart_LDrawRef + ".dat");
+        //            if (share.Exists() == false)
+        //            {
+        //                share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial\parts").GetFileClient(SubPart_LDrawRef + ".dat");
+        //                if (share.Exists() == false)
+        //                {
+        //                    share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(SubPart_LDrawRef + ".dat");
+        //                }
+        //            }
+        //            if (share.Exists())
+        //            {
+        //                int SubPart_LDrawColourID = int.Parse(DatLine[1]);
+        //                if (SubPart_LDrawColourID == 16) SubPart_LDrawColourID = -1;    // Assumes that Sub Parts don't make reference to other sub parts. Would need to change this if any Sub Parts are "c"
+        //                SubPartLDrawRefList.Add(SubPart_LDrawRef + "|" + SubPart_LDrawColourID);
+        //            }
+        //        }
+        //    }
+        //    return SubPartLDrawRefList;
+        //}
+
+        //public void AddLDrawDetails(LDrawDetails ldd)
+        //{
+        //    string sql;
+
+        //    sql = "SELECT MAX(ID) 'RESULT' FROM LDRAW_DETAILS";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    int oldID = 0;
+        //    if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
+        //    int newID = oldID + 1;
+
+        //    // ** Generate SQL Statement **
+        //    sql = "INSERT INTO LDRAW_DETAILS" + Environment.NewLine;
+        //    sql += "(ID,LDRAW_REF,LDRAW_DESCRIPTION,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT,DATA,SUB_PART_LDRAW_REF_LIST)" + Environment.NewLine;
+        //    sql += "VALUES" + Environment.NewLine;
+        //    sql += "(";
+        //    sql += newID + ",";
+        //    sql += "'" + ldd.LDrawRef + "',";
+        //    sql += "'" + ldd.LDrawDescription + "',";
+        //    sql += "'" + ldd.PartType + "',";
+        //    sql += "'" + ldd.LDrawPartType + "',";
+        //    sql += ldd.SubPartCount + ",";
+        //    sql += "'" + ldd.Data.Replace("'", "''") + "',";
+        //    sql += "'" + String.Join(",", ldd.SubPartLDrawRefList) + "'";
+        //    sql += ")";
+
+        //    // ** Execute SQL statement **
+        //    ExecuteSQLStatement(this.AzureDBConnString, sql);
+        //}
+
         private void Sep(){}
 
 
-        public void UpdateSetDetailsInstructions_UsingSetRef(string setRef, string xmlString)
-        {
-            // check if set details exist, if they exist, do an update, if not do nothing.
-            SetDetailsCollection sdc = StaticData.GetSetDetailsData_UsingSetRefList(new List<string>() { setRef });
-            if (sdc.SetDetailsList.Count == 1)
-            {
-                // ** Generate SQL Statement **
-                string sql = "UPDATE SET_DETAILS" + Environment.NewLine;
-                sql += "SET INSTRUCTIONS = '" + xmlString + "'" + Environment.NewLine;
-                sql += "WHERE REF='" + setRef + "'" + Environment.NewLine;
-
-                // ** Execute SQL statement **
-                ExecuteSQLStatement(this.AzureDBConnString, sql);
-            }
-        }
+        
 
 
 
@@ -637,268 +871,54 @@ namespace Generator
 
 
 
-        // ** LDraw Details (File) Functions **
-
-        public LDrawDetailsCollection GetLDrawDetailsData_UsingLDrawRefList(List<string> IDList)
-        {
-            // ** Generate LDrawDetailsCollection from LDRAW_DETAILS data in database **
-            LDrawDetailsCollection coll = new LDrawDetailsCollection();
-            if (IDList.Count > 0)
-            {
-                // Check if entry already exists, if yes, add it, if not create and add it
-                // ** Try and get all the data from the database
-                string sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT,DATA,SUB_PART_LDRAW_REF_LIST FROM LDRAW_DETAILS ";
-                sql += "WHERE LDRAW_REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
-                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-                coll = LDrawDetailsCollection.GetLDrawDetailsCollectionFromDataTable(results);
-
-                // ** Check if LDrawDetails are available in DB - if not download from FILESHARE **
-                // ** Check if all data was got from DB **
-                if (coll.LDrawDetailsList.Count != IDList.Count)
-                {
-                    // ** Get difference between found refs and database refs **
-                    List<string> foundRefs = new List<string>();
-                    foreach (LDrawDetails ldd in coll.LDrawDetailsList) foundRefs.Add(ldd.LDrawRef);
-                    List<string> firstDiffSecond = IDList.Except(foundRefs).ToList();
-
-                    // Cycle through difs and add them to the database
-                    foreach (string LDrawRef in IDList)
-                    {
-                        LDrawDetails lDrawDetails = GetLDrawDetails_FromLDrawFile(LDrawRef);
-                        if(lDrawDetails != null)
-                        {
-                            AddLDrawDetails(lDrawDetails);
-                            coll.LDrawDetailsList.Add(lDrawDetails);
-                        }                       
-                    }
-                }
-
-                // ** Check to esnure that all ietsm have been generated **
-                if (coll.LDrawDetailsList.Count != IDList.Count) coll = new LDrawDetailsCollection();               
-            }
-            return coll;
-        }
-
-        public void AddLDrawDetails(LDrawDetails ldd)
-        {
-            string sql;
-
-            sql = "SELECT MAX(ID) 'RESULT' FROM LDRAW_DETAILS";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            int oldID = 0;
-            if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
-            int newID = oldID + 1;
-
-            // ** Generate SQL Statement **
-            sql = "INSERT INTO LDRAW_DETAILS" + Environment.NewLine;
-            sql += "(ID,LDRAW_REF,LDRAW_DESCRIPTION,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT,DATA,SUB_PART_LDRAW_REF_LIST)" + Environment.NewLine;
-            sql += "VALUES" + Environment.NewLine;
-            sql += "(";
-            sql += newID + ",";
-            sql += "'" + ldd.LDrawRef + "',";
-            sql += "'" + ldd.LDrawDescription + "',";
-            sql += "'" + ldd.PartType + "',";
-            sql += "'" + ldd.LDrawPartType + "',";
-            sql += ldd.SubPartCount + ",";            
-            sql += "'" + ldd.Data.Replace("'", "''") + "',";
-            sql += "'" + String.Join(",", ldd.SubPartLDrawRefList) + "'";
-            sql += ")";
-
-            // ** Execute SQL statement **
-            ExecuteSQLStatement(this.AzureDBConnString, sql);
-        }
         
-        public LDrawDetails GetLDrawDetails_FromLDrawFile(string LDrawRef)
-        {
-            LDrawDetails ldD = null;
-            try
-            {
-                string LDrawPartType = "";
-                ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\parts").GetFileClient(LDrawRef + ".dat");
-                LDrawPartType = BasePart.LDrawPartType.OFFICIAL.ToString();
-                if (share.Exists() == false)
-                {
-                    share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial\parts").GetFileClient(LDrawRef + ".dat");
-                    LDrawPartType = BasePart.LDrawPartType.UNOFFICIAL.ToString();
-                    if (share.Exists() == false)
-                    {
-                        share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(LDrawRef + ".dat");
-                        LDrawPartType = BasePart.LDrawPartType.UNOFFICIAL.ToString();
-                    }
-                }
-                if (share.Exists())
-                {
-                    //DateTime lastUpdatedUTC = share.GetProperties().Value.LastModified.UtcDateTime;
-                    byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
-                    Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
-                    using (var ms = new MemoryStream(fileContent)) download.Content.CopyTo(ms);
-                    string LDrawFileText = Encoding.UTF8.GetString(fileContent);
-
-                    // ** Get Sub Part Ref List ** 
-                    List<string> SubPartLDrawRefList = GetSubPartLDrawRefListFromLDrawFileText(LDrawFileText);
-
-                    // ** Update LDraw Details object **
-                    ldD = new LDrawDetails();
-                    ldD.LDrawRef = LDrawRef;
-                    ldD.LDrawDescription = LDrawDetails.GetLDrawDescriptionFromLDrawFileText(LDrawFileText);                    
-                    ldD.SubPartCount = SubPartLDrawRefList.Count;                    
-                    ldD.SubPartLDrawRefList = SubPartLDrawRefList;
-                    ldD.PartType = "BASIC";
-                    if (ldD.SubPartCount > 0) ldD.PartType = "COMPOSITE";
-                    ldD.LDrawPartType = LDrawPartType;
-                    ldD.Data = LDrawFileText;                    
-                }
-                return ldD;
-            }
-            catch (Exception)
-            {
-                return ldD;
-            }
-        }
-
-        public CompositePartCollection GetAllCompositeSubParts_FromLDrawDetails(string LDrawRef)
-        {            
-            try
-            {                
-                LDrawDetailsCollection coll = GetLDrawDetailsData_UsingLDrawRefList(new List<string>() { LDrawRef });
-                CompositePartCollection comColl = new CompositePartCollection();
-                foreach (string subPartDetails in coll.LDrawDetailsList[0].SubPartLDrawRefList)
-                {
-                    string SubPart_LDrawRef = subPartDetails.Split('|')[0];
-                    int SubPart_LDrawColourID = int.Parse(subPartDetails.Split('|')[1]);
-                    
-                    // ** Get the Sub Part description from the Sub Part file in FILESHARE **
-                    LDrawDetails subPartLDD = GetLDrawDetails_FromLDrawFile(SubPart_LDrawRef);
-                    string subPart_LDrawDescription = subPartLDD.LDrawDescription;
-                    comColl.CompositePartList.Add(new CompositePart() { LDrawRef = SubPart_LDrawRef, LDrawColourID = SubPart_LDrawColourID, LDrawDescription = subPart_LDrawDescription });
-                }
-                // Assumes that Sub Parts don't make reference to other sub parts. Would need to change this if any Sub Parts are "c"
-                return comColl;
-            }
-            catch (Exception)
-            {
-                return new CompositePartCollection();
-            }
-        }
-
-        private List<string> GetSubPartLDrawRefListFromLDrawFileText(string LDrawFileText)
-        {
-            List<string> SubPartLDrawRefList = new List<string>();
-            string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            foreach (string fileLine in lines)
-            {
-                if (fileLine.Trim().StartsWith("1") && fileLine.Contains("s\\") == false)
-                {
-                    // Check if part is a real sub part **
-                    string formattedLine = fileLine.Trim().Replace("   ", " ").Replace("  ", " ");
-                    string[] DatLine = formattedLine.Split(' ');
-                    string SubPart_LDrawRef = DatLine[14].ToLower().Replace(".dat", "");
-
-                    // ** Check if sub part exists in LDraw directory **
-                    ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\parts").GetFileClient(SubPart_LDrawRef + ".dat");
-                    if (share.Exists() == false)
-                    {
-                        share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial\parts").GetFileClient(SubPart_LDrawRef + ".dat");
-                        if (share.Exists() == false)
-                        {
-                            share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\ldraw\unofficial minifig\parts").GetFileClient(SubPart_LDrawRef + ".dat");
-                        }
-                    }
-                    if (share.Exists())
-                    {
-                        int SubPart_LDrawColourID = int.Parse(DatLine[1]);
-                        if (SubPart_LDrawColourID == 16) SubPart_LDrawColourID = -1;    // Assumes that Sub Parts don't make reference to other sub parts. Would need to change this if any Sub Parts are "c"
-                        SubPartLDrawRefList.Add(SubPart_LDrawRef + "|" + SubPart_LDrawColourID);
-                    }
-                }
-            }
-            return SubPartLDrawRefList;
-        }
 
 
 
-        // ** FBXDetails functions **
 
-        public FBXDetails GetFBXDetails(string LDrawRef, string partType)
-        {
-            // All BASIC parts have their own FBX file.
-            // All COMPOSITIE parts are made up of their child FBX parts
 
-            // ** Check Part Type **
-            long fbxSize = 0;
-            bool allFBXExist = false;
-            int fbxFoundCount = 0;
-            if (partType.Equals("BASIC"))
-            {
-                ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(LDrawRef + ".fbx");
-                if (share.Exists())
-                {
-                    fbxSize = share.GetProperties().Value.ContentLength;
-                    allFBXExist = true;
-                    fbxFoundCount += 1;
-                }
-            }
-            else if (partType.Equals("COMPOSITE"))
-            {
-                // Get all sub part Composite parts
-                CompositePartCollection coll = GetAllCompositeSubParts_FromLDrawDetails(LDrawRef);
-                foreach (CompositePart cp in coll.CompositePartList)
-                {
-                    ShareFileClient share = new ShareClient(this.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(cp.LDrawRef + ".fbx");
-                    if (share.Exists())
-                    {
-                        fbxSize += share.GetProperties().Value.ContentLength;
-                        fbxFoundCount += 1;
-                    }
-                }
-                if (coll.CompositePartList.Count == fbxFoundCount) allFBXExist = true;
-            }
 
-            // ** Generate FBXDetails object and return **
-            FBXDetails fbxDetails = new FBXDetails();
-            fbxDetails.fbxSize = fbxSize;
-            fbxDetails.allFBXExist = allFBXExist;
-            fbxDetails.fbxCount = fbxFoundCount;
-            return fbxDetails;
-        }
+        
+
+        
 
         
 
         // ** ThemeDetails **
 
-        public ThemeDetailsCollection GetAllThemeDetails()
-        {
-            ThemeDetailsCollection ThemeDetailsCollection = new ThemeDetailsCollection();
-            string sql = "SELECT THEME,SUB_THEME FROM SET_DETAILS GROUP BY THEME,SUB_THEME ORDER BY THEME,SUB_THEME";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            ThemeDetailsCollection = ThemeDetailsCollection.GetThemeDetailsCollectionFromDataTable(results);
-            return ThemeDetailsCollection;
-        }
+        //public ThemeDetailsCollection GetAllThemeDetails()
+        //{
+        //    ThemeDetailsCollection ThemeDetailsCollection = new ThemeDetailsCollection();
+        //    string sql = "SELECT THEME,SUB_THEME FROM SET_DETAILS GROUP BY THEME,SUB_THEME ORDER BY THEME,SUB_THEME";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    ThemeDetailsCollection = ThemeDetailsCollection.GetThemeDetailsCollectionFromDataTable(results);
+        //    return ThemeDetailsCollection;
+        //}
 
-        public ThemeDetailsCollection GetThemeDetailsData_UsingThemeList(List<string> IDList)
-        {
-            // ** Generate ThemeDetailsCollection from SET_DETAILS data in database **
-            ThemeDetailsCollection coll = new ThemeDetailsCollection();
-            if (IDList.Count > 0)
-            {
-                string sql = "SELECT THEME,SUB_THEME FROM SET_DETAILS  ";
-                sql += "WHERE THEME IN (" + string.Join(",", IDList.Select(s => "'" + s.Replace("'","''") + "'")) + ")";
-                sql += " GROUP BY THEME,SUB_THEME ORDER BY THEME,SUB_THEME";
+        //public ThemeDetailsCollection GetThemeDetailsData_UsingThemeList(List<string> IDList)
+        //{
+        //    // ** Generate ThemeDetailsCollection from SET_DETAILS data in database **
+        //    ThemeDetailsCollection coll = new ThemeDetailsCollection();
+        //    if (IDList.Count > 0)
+        //    {
+        //        string sql = "SELECT THEME,SUB_THEME FROM SET_DETAILS  ";
+        //        sql += "WHERE THEME IN (" + string.Join(",", IDList.Select(s => "'" + s.Replace("'","''") + "'")) + ")";
+        //        sql += " GROUP BY THEME,SUB_THEME ORDER BY THEME,SUB_THEME";
 
-                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-                coll = ThemeDetailsCollection.GetThemeDetailsCollectionFromDataTable(results);
-            }
-            return coll;
-        }
+        //        var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //        coll = ThemeDetailsCollection.GetThemeDetailsCollectionFromDataTable(results);
+        //    }
+        //    return coll;
+        //}
 
-        public int GetSetCountForThemeAndSubTheme(string theme, string subTheme)
-        {           
-            String sql = "SELECT COUNT(ID) 'RESULT' FROM SET_DETAILS WHERE THEME='" + theme.Replace("'", "''") + "'";
-            if(subTheme != "") sql += " AND SUB_THEME='" + subTheme.Replace("'", "''") + "'";           
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            int count = (int)results.Rows[0]["RESULT"];           
-            return count;
-        }
+        //public int GetSetCountForThemeAndSubTheme(string theme, string subTheme)
+        //{           
+        //    String sql = "SELECT COUNT(ID) 'RESULT' FROM SET_DETAILS WHERE THEME='" + theme.Replace("'", "''") + "'";
+        //    if(subTheme != "") sql += " AND SUB_THEME='" + subTheme.Replace("'", "''") + "'";           
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    int count = (int)results.Rows[0]["RESULT"];           
+        //    return count;
+        //}
 
 
 
@@ -1010,13 +1030,13 @@ namespace Generator
             foreach (string MiniFigRef in MiniFigSetList)
             {
                 // ** Get the Set XML doc for the MiniFig **               
-                SetDetails MiniFig_SetDetails = StaticData.GetSetDetails(MiniFigRef);
-                if(MiniFig_SetDetails != null)
+                SetInstructions MiniFig_SetInstructions = StaticData.GetSetInstructions(MiniFigRef);
+                if (MiniFig_SetInstructions != null)
                 {
                     // ** Get MiniFig XML **
                     XmlDocument MiniFigXmlDoc = new XmlDocument();
-                    //string xmlString = MiniFig_SetDetails.Instructions;
-                    //MiniFigXmlDoc.LoadXml(xmlString);
+                    //string xmlString = MiniFig_SetInstructions.Data;
+                    MiniFigXmlDoc.LoadXml(MiniFig_SetInstructions.Data);
                     if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false) MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);
                 }
             }
@@ -1049,7 +1069,7 @@ namespace Generator
             }
         }
 
-
+       
 
 
 
@@ -1083,6 +1103,12 @@ namespace Generator
                 image = new Bitmap(ms);
             }
             return image;
+        }
+
+        public bool CheckIfBlobExists(string containerName, string blobName)
+        {
+            BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, containerName).GetBlobClient(blobName);
+            return blob.Exists();
         }
 
         private static DataTable GetSQLQueryResults(string AzureDBConnString, string sql)
