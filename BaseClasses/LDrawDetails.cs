@@ -9,14 +9,19 @@ namespace BaseClasses
 {
     public class LDrawDetails
     {
-        public string LDrawRef;
-        public string LDrawDescription;
-        public string PartType;
-        public string LDrawPartType;
-        public int SubPartCount;
-        public string Data;
-        public List<string> SubPartLDrawRefList = new List<string>();
+        public string LDrawRef { get; set; }
+        public string LDrawDescription { get; set; }
+        public string PartType { get; set; }
+        public string LDrawPartType { get; set; }
+        public int SubPartCount { get; set; }
+        public string Data { get; set; }
+        public List<string> SubPartLDrawRefList { get; set; }
 
+
+        public LDrawDetails()
+        {
+            this.SubPartLDrawRefList = new List<string>();
+        }
 
 
         public static string GetLDrawDescriptionFromLDrawFileText(string LDrawFileText)

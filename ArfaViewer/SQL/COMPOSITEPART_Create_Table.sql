@@ -13,4 +13,3 @@ CREATE TABLE COMPOSITEPART
 	ROT_Y float,
 	ROT_Z float
 );
-

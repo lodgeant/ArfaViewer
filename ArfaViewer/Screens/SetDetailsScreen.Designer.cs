@@ -155,15 +155,14 @@
             this.fldImportFilePath.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldImportFilePath.Name = "fldImportFilePath";
             this.fldImportFilePath.Size = new System.Drawing.Size(300, 25);
-            this.fldImportFilePath.Text = "Z:\\static-data\\csv-sets\\Agents.csv";
             // 
             // fldImportFilePathBrowse
             // 
-            this.fldImportFilePathBrowse.BackColor = System.Drawing.Color.Pink;
             this.fldImportFilePathBrowse.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.fldImportFilePathBrowse.Name = "fldImportFilePathBrowse";
             this.fldImportFilePathBrowse.Size = new System.Drawing.Size(23, 22);
             this.fldImportFilePathBrowse.Text = "...";
+            this.fldImportFilePathBrowse.Click += new System.EventHandler(this.fldImportFilePathBrowse_Click);
             // 
             // btnImportSetDetailsFromCSVFile
             // 

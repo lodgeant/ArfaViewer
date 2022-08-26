@@ -2857,7 +2857,7 @@ namespace Generator
                 // ** Lookup LDraw Colour ID **
                 if(fldLDrawColourName.Text != "")
                 {                    
-                    int LDrawColourID = StaticData.GetLDrawColourID(fldLDrawColourName.Text);
+                    string LDrawColourID = StaticData.GetLDrawColourID(fldLDrawColourName.Text);
                     fldLDrawColourID.Text = LDrawColourID.ToString();
                 }
             }
@@ -2874,7 +2874,7 @@ namespace Generator
                 // ** Lookup LDraw Colour ID **
                 if (fldLDrawColourID.Text != "")
                 {
-                    string LDrawColourName = StaticData.GetLDrawColourName(int.Parse(fldLDrawColourID.Text));
+                    string LDrawColourName = StaticData.GetLDrawColourName(fldLDrawColourID.Text);
                     fldLDrawColourName.Text = LDrawColourName;
                 }
             }

@@ -46,7 +46,7 @@ namespace Generator
             return coll;
         }
 
-        public static int GetLDrawColourID(string LDrawColourName)
+        public static string GetLDrawColourID(string LDrawColourName)
         {
             //int LDrawColourID = int.Parse(Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourName='" + LDrawColourName + "']/@LDrawColourID").InnerXml);
             //int LDrawColourID = (from r in Global_Variables.PartColourCollection.PartColourList
@@ -58,10 +58,10 @@ namespace Generator
 
             string url = Global_Variables.APIUrl + "GetLDrawColourID_UsingLDrawColourName?LDrawColourName=" + LDrawColourName;
             string JSONString = GetJSONResponseFromURL(url);
-            return int.Parse(JSONString);
+            return JSONString;
         }
 
-        public static string GetLDrawColourName(int LDrawColourID)
+        public static string GetLDrawColourName(string LDrawColourID)
         {
             // ** Get data from PartColourCollection XML **
             //string LDrawColourName = Global_Variables.PartColourCollectionXML.SelectSingleNode("//PartColour[@LDrawColourID='" + LDrawColourID + "']/@LDrawColourName").InnerXml;

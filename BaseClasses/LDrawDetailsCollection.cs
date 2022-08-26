@@ -16,7 +16,15 @@ namespace BaseClasses
     public class LDrawDetailsCollection
 {
         [XmlElement("LDrawDetails")]
-        public List<LDrawDetails> LDrawDetailsList = new List<LDrawDetails>();
+        public List<LDrawDetails> LDrawDetailsList { get; set; }
+
+        public LDrawDetailsCollection()
+        {
+            LDrawDetailsList = new List<LDrawDetails>();
+        }
+
+
+
 
         public string SerializeToString(bool omitDeclaration)
         {

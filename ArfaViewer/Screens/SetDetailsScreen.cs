@@ -130,6 +130,23 @@ namespace Generator
             ImportSetDetails();
         }
 
+        private void fldImportFilePathBrowse_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
+                    openFileDialog.InitialDirectory = @"Z:\static-data\csv-sets";
+                    openFileDialog.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
+                    if (openFileDialog.ShowDialog() == DialogResult.OK) fldImportFilePath.Text = openFileDialog.FileName;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         #endregion
 
         #region ** REFRESH THEME TREEVIEW FUNCTIONS **
@@ -149,7 +166,7 @@ namespace Generator
 
         //        // ** Add images to Themes & SubThemes **
         //        ThemeTreeNodes = UpdateThemeImages(ThemeTreeNodes);
-                
+
         //        // ** Set tvThemesSummary **
         //        tvThemesSummary.Nodes.Clear();
         //        tvThemesSummary.Nodes.AddRange(ThemeTreeNodes);
@@ -178,6 +195,7 @@ namespace Generator
                 fldImportFilePath.Enabled = value;
                 fldImportFilePathBrowse.Enabled = value;
                 btnImportSetDetailsFromCSVFile.Enabled = value;
+                chkShowSetImages.Enabled = value;
                 gpThemes.Enabled = value;
                 gpThemeSummary.Enabled = value;
                 gpSetDetails.Enabled = value;
@@ -776,6 +794,10 @@ namespace Generator
                 SetDetails sd = StaticData.GetSetDetails(SetRef);
                 if (sd == null) throw new Exception("Set Details don't exist for " + SetRef);
 
+                // Check if Set Instruction exists
+                SetInstructions si = StaticData.GetSetInstructions(SetRef);
+                if (si == null) throw new Exception("Set Instructions don't exist for " + SetRef);
+
                 // ** Load Viewer Screen **
                 InstructionViewer form = new InstructionViewer(SetRef);
                 form.LoadSet();
@@ -984,6 +1006,7 @@ namespace Generator
                 fldImportFilePath.Enabled = value;
                 fldImportFilePathBrowse.Enabled = value;
                 btnImportSetDetailsFromCSVFile.Enabled = value;
+                chkShowSetImages.Enabled = value;
                 gpThemes.Enabled = value;
                 gpThemeSummary.Enabled = value;
                 gpSetDetails.Enabled = value;
@@ -1147,8 +1170,16 @@ namespace Generator
                 MessageBox.Show(ex.Message);                
             }
         }
-             
+
+
+
+
         #endregion
+
+
+
+
+        
 
 
 
