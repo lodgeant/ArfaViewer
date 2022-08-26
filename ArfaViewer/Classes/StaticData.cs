@@ -261,10 +261,6 @@ namespace Generator
         }
 
 
-
-
-
-
         // ** ThemeDetails Functions **
 
         public static ThemeDetailsCollection GetThemeDetailsData_UsingThemeList(List<string> ThemeList)
@@ -304,6 +300,57 @@ namespace Generator
             return int.Parse(JSONString);
 
         }
+
+
+        // ** TickBack Functions **
+
+        public static TickBackCollection GetTickBackData_UsingTickBackNameList(List<string> NameList)
+        {
+            string url = Global_Variables.APIUrl + "GetTickBackData_UsingTickBackNameList?";
+            foreach (string id in NameList) url += "NameList=" + id + "&";
+            string JSONString = GetJSONResponseFromURL(url);
+            TickBackCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<TickBackCollection>(JSONString);
+            return coll;
+        }
+
+        public static TickBack GetTickBack(string TickBackName)
+        {
+            TickBack tb = null;
+            TickBackCollection tbc = GetTickBackData_UsingTickBackNameList(new List<string>() { TickBackName });
+            if (tbc.TickBackList.Count > 0) tb = tbc.TickBackList[0];
+            return tb;
+        }
+
+        public static void AddTickBack(TickBack tb)
+        {
+            //Global_Variables.APIProxy.AddTickBack(tb);
+
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(tb);
+            string url = Global_Variables.APIUrl + "AddTickBack";
+            PostJSONRequestFromURL(url, json);
+        }
+
+        public static void UpdateTickBack(TickBack tb)
+        {
+            //Global_Variables.APIProxy.UpdateTickBack(tb);
+
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(tb);
+            string url = Global_Variables.APIUrl + "UpdateTickBack";
+            PostJSONRequestFromURL(url, json);
+        }
+
+        public static void DeleteTickBack(string TickBackName)
+        {
+            //Global_Variables.APIProxy.DeleteTickBack(TickBackName);
+
+            string url = Global_Variables.APIUrl + "DeleteTickBack?TickBackName=" + TickBackName;
+            PostRequestFromURL(url);
+        }
+
+
+
+
+
 
 
 
@@ -417,33 +464,7 @@ namespace Generator
 
 
 
-        // ** TickBack Functions **
-
-        public static TickBack GetTickBack(string TickBackName)
-        {
-            TickBack tb = null;
-            TickBackCollection tbc = Global_Variables.APIProxy.GetTickBackData_UsingTickBackNameList(new List<string>() { TickBackName });
-            if (tbc.TickBackList.Count > 0) tb = tbc.TickBackList[0];
-            return tb;
-        }
-
-        public static void AddTickBack(BaseClasses.TickBack tb)
-        {
-            Global_Variables.APIProxy.AddTickBack(tb);
-        }
-
-        public static void UpdateTickBack(BaseClasses.TickBack tb)
-        {
-            Global_Variables.APIProxy.UpdateTickBack(tb);
-        }
-
-        public static void DeleteTickBack(string TickBackName)
-        {
-            Global_Variables.APIProxy.DeleteTickBack(TickBackName);
-        }
-
-
-
+        
 
 
 

@@ -688,7 +688,6 @@
             // chkShowSetImages
             // 
             this.chkShowSetImages.AutoSize = true;
-            this.chkShowSetImages.BackColor = System.Drawing.Color.Yellow;
             this.chkShowSetImages.Checked = true;
             this.chkShowSetImages.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkShowSetImages.Location = new System.Drawing.Point(633, 7);

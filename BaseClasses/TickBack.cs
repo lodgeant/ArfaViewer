@@ -16,10 +16,10 @@ namespace BaseClasses
     public class TickBack
     {
         [XmlAttribute("Name")]
-        public string Name;
+        public string Name { get; set; }
 
         [XmlAttribute("Data")]
-        public string Data;
+        public string Data { get; set; }
 
 
         public string SerializeToString(bool omitDeclaration)

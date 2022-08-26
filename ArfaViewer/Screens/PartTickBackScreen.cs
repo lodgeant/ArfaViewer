@@ -975,13 +975,16 @@ namespace Generator
                 // ** Validation **
                 if (fldSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
                 string SetRef = fldSetRef.Text;
-                SetDetails setDetails = StaticData.GetSetDetails(SetRef);
-                if (setDetails == null) throw new Exception("Set " + SetRef + " not found...");
+                //SetDetails setDetails = StaticData.GetSetDetails(SetRef);
+                //if (setDetails == null) throw new Exception("Set " + SetRef + " not found...");
+                SetInstructions si = StaticData.GetSetInstructions(SetRef);
+                if (si == null) throw new Exception("Set Instructions for " + SetRef + " not found...");
 
                 // ** LOAD Set XML into Object **
                 //string xmlString = setDetails.Instructions;
-                //currentSetXml = new XmlDocument();
-                //currentSetXml.LoadXml(xmlString);
+                string xmlString = si.Data;
+                currentSetXml = new XmlDocument();
+                currentSetXml.LoadXml(xmlString);
 
                 // ** MERGE STANDALONE MINIFIG XML's INTO SET XML **   
                 Dictionary<string, XmlDocument> MiniFigXMLDict = StaticData.GetMiniFigXMLDict(currentSetXml);
@@ -1009,14 +1012,6 @@ namespace Generator
                 if (fldTickBackName.Text.Equals("")) throw new Exception("No TickBack Ref entered...");
                 string TickBackName = fldTickBackName.Text;
                 if(currentSetXml == null) throw new Exception("No Set XML loaded...");
-
-                // ** SAVE TICKBACK **
-                //BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "tickback-xmls").GetBlobClient(tickBackRef + ".xml");
-                //string flushedXML = new Set().DeserialiseFromXMLString(currentSetXml.OuterXml).SerializeToString(true);
-                //byte[] bytes = Encoding.UTF8.GetBytes(flushedXML);
-                //byte[] bytes = Encoding.UTF8.GetBytes(currentSetXml.OuterXml);
-                //using (var ms = new MemoryStream(bytes)) blob.Upload(ms, true);
-                //MessageBox.Show("TickBack " + tickBackRef + " saved...");
 
                 // Check if Set already exists - if so update it, if not, add it.
                 string action = "UPDATE";

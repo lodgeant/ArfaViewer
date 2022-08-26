@@ -37,11 +37,6 @@ namespace Generator
 
 
 
-
-
-
-
-
         // ** Image Functions **
 
         public Bitmap GetImage(ImageType imageType, string[] _params)
@@ -603,6 +598,122 @@ namespace Generator
         //    ExecuteSQLStatement(this.AzureDBConnString, sql);
         //}
 
+        // ** ThemeDetails **
+
+        //public ThemeDetailsCollection GetAllThemeDetails()
+        //{
+        //    ThemeDetailsCollection ThemeDetailsCollection = new ThemeDetailsCollection();
+        //    string sql = "SELECT THEME,SUB_THEME FROM SET_DETAILS GROUP BY THEME,SUB_THEME ORDER BY THEME,SUB_THEME";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    ThemeDetailsCollection = ThemeDetailsCollection.GetThemeDetailsCollectionFromDataTable(results);
+        //    return ThemeDetailsCollection;
+        //}
+
+        //public ThemeDetailsCollection GetThemeDetailsData_UsingThemeList(List<string> IDList)
+        //{
+        //    // ** Generate ThemeDetailsCollection from SET_DETAILS data in database **
+        //    ThemeDetailsCollection coll = new ThemeDetailsCollection();
+        //    if (IDList.Count > 0)
+        //    {
+        //        string sql = "SELECT THEME,SUB_THEME FROM SET_DETAILS  ";
+        //        sql += "WHERE THEME IN (" + string.Join(",", IDList.Select(s => "'" + s.Replace("'","''") + "'")) + ")";
+        //        sql += " GROUP BY THEME,SUB_THEME ORDER BY THEME,SUB_THEME";
+
+        //        var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //        coll = ThemeDetailsCollection.GetThemeDetailsCollectionFromDataTable(results);
+        //    }
+        //    return coll;
+        //}
+
+        //public int GetSetCountForThemeAndSubTheme(string theme, string subTheme)
+        //{           
+        //    String sql = "SELECT COUNT(ID) 'RESULT' FROM SET_DETAILS WHERE THEME='" + theme.Replace("'", "''") + "'";
+        //    if(subTheme != "") sql += " AND SUB_THEME='" + subTheme.Replace("'", "''") + "'";           
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    int count = (int)results.Rows[0]["RESULT"];           
+        //    return count;
+        //}
+
+
+        //private static string DownloadBlobToXMLString(BlobClient blob)
+        //{
+        //    string xmlString = "";
+        //    if (blob.Exists())
+        //    {
+        //        byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
+        //        using (var ms = new MemoryStream(fileContent)) blob.DownloadTo(ms);
+        //        xmlString = Encoding.UTF8.GetString(fileContent);
+        //    }
+        //    return xmlString;
+        //}
+
+        //private static void UploadXMLStringToBlob(BlobClient blob, string xmlString)
+        //{
+        //    byte[] bytes = Encoding.UTF8.GetBytes(xmlString);
+        //    using (var ms = new MemoryStream(bytes)) blob.Upload(ms, true);
+        //}
+
+        // ** TickBack Functions **
+
+        //public TickBackCollection GetTickBackData_UsingTickBackNameList(List<string> IDList)
+        //{
+        //    // ** Generate TickBackCollection from TICKBACK data in database **
+        //    TickBackCollection coll = new TickBackCollection();
+        //    if (IDList.Count > 0)
+        //    {
+        //        string sql = "SELECT ID,NAME,DATA FROM TICKBACK ";
+        //        sql += "WHERE NAME IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
+        //        var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //        coll = TickBackCollection.GetTickBackCollectionFromDataTable(results);
+        //    }
+        //    return coll;
+        //}
+
+        //public void AddTickBack(TickBack tb)
+        //{
+        //    string sql;
+
+        //    sql = "SELECT MAX(ID) 'RESULT' FROM TICKBACK";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    int oldID = 0;
+        //    if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
+        //    int newID = oldID + 1;
+
+        //    // ** Generate SQL Statement **
+        //    sql = "INSERT INTO TICKBACK" + Environment.NewLine;
+        //    sql += "(ID,NAME,DATA)" + Environment.NewLine;
+        //    sql += "VALUES" + Environment.NewLine;
+        //    sql += "(";
+        //    sql += newID + ",";
+        //    sql += "'" + tb.Name + "',";
+        //    sql += "'" + tb.Data + "'";            
+        //    sql += ")";
+
+        //    // ** Execute SQL statement **
+        //    ExecuteSQLStatement(this.AzureDBConnString, sql);
+        //}
+
+        //public void UpdateTickBack(TickBack tb)
+        //{
+        //    // ** Generate SQL Statement **
+        //    string sql = "UPDATE TICKBACK SET " + Environment.NewLine;
+        //    sql += "NAME='" + tb.Name + "',";
+        //    sql += "DATA='" + tb.Data + "'";            
+        //    sql += " WHERE NAME='" + tb.Name + "'";
+
+        //    // ** Execute SQL statement **
+        //    ExecuteSQLStatement(this.AzureDBConnString, sql);
+        //}
+
+        //public void DeleteTickBack(string TickBackName)
+        //{
+        //    // ** Generate SQL Statement **
+        //    string sql = "DELETE FROM TICKBACK WHERE NAME='" + TickBackName + "'" + Environment.NewLine;
+
+        //    // ** Execute SQL statement **
+        //    ExecuteSQLStatement(this.AzureDBConnString, sql);
+        //}
+
         private void Sep(){}
 
 
@@ -611,27 +722,22 @@ namespace Generator
 
 
 
-
-
-
-
-
         // ** BasePart Functions **
 
-        public BasePartCollection GetBasePartData_All()
-        {
-            // ** Generate BasePartCollection from xml data in Blob **
-            //BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient("BasePartCollection.xml");
-            //string xmlString = DownloadBlobToXMLString(blob);
-            //BasePartCollection coll = new BasePartCollection().DeserialiseFromXMLString(xmlString);
+        //public BasePartCollection GetBasePartData_All()
+        //{
+        //    // ** Generate BasePartCollection from xml data in Blob **
+        //    //BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient("BasePartCollection.xml");
+        //    //string xmlString = DownloadBlobToXMLString(blob);
+        //    //BasePartCollection coll = new BasePartCollection().DeserialiseFromXMLString(xmlString);
 
-            // ** Generate BasePartCollection from BASEPART data in database **
-            String sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT FROM BASEPART";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            BasePartCollection coll = BasePartCollection.GetBasePartCollectionFromDataTable(results);
+        //    // ** Generate BasePartCollection from BASEPART data in database **
+        //    String sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT FROM BASEPART";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    BasePartCollection coll = BasePartCollection.GetBasePartCollectionFromDataTable(results);
 
-            return coll;
-        }
+        //    return coll;
+        //}
 
         public BasePartCollection GetBasePartData_UsingLDrawRefList(List<string> IDList)
         {
@@ -753,20 +859,20 @@ namespace Generator
 
         // ** CompositePart Functions **
 
-        public CompositePartCollection GetCompositePartData_All()
-        {
-            // ** Generate BasePartCollection from xml data in Blob **
-            //BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient("CompositePartCollection.xml");
-            //string xmlString = DownloadBlobToXMLString(blob);
-            //CompositePartCollection coll = new CompositePartCollection().DeserialiseFromXMLString(xmlString);
+        //public CompositePartCollection GetCompositePartData_All()
+        //{
+        //    // ** Generate BasePartCollection from xml data in Blob **
+        //    //BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "static-data").GetBlobClient("CompositePartCollection.xml");
+        //    //string xmlString = DownloadBlobToXMLString(blob);
+        //    //CompositePartCollection coll = new CompositePartCollection().DeserialiseFromXMLString(xmlString);
 
-            // ** Generate CompositePartCollection from COMPOSITEPART data in database **
-            string sql = "SELECT ID,LDRAW_REF,LDRAW_DESCRIPTION,PARENT_LDRAW_REF,LDRAW_COLOUR_ID,POS_X,POS_Y,POS_Z,ROT_X,ROT_Y,ROT_Z FROM COMPOSITEPART ";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            CompositePartCollection coll = CompositePartCollection.GetCompositePartCollectionFromDataTable(results);
+        //    // ** Generate CompositePartCollection from COMPOSITEPART data in database **
+        //    string sql = "SELECT ID,LDRAW_REF,LDRAW_DESCRIPTION,PARENT_LDRAW_REF,LDRAW_COLOUR_ID,POS_X,POS_Y,POS_Z,ROT_X,ROT_Y,ROT_Z FROM COMPOSITEPART ";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    CompositePartCollection coll = CompositePartCollection.GetCompositePartCollectionFromDataTable(results);
 
-            return coll;
-        }
+        //    return coll;
+        //}
 
         public CompositePartCollection GetCompositePartData_UsingLDrawRefList(List<string> IDList)
         {
@@ -870,59 +976,6 @@ namespace Generator
         }
 
 
-
-        
-
-
-
-
-
-
-        
-
-        
-
-        
-
-        // ** ThemeDetails **
-
-        //public ThemeDetailsCollection GetAllThemeDetails()
-        //{
-        //    ThemeDetailsCollection ThemeDetailsCollection = new ThemeDetailsCollection();
-        //    string sql = "SELECT THEME,SUB_THEME FROM SET_DETAILS GROUP BY THEME,SUB_THEME ORDER BY THEME,SUB_THEME";
-        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-        //    ThemeDetailsCollection = ThemeDetailsCollection.GetThemeDetailsCollectionFromDataTable(results);
-        //    return ThemeDetailsCollection;
-        //}
-
-        //public ThemeDetailsCollection GetThemeDetailsData_UsingThemeList(List<string> IDList)
-        //{
-        //    // ** Generate ThemeDetailsCollection from SET_DETAILS data in database **
-        //    ThemeDetailsCollection coll = new ThemeDetailsCollection();
-        //    if (IDList.Count > 0)
-        //    {
-        //        string sql = "SELECT THEME,SUB_THEME FROM SET_DETAILS  ";
-        //        sql += "WHERE THEME IN (" + string.Join(",", IDList.Select(s => "'" + s.Replace("'","''") + "'")) + ")";
-        //        sql += " GROUP BY THEME,SUB_THEME ORDER BY THEME,SUB_THEME";
-
-        //        var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-        //        coll = ThemeDetailsCollection.GetThemeDetailsCollectionFromDataTable(results);
-        //    }
-        //    return coll;
-        //}
-
-        //public int GetSetCountForThemeAndSubTheme(string theme, string subTheme)
-        //{           
-        //    String sql = "SELECT COUNT(ID) 'RESULT' FROM SET_DETAILS WHERE THEME='" + theme.Replace("'", "''") + "'";
-        //    if(subTheme != "") sql += " AND SUB_THEME='" + subTheme.Replace("'", "''") + "'";           
-        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-        //    int count = (int)results.Rows[0]["RESULT"];           
-        //    return count;
-        //}
-
-
-
-
         // ** Rebrickable Functions **
 
         public string GetRebrickableSetJSONString(string SetRef)
@@ -948,70 +1001,7 @@ namespace Generator
         }
 
 
-
-
-
-
-        // ** TickBack Functions **
-
-        public TickBackCollection GetTickBackData_UsingTickBackNameList(List<string> IDList)
-        {
-            // ** Generate TickBackCollection from TICKBACK data in database **
-            TickBackCollection coll = new TickBackCollection();
-            if (IDList.Count > 0)
-            {
-                string sql = "SELECT ID,NAME,DATA FROM TICKBACK ";
-                sql += "WHERE NAME IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
-                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-                coll = TickBackCollection.GetTickBackCollectionFromDataTable(results);
-            }
-            return coll;
-        }
-
-        public void AddTickBack(TickBack tb)
-        {
-            string sql;
-
-            sql = "SELECT MAX(ID) 'RESULT' FROM TICKBACK";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            int oldID = 0;
-            if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
-            int newID = oldID + 1;
-
-            // ** Generate SQL Statement **
-            sql = "INSERT INTO TICKBACK" + Environment.NewLine;
-            sql += "(ID,NAME,DATA)" + Environment.NewLine;
-            sql += "VALUES" + Environment.NewLine;
-            sql += "(";
-            sql += newID + ",";
-            sql += "'" + tb.Name + "',";
-            sql += "'" + tb.Data + "'";            
-            sql += ")";
-
-            // ** Execute SQL statement **
-            ExecuteSQLStatement(this.AzureDBConnString, sql);
-        }
-
-        public void UpdateTickBack(TickBack tb)
-        {
-            // ** Generate SQL Statement **
-            string sql = "UPDATE TICKBACK SET " + Environment.NewLine;
-            sql += "NAME='" + tb.Name + "',";
-            sql += "DATA='" + tb.Data + "'";            
-            sql += " WHERE NAME='" + tb.Name + "'";
-
-            // ** Execute SQL statement **
-            ExecuteSQLStatement(this.AzureDBConnString, sql);
-        }
-
-        public void DeleteTickBack(string TickBackName)
-        {
-            // ** Generate SQL Statement **
-            string sql = "DELETE FROM TICKBACK WHERE NAME='" + TickBackName + "'" + Environment.NewLine;
-
-            // ** Execute SQL statement **
-            ExecuteSQLStatement(this.AzureDBConnString, sql);
-        }
+        
 
 
 
@@ -1034,8 +1024,7 @@ namespace Generator
                 if (MiniFig_SetInstructions != null)
                 {
                     // ** Get MiniFig XML **
-                    XmlDocument MiniFigXmlDoc = new XmlDocument();
-                    //string xmlString = MiniFig_SetInstructions.Data;
+                    XmlDocument MiniFigXmlDoc = new XmlDocument();                   
                     MiniFigXmlDoc.LoadXml(MiniFig_SetInstructions.Data);
                     if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false) MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);
                 }
@@ -1074,24 +1063,6 @@ namespace Generator
 
 
         // ** HELPFUL METHODS **
-
-        private static string DownloadBlobToXMLString(BlobClient blob)
-        {
-            string xmlString = "";
-            if (blob.Exists())
-            {
-                byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                using (var ms = new MemoryStream(fileContent)) blob.DownloadTo(ms);
-                xmlString = Encoding.UTF8.GetString(fileContent);
-            }
-            return xmlString;
-        }
-
-        private static void UploadXMLStringToBlob(BlobClient blob, string xmlString)
-        {
-            byte[] bytes = Encoding.UTF8.GetBytes(xmlString);
-            using (var ms = new MemoryStream(bytes)) blob.Upload(ms, true);
-        }
 
         private static Bitmap DownloadBlobToBitmap(BlobClient blob)
         {

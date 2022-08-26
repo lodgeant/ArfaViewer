@@ -12,7 +12,14 @@ namespace BaseClasses
     public class TickBackCollection
     {
         [XmlElement("TickBack")]
-        public List<TickBack> TickBackList = new List<TickBack>();
+        public List<TickBack> TickBackList { get; set; }
+
+        public TickBackCollection()
+        {
+            TickBackList = new List<TickBack>();
+        }
+
+
 
         public string SerializeToString(bool omitDeclaration)
         {
