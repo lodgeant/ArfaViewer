@@ -12,57 +12,65 @@ namespace BaseClasses
     public class BasePart
     {
         [XmlAttribute("LDrawRef")]
-        public string LDrawRef;
+        public string LDrawRef { get; set; }
 
         [XmlAttribute("LDrawDescription")]
-        public string LDrawDescription;
+        public string LDrawDescription { get; set; }
 
         [XmlAttribute("LDrawCategory")]
-        public string LDrawCategory;
+        public string LDrawCategory { get; set; }
 
         [XmlAttribute("LDrawSize")]
-        public int LDrawSize;
+        public int LDrawSize { get; set; }
 
         [XmlAttribute("OffsetX")]
-        public float OffsetX;
+        public float OffsetX { get; set; }
 
         [XmlAttribute("OffsetY")]
-        public float OffsetY;
+        public float OffsetY { get; set; }
 
         [XmlAttribute("OffsetZ")]
-        public float OffsetZ;
+        public float OffsetZ { get; set; }
 
         [XmlAttribute("IsSubPart")]
-        public bool IsSubPart;
+        public bool IsSubPart { get; set; }
 
         [XmlAttribute("IsSticker")]
-        public bool IsSticker;
+        public bool IsSticker { get; set; }
 
         [XmlAttribute("PartType")]
-        public PartType partType = PartType.NONE;
-        public enum PartType
-        {
-            NONE,
-            BASIC,
-            COMPOSITE,
-            //STICKER,
-            //BASIC_STICKER_COMPOSITE,      //for use by BASIC parts that currently have a sticker attached
-        }
+        public PartType partType { get; set; }
+        //public enum PartType
+        //{
+        //    NONE,
+        //    BASIC,
+        //    COMPOSITE,
+        //    //STICKER,
+        //    //BASIC_STICKER_COMPOSITE,      //for use by BASIC parts that currently have a sticker attached
+        //}
 
         [XmlAttribute("IsLargeModel")]
-        public bool IsLargeModel;
+        public bool IsLargeModel { get; set; }
 
         [XmlAttribute("LDrawPartType")]
-        public LDrawPartType lDrawPartType = LDrawPartType.UNKNOWN;
-        public enum LDrawPartType
-        {
-            UNKNOWN,
-            OFFICIAL,
-            UNOFFICIAL
-        }
+        public LDrawPartType lDrawPartType { get; set; }
+        //public enum LDrawPartType
+        //{
+        //    UNKNOWN,
+        //    OFFICIAL,
+        //    UNOFFICIAL
+        //}
 
         [XmlAttribute("SubPartCount")]
-        public int SubPartCount;
+        public int SubPartCount { get; set; }
+
+
+
+        public BasePart()
+        {
+            partType = PartType.NONE;
+            lDrawPartType = LDrawPartType.UNKNOWN;
+        }
 
 
         public string SerializeToString(bool omitDeclaration)
@@ -115,12 +123,31 @@ namespace BaseClasses
             item.IsSubPart = bool.Parse(row["IS_SUB_PART"].ToString());
             item.IsSticker = bool.Parse(row["IS_STICKER"].ToString());
             item.IsLargeModel = bool.Parse(row["IS_LARGE_MODEL"].ToString());
-            item.partType = (BaseClasses.BasePart.PartType)Enum.Parse(typeof(BaseClasses.BasePart.PartType), (string)row["PART_TYPE"], true);
-            item.lDrawPartType = (BaseClasses.BasePart.LDrawPartType)Enum.Parse(typeof(BaseClasses.BasePart.LDrawPartType), (string)row["LDRAW_PART_TYPE"], true);
+            item.partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), (string)row["PART_TYPE"], true);
+            item.lDrawPartType = (BasePart.LDrawPartType)Enum.Parse(typeof(BasePart.LDrawPartType), (string)row["LDRAW_PART_TYPE"], true);
             item.SubPartCount = (int)row["SUB_PART_COUNT"];
             return item;
         }
 
+
+        public enum PartType
+        {
+            NONE,
+            BASIC,
+            COMPOSITE,
+            //STICKER,
+            //BASIC_STICKER_COMPOSITE,      //for use by BASIC parts that currently have a sticker attached
+        }
+
+        public enum LDrawPartType
+        {
+            UNKNOWN,
+            OFFICIAL,
+            UNOFFICIAL
+        }
+
     }
+
+    
 
 }

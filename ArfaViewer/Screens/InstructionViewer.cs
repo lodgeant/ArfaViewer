@@ -146,7 +146,7 @@ namespace Generator
                                     new ToolStripControlHost(chkIsSubPart),
                                     new ToolStripControlHost(chkIsSticker),
                                     new ToolStripControlHost(chkIsLargeModel),
-                                    btnAddPartToBasePartCollection
+                                    //btnAddPartToBasePartCollection
                                     });
                 #endregion
 
@@ -1703,7 +1703,7 @@ namespace Generator
                 // ** Get a Collections for this data **
                 PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
                 BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
-                CompositePartCollection CompositePartCollection = StaticData.GetCompositePartData_UsingLDrawRefList(LDrawRefList);
+                //CompositePartCollection CompositePartCollection = StaticData.GetCompositePartData_UsingLDrawRefList(LDrawRefList);
                 LDrawDetailsCollection LDrawDetailsCollection = StaticData.GetLDrawDetailsData_UsingLDrawRefList(LDrawRefList);
                 FBXDetailsCollection FBXDetailsCollection = new FBXDetailsCollection();
                 if (chkShowFBXDetails.Checked) FBXDetailsCollection = StaticData.GetFBXDetailsData_UsingLDrawRefList(LDrawRefList);               
@@ -1775,20 +1775,21 @@ namespace Generator
                                             select r.LDrawDescription).FirstOrDefault();
                     }
                     else
-                    {                       
-                        LDrawDescription = (from r in CompositePartCollection.CompositePartList
-                                           where r.LDrawRef.Equals(LDrawRef)
-                                           select r.LDrawDescription).FirstOrDefault();
+                    {        
+                        //TODO_H: Need to work out how to do these properly - Composite Parts needs to be stored in the BasePart table but have mapping details in CompositePart table
+                        //LDrawDescription = (from r in CompositePartCollection.CompositePartList
+                        //                   where r.LDrawRef.Equals(LDrawRef)
+                        //                   select r.LDrawDescription).FirstOrDefault();
                         // ** Infer other part details from parent **   
-                        string parentLDrawRef = (from r in CompositePartCollection.CompositePartList
-                                                where r.LDrawRef.Equals(LDrawRef)
-                                                select r.ParentLDrawRef).FirstOrDefault();
-                        partType = (from r in BasePartCollection.BasePartList
-                                    where r.LDrawRef.Equals(parentLDrawRef)
-                                    select r.partType.ToString()).FirstOrDefault();
-                        LDrawPartType = (from r in BasePartCollection.BasePartList
-                                         where r.LDrawRef.Equals(parentLDrawRef)
-                                         select r.lDrawPartType.ToString()).FirstOrDefault();
+                        //string parentLDrawRef = (from r in CompositePartCollection.CompositePartList
+                        //                        where r.LDrawRef.Equals(LDrawRef)
+                        //                        select r.ParentLDrawRef).FirstOrDefault();
+                        //partType = (from r in BasePartCollection.BasePartList
+                        //            where r.LDrawRef.Equals(parentLDrawRef)
+                        //            select r.partType.ToString()).FirstOrDefault();
+                        //LDrawPartType = (from r in BasePartCollection.BasePartList
+                        //                 where r.LDrawRef.Equals(parentLDrawRef)
+                        //                 select r.lDrawPartType.ToString()).FirstOrDefault();
                     }
                     if (LDrawPartType == null) LDrawPartType = "";
                     #endregion

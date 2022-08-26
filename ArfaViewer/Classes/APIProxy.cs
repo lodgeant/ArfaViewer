@@ -82,9 +82,6 @@ namespace Generator
                 itemRef = _params[0];
                 //imageUrl not used
             }
-
-
-
             #endregion
 
             BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
@@ -714,13 +711,26 @@ namespace Generator
         //    ExecuteSQLStatement(this.AzureDBConnString, sql);
         //}
 
-        private void Sep(){}
+        // ** Rebrickable Functions **
 
-
-        
-
-
-
+        //public string GetRebrickableSetJSONString(string SetRef)
+        //{
+        //    string url = "https://rebrickable.com/api/v3/lego/sets/" + SetRef + "/parts/";
+        //    string JSONString = "";
+        //    using (var httpClient = new HttpClient())
+        //    {
+        //        using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
+        //        {
+        //            request.Headers.TryAddWithoutValidation("Accept", "application/json");
+        //            request.Headers.TryAddWithoutValidation("Authorization", "key " + this.RebrickableKey);                    
+        //            var task = Task.Run(() => httpClient.SendAsync(request));
+        //            task.Wait();
+        //            var response = task.Result;
+        //            if (response.StatusCode == HttpStatusCode.OK) JSONString = response.Content.ReadAsStringAsync().Result;                    
+        //        }
+        //    }
+        //    return JSONString;
+        //}
 
         // ** BasePart Functions **
 
@@ -739,121 +749,123 @@ namespace Generator
         //    return coll;
         //}
 
-        public BasePartCollection GetBasePartData_UsingLDrawRefList(List<string> IDList)
-        {
-            // ** Generate BasePartCollection from BASEPART data in database **
-            BasePartCollection coll = new BasePartCollection();
-            if (IDList.Count > 0)
-            {
-                string sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT FROM BASEPART ";
-                sql += "WHERE LDRAW_REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
-                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-                coll = BasePartCollection.GetBasePartCollectionFromDataTable(results);
-            }
-            return coll;
-        }
+        //public BasePartCollection GetBasePartData_UsingLDrawRefList(List<string> IDList)
+        //{
+        //    // ** Generate BasePartCollection from BASEPART data in database **
+        //    BasePartCollection coll = new BasePartCollection();
+        //    if (IDList.Count > 0)
+        //    {
+        //        string sql = "SELECT LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT FROM BASEPART ";
+        //        sql += "WHERE LDRAW_REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
+        //        var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //        coll = BasePartCollection.GetBasePartCollectionFromDataTable(results);
+        //    }
+        //    return coll;
+        //}
 
-        public bool CheckIfBasePartExists(string LDrawRef)
-        {
-            bool exists = false;
-            BasePartCollection coll = GetBasePartData_UsingLDrawRefList(new List<string>() { LDrawRef });
-            if (coll.BasePartList.Count > 0) exists = true;
-            return exists;
-        }
+        //public bool CheckIfBasePartExists(string LDrawRef)
+        //{
+        //    bool exists = false;
+        //    BasePartCollection coll = GetBasePartData_UsingLDrawRefList(new List<string>() { LDrawRef });
+        //    if (coll.BasePartList.Count > 0) exists = true;
+        //    return exists;
+        //}
 
-        public string GetLDrawDescription_UsingLDrawRef(string LDrawRef)
-        {
-            string result = "";
-            //try
-            //{
-                // ** Get data from BASEPART database table **
-                String sql = "SELECT LDRAW_DESCRIPTION FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
-                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-                result = (string)results.Rows[0]["LDRAW_DESCRIPTION"];
-                return result;
-            //}
-            //catch(Exception ex)
-            //{
-            //    return "ERROR|" + ex.Message;
-            //}            
-        }
+        //public string GetLDrawDescription_UsingLDrawRef(string LDrawRef)
+        //{            
+        //    String sql = "SELECT LDRAW_DESCRIPTION FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    string result = (string)results.Rows[0]["LDRAW_DESCRIPTION"];
+        //    return result;
 
-        public int GetLDrawSize_UsingLDrawRef(string LDrawRef)
-        {
-            // ** Get data from BASEPART database table **
-            String sql = "SELECT LDRAW_SIZE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            int LDrawSize = 0;
-            if (results.Rows.Count > 0) LDrawSize = (int)results.Rows[0]["LDRAW_SIZE"];
-            return LDrawSize;
-        }
+        //}
 
-        public string GetPartType_UsingLDrawRef(string LDrawRef)
-        {
-            // ** Get data from BASEPART database table **
-            String sql = "SELECT PART_TYPE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            string partType = (string)results.Rows[0]["PART_TYPE"];
-            return partType;
-        }
+        //public int GetLDrawSize_UsingLDrawRef(string LDrawRef)
+        //{
+        //    // ** Get data from BASEPART database table **
+        //    String sql = "SELECT LDRAW_SIZE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    int LDrawSize = 0;
+        //    if (results.Rows.Count > 0) LDrawSize = (int)results.Rows[0]["LDRAW_SIZE"];
+        //    return LDrawSize;
+        //}
 
-        public void AddBasePart(BasePart bp)
-        {
-            string sql;
+        //public string GetPartType_UsingLDrawRef(string LDrawRef)
+        //{
+        //    // ** Get data from BASEPART database table **
+        //    String sql = "SELECT PART_TYPE FROM BASEPART WHERE LDRAW_REF='" + LDrawRef + "'";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    string partType = (string)results.Rows[0]["PART_TYPE"];
+        //    return partType;
+        //}
 
-            sql = "SELECT MAX(ID) 'RESULT' FROM BASEPART";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            int oldID = 0;
-            if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
-            int newID = oldID + 1;
+        //public void AddBasePart(BasePart bp)
+        //{
+        //    string sql;
 
-            // ** Generate SQL Statement **
-            sql = "INSERT INTO BASEPART" + Environment.NewLine;
-            sql += "(ID,LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT)" + Environment.NewLine;
-            sql += "VALUES" + Environment.NewLine;
-            sql += "(";
-            sql += newID + ",";
-            sql += "'" + bp.LDrawRef + "',";
-            sql += "'" + bp.LDrawDescription + "',";
-            sql += "'" + bp.LDrawCategory + "',";
-            sql += bp.LDrawSize + ",";
-            sql += bp.OffsetX + ",";
-            sql += bp.OffsetY + ",";
-            sql += bp.OffsetZ + ",";
-            sql += "'" + bp.IsSubPart + "',";
-            sql += "'" + bp.IsSticker + "',";
-            sql += "'" + bp.IsLargeModel + "',";
-            sql += "'" + bp.partType + "',";
-            sql += "'" + bp.lDrawPartType + "',";
-            sql += bp.SubPartCount;
-            sql += ")";
+        //    sql = "SELECT MAX(ID) 'RESULT' FROM BASEPART";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    int oldID = 0;
+        //    if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
+        //    int newID = oldID + 1;
 
-            // ** Execute SQL statement **
-            ExecuteSQLStatement(this.AzureDBConnString, sql);
+        //    // ** Generate SQL Statement **
+        //    sql = "INSERT INTO BASEPART" + Environment.NewLine;
+        //    sql += "(ID,LDRAW_REF,LDRAW_DESCRIPTION,LDRAW_CATEGORY,LDRAW_SIZE,OFFSET_X,OFFSET_Y,OFFSET_Z,IS_SUB_PART,IS_STICKER,IS_LARGE_MODEL,PART_TYPE,LDRAW_PART_TYPE,SUB_PART_COUNT)" + Environment.NewLine;
+        //    sql += "VALUES" + Environment.NewLine;
+        //    sql += "(";
+        //    sql += newID + ",";
+        //    sql += "'" + bp.LDrawRef + "',";
+        //    sql += "'" + bp.LDrawDescription + "',";
+        //    sql += "'" + bp.LDrawCategory + "',";
+        //    sql += bp.LDrawSize + ",";
+        //    sql += bp.OffsetX + ",";
+        //    sql += bp.OffsetY + ",";
+        //    sql += bp.OffsetZ + ",";
+        //    sql += "'" + bp.IsSubPart + "',";
+        //    sql += "'" + bp.IsSticker + "',";
+        //    sql += "'" + bp.IsLargeModel + "',";
+        //    sql += "'" + bp.partType + "',";
+        //    sql += "'" + bp.lDrawPartType + "',";
+        //    sql += bp.SubPartCount;
+        //    sql += ")";
 
-            #region ** UPLOAD UPDATED BasePartCollection TO AZURE AND LOCAL CACHE **
-            //xmlString = bpc.SerializeToString(true);
-            //byte[] bytes = Encoding.UTF8.GetBytes(xmlString);                
-            //blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "static-data").GetBlobClient("BasePartCollection.xml");
-            //using (var ms = new MemoryStream(bytes))
-            //{
-            //    blob.Upload(ms, true);
-            //}
-            ////Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
-            #endregion
+        //    // ** Execute SQL statement **
+        //    ExecuteSQLStatement(this.AzureDBConnString, sql);
 
-            #region ** ADD NEW .dat FILE FOR PART ** 
-            //string line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + LDrawRef + ".dat" + Environment.NewLine;
-            //bytes = Encoding.UTF8.GetBytes(line);
-            //ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + LDrawRef + ".dat");
-            //share.Create(bytes.Length);
-            //using (MemoryStream ms = new MemoryStream(bytes))
-            //{
-            //    share.Upload(ms);
-            //}
-            #endregion
+        //    #region ** UPLOAD UPDATED BasePartCollection TO AZURE AND LOCAL CACHE **
+        //    //xmlString = bpc.SerializeToString(true);
+        //    //byte[] bytes = Encoding.UTF8.GetBytes(xmlString);                
+        //    //blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "static-data").GetBlobClient("BasePartCollection.xml");
+        //    //using (var ms = new MemoryStream(bytes))
+        //    //{
+        //    //    blob.Upload(ms, true);
+        //    //}
+        //    ////Global_Variables.BasePartCollectionXML.LoadXml(xmlString);
+        //    #endregion
 
-        }
+        //    #region ** ADD NEW .dat FILE FOR PART ** 
+        //    //string line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + LDrawRef + ".dat" + Environment.NewLine;
+        //    //bytes = Encoding.UTF8.GetBytes(line);
+        //    //ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + LDrawRef + ".dat");
+        //    //share.Create(bytes.Length);
+        //    //using (MemoryStream ms = new MemoryStream(bytes))
+        //    //{
+        //    //    share.Upload(ms);
+        //    //}
+        //    #endregion
+
+        //}
+
+        private void Sep(){}
+
+
+        
+
+
+
+
+        
 
 
 
@@ -874,132 +886,109 @@ namespace Generator
         //    return coll;
         //}
 
-        public CompositePartCollection GetCompositePartData_UsingLDrawRefList(List<string> IDList)
-        {
-            // ** Generate CompositePartCollection from COMPOSITEPART data in database **
-            CompositePartCollection coll = new CompositePartCollection();
-            if (IDList.Count > 0)
-            {
-                string sql = "SELECT ID,LDRAW_REF,LDRAW_DESCRIPTION,PARENT_LDRAW_REF,LDRAW_COLOUR_ID,POS_X,POS_Y,POS_Z,ROT_X,ROT_Y,ROT_Z FROM COMPOSITEPART ";
-                sql += "WHERE LDRAW_REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
-                var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-                coll = CompositePartCollection.GetCompositePartCollectionFromDataTable(results);
-            }
-            return coll;
-        }
+        //public CompositePartCollection GetCompositePartData_UsingLDrawRefList(List<string> IDList)
+        //{
+        //    // ** Generate CompositePartCollection from COMPOSITEPART data in database **
+        //    CompositePartCollection coll = new CompositePartCollection();
+        //    if (IDList.Count > 0)
+        //    {
+        //        string sql = "SELECT ID,LDRAW_REF,LDRAW_DESCRIPTION,PARENT_LDRAW_REF,LDRAW_COLOUR_ID,POS_X,POS_Y,POS_Z,ROT_X,ROT_Y,ROT_Z FROM COMPOSITEPART ";
+        //        sql += "WHERE LDRAW_REF IN (" + string.Join(",", IDList.Select(s => "'" + s + "'")) + ")";
+        //        var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //        coll = CompositePartCollection.GetCompositePartCollectionFromDataTable(results);
+        //    }
+        //    return coll;
+        //}
 
-        public bool CheckIfCompositePartsExist(string LDrawRef)
-        {
-            bool exists = false;
-            String sql = "SELECT COUNT(ID) 'RESULT' FROM COMPOSITEPART WHERE PARENT_LDRAW_REF='" + LDrawRef + "'";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            int result = (int)results.Rows[0]["RESULT"];
-            if (result > 0) exists = true;
-            return exists;
-        }
+        //public bool CheckIfCompositePartsExist(string LDrawRef)
+        //{
+        //    bool exists = false;
+        //    String sql = "SELECT COUNT(ID) 'RESULT' FROM COMPOSITEPART WHERE PARENT_LDRAW_REF='" + LDrawRef + "'";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    int result = (int)results.Rows[0]["RESULT"];
+        //    if (result > 0) exists = true;
+        //    return exists;
+        //}
 
-        public CompositePartCollection GetCompositePartData_UsingParentLDrawRefList(string ParentLDrawRef)
-        {
-            // ** Generate CompositePartCollection from COMPOSITEPART data in database **
-            CompositePartCollection coll = new CompositePartCollection();
-            string sql = "SELECT ID,LDRAW_REF,LDRAW_DESCRIPTION,PARENT_LDRAW_REF,LDRAW_COLOUR_ID,POS_X,POS_Y,POS_Z,ROT_X,ROT_Y,ROT_Z FROM COMPOSITEPART ";
-            sql += "WHERE PARENT_LDRAW_REF='" + ParentLDrawRef + "'";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            coll = CompositePartCollection.GetCompositePartCollectionFromDataTable(results);
-            return coll;
-        }
+        //public CompositePartCollection GetCompositePartData_UsingParentLDrawRefList(string ParentLDrawRef)
+        //{
+        //    // ** Generate CompositePartCollection from COMPOSITEPART data in database **
+        //    CompositePartCollection coll = new CompositePartCollection();
+        //    string sql = "SELECT ID,LDRAW_REF,LDRAW_DESCRIPTION,PARENT_LDRAW_REF,LDRAW_COLOUR_ID,POS_X,POS_Y,POS_Z,ROT_X,ROT_Y,ROT_Z FROM COMPOSITEPART ";
+        //    sql += "WHERE PARENT_LDRAW_REF='" + ParentLDrawRef + "'";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    coll = CompositePartCollection.GetCompositePartCollectionFromDataTable(results);
+        //    return coll;
+        //}
 
-        public void AddCompositePart(CompositePart cp)
-        {
-            string sql;
+        //public void AddCompositePart(CompositePart cp)
+        //{
+        //    string sql;
 
-            sql = "SELECT MAX(ID) 'RESULT' FROM COMPOSITEPART";
-            var results = GetSQLQueryResults(this.AzureDBConnString, sql);
-            int oldID = 0;
-            if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
-            int newID = oldID + 1;
+        //    sql = "SELECT MAX(ID) 'RESULT' FROM COMPOSITEPART";
+        //    var results = GetSQLQueryResults(this.AzureDBConnString, sql);
+        //    int oldID = 0;
+        //    if (results.Rows[0]["RESULT"].ToString() != "") oldID = (int)results.Rows[0]["RESULT"];
+        //    int newID = oldID + 1;
 
-            // ** Generate SQL Statement **
-            sql = "INSERT INTO COMPOSITEPART" + Environment.NewLine;
-            sql += "(ID,LDRAW_REF,LDRAW_DESCRIPTION,PARENT_LDRAW_REF,LDRAW_COLOUR_ID,POS_X,POS_Y,POS_Z,ROT_X,ROT_Y,ROT_Z)" + Environment.NewLine;
-            sql += "VALUES" + Environment.NewLine;
-            sql += "(";
-            sql += newID + ",";
-            sql += "'" + cp.LDrawRef + "',";
-            sql += "'" + cp.LDrawDescription + "',";
-            sql += "'" + cp.ParentLDrawRef + "',";
-            sql += cp.LDrawColourID + ",";
-            sql += cp.PosX + ",";
-            sql += cp.PosY + ",";
-            sql += cp.PosZ + ",";
-            sql += cp.RotX + ",";
-            sql += cp.RotY + ",";
-            sql += cp.RotZ;
-            sql += ")";
+        //    // ** Generate SQL Statement **
+        //    sql = "INSERT INTO COMPOSITEPART" + Environment.NewLine;
+        //    sql += "(ID,LDRAW_REF,LDRAW_DESCRIPTION,PARENT_LDRAW_REF,LDRAW_COLOUR_ID,POS_X,POS_Y,POS_Z,ROT_X,ROT_Y,ROT_Z)" + Environment.NewLine;
+        //    sql += "VALUES" + Environment.NewLine;
+        //    sql += "(";
+        //    sql += newID + ",";
+        //    sql += "'" + cp.LDrawRef + "',";
+        //    sql += "'" + cp.LDrawDescription + "',";
+        //    sql += "'" + cp.ParentLDrawRef + "',";
+        //    sql += cp.LDrawColourID + ",";
+        //    sql += cp.PosX + ",";
+        //    sql += cp.PosY + ",";
+        //    sql += cp.PosZ + ",";
+        //    sql += cp.RotX + ",";
+        //    sql += cp.RotY + ",";
+        //    sql += cp.RotZ;
+        //    sql += ")";
 
-            // ** Execute SQL statement **
-            ExecuteSQLStatement(this.AzureDBConnString, sql);
-
-
-            //    #region ** ADD NEW .dat FILE FOR SUB PART ** 
-            //    //line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + SubPart_LDrawRef + ".dat" + Environment.NewLine;
-            //    //bytes = Encoding.UTF8.GetBytes(line);
-            //    //share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + SubPart_LDrawRef + ".dat");
-            //    //share.Create(bytes.Length);
-            //    //using (MemoryStream ms = new MemoryStream(bytes))
-            //    //{
-            //    //    share.Upload(ms);
-            //    //}
-            //    #endregion
-
-            //    #region ** CREATE Composite Part DAT file **
-            //    string LDrawFileText = GetLDrawFileDetails(LDrawRef);                    
-            //    string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            //    string DAT_String = "";
-            //    foreach (string fileLine in lines)
-            //    {
-            //        if (fileLine.StartsWith("1"))
-            //        {
-            //            DAT_String += fileLine.Replace("1 16 ", "1 450 ") + Environment.NewLine;
-            //        }
-            //    }
-            //    bytes = Encoding.UTF8.GetBytes(DAT_String);
-            //    share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + LDrawRef + ".dat");
-            //    share.Create(bytes.Length);
-            //    using (var ms = new MemoryStream(bytes))
-            //    {
-            //        share.Upload(ms);                        
-            //    }
-            //    #endregion
+        //    // ** Execute SQL statement **
+        //    ExecuteSQLStatement(this.AzureDBConnString, sql);
 
 
-        }
+        //    //    #region ** ADD NEW .dat FILE FOR SUB PART ** 
+        //    //    //line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + SubPart_LDrawRef + ".dat" + Environment.NewLine;
+        //    //    //bytes = Encoding.UTF8.GetBytes(line);
+        //    //    //share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + SubPart_LDrawRef + ".dat");
+        //    //    //share.Create(bytes.Length);
+        //    //    //using (MemoryStream ms = new MemoryStream(bytes))
+        //    //    //{
+        //    //    //    share.Upload(ms);
+        //    //    //}
+        //    //    #endregion
+
+        //    //    #region ** CREATE Composite Part DAT file **
+        //    //    string LDrawFileText = GetLDrawFileDetails(LDrawRef);                    
+        //    //    string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        //    //    string DAT_String = "";
+        //    //    foreach (string fileLine in lines)
+        //    //    {
+        //    //        if (fileLine.StartsWith("1"))
+        //    //        {
+        //    //            DAT_String += fileLine.Replace("1 16 ", "1 450 ") + Environment.NewLine;
+        //    //        }
+        //    //    }
+        //    //    bytes = Encoding.UTF8.GetBytes(DAT_String);
+        //    //    share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + LDrawRef + ".dat");
+        //    //    share.Create(bytes.Length);
+        //    //    using (var ms = new MemoryStream(bytes))
+        //    //    {
+        //    //        share.Upload(ms);                        
+        //    //    }
+        //    //    #endregion
 
 
-        // ** Rebrickable Functions **
+        //}
 
-        public string GetRebrickableSetJSONString(string SetRef)
-        {
-            string url = "https://rebrickable.com/api/v3/lego/sets/" + SetRef + "/parts/";
-            string JSONString = "";
-            using (var httpClient = new HttpClient())
-            {
-                using (var request = new HttpRequestMessage(new HttpMethod("GET"), url))
-                {
-                    request.Headers.TryAddWithoutValidation("Accept", "application/json");
-                    request.Headers.TryAddWithoutValidation("Authorization", "key " + this.RebrickableKey);                    
-                    var task = Task.Run(() => httpClient.SendAsync(request));
-                    task.Wait();
-                    var response = task.Result;
-                    if (response.StatusCode == HttpStatusCode.OK)
-                    {
-                        JSONString = response.Content.ReadAsStringAsync().Result;
-                    }
-                }
-            }
-            return JSONString;
-        }
 
+       
 
         
 

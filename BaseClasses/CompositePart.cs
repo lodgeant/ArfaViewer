@@ -13,34 +13,34 @@ namespace BaseClasses
     public class CompositePart
     {
         [XmlAttribute("ParentLDrawRef")]
-        public string ParentLDrawRef;
+        public string ParentLDrawRef { get; set; }
 
         [XmlAttribute("LDrawRef")]
-        public string LDrawRef;
+        public string LDrawRef { get; set; }
 
         [XmlAttribute("LDrawDescription")]
-        public string LDrawDescription;
+        public string LDrawDescription { get; set; }
 
         [XmlAttribute("LDrawColourID")]
-        public int LDrawColourID;
+        public int LDrawColourID { get; set; }
 
         [XmlAttribute("PosX")]
-        public float PosX;
+        public float PosX { get; set; }
 
         [XmlAttribute("PosY")]
-        public float PosY;
+        public float PosY { get; set; }
 
         [XmlAttribute("PosZ")]
-        public float PosZ;
+        public float PosZ { get; set; }
 
         [XmlAttribute("RotX")]
-        public float RotX;
+        public float RotX { get; set; }
 
         [XmlAttribute("RotY")]
-        public float RotY;
+        public float RotY { get; set; }
 
         [XmlAttribute("RotZ")]
-        public float RotZ;
+        public float RotZ { get; set; }
 
         public string SerializeToString(bool omitDeclaration)
         {

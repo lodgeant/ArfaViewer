@@ -12,7 +12,16 @@ namespace BaseClasses
     public class CompositePartCollection
     {
         [XmlElement("CompositePart")]
-        public List<CompositePart> CompositePartList = new List<CompositePart>();
+        public List<CompositePart> CompositePartList { get; set; }
+
+        public CompositePartCollection()
+        {
+            CompositePartList = new List<CompositePart>();
+        }
+
+
+
+
 
         public string SerializeToString(bool omitDeclaration)
         {
@@ -68,7 +77,7 @@ namespace BaseClasses
         {
             StringBuilder sb = new StringBuilder();
             int index = 1;
-            foreach (BaseClasses.CompositePart p in coll.CompositePartList)
+            foreach (CompositePart p in coll.CompositePartList)
             {
                 //if (index == 5) break;
                 sb.Append("(");

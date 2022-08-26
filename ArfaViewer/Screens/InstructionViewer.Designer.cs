@@ -120,7 +120,6 @@
             this.fldPartType = new System.Windows.Forms.ToolStripComboBox();
             this.lblLDrawSize = new System.Windows.Forms.ToolStripLabel();
             this.fldLDrawSize = new System.Windows.Forms.ToolStripTextBox();
-            this.btnAddPartToBasePartCollection = new System.Windows.Forms.ToolStripButton();
             this.tsPartPosDetails = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel31 = new System.Windows.Forms.ToolStripLabel();
             this.fldPartPosX = new System.Windows.Forms.ToolStripTextBox();
@@ -1107,8 +1106,7 @@
             this.lblPartType,
             this.fldPartType,
             this.lblLDrawSize,
-            this.fldLDrawSize,
-            this.btnAddPartToBasePartCollection});
+            this.fldLDrawSize});
             this.tsBasePartCollection.Location = new System.Drawing.Point(3, 66);
             this.tsBasePartCollection.Name = "tsBasePartCollection";
             this.tsBasePartCollection.Size = new System.Drawing.Size(1012, 25);
@@ -1142,16 +1140,6 @@
             this.fldLDrawSize.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawSize.Name = "fldLDrawSize";
             this.fldLDrawSize.Size = new System.Drawing.Size(25, 25);
-            // 
-            // btnAddPartToBasePartCollection
-            // 
-            this.btnAddPartToBasePartCollection.BackColor = System.Drawing.Color.LightSalmon;
-            this.btnAddPartToBasePartCollection.Image = ((System.Drawing.Image)(resources.GetObject("btnAddPartToBasePartCollection.Image")));
-            this.btnAddPartToBasePartCollection.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddPartToBasePartCollection.Name = "btnAddPartToBasePartCollection";
-            this.btnAddPartToBasePartCollection.Size = new System.Drawing.Size(165, 22);
-            this.btnAddPartToBasePartCollection.Text = "Add to BasePartCollection";
-            this.btnAddPartToBasePartCollection.Click += new System.EventHandler(this.btnAddPartToBasePartCollection_Click);
             // 
             // tsPartPosDetails
             // 
@@ -2408,7 +2396,7 @@
             this.chkShowFBXDetails.Text = "Show FBX Details";
             this.chkShowFBXDetails.UseVisualStyleBackColor = false;
             // 
-            // Generator
+            // InstructionViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -2421,7 +2409,7 @@
             this.Controls.Add(this.statusStrip2);
             this.Controls.Add(this.chkShowSubParts);
             this.Controls.Add(this.toolStrip1);
-            this.Name = "Generator";
+            this.Name = "InstructionViewer";
             this.Text = "Generator";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.toolStrip1.ResumeLayout(false);
@@ -2709,7 +2697,6 @@
         private System.Windows.Forms.ToolStripComboBox fldPartType;
         private System.Windows.Forms.ToolStripLabel lblLDrawSize;
         private System.Windows.Forms.ToolStripTextBox fldLDrawSize;
-        private System.Windows.Forms.ToolStripButton btnAddPartToBasePartCollection;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
         private System.Windows.Forms.ToolStripButton btnGenerateDatFile;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;

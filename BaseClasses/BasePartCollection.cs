@@ -12,7 +12,14 @@ namespace BaseClasses
     public class BasePartCollection
     {
         [XmlElement("BasePart")]
-        public List<BasePart> BasePartList = new List<BasePart>();
+        public List<BasePart> BasePartList { get; set; }
+
+
+        public BasePartCollection()
+        {
+            BasePartList = new List<BasePart>();
+        }
+
 
         public string SerializeToString(bool omitDeclaration)
         {
