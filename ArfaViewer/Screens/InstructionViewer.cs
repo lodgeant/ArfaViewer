@@ -22,6 +22,7 @@ using BaseClasses;
 using System.Runtime.Serialization.Json;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Data.SqlTypes;
 
 namespace Generator
 {
@@ -1218,9 +1219,12 @@ namespace Generator
                     Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Merging MiniFig XML's...");
                     fullSetXml = new XmlDocument();
                     fullSetXml.LoadXml(currentSetXml.OuterXml);
-                    Dictionary<string, XmlDocument> MiniFigXMLDict = StaticData.GetMiniFigXMLDict(currentSetXml);
-                    if (MiniFigXMLDict.Count > 0) fullSetXml = Set.MergeMiniFigsIntoSetXML(fullSetXml, MiniFigXMLDict);
-
+                    //Dictionary<string, XmlDocument> MiniFigXMLDict = StaticData.GetMiniFigXMLDict(currentSetXml);
+                    //if (MiniFigXMLDict.Count > 0) fullSetXml = Set.MergeMiniFigsIntoSetXML(fullSetXml, MiniFigXMLDict);                                   
+                    List<string> MiniFigSetList = Set.GetMinFigSetRefsFromSetXML(currentSetXml);
+                    SetInstructionsCollection siColl = StaticData.GetSetInstructionsData_UsingSetRefList(MiniFigSetList);
+                    if(siColl.SetInstructionsList.Count > 0) fullSetXml = Set.MergeMiniFigsIntoSetXML(fullSetXml, siColl);
+                    
                     // ** Populate Summary Treeview with data **
                     Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Generating Treeview...");
                     string SetRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;                   

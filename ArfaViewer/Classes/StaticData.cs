@@ -193,6 +193,15 @@ namespace Generator
 
         // ** SetInstructions Functions **
 
+        public static SetInstructionsCollection GetSetInstructionsData_UsingSetRefList(List<string> IDList)
+        {
+            string url = Global_Variables.APIUrl + "GetSetInstructionsData_UsingSetRefList?";
+            foreach (string id in IDList) url += "IDList=" + id + "&";
+            string JSONString = GetJSONResponseFromURL(url);
+            SetInstructionsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetInstructionsCollection>(JSONString);
+            return coll;
+        }
+
         public static SetInstructions GetSetInstructions(string SetRef)
         {
             SetInstructions si = null;
@@ -514,11 +523,6 @@ namespace Generator
 
         // ** Other functions - not sure where to put them **
 
-        public static Dictionary<string, XmlDocument> GetMiniFigXMLDict(XmlDocument setXML)
-        {
-            return Global_Variables.APIProxy.GetMiniFigXMLDict(setXML);
-        }
-
         public static string GetJSONResponseFromURL(string url)
         {
             string JSONString = "";
@@ -530,6 +534,7 @@ namespace Generator
                     var task = Task.Run(() => httpClient.SendAsync(request));
                     task.Wait();
                     var response = task.Result;
+                    if (response.StatusCode != HttpStatusCode.OK) throw new Exception("Request failed: " + response.StatusCode);
                     if (response.StatusCode == HttpStatusCode.OK) JSONString = response.Content.ReadAsStringAsync().Result;
                 }
             }
@@ -548,10 +553,7 @@ namespace Generator
                     var task = Task.Run(() => httpClient.SendAsync(request));
                     task.Wait();
                     var response = task.Result;
-                    if (response.StatusCode != HttpStatusCode.OK)
-                    {
-                        throw new Exception("Request failed: " + response.StatusCode);
-                    }
+                    if (response.StatusCode != HttpStatusCode.OK) throw new Exception("Request failed: " + response.StatusCode);                    
                 }
             }            
         }
@@ -569,10 +571,7 @@ namespace Generator
                     var task = Task.Run(() => httpClient.SendAsync(request));
                     task.Wait();
                     var response = task.Result;
-                    if (response.StatusCode != HttpStatusCode.OK)
-                    {
-                        throw new Exception("Request failed: " + response.StatusCode);
-                    }
+                    if (response.StatusCode != HttpStatusCode.OK) throw new Exception("Request failed: " + response.StatusCode);                   
                 }
             }
         }

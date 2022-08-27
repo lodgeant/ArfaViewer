@@ -1056,48 +1056,5 @@ namespace Generator
         private void Sep(){}
 
 
-        
-
-
-
-
-
-        // ** Other functions - not sure where to put them **
-
-        public Dictionary<string, XmlDocument> GetMiniFigXMLDict(XmlDocument setXML)
-        {
-            Dictionary<string, XmlDocument> MiniFigXMLDict = new Dictionary<string, XmlDocument>();
-            XmlNodeList MiniFigNodeList = setXML.SelectNodes("//SubModel[@SubModelLevel='1' and @LDrawModelType='MINIFIG']");
-            List<string> MiniFigSetList = MiniFigNodeList.Cast<XmlNode>()
-                                           .Select(x => x.SelectSingleNode("@Description").InnerXml.Split('_')[0])
-                                           .OrderBy(x => x).ToList();
-            foreach (string MiniFigRef in MiniFigSetList)
-            {
-                // ** Get the Set XML doc for the MiniFig **               
-                SetInstructions MiniFig_SetInstructions = StaticData.GetSetInstructions(MiniFigRef);
-                if (MiniFig_SetInstructions != null)
-                {
-                    // ** Get MiniFig XML **
-                    XmlDocument MiniFigXmlDoc = new XmlDocument();                   
-                    MiniFigXmlDoc.LoadXml(MiniFig_SetInstructions.Data);
-                    if (MiniFigXMLDict.ContainsKey(MiniFigRef) == false) MiniFigXMLDict.Add(MiniFigRef, MiniFigXmlDoc);
-                }
-            }
-            return MiniFigXMLDict;
-        }
-
-        
-
-       
-
-
-
-
-
-
-
-        
-
-
     }
 }

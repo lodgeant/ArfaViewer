@@ -5,6 +5,9 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Windows.Forms;
+using System.Linq;
+
+
 
 
 namespace BaseClasses
@@ -66,72 +69,9 @@ namespace BaseClasses
                 return (Set)serializer.Deserialize(reader);
             }
         }
+       
 
-        public static XmlDocument MergeMiniFigsIntoSetXML(XmlDocument SetXml, Dictionary<string, XmlDocument> MiniFigXMLDict)
-        {
-            try
-            {
-                XmlNode ParentPartListNode = SetXml.SelectSingleNode("//PartList");
-                XmlNodeList MiniFigNodeList = SetXml.SelectNodes("//SubModel[@SubModelLevel='1' and @LDrawModelType='MINIFIG']");
-                foreach (XmlNode ModelNode in MiniFigNodeList)
-                {
-                    // ** Get variables **
-                    string ModelDescription = ModelNode.SelectSingleNode("@Description").InnerXml;
-                    string MiniFigRef = ModelDescription.Split('_')[0];                   
-                    XmlNode parentStepNode = SetXml.SelectSingleNode("//SubModel[@Description=" + "\"" + ModelDescription + "\"" + " and @SubModelLevel='1' and @LDrawModelType='MINIFIG']//Step[1]");
-                    XmlNode PartNodeToInsertBefore = parentStepNode.ChildNodes[0];
 
-                    // ** Get Part nodes to add **
-                    if (MiniFigXMLDict.ContainsKey(MiniFigRef))
-                    {
-                        XmlDocument MiniFigXmlDoc = MiniFigXMLDict[MiniFigRef];
-                        XmlNodeList partNodeList = MiniFigXmlDoc.SelectNodes("//Part[@IsSubPart='false']");
-                        foreach (XmlNode PartNode in partNodeList)
-                        {
-                            // ** Get variables **
-                            string mfPart_LDrawRef = PartNode.SelectSingleNode("@LDrawRef").InnerXml;
-                            string mfPart_LDrawColourID = PartNode.SelectSingleNode("@LDrawColourID").InnerXml;
-                            string xmlNodeString = PartNode.OuterXml;
-
-                            // ** ADD PART NODES TO THE RELEVANT STEP IN THE ORIGINAL SET **                       
-                            XmlDocument doc = new XmlDocument();
-                            doc.LoadXml(xmlNodeString);
-                            XmlNode newNode = doc.DocumentElement;
-                            XmlNode importNode = parentStepNode.OwnerDocument.ImportNode(newNode, true);
-                            parentStepNode.InsertBefore(importNode, PartNodeToInsertBefore);
-
-                            // ** UPDATE THE ORIGINAL SET'S PARTLIST **
-                            XmlNode PartListNode = SetXml.SelectSingleNode("//PartListPart[@LDrawRef='" + mfPart_LDrawRef + "' and @LDrawColourID='" + mfPart_LDrawColourID + "']");
-                            if (PartListNode != null)
-                            {
-                                // ** Amend EXISTING PartListPart Node **
-                                int origQty = int.Parse(PartListNode.SelectSingleNode("@Qty").InnerXml);
-                                PartListNode.SelectSingleNode("@Qty").InnerXml = (origQty + 1).ToString();
-                            }
-                            else
-                            {
-                                // ** Create NEW PartListPart node **
-                                PartListPart plp = new PartListPart() { LDrawRef = mfPart_LDrawRef, LDrawColourID = int.Parse(mfPart_LDrawColourID), Qty = 1 };
-
-                                // add node to partlist
-                                string PartList_xmlNodeString = HelperFunctions.RemoveAllNamespaces(plp.SerializeToString(true));
-                                XmlDocument pldoc = new XmlDocument();
-                                pldoc.LoadXml(PartList_xmlNodeString);
-                                XmlNode newPLNode = pldoc.DocumentElement;
-                                XmlNode importPLNode = ParentPartListNode.OwnerDocument.ImportNode(newPLNode, true);
-                                ParentPartListNode.AppendChild(importPLNode);
-                            }
-                        }
-                    }
-                }
-                return SetXml;
-            }
-            catch (Exception)
-            {                
-                return null;
-            }
-        }
-                     
         public static Set GenerateBaseSet(string setRef, string description, string type)
         {
             Set set = new Set() { Ref = setRef, Description = description };
@@ -154,11 +94,6 @@ namespace BaseClasses
 
             return set;
         }
-
-
-
-
-
 
         public static TreeNode GetSetTreeViewFromSetXML(XmlDocument setXML, bool showPages, bool showSteps, bool showParts, bool showPlacementMovements)
         {
@@ -308,6 +243,154 @@ namespace BaseClasses
             }
             return treeNodeList;
         }
+
+        //public static XmlDocument MergeMiniFigsIntoSetXML(XmlDocument SetXml, Dictionary<string, XmlDocument> MiniFigXMLDict)
+        //{
+        //    try
+        //    {
+        //        XmlNode ParentPartListNode = SetXml.SelectSingleNode("//PartList");
+        //        XmlNodeList MiniFigNodeList = SetXml.SelectNodes("//SubModel[@SubModelLevel='1' and @LDrawModelType='MINIFIG']");
+        //        foreach (XmlNode ModelNode in MiniFigNodeList)
+        //        {
+        //            // ** Get variables **
+        //            string ModelDescription = ModelNode.SelectSingleNode("@Description").InnerXml;
+        //            string MiniFigRef = ModelDescription.Split('_')[0];
+        //            XmlNode parentStepNode = SetXml.SelectSingleNode("//SubModel[@Description=" + "\"" + ModelDescription + "\"" + " and @SubModelLevel='1' and @LDrawModelType='MINIFIG']//Step[1]");
+        //            XmlNode PartNodeToInsertBefore = parentStepNode.ChildNodes[0];
+
+        //            // ** Get Part nodes to add **
+        //            if (MiniFigXMLDict.ContainsKey(MiniFigRef))
+        //            {
+        //                XmlDocument MiniFigXmlDoc = MiniFigXMLDict[MiniFigRef];
+        //                XmlNodeList partNodeList = MiniFigXmlDoc.SelectNodes("//Part[@IsSubPart='false']");
+        //                foreach (XmlNode PartNode in partNodeList)
+        //                {
+        //                    // ** Get variables **
+        //                    string mfPart_LDrawRef = PartNode.SelectSingleNode("@LDrawRef").InnerXml;
+        //                    string mfPart_LDrawColourID = PartNode.SelectSingleNode("@LDrawColourID").InnerXml;
+        //                    string xmlNodeString = PartNode.OuterXml;
+
+        //                    // ** ADD PART NODES TO THE RELEVANT STEP IN THE ORIGINAL SET **                       
+        //                    XmlDocument doc = new XmlDocument();
+        //                    doc.LoadXml(xmlNodeString);
+        //                    XmlNode newNode = doc.DocumentElement;
+        //                    XmlNode importNode = parentStepNode.OwnerDocument.ImportNode(newNode, true);
+        //                    parentStepNode.InsertBefore(importNode, PartNodeToInsertBefore);
+
+        //                    // ** UPDATE THE ORIGINAL SET'S PARTLIST **
+        //                    XmlNode PartListNode = SetXml.SelectSingleNode("//PartListPart[@LDrawRef='" + mfPart_LDrawRef + "' and @LDrawColourID='" + mfPart_LDrawColourID + "']");
+        //                    if (PartListNode != null)
+        //                    {
+        //                        // ** Amend EXISTING PartListPart Node **
+        //                        int origQty = int.Parse(PartListNode.SelectSingleNode("@Qty").InnerXml);
+        //                        PartListNode.SelectSingleNode("@Qty").InnerXml = (origQty + 1).ToString();
+        //                    }
+        //                    else
+        //                    {
+        //                        // ** Create NEW PartListPart node **
+        //                        PartListPart plp = new PartListPart() { LDrawRef = mfPart_LDrawRef, LDrawColourID = int.Parse(mfPart_LDrawColourID), Qty = 1 };
+
+        //                        // add node to partlist
+        //                        string PartList_xmlNodeString = HelperFunctions.RemoveAllNamespaces(plp.SerializeToString(true));
+        //                        XmlDocument pldoc = new XmlDocument();
+        //                        pldoc.LoadXml(PartList_xmlNodeString);
+        //                        XmlNode newPLNode = pldoc.DocumentElement;
+        //                        XmlNode importPLNode = ParentPartListNode.OwnerDocument.ImportNode(newPLNode, true);
+        //                        ParentPartListNode.AppendChild(importPLNode);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        return SetXml;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return null;
+        //    }
+        //}
+
+        public static List<string> GetMinFigSetRefsFromSetXML(XmlDocument setXML)
+        {
+            XmlNodeList MiniFigNodeList = setXML.SelectNodes("//SubModel[@SubModelLevel='1' and @LDrawModelType='MINIFIG']");
+            List<string> MiniFigSetList = MiniFigNodeList.Cast<XmlNode>()
+                                           .Select(x => x.SelectSingleNode("@Description").InnerXml.Split('_')[0])
+                                           .OrderBy(x => x).ToList();
+            return MiniFigSetList;
+        }
+
+        public static XmlDocument MergeMiniFigsIntoSetXML(XmlDocument SetXml, SetInstructionsCollection MiniFigSetInstructions)
+        {
+            try
+            {
+                XmlNode ParentPartListNode = SetXml.SelectSingleNode("//PartList");
+                XmlNodeList MiniFigNodeList = SetXml.SelectNodes("//SubModel[@SubModelLevel='1' and @LDrawModelType='MINIFIG']");
+                foreach (XmlNode ModelNode in MiniFigNodeList)
+                {
+                    // ** Get variables **
+                    string ModelDescription = ModelNode.SelectSingleNode("@Description").InnerXml;
+                    string MiniFigRef = ModelDescription.Split('_')[0];
+                    XmlNode parentStepNode = SetXml.SelectSingleNode("//SubModel[@Description=" + "\"" + ModelDescription + "\"" + " and @SubModelLevel='1' and @LDrawModelType='MINIFIG']//Step[1]");
+                    XmlNode PartNodeToInsertBefore = parentStepNode.ChildNodes[0];
+
+                    // ** Get Part nodes to add **
+                    SetInstructions si = (from r in MiniFigSetInstructions.SetInstructionsList
+                                          where r.Ref.Equals(MiniFigRef)
+                                          select r).FirstOrDefault();
+                    if (si != null)
+                    {
+                        XmlDocument MiniFigXmlDoc = new XmlDocument();
+                        MiniFigXmlDoc.LoadXml(si.Data);
+                        XmlNodeList partNodeList = MiniFigXmlDoc.SelectNodes("//Part[@IsSubPart='false']");
+                        foreach (XmlNode PartNode in partNodeList)
+                        {
+                            // ** Get variables **
+                            string mfPart_LDrawRef = PartNode.SelectSingleNode("@LDrawRef").InnerXml;
+                            string mfPart_LDrawColourID = PartNode.SelectSingleNode("@LDrawColourID").InnerXml;
+                            string xmlNodeString = PartNode.OuterXml;
+
+                            // ** ADD PART NODES TO THE RELEVANT STEP IN THE ORIGINAL SET **                       
+                            XmlDocument doc = new XmlDocument();
+                            doc.LoadXml(xmlNodeString);
+                            XmlNode newNode = doc.DocumentElement;
+                            XmlNode importNode = parentStepNode.OwnerDocument.ImportNode(newNode, true);
+                            parentStepNode.InsertBefore(importNode, PartNodeToInsertBefore);
+
+                            // ** UPDATE THE ORIGINAL SET'S PARTLIST **
+                            XmlNode PartListNode = SetXml.SelectSingleNode("//PartListPart[@LDrawRef='" + mfPart_LDrawRef + "' and @LDrawColourID='" + mfPart_LDrawColourID + "']");
+                            if (PartListNode != null)
+                            {
+                                // ** Amend EXISTING PartListPart Node **
+                                int origQty = int.Parse(PartListNode.SelectSingleNode("@Qty").InnerXml);
+                                PartListNode.SelectSingleNode("@Qty").InnerXml = (origQty + 1).ToString();
+                            }
+                            else
+                            {
+                                // ** Create NEW PartListPart node **
+                                PartListPart plp = new PartListPart() { LDrawRef = mfPart_LDrawRef, LDrawColourID = int.Parse(mfPart_LDrawColourID), Qty = 1 };
+
+                                // add node to partlist
+                                string PartList_xmlNodeString = HelperFunctions.RemoveAllNamespaces(plp.SerializeToString(true));
+                                XmlDocument pldoc = new XmlDocument();
+                                pldoc.LoadXml(PartList_xmlNodeString);
+                                XmlNode newPLNode = pldoc.DocumentElement;
+                                XmlNode importPLNode = ParentPartListNode.OwnerDocument.ImportNode(newPLNode, true);
+                                ParentPartListNode.AppendChild(importPLNode);
+                            }
+                        }
+                    }
+
+
+
+                }
+                return SetXml;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+
 
 
     }

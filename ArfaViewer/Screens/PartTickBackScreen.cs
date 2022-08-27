@@ -987,8 +987,11 @@ namespace Generator
                 currentSetXml.LoadXml(xmlString);
 
                 // ** MERGE STANDALONE MINIFIG XML's INTO SET XML **   
-                Dictionary<string, XmlDocument> MiniFigXMLDict = StaticData.GetMiniFigXMLDict(currentSetXml);
-                if (MiniFigXMLDict.Count > 0) currentSetXml = Set.MergeMiniFigsIntoSetXML(currentSetXml, MiniFigXMLDict);
+                //Dictionary<string, XmlDocument> MiniFigXMLDict = StaticData.GetMiniFigXMLDict(currentSetXml);
+                //if (MiniFigXMLDict.Count > 0) currentSetXml = Set.MergeMiniFigsIntoSetXML(currentSetXml, MiniFigXMLDict);               
+                List<string> MiniFigSetList = Set.GetMinFigSetRefsFromSetXML(currentSetXml);
+                SetInstructionsCollection siColl = StaticData.GetSetInstructionsData_UsingSetRefList(MiniFigSetList);
+                if (siColl.SetInstructionsList.Count > 0) currentSetXml = Set.MergeMiniFigsIntoSetXML(currentSetXml, siColl);
 
                 // ** Clear fields **
                 SelectedNodeTag = "";
