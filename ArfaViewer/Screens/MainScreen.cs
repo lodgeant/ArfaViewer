@@ -158,10 +158,11 @@ namespace Generator
                 if (fldSourceURL.Text.Equals("")) throw new Exception("No Source URL entered...");
                 if (fldImageType.Text.Equals("")) throw new Exception("No Type selected...");
                 if (fldImageName.Text.Equals("")) throw new Exception("No Image Name entered...");
-                
+
                 // ** Request data upload via API **
-                string response = StaticData.UploadImageToBLOB(fldSourceURL.Text, fldImageType.Text, fldImageName.Text);
-                if (response != "") throw new Exception("Error ocurred while uploading: " + response);
+                StaticData.UploadImageToBLOB_UsingURL(fldSourceURL.Text, fldImageType.Text, fldImageName.Text);
+                //string response = StaticData.UploadImageToBLOB(fldSourceURL.Text, fldImageType.Text, fldImageName.Text);
+                //if (response != "") throw new Exception("Error ocurred while uploading: " + response);
 
                 // Show confirmation **
                 MessageBox.Show(fldImageName.Text + " uploaded to Azure...");

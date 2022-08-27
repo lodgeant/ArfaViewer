@@ -29,111 +29,127 @@ namespace Generator
 {
     public class APIProxy
     {
-        private string UnityLegoPartPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";    // Used for SyncFBXFiles
-        private string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
-        private string AzureDBConnString = "Server=tcp:arfa-db.database.windows.net,1433;Initial Catalog=ArfaDB;Persist Security Info=False;User ID=lodgeant;Password=Sammy_Lodge123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        private string RebrickableKey = "856437d0f14f81e4d3356d27bf1b419e";
+        // string UnityLegoPartPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";    // Used for SyncFBXFiles
+        //private string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
+        //private string AzureDBConnString = "Server=tcp:arfa-db.database.windows.net,1433;Initial Catalog=ArfaDB;Persist Security Info=False;User ID=lodgeant;Password=Sammy_Lodge123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        //private string RebrickableKey = "856437d0f14f81e4d3356d27bf1b419e";
 
 
 
 
         // ** Image Functions **
 
-        public Bitmap GetImage(ImageType imageType, string[] _params)
-        {
-            Bitmap image = null;
+        //public Bitmap GetImage(ImageType imageType, string[] _params)
+        //{
+        //    Bitmap image = null;
 
-            #region ** Determine variables **
-            string itemRef = "";
-            List<string> imageUrlList = new List<string>();
-            if (imageType == ImageType.SET)
-            {
-                // params[0] = SetRef
-                itemRef = _params[0];
-                imageUrlList.Add("https://img.bricklink.com/ItemImage/ON/0/" + itemRef + ".png");
-                imageUrlList.Add("https://img.bricklink.com/ItemImage/MN/0/" + itemRef + ".png");
+        //    #region ** Determine variables **
+        //    string itemRef = "";
+        //    List<string> imageUrlList = new List<string>();
+        //    if (imageType == ImageType.SET)
+        //    {
+        //        // params[0] = SetRef
+        //        itemRef = _params[0];
+        //        imageUrlList.Add("https://img.bricklink.com/ItemImage/ON/0/" + itemRef + ".png");
+        //        imageUrlList.Add("https://img.bricklink.com/ItemImage/MN/0/" + itemRef + ".png");
 
-                //https://images.brickset.com/sets/large/1278-1.jpg
+        //        //https://images.brickset.com/sets/large/1278-1.jpg
 
-            }
-            else if (imageType == ImageType.PARTCOLOUR)
-            {
-                // params[0] = LDrawColourID
-                itemRef = _params[0];
-                //imageUrl not used
-            }
-            else if (imageType == ImageType.ELEMENT)
-            {
-                // params[0] = LDrawRef
-                // params[1] = LDrawColourID, 
-                itemRef = _params[0] + "|" + _params[1];
-                imageUrlList.Add("https://m.rebrickable.com/media/parts/ldraw/" + _params[1] + "/" + _params[0] + ".png");
-            }
-            else if (imageType == ImageType.LDRAW)
-            {
-                // params[0] = LDrawRef
-                itemRef = _params[0];
-                imageUrlList.Add("https://www.ldraw.org/library/official/images/parts/" + _params[0] + ".png");
-                imageUrlList.Add("https://www.ldraw.org/library/unofficial/images/parts/" + _params[0] + ".png");
-            }
-            else if (imageType == ImageType.THEME)
-            {
-                // params[0] = Theme + | + SubTheme
-                itemRef = _params[0];
-                //imageUrl not used
-            }
-            #endregion
+        //    }
+        //    else if (imageType == ImageType.PARTCOLOUR)
+        //    {
+        //        // params[0] = LDrawColourID
+        //        itemRef = _params[0];
+        //        //imageUrl not used
+        //    }
+        //    else if (imageType == ImageType.ELEMENT)
+        //    {
+        //        // params[0] = LDrawRef
+        //        // params[1] = LDrawColourID, 
+        //        itemRef = _params[0] + "|" + _params[1];
+        //        imageUrlList.Add("https://m.rebrickable.com/media/parts/ldraw/" + _params[1] + "/" + _params[0] + ".png");
+        //    }
+        //    else if (imageType == ImageType.LDRAW)
+        //    {
+        //        // params[0] = LDrawRef
+        //        itemRef = _params[0];
+        //        imageUrlList.Add("https://www.ldraw.org/library/official/images/parts/" + _params[0] + ".png");
+        //        imageUrlList.Add("https://www.ldraw.org/library/unofficial/images/parts/" + _params[0] + ".png");
+        //    }
+        //    else if (imageType == ImageType.THEME)
+        //    {
+        //        // params[0] = Theme + | + SubTheme
+        //        itemRef = _params[0];
+        //        //imageUrl not used
+        //    }
+        //    #endregion
 
-            BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
-            if (blob.Exists())
-            {
-                image = DownloadBlobToBitmap(blob);
-            }
-            else
-            {
-                if (image == null)
-                {
-                    // ** If the image was not already in the Azure images, upload it to Azure for use in future **
-                    // ** Download element image from source API **                    
-                    byte[] imageb = null;
-                    //if (imageUrlList.Count == 0)
-                    if (imageUrlList.Count == 1)
-                    {
-                        //imageb = new WebClient().DownloadData(imageUrlList[0]);
-                        try
-                        {
-                            imageb = new WebClient().DownloadData(imageUrlList[0]);
-                        }
-                        catch { }
-                    }
-                    else
-                    {
-                        foreach (string imageUrl in imageUrlList)
-                        {
-                            if (imageb == null)
-                            {
-                                try
-                                {
-                                    imageb = new WebClient().DownloadData(imageUrl);
-                                }
-                                catch { }
-                            }
-                        }
-                    }
-                    if (imageb != null && imageb.Length > 0)
-                    {
-                        // ** Upload the image to Azure **                        
-                        BlobClient newBlob = new BlobContainerClient(this.AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
-                        using (var ms = new MemoryStream(imageb))
-                        {
-                            newBlob.Upload(ms, true);
-                            image = new Bitmap(ms);
-                        }
-                    }
-                }
-            }
-            return image;
-        }
+        //    #region ** Process image **
+        //    BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
+        //    if (blob.Exists())
+        //    {
+        //        image = DownloadBlobToBitmap(blob);
+        //    }
+        //    else
+        //    {
+        //        if (image == null)
+        //        {
+        //            // ** If the image was not already in the Azure images, upload it to Azure for use in future **
+        //            // ** Download element image from source API **                    
+        //            byte[] imageb = null;
+        //            //if (imageUrlList.Count == 0)
+        //            if (imageUrlList.Count == 1)
+        //            {
+        //                //imageb = new WebClient().DownloadData(imageUrlList[0]);
+        //                try
+        //                {
+        //                    imageb = new WebClient().DownloadData(imageUrlList[0]);
+        //                }
+        //                catch { }
+        //            }
+        //            else
+        //            {
+        //                foreach (string imageUrl in imageUrlList)
+        //                {
+        //                    if (imageb == null)
+        //                    {
+        //                        try
+        //                        {
+        //                            imageb = new WebClient().DownloadData(imageUrl);
+        //                        }
+        //                        catch { }
+        //                    }
+        //                }
+        //            }
+        //            if (imageb != null && imageb.Length > 0)
+        //            {
+        //                // ** Upload the image to Azure **                        
+        //                BlobClient newBlob = new BlobContainerClient(this.AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
+        //                using (var ms = new MemoryStream(imageb))
+        //                {
+        //                    newBlob.Upload(ms, true);
+        //                    image = new Bitmap(ms);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    #endregion
+
+
+        //    return image;
+        //}
+
+        //private static Bitmap DownloadBlobToBitmap(BlobClient blob)
+        //{
+        //    Bitmap image = null;
+        //    byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
+        //    using (var ms = new MemoryStream(fileContent))
+        //    {
+        //        blob.DownloadTo(ms);
+        //        image = new Bitmap(ms);
+        //    }
+        //    return image;
+        //}
 
 
         // ** Functions - MOVED TO API **
@@ -857,18 +873,6 @@ namespace Generator
 
         //}
 
-        private void Sep(){}
-
-
-        
-
-
-
-
-        
-
-
-
         // ** CompositePart Functions **
 
         //public CompositePartCollection GetCompositePartData_All()
@@ -987,11 +991,72 @@ namespace Generator
 
         //}
 
+        //public string UploadImageToBLOB(string sourceURL, string ImageType, string ImageName)
+        //{
+        //    string response = "";
+        //    try
+        //    {
+        //        // ** Download image from Rebrickable **
+        //        byte[] imageb = new byte[0];
+        //        try
+        //        {
+        //            imageb = new WebClient().DownloadData(sourceURL);
+        //        }
+        //        catch
+        //        { }
 
-       
+        //        // ** Upload image to Azure **
+        //        if (imageb.Length == 0) throw new Exception("No data found for URL");
+        //        BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "images-" + ImageType.ToLower()).GetBlobClient(ImageName + ".png");
+        //        using (var ms = new MemoryStream(imageb)) blob.Upload(ms, true);
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return ex.Message;
+        //    }
+        //}
+
+
+        // ** HELPFUL METHODS **
+
+        //public bool CheckIfBlobExists(string containerName, string blobName)
+        //{
+        //    BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, containerName).GetBlobClient(blobName);
+        //    return blob.Exists();
+        //}
+
+        //private static DataTable GetSQLQueryResults(string AzureDBConnString, string sql)
+        //{
+        //    var results = new DataTable();
+        //    using (SqlConnection connection = new SqlConnection(AzureDBConnString))
+        //    {
+        //        using (SqlCommand command = new SqlCommand(sql, connection))
+        //        {
+        //            connection.Open();
+        //            using (SqlDataReader reader = command.ExecuteReader()) results.Load(reader);
+        //        }
+        //    }
+        //    return results;
+        //}
+
+        //private static void ExecuteSQLStatement(string AzureDBConnString, string sql)
+        //{
+        //    var results = new DataTable();
+        //    using (SqlConnection connection = new SqlConnection(AzureDBConnString))
+        //    {
+        //        using (SqlCommand command = new SqlCommand(sql, connection))
+        //        {
+        //            connection.Open();
+        //            command.ExecuteNonQuery();
+        //        }
+        //    }            
+        //}
+
+        private void Sep(){}
+
 
         
-
 
 
 
@@ -1021,82 +1086,15 @@ namespace Generator
             return MiniFigXMLDict;
         }
 
-        public string UploadImageToBLOB(string sourceURL, string ImageType, string ImageName)
-        {
-            string response = "";
-            try
-            {
-                // ** Download image from Rebrickable **
-                byte[] imageb = new byte[0];
-                try
-                {
-                    imageb = new WebClient().DownloadData(sourceURL);
-                }
-                catch
-                { }
-
-                // ** Upload image to Azure **
-                if (imageb.Length == 0) throw new Exception("No data found for URL");
-                BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, "images-" + ImageType.ToLower()).GetBlobClient(ImageName + ".png");
-                using (var ms = new MemoryStream(imageb)) blob.Upload(ms, true);
-                return response;
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-        }
+        
 
        
 
 
 
-        // ** HELPFUL METHODS **
 
-        private static Bitmap DownloadBlobToBitmap(BlobClient blob)
-        {
-            Bitmap image = null;
-            byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-            using (var ms = new MemoryStream(fileContent))
-            {
-                blob.DownloadTo(ms);
-                image = new Bitmap(ms);
-            }
-            return image;
-        }
 
-        public bool CheckIfBlobExists(string containerName, string blobName)
-        {
-            BlobClient blob = new BlobContainerClient(this.AzureStorageConnString, containerName).GetBlobClient(blobName);
-            return blob.Exists();
-        }
 
-        private static DataTable GetSQLQueryResults(string AzureDBConnString, string sql)
-        {
-            var results = new DataTable();
-            using (SqlConnection connection = new SqlConnection(AzureDBConnString))
-            {
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader()) results.Load(reader);
-                }
-            }
-            return results;
-        }
-
-        private static void ExecuteSQLStatement(string AzureDBConnString, string sql)
-        {
-            var results = new DataTable();
-            using (SqlConnection connection = new SqlConnection(AzureDBConnString))
-            {
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
-            }            
-        }
 
         
 

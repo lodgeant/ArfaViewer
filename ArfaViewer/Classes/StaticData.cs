@@ -22,15 +22,25 @@ namespace Generator
     {
         // ** Image functions **
 
-        public static Bitmap GetImage(ImageType imageType, string[] _params)
+        //public static Bitmap GetImage(ImageType imageType, string[] _params)
+        //{
+        //    return Global_Variables.APIProxy.GetImage(imageType, _params);
+        //}
+
+        public static void UploadImageToBLOB_UsingURL(string sourceURL, string ImageType, string ImageName)
         {
-            return Global_Variables.APIProxy.GetImage(imageType, _params);
+            //return Global_Variables.APIProxy.UploadImageToBLOB(sourceURL, ImageType, ImageName);
+
+            string url = Global_Variables.APIUrl + "UploadImageToBLOB_UsingURL?sourceURL=" + sourceURL + "&ImageType=" + ImageType + "&ImageName=" + ImageName;
+            PostRequestFromURL(url);
         }
 
-        public static string UploadImageToBLOB(string sourceURL, string ImageType, string ImageName)
-        {
-            return Global_Variables.APIProxy.UploadImageToBLOB(sourceURL, ImageType, ImageName);
-        }
+
+
+
+
+
+
 
 
         // ** PartColour functions **
