@@ -105,13 +105,16 @@ namespace Generator
 
 
 
-
-
-
             #region ** Process image **
 
             // Check if data exists for the BLOB
-
+            //string container = "images-" + imageType.ToString().ToLower();
+            //string blobName = itemRef + ".png";
+            //byte[] data = StaticData.DownloadDataFromBLOB(container, blobName);
+            //using (var ms = new MemoryStream(data))
+            //{               
+            //    image = new Bitmap(ms);
+            //}
             BlobClient blob = new BlobContainerClient(AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
             if (blob.Exists())
             {

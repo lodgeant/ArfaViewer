@@ -40,27 +40,13 @@ namespace BaseClasses
 
         [XmlAttribute("PartType")]
         public PartType partType { get; set; }
-        //public enum PartType
-        //{
-        //    NONE,
-        //    BASIC,
-        //    COMPOSITE,
-        //    //STICKER,
-        //    //BASIC_STICKER_COMPOSITE,      //for use by BASIC parts that currently have a sticker attached
-        //}
-
+        
         [XmlAttribute("IsLargeModel")]
         public bool IsLargeModel { get; set; }
 
         [XmlAttribute("LDrawPartType")]
         public LDrawPartType lDrawPartType { get; set; }
-        //public enum LDrawPartType
-        //{
-        //    UNKNOWN,
-        //    OFFICIAL,
-        //    UNOFFICIAL
-        //}
-
+        
         [XmlAttribute("SubPartCount")]
         public int SubPartCount { get; set; }
 

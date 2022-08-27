@@ -1682,9 +1682,6 @@ namespace Generator
         {
             try
             {
-
-
-
                 #region ** GET DATA UPFRONT **
                 //Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Set Detail Summary - Getting upfront data...");
                 //Delegates.ToolStripProgressBar_SetMax(this, pbStatus, partNodeList.Count);
@@ -1707,14 +1704,10 @@ namespace Generator
                 // ** Get a Collections for this data **
                 PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
                 BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
-                //CompositePartCollection CompositePartCollection = StaticData.GetCompositePartData_UsingLDrawRefList(LDrawRefList);
                 LDrawDetailsCollection LDrawDetailsCollection = StaticData.GetLDrawDetailsData_UsingLDrawRefList(LDrawRefList);
                 FBXDetailsCollection FBXDetailsCollection = new FBXDetailsCollection();
                 if (chkShowFBXDetails.Checked) FBXDetailsCollection = StaticData.GetFBXDetailsData_UsingLDrawRefList(LDrawRefList);               
                 #endregion
-
-
-
 
 
 
@@ -1763,40 +1756,56 @@ namespace Generator
                     string LDrawColourName = (from r in PartColourCollection.PartColourList
                                               where r.LDrawColourID == LDrawColourID
                                               select r.LDrawColourName).FirstOrDefault();                    
-                    string partType = "";
-                    string LDrawDescription = "";
-                    string LDrawPartType = "";
-                    if (IsSubPart == false)
-                    {
-                        partType = (from r in BasePartCollection.BasePartList
-                                    where r.LDrawRef.Equals(LDrawRef)
-                                    select r.partType.ToString()).FirstOrDefault();
-                        LDrawPartType = (from r in BasePartCollection.BasePartList
-                                         where r.LDrawRef.Equals(LDrawRef)
-                                         select r.lDrawPartType.ToString()).FirstOrDefault();
-                        LDrawDescription = (from r in BasePartCollection.BasePartList
+                    //string partType = "";
+                    //string LDrawDescription = "";
+                    //string LDrawPartType = "";
+                    //if (IsSubPart == false)
+                    //{
+                    //    partType = (from r in BasePartCollection.BasePartList
+                    //                where r.LDrawRef.Equals(LDrawRef)
+                    //                select r.partType.ToString()).FirstOrDefault();
+                    //    LDrawPartType = (from r in BasePartCollection.BasePartList
+                    //                     where r.LDrawRef.Equals(LDrawRef)
+                    //                     select r.lDrawPartType.ToString()).FirstOrDefault();
+                    //    LDrawDescription = (from r in BasePartCollection.BasePartList
+                    //                        where r.LDrawRef.Equals(LDrawRef)
+                    //                        select r.LDrawDescription).FirstOrDefault();
+                    //}
+                    //else
+                    //{        
+                    //    //LDrawDescription = (from r in CompositePartCollection.CompositePartList
+                    //    //                   where r.LDrawRef.Equals(LDrawRef)
+                    //    //                   select r.LDrawDescription).FirstOrDefault();
+                    //    // ** Infer other part details from parent **   
+                    //    //string parentLDrawRef = (from r in CompositePartCollection.CompositePartList
+                    //    //                        where r.LDrawRef.Equals(LDrawRef)
+                    //    //                        select r.ParentLDrawRef).FirstOrDefault();
+                    //    //partType = (from r in BasePartCollection.BasePartList
+                    //    //            where r.LDrawRef.Equals(parentLDrawRef)
+                    //    //            select r.partType.ToString()).FirstOrDefault();
+                    //    //LDrawPartType = (from r in BasePartCollection.BasePartList
+                    //    //                 where r.LDrawRef.Equals(parentLDrawRef)
+                    //    //                 select r.lDrawPartType.ToString()).FirstOrDefault();
+                    //}
+                    string partType = (from r in BasePartCollection.BasePartList
+                                       where r.LDrawRef.Equals(LDrawRef)
+                                       select r.partType.ToString()).FirstOrDefault();
+                    string LDrawDescription = (from r in BasePartCollection.BasePartList
+                                               where r.LDrawRef.Equals(LDrawRef)
+                                               select r.LDrawDescription).FirstOrDefault();
+                    string LDrawPartType = (from r in BasePartCollection.BasePartList
                                             where r.LDrawRef.Equals(LDrawRef)
-                                            select r.LDrawDescription).FirstOrDefault();
-                    }
-                    else
-                    {        
-                        //TODO_H: Need to work out how to do these properly - Composite Parts needs to be stored in the BasePart table but have mapping details in CompositePart table
-                        //LDrawDescription = (from r in CompositePartCollection.CompositePartList
-                        //                   where r.LDrawRef.Equals(LDrawRef)
-                        //                   select r.LDrawDescription).FirstOrDefault();
-                        // ** Infer other part details from parent **   
-                        //string parentLDrawRef = (from r in CompositePartCollection.CompositePartList
-                        //                        where r.LDrawRef.Equals(LDrawRef)
-                        //                        select r.ParentLDrawRef).FirstOrDefault();
-                        //partType = (from r in BasePartCollection.BasePartList
-                        //            where r.LDrawRef.Equals(parentLDrawRef)
-                        //            select r.partType.ToString()).FirstOrDefault();
-                        //LDrawPartType = (from r in BasePartCollection.BasePartList
-                        //                 where r.LDrawRef.Equals(parentLDrawRef)
-                        //                 select r.lDrawPartType.ToString()).FirstOrDefault();
-                    }
+                                            select r.lDrawPartType.ToString()).FirstOrDefault();
                     if (LDrawPartType == null) LDrawPartType = "";
                     #endregion
+
+
+
+
+
+
+
+
 
                     // ** Check for official/unoffical part **                    
                     bool IsOfficial = false;
@@ -3848,7 +3857,7 @@ namespace Generator
                 
                 // ** IF PART IS COMPOSITE, CHECK WHETHER SUB PARTS HAVE BEEN SET UP **
                 string partType = StaticData.GetPartType(LDrawRef);
-                if (partType.Equals("COMPOSITE") && StaticData.CheckIfCompositePartsExist(LDrawRef) == false)
+                if (partType.Equals("COMPOSITE") && StaticData.CheckIfSubPartMappingPartsExist(LDrawRef) == false)
                 {                   
                     throw new Exception("SubParts for Part not found in Composite Part Collection");                   
                 }
@@ -3890,12 +3899,15 @@ namespace Generator
                     #endregion
 
                     #region ** ADD SUB PARTS TO NEW PART **
-                    CompositePartCollection coll = StaticData.GetCompositePartData_UsingParentLDrawRefList(LDrawRef);
-                    foreach(CompositePart compPart in coll.CompositePartList)
+                    //CompositePartCollection coll = StaticData.GetCompositePartData_UsingParentLDrawRefList(LDrawRef);
+                    SubPartMappingCollection coll = StaticData.GetSubPartMappingData_UsingParentLDrawRefList(LDrawRef);
+                    foreach (SubPartMapping compPart in coll.SubPartMappingList)
+                    //foreach (CompositePart compPart in coll.CompositePartList)
                     {
                         // ** Generate subPart and add to SubPartList **
                         Part subPart = new Part();
-                        subPart.LDrawRef = compPart.LDrawRef;
+                        //subPart.LDrawRef = compPart.LDrawRef;
+                        subPart.LDrawRef = compPart.SubPartLDrawRef;
                         subPart.LDrawColourID = compPart.LDrawColourID;
                         subPart.SubSetRef = parentSubSetRef + "|" + SubSetIndex;    //TODO: Check whether this data is even used? This is data is used but the value doesn't seem to be populated correctly for Sub Parts.
                         subPart.UnityRef = "";
@@ -3956,7 +3968,7 @@ namespace Generator
                 
                 // ** IF PART IS COMPOSITE, CHECK WHETHER SUB PARTS HAVE BEEN SET UP **
                 string partType = StaticData.GetPartType(fldLDrawRef.Text);                
-                if (partType.Equals("COMPOSITE") && StaticData.CheckIfCompositePartsExist(LDrawRef) == false)
+                if (partType.Equals("COMPOSITE") && StaticData.CheckIfSubPartMappingPartsExist(LDrawRef) == false)
                 {
                     throw new Exception("SubParts for Part not found in Composite Part Collection");
                 }
@@ -4015,12 +4027,15 @@ namespace Generator
                 #endregion
 
                 #region ** ADD SUB PARTS TO NEW PART **
-                CompositePartCollection coll = StaticData.GetCompositePartData_UsingParentLDrawRefList(LDrawRef);
-                foreach (CompositePart compPart in coll.CompositePartList)
+                //CompositePartCollection coll = StaticData.GetCompositePartData_UsingParentLDrawRefList(LDrawRef);
+                //foreach (CompositePart compPart in coll.CompositePartList)
+                SubPartMappingCollection coll = StaticData.GetSubPartMappingData_UsingParentLDrawRefList(LDrawRef);
+                foreach (SubPartMapping compPart in coll.SubPartMappingList)
                 {
                     // ** Generate subPart and add to SubPartList **
                     Part subPart = new Part();
-                    subPart.LDrawRef = compPart.LDrawRef;
+                    //subPart.LDrawRef = compPart.LDrawRef;
+                    subPart.LDrawRef = compPart.SubPartLDrawRef;
                     subPart.LDrawColourID = compPart.LDrawColourID;
                     subPart.UnityRef = "";
                     subPart.state = Part.PartState.NOT_COMPLETED;
@@ -4192,8 +4207,8 @@ namespace Generator
                 // ** Check if CHECK IF PART EXISTS IN OFFICIAL/UNOFFIAL LDRAW PARTS ** 
                 //if (StaticData.CheckIfLDrawFileDetailsExist(LDrawRef) == false) throw new Exception("Unable to find " + LDrawRef + " in official or unofficial LDraw Parts data...");
                 
-                // ** Check if LDraw Refs already exist in CompositePartCollection XML **               
-                if (partType == BasePart.PartType.COMPOSITE && StaticData.CheckIfCompositePartsExist(LDrawRef) == true) throw new Exception("Parent LDraw Ref already exists...");
+                // ** Check if LDraw Refs already exist in Sub Part Mapping **               
+                if (partType == BasePart.PartType.COMPOSITE && StaticData.CheckIfSubPartMappingPartsExist(LDrawRef) == true) throw new Exception("Parent LDraw Ref already exists...");
                 #endregion
 
                 #region ** GENERATE NEW BasePart & ADD TO STATIC DATA **                
@@ -4214,18 +4229,51 @@ namespace Generator
                 StaticData.AddBasePart(newBasePart);
                 #endregion
 
+
                 #region ** ADD ALL SUB PARTS FROM LDRAW .DAT FILE (IF PART = COMPOSITE) **
                 if (newBasePart.partType == BasePart.PartType.COMPOSITE)
                 {   
                     CompositePartCollection SubPartCollection = StaticData.GetAllCompositeSubParts_FromLDrawDetails(LDrawRef);                    
                     foreach (CompositePart cp in SubPartCollection.CompositePartList)
                     {
-                        cp.ParentLDrawRef = LDrawRef;
-                        cp.PosX = -1;
-                        StaticData.AddCompositePart(cp);
+                        // ** Trigger creation of LDrawDetails for Sub Part **
+                        LDrawDetails subPart_lDrawDetails = StaticData.GetLDrawDetails(cp.LDrawRef);
+
+                        // check if basepart already exists for sub part - if does then don't add again.
+                        if (StaticData.CheckIfBasePartExists(cp.LDrawRef) == false)
+                        {
+                            // Create BasePart for Sub Part
+                            BasePart subBP = new BasePart()
+                            {
+                                LDrawRef = cp.LDrawRef,
+                                //LDrawDescription = new System.Xml.Linq.XText(lDrawDetails.LDrawDescription).ToString(),
+                                LDrawDescription = cp.LDrawDescription,
+                                lDrawPartType = (BasePart.LDrawPartType)Enum.Parse(typeof(BasePart.LDrawPartType), subPart_lDrawDetails.LDrawPartType, true),
+                                LDrawCategory = "",
+                                partType = BasePart.PartType.BASIC,
+                                IsSubPart = true,
+                                IsSticker = false,
+                                IsLargeModel = false,
+                                SubPartCount = 0
+                            };
+                            //if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;
+                            subBP.LDrawSize = 0;
+                            StaticData.AddBasePart(subBP);
+                        }
+
+                        // ** Add SubPartMapping **
+                        SubPartMapping spm = new SubPartMapping()
+                        {
+                            ParentLDrawRef = LDrawRef,
+                            SubPartLDrawRef = cp.LDrawRef,
+                            LDrawColourID = cp.LDrawColourID,
+                            PosX = -1
+                        };
+                        StaticData.AddSubPartMapping(spm);
                     }
                 }
                 #endregion
+
 
                 // ** Refresh Part Details ** 
                 ProcessLDrawRef_Leave();

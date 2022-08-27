@@ -35,9 +35,14 @@ namespace Generator
             PostRequestFromURL(url);
         }
 
-
-
-
+        public static byte[] DownloadDataFromBLOB(string container, string blobName)
+        {
+            string url = Global_Variables.APIUrl + "DownloadDataFromBLOB?container=" + container + "&blobName=" + blobName;
+            string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
+            //byte[] data = new UTF8Encoding().GetBytes(JSONString);
+            byte[] data = Encoding.ASCII.GetBytes(JSONString);
+            return data;
+        }
 
 
 
@@ -237,14 +242,21 @@ namespace Generator
 
         public static LDrawDetailsCollection GetLDrawDetailsData_UsingLDrawRefList(List<string> IDList)
         {
-            //return Global_Variables.APIProxy.GetLDrawDetailsData_UsingLDrawRefList(IDList);
-
             string url = Global_Variables.APIUrl + "GetLDrawDetailsData_UsingLDrawRefList?";
             foreach (string id in IDList) url += "IDList=" + id + "&";
             string JSONString = GetJSONResponseFromURL(url);
             LDrawDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<LDrawDetailsCollection>(JSONString);
             return coll;
         }
+
+        public static LDrawDetails GetLDrawDetails(string LDrawRef)
+        {
+            LDrawDetails ldd = null;
+            LDrawDetailsCollection lddc = GetLDrawDetailsData_UsingLDrawRefList(new List<string>() { LDrawRef });
+            if (lddc.LDrawDetailsList.Count > 0) ldd = lddc.LDrawDetailsList[0];
+            return ldd;
+        }
+
 
         public static void AddLDrawDetails(LDrawDetails ldd)
         {
@@ -379,12 +391,6 @@ namespace Generator
         }
 
 
-
-
-
-
-
-
         // ** BasePart functions **
 
         public static BasePartCollection GetBasePartData_UsingLDrawRefList(List<string> IDList)
@@ -445,59 +451,48 @@ namespace Generator
         }
 
 
+        // ** SubPartMapping functions **
+
+        public static SubPartMappingCollection GetSubPartMappingData_UsingParentLDrawRefList(string ParentLDrawRef)
+        {
+            string url = Global_Variables.APIUrl + "GetSubPartMappingData_UsingParentLDrawRefList?ParentLDrawRef=" + ParentLDrawRef;
+            string JSONString = GetJSONResponseFromURL(url);
+            SubPartMappingCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SubPartMappingCollection>(JSONString);
+            return coll;
+        }
+
+        public static bool CheckIfSubPartMappingPartsExist(string LDrawRef)
+        {
+            string url = Global_Variables.APIUrl + "CheckIfSubPartMappingPartsExist?ParentLDrawRef=" + LDrawRef;
+            string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
+            return bool.Parse(JSONString);
+        }
+
+        public static void AddSubPartMapping(SubPartMapping spm)
+        {
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(spm);
+            string url = Global_Variables.APIUrl + "AddSubPartMapping";
+            PostJSONRequestFromURL(url, json);
+        }
+
+       
+
+
+
+
 
 
 
         // ** CompositePart functions **
 
-        //public static CompositePartCollection GetCompositePartData_UsingLDrawRefList(List<string> IDList)
-        //{
-        //    //return Global_Variables.APIProxy.GetCompositePartData_UsingLDrawRefList(IDList);
-
-        //    string url = Global_Variables.APIUrl + "GetCompositePartData_UsingLDrawRefList?";
-        //    foreach (string id in IDList) url += "IDList=" + id + "&";
-        //    string JSONString = GetJSONResponseFromURL(url);
-        //    CompositePartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<CompositePartCollection>(JSONString);
-        //    return coll;
-        //}
-
-        public static CompositePartCollection GetCompositePartData_UsingParentLDrawRefList(string ParentLDrawRef)
-        {
-            //return Global_Variables.APIProxy.GetCompositePartData_UsingParentLDrawRefList(ParentLDrawRef);
-
-            string url = Global_Variables.APIUrl + "GetCompositePartData_UsingParentLDrawRefList?ParentLDrawRef=" + ParentLDrawRef;
-            string JSONString = GetJSONResponseFromURL(url);
-            CompositePartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<CompositePartCollection>(JSONString);
-            return coll;
-        }
-
         public static CompositePartCollection GetAllCompositeSubParts_FromLDrawDetails(string LDrawRef)
         {
-            //return Global_Variables.APIProxy.GetAllCompositeSubParts_FromLDrawDetails(LDrawRef);
-
             string url = Global_Variables.APIUrl + "GetAllCompositeSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
             string JSONString = GetJSONResponseFromURL(url);
             CompositePartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<CompositePartCollection>(JSONString);
             return coll;
         }
 
-        public static bool CheckIfCompositePartsExist(string LDrawRef)
-        {
-            //return Global_Variables.APIProxy.CheckIfCompositePartsExist(LDrawRef);
-
-            string url = Global_Variables.APIUrl + "CheckIfCompositePartsExist?ParentLDrawRef=" + LDrawRef;
-            string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
-            return bool.Parse(JSONString);
-        }
-
-        public static void AddCompositePart(CompositePart cp)
-        {
-            //Global_Variables.APIProxy.AddCompositePart(p);
-
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(cp);
-            string url = Global_Variables.APIUrl + "AddCompositePart";
-            PostJSONRequestFromURL(url, json);
-        }
 
 
 
@@ -505,18 +500,6 @@ namespace Generator
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-       
 
 
 

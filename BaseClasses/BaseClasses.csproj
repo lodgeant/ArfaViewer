@@ -45,6 +45,7 @@
     <Compile Include="BasePartCollection.cs" />
     <Compile Include="BasePart.cs" />
     <Compile Include="BuildInstructions.cs" />
+    <Compile Include="SubPartMapping.cs" />
     <Compile Include="LDrawDetailsCollection.cs" />
     <Compile Include="LDrawDetails.cs" />
     <Compile Include="FBXDetails.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="FBXDetailsCollection.cs" />
     <Compile Include="SetInstructionsCollection.cs" />
     <Compile Include="SetInstructions.cs" />
+    <Compile Include="SubPartMappingCollection.cs" />
     <Compile Include="TickBackCollection.cs" />
     <Compile Include="SetDetailsCollection.cs" />
     <Compile Include="SetDetails.cs" />
