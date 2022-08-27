@@ -58,45 +58,41 @@ namespace BaseClasses
             }
         }
 
+        //public static CompositePartCollection GetCompositePartCollectionFromDataTable(DataTable table)
+        //{
+        //    CompositePartCollection coll = new CompositePartCollection();
+        //    foreach (DataRow row in table.Rows)
+        //    {
+        //        CompositePart item = CompositePart.GetCompositePartFromDBDataRow(row);
+        //        coll.CompositePartList.Add(item);
+        //    }
+        //    return coll;
+        //}
 
-        public static CompositePartCollection GetCompositePartCollectionFromDataTable(DataTable table)
-        {
-            CompositePartCollection coll = new CompositePartCollection();
-            foreach (DataRow row in table.Rows)
-            {
-                CompositePart item = CompositePart.GetCompositePartFromDBDataRow(row);
-                coll.CompositePartList.Add(item);
-            }
-            return coll;
-        }
-
-
-
-
-        public static string ConvertCompositePartCollectionToDBInsertValuesString(CompositePartCollection coll)
-        {
-            StringBuilder sb = new StringBuilder();
-            int index = 1;
-            foreach (CompositePart p in coll.CompositePartList)
-            {
-                //if (index == 5) break;
-                sb.Append("(");
-                sb.Append(index.ToString() + ",");                  // ID int
-                sb.Append("'" + p.LDrawRef + "',");                 // LDRAW_REF varchar(25)
-                sb.Append("'" + p.LDrawDescription + "',");         // LDRAW_DESCRIPTION varchar(100)
-                sb.Append("'" + p.ParentLDrawRef + "',");           // PARENT_LDRAW_REF varchar(25)
-                sb.Append(p.LDrawColourID + ",");                   // LDRAW_COLOUR_ID int
-                sb.Append(p.PosX + ",");                            // POX_X float
-                sb.Append(p.PosY + ",");                            // POX_Y float
-                sb.Append(p.PosZ + ",");                            // POX_Z float
-                sb.Append(p.RotX + ",");                            // ROT_X float
-                sb.Append(p.RotY + ",");                            // ROT_Y float
-                sb.Append(p.RotZ);                                  // ROT_Z float
-                sb.Append(")," + Environment.NewLine);
-                index += 1;
-            }
-            return sb.ToString();
-        }
+        //public static string ConvertCompositePartCollectionToDBInsertValuesString(CompositePartCollection coll)
+        //{
+        //    StringBuilder sb = new StringBuilder();
+        //    int index = 1;
+        //    foreach (CompositePart p in coll.CompositePartList)
+        //    {
+        //        //if (index == 5) break;
+        //        sb.Append("(");
+        //        sb.Append(index.ToString() + ",");                  // ID int
+        //        sb.Append("'" + p.LDrawRef + "',");                 // LDRAW_REF varchar(25)
+        //        sb.Append("'" + p.LDrawDescription + "',");         // LDRAW_DESCRIPTION varchar(100)
+        //        sb.Append("'" + p.ParentLDrawRef + "',");           // PARENT_LDRAW_REF varchar(25)
+        //        sb.Append(p.LDrawColourID + ",");                   // LDRAW_COLOUR_ID int
+        //        sb.Append(p.PosX + ",");                            // POX_X float
+        //        sb.Append(p.PosY + ",");                            // POX_Y float
+        //        sb.Append(p.PosZ + ",");                            // POX_Z float
+        //        sb.Append(p.RotX + ",");                            // ROT_X float
+        //        sb.Append(p.RotY + ",");                            // ROT_Y float
+        //        sb.Append(p.RotZ);                                  // ROT_Z float
+        //        sb.Append(")," + Environment.NewLine);
+        //        index += 1;
+        //    }
+        //    return sb.ToString();
+        //}
 
 
     }
