@@ -22,15 +22,15 @@ namespace Generator
     {
         // ** Image functions **
 
-        public static void UploadImageToBLOB_UsingURL(string sourceURL, string ImageType, string ImageName)
+        public static void UploadImageToBLOB_UsingURL(string SourceURL, string ImageType, string ImageName)
         {
-            string url = Global_Variables.APIUrl2 + "Image/UploadImageToBLOB_UsingURL?sourceURL=" + sourceURL + "&ImageType=" + ImageType + "&ImageName=" + ImageName;
+            string url = Global_Variables.APIUrl2 + "Image/UploadImageToBLOB_UsingURL?SourceURL=" + SourceURL + "&ImageType=" + ImageType + "&ImageName=" + ImageName;
             PostRequestFromURL(url);
         }
 
-        public static byte[] DownloadDataFromBLOB(string container, string blobName)
+        public static byte[] DownloadDataFromBLOB(string Container, string BlobName)
         {
-            string url = Global_Variables.APIUrl2 + "Image/DownloadDataFromBLOB?container=" + container + "&blobName=" + blobName;
+            string url = Global_Variables.APIUrl2 + "Image/DownloadDataFromBLOB?Container=" + Container + "&BlobName=" + BlobName;
             string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
             //byte[] data = new UTF8Encoding().GetBytes(JSONString);
             byte[] data = Encoding.ASCII.GetBytes(JSONString);
@@ -77,6 +77,24 @@ namespace Generator
 
         // ** SetDetails Functions **
 
+        public static SetDetailsCollection GetSetDetailsData_UsingSetRefList(List<string> IDList)
+        {
+            string url = Global_Variables.APIUrl2 + "SetDetails/GetSetDetailsData_UsingSetRefList?";
+            foreach (string id in IDList) url += "IDList=" + id + "&";
+            string JSONString = GetJSONResponseFromURL(url);
+            SetDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetDetailsCollection>(JSONString);
+            return coll;
+        }
+
+        public static SetDetailsCollection GetSetDetailsData_UsingThemeAndSubTheme(string Theme, string SubTheme)
+        {
+            string url = Global_Variables.APIUrl2 + "SetDetails/GetSetDetailsData_UsingThemeAndSubTheme?Theme=" + Theme;
+            if (SubTheme != "") url += "&SubTheme=" + SubTheme;
+            string JSONString = GetJSONResponseFromURL(url);
+            SetDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetDetailsCollection>(JSONString);
+            return coll;
+        }
+
         public static SetDetails GetSetDetails(string SetRef)
         {
             SetDetails sd = null;
@@ -87,22 +105,18 @@ namespace Generator
             return sd;
         }
 
-        public static SetDetailsCollection GetSetDetailsData_UsingSetRefList(List<string> IDList)
+        public static bool CheckIfPDFInstructionsExistForSet(string SetRef)
         {
-            string url = Global_Variables.APIUrl2 + "SetDetails/GetSetDetailsData_UsingSetRefList?";
-            foreach (string id in IDList) url += "IDList=" + id + "&";
+            string url = Global_Variables.APIUrl2 + "SetDetails/CheckIfPDFInstructionsExistForSet?SetRef=" + SetRef;
             string JSONString = GetJSONResponseFromURL(url);
-            SetDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetDetailsCollection>(JSONString);
-            return coll;
+            return bool.Parse(JSONString);
         }
 
-        public static SetDetailsCollection GetSetDetailsData_UsingThemeAndSubTheme(string theme, string subTheme)
+        public static bool CheckIfSetDetailExists(string SetRef)
         {
-            string url = Global_Variables.APIUrl2 + "SetDetails/GetSetDetailsData_UsingThemeAndSubTheme?theme=" + theme;
-            if(subTheme != "") url += "&subTheme=" + subTheme;            
+            string url = Global_Variables.APIUrl2 + "SetDetails/CheckIfSetDetailExists?SetRef=" + SetRef;
             string JSONString = GetJSONResponseFromURL(url);
-            SetDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetDetailsCollection>(JSONString);
-            return coll;
+            return bool.Parse(JSONString);
         }
 
         public static void UpdateSetDetailsCounts_UsingSetRef(string SetRef, int PartCount, int SubSetCount, int ModelCount, int MiniFigCount)
@@ -129,20 +143,6 @@ namespace Generator
         {
             string url = Global_Variables.APIUrl2 + "SetDetails/DeleteSetDetails?setRef=" + SetRef;
             PostRequestFromURL(url);
-        }
-
-        public static bool CheckIfPDFInstructionsExistForSet(string setRef)
-        {
-            string url = Global_Variables.APIUrl2 + "SetDetails/CheckIfPDFInstructionsExistForSet?setRef=" + setRef;
-            string JSONString = GetJSONResponseFromURL(url);
-            return bool.Parse(JSONString);
-        }
-
-        public static bool CheckIfSetDetailExists(string SetRef)
-        {
-            string url = Global_Variables.APIUrl2 + "SetDetails/CheckIfSetDetailExists?setRef=" + SetRef;
-            string JSONString = GetJSONResponseFromURL(url);
-            return bool.Parse(JSONString);
         }
 
 
@@ -237,10 +237,10 @@ namespace Generator
 
         // ** ThemeDetails Functions **
 
-        public static ThemeDetailsCollection GetThemeDetailsData_UsingThemeList(List<string> ThemeList)
+        public static ThemeDetailsCollection GetThemeDetailsData_UsingThemeList(List<string> IDList)
         {            
             string url = Global_Variables.APIUrl2 + "ThemeDetails/GetThemeDetailsData_UsingThemeList?";
-            foreach (string id in ThemeList) url += "ThemeList=" + id + "&";
+            foreach (string id in IDList) url += "IDList=" + id + "&";
             string JSONString = GetJSONResponseFromURL(url);
             ThemeDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<ThemeDetailsCollection>(JSONString);
             return coll;
@@ -262,10 +262,10 @@ namespace Generator
             return td;
         }
 
-        public static int GetSetCountForThemeAndSubTheme(string theme, string subTheme)
+        public static int GetSetCountForThemeAndSubTheme(string Theme, string SubTheme)
         {
-            string url = Global_Variables.APIUrl2 + "ThemeDetails/GetSetCountForThemeAndSubTheme?theme=" + theme;
-            if (subTheme != "") url += "&subTheme=" + subTheme;
+            string url = Global_Variables.APIUrl2 + "ThemeDetails/GetSetCountForThemeAndSubTheme?Theme=" + Theme;
+            if (SubTheme != "") url += "&SubTheme=" + SubTheme;
             string JSONString = GetJSONResponseFromURL(url);            
             return int.Parse(JSONString);
         }
@@ -273,10 +273,10 @@ namespace Generator
 
         // ** TickBack Functions **
 
-        public static TickBackCollection GetTickBackData_UsingTickBackNameList(List<string> NameList)
+        public static TickBackCollection GetTickBackData_UsingTickBackNameList(List<string> IDList)
         {
             string url = Global_Variables.APIUrl2 + "TickBack/GetTickBackData_UsingTickBackNameList?";
-            foreach (string id in NameList) url += "NameList=" + id + "&";
+            foreach (string id in IDList) url += "IDList=" + id + "&";
             string JSONString = GetJSONResponseFromURL(url);
             TickBackCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<TickBackCollection>(JSONString);
             return coll;
@@ -405,7 +405,7 @@ namespace Generator
 
         public static CompositePartCollection GetAllCompositeSubParts_FromLDrawDetails(string LDrawRef)
         {
-            string url = Global_Variables.APIUrl + "GetAllCompositeSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
+            string url = Global_Variables.APIUrl2 + "LDrawDetails/GetAllCompositeSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
             string JSONString = GetJSONResponseFromURL(url);
             CompositePartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<CompositePartCollection>(JSONString);
             return coll;

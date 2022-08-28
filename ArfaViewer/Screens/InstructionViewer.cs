@@ -98,16 +98,15 @@ namespace Generator
                 tsPartDetails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
                                 toolStripLabel1,
                                 fldLDrawRef,
-                                fldLDrawImage,
-                                //lblLDrawDescription,
+                                fldLDrawImage,                               
+                                btnAddPartToBasePartCollection,
                                 toolStripLabel2,
                                 fldLDrawColourID,
                                 toolStripLabel4,
                                 fldLDrawColourName,
                                 lblQty,
                                 fldQty,
-                                new ToolStripControlHost(chkBasePartCollection),
-                                btnAddPartToBasePartCollection2,
+                                new ToolStripControlHost(chkBasePartCollection),                                                
                                 toolStripLabel3,
                                 fldPlacementMovements,
                                 btnPartClear,
@@ -115,8 +114,7 @@ namespace Generator
                                 btnPartAdd,
                                 btnPartSave,
                                 btnPartDelete,
-                                toolStripSeparator24,
-                                //btnAddToPartDAT,
+                                toolStripSeparator24,                                
                                 btnGenerateDatFile
                                 });
                 #endregion
@@ -1709,8 +1707,6 @@ namespace Generator
                 if (chkShowFBXDetails.Checked) FBXDetailsCollection = StaticData.GetFBXDetailsData_UsingLDrawRefList(LDrawRefList);               
                 #endregion
 
-
-
                 #region ** GENERATE COLUMNS **
                 DataTable partTable = new DataTable("partTable", "partTable");                
                 partTable.Columns.Add("Part Image", typeof(Bitmap));
@@ -1755,38 +1751,7 @@ namespace Generator
                     int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);  
                     string LDrawColourName = (from r in PartColourCollection.PartColourList
                                               where r.LDrawColourID == LDrawColourID
-                                              select r.LDrawColourName).FirstOrDefault();                    
-                    //string partType = "";
-                    //string LDrawDescription = "";
-                    //string LDrawPartType = "";
-                    //if (IsSubPart == false)
-                    //{
-                    //    partType = (from r in BasePartCollection.BasePartList
-                    //                where r.LDrawRef.Equals(LDrawRef)
-                    //                select r.partType.ToString()).FirstOrDefault();
-                    //    LDrawPartType = (from r in BasePartCollection.BasePartList
-                    //                     where r.LDrawRef.Equals(LDrawRef)
-                    //                     select r.lDrawPartType.ToString()).FirstOrDefault();
-                    //    LDrawDescription = (from r in BasePartCollection.BasePartList
-                    //                        where r.LDrawRef.Equals(LDrawRef)
-                    //                        select r.LDrawDescription).FirstOrDefault();
-                    //}
-                    //else
-                    //{        
-                    //    //LDrawDescription = (from r in CompositePartCollection.CompositePartList
-                    //    //                   where r.LDrawRef.Equals(LDrawRef)
-                    //    //                   select r.LDrawDescription).FirstOrDefault();
-                    //    // ** Infer other part details from parent **   
-                    //    //string parentLDrawRef = (from r in CompositePartCollection.CompositePartList
-                    //    //                        where r.LDrawRef.Equals(LDrawRef)
-                    //    //                        select r.ParentLDrawRef).FirstOrDefault();
-                    //    //partType = (from r in BasePartCollection.BasePartList
-                    //    //            where r.LDrawRef.Equals(parentLDrawRef)
-                    //    //            select r.partType.ToString()).FirstOrDefault();
-                    //    //LDrawPartType = (from r in BasePartCollection.BasePartList
-                    //    //                 where r.LDrawRef.Equals(parentLDrawRef)
-                    //    //                 select r.lDrawPartType.ToString()).FirstOrDefault();
-                    //}
+                                              select r.LDrawColourName).FirstOrDefault();
                     string partType = (from r in BasePartCollection.BasePartList
                                        where r.LDrawRef.Equals(LDrawRef)
                                        select r.partType.ToString()).FirstOrDefault();
@@ -1798,14 +1763,6 @@ namespace Generator
                                             select r.lDrawPartType.ToString()).FirstOrDefault();
                     if (LDrawPartType == null) LDrawPartType = "";
                     #endregion
-
-
-
-
-
-
-
-
 
                     // ** Check for official/unoffical part **                    
                     bool IsOfficial = false;
@@ -2939,15 +2896,15 @@ namespace Generator
                 if (coll.BasePartList.Count > 0)
                 {
                     chkBasePartCollection.Checked = true;
-                    btnAddPartToBasePartCollection2.Enabled = false;
-                    btnAddPartToBasePartCollection2.BackColor = Color.Transparent;
+                    btnAddPartToBasePartCollection.Enabled = false;
+                    btnAddPartToBasePartCollection.BackColor = Color.Transparent;
                     tsBasePartCollection.Enabled = false;
                 }
                 else
                 {
                     chkBasePartCollection.Checked = false;
-                    btnAddPartToBasePartCollection2.Enabled = true;
-                    btnAddPartToBasePartCollection2.BackColor = Color.Red;
+                    btnAddPartToBasePartCollection.Enabled = true;
+                    btnAddPartToBasePartCollection.BackColor = Color.Red;
                     tsBasePartCollection.Enabled = true;
                 }
             }
@@ -4210,6 +4167,7 @@ namespace Generator
                 // ** Check if LDraw Refs already exist in Sub Part Mapping **               
                 if (partType == BasePart.PartType.COMPOSITE && StaticData.CheckIfSubPartMappingPartsExist(LDrawRef) == true) throw new Exception("Parent LDraw Ref already exists...");
                 #endregion
+
 
                 #region ** GENERATE NEW BasePart & ADD TO STATIC DATA **                
                 BasePart newBasePart = new BasePart()

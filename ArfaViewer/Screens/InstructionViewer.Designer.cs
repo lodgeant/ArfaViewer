@@ -152,7 +152,7 @@
             this.btnPartAdd = new System.Windows.Forms.ToolStripButton();
             this.btnPartSave = new System.Windows.Forms.ToolStripButton();
             this.btnPartDelete = new System.Windows.Forms.ToolStripButton();
-            this.btnAddPartToBasePartCollection2 = new System.Windows.Forms.ToolStripButton();
+            this.btnAddPartToBasePartCollection = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
             this.btnGenerateDatFile = new System.Windows.Forms.ToolStripButton();
             this.gpStep = new System.Windows.Forms.GroupBox();
@@ -330,7 +330,7 @@
             this.toolStripSeparator22});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1370, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1493, 25);
             this.toolStrip1.TabIndex = 25;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -689,7 +689,7 @@
             this.lblStatus});
             this.statusStrip2.Location = new System.Drawing.Point(0, 727);
             this.statusStrip2.Name = "statusStrip2";
-            this.statusStrip2.Size = new System.Drawing.Size(1370, 22);
+            this.statusStrip2.Size = new System.Drawing.Size(1493, 22);
             this.statusStrip2.TabIndex = 35;
             this.statusStrip2.Text = "statusStrip2";
             // 
@@ -715,7 +715,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 25);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1370, 702);
+            this.tabControl1.Size = new System.Drawing.Size(1493, 702);
             this.tabControl1.TabIndex = 36;
             // 
             // tabPage1
@@ -724,7 +724,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1362, 676);
+            this.tabPage1.Size = new System.Drawing.Size(1485, 676);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Summary";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -742,8 +742,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.gpNodeMgmt);
-            this.splitContainer1.Size = new System.Drawing.Size(1356, 670);
-            this.splitContainer1.SplitterDistance = 328;
+            this.splitContainer1.Size = new System.Drawing.Size(1479, 670);
+            this.splitContainer1.SplitterDistance = 357;
             this.splitContainer1.TabIndex = 32;
             // 
             // gpSetStructure
@@ -754,7 +754,7 @@
             this.gpSetStructure.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpSetStructure.Location = new System.Drawing.Point(0, 0);
             this.gpSetStructure.Name = "gpSetStructure";
-            this.gpSetStructure.Size = new System.Drawing.Size(328, 670);
+            this.gpSetStructure.Size = new System.Drawing.Size(357, 670);
             this.gpSetStructure.TabIndex = 28;
             this.gpSetStructure.TabStop = false;
             this.gpSetStructure.Text = "Set Structure";
@@ -769,7 +769,7 @@
             this.tvSetSummary.Location = new System.Drawing.Point(3, 41);
             this.tvSetSummary.Name = "tvSetSummary";
             this.tvSetSummary.SelectedImageIndex = 0;
-            this.tvSetSummary.Size = new System.Drawing.Size(322, 426);
+            this.tvSetSummary.Size = new System.Drawing.Size(351, 426);
             this.tvSetSummary.TabIndex = 84;
             this.tvSetSummary.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvSetSummary_AfterSelect);
             // 
@@ -779,7 +779,7 @@
             this.pnlSetImage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlSetImage.Location = new System.Drawing.Point(3, 467);
             this.pnlSetImage.Name = "pnlSetImage";
-            this.pnlSetImage.Size = new System.Drawing.Size(322, 200);
+            this.pnlSetImage.Size = new System.Drawing.Size(351, 200);
             this.pnlSetImage.TabIndex = 83;
             // 
             // toolStrip2
@@ -799,7 +799,7 @@
             this.btnSetClear});
             this.toolStrip2.Location = new System.Drawing.Point(3, 16);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(322, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(351, 25);
             this.toolStrip2.TabIndex = 26;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -906,7 +906,7 @@
             this.gpNodeMgmt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpNodeMgmt.Location = new System.Drawing.Point(0, 0);
             this.gpNodeMgmt.Name = "gpNodeMgmt";
-            this.gpNodeMgmt.Size = new System.Drawing.Size(1024, 670);
+            this.gpNodeMgmt.Size = new System.Drawing.Size(1118, 670);
             this.gpNodeMgmt.TabIndex = 33;
             this.gpNodeMgmt.TabStop = false;
             this.gpNodeMgmt.Text = "Node Management";
@@ -925,7 +925,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(3, 241);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1018, 327);
+            this.groupBox3.Size = new System.Drawing.Size(1112, 327);
             this.groupBox3.TabIndex = 100;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Part Summary";
@@ -980,7 +980,7 @@
             this.dgPartSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgPartSummary.Location = new System.Drawing.Point(3, 41);
             this.dgPartSummary.Name = "dgPartSummary";
-            this.dgPartSummary.Size = new System.Drawing.Size(1012, 261);
+            this.dgPartSummary.Size = new System.Drawing.Size(1106, 261);
             this.dgPartSummary.TabIndex = 77;
             this.dgPartSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgPartSummary_CellClick);
             // 
@@ -1011,7 +1011,7 @@
             this.lblPartSummaryItemFilteredCount});
             this.c.Location = new System.Drawing.Point(3, 302);
             this.c.Name = "c";
-            this.c.Size = new System.Drawing.Size(1012, 22);
+            this.c.Size = new System.Drawing.Size(1106, 22);
             this.c.TabIndex = 67;
             this.c.Text = "statusStrip2";
             // 
@@ -1040,7 +1040,7 @@
             this.fldLDrawColourNameAc});
             this.tsPartSummary.Location = new System.Drawing.Point(3, 16);
             this.tsPartSummary.Name = "tsPartSummary";
-            this.tsPartSummary.Size = new System.Drawing.Size(1012, 25);
+            this.tsPartSummary.Size = new System.Drawing.Size(1106, 25);
             this.tsPartSummary.TabIndex = 26;
             this.tsPartSummary.Text = "toolStrip4";
             // 
@@ -1095,7 +1095,7 @@
             this.gbPartDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gbPartDetails.Location = new System.Drawing.Point(3, 568);
             this.gbPartDetails.Name = "gbPartDetails";
-            this.gbPartDetails.Size = new System.Drawing.Size(1018, 99);
+            this.gbPartDetails.Size = new System.Drawing.Size(1112, 99);
             this.gbPartDetails.TabIndex = 99;
             this.gbPartDetails.TabStop = false;
             this.gbPartDetails.Text = "Part Details";
@@ -1109,7 +1109,7 @@
             this.fldLDrawSize});
             this.tsBasePartCollection.Location = new System.Drawing.Point(3, 66);
             this.tsBasePartCollection.Name = "tsBasePartCollection";
-            this.tsBasePartCollection.Size = new System.Drawing.Size(1012, 25);
+            this.tsBasePartCollection.Size = new System.Drawing.Size(1106, 25);
             this.tsBasePartCollection.TabIndex = 79;
             this.tsBasePartCollection.Text = "toolStrip10";
             // 
@@ -1159,7 +1159,7 @@
             this.fldPartRotZ});
             this.tsPartPosDetails.Location = new System.Drawing.Point(3, 41);
             this.tsPartPosDetails.Name = "tsPartPosDetails";
-            this.tsPartPosDetails.Size = new System.Drawing.Size(1012, 25);
+            this.tsPartPosDetails.Size = new System.Drawing.Size(1106, 25);
             this.tsPartPosDetails.TabIndex = 78;
             this.tsPartPosDetails.Text = "toolStrip10";
             // 
@@ -1281,12 +1281,12 @@
             this.btnPartAdd,
             this.btnPartSave,
             this.btnPartDelete,
-            this.btnAddPartToBasePartCollection2,
+            this.btnAddPartToBasePartCollection,
             this.toolStripSeparator24,
             this.btnGenerateDatFile});
             this.tsPartDetails.Location = new System.Drawing.Point(3, 16);
             this.tsPartDetails.Name = "tsPartDetails";
-            this.tsPartDetails.Size = new System.Drawing.Size(1012, 25);
+            this.tsPartDetails.Size = new System.Drawing.Size(1106, 25);
             this.tsPartDetails.TabIndex = 75;
             this.tsPartDetails.Text = "toolStrip5";
             // 
@@ -1409,14 +1409,14 @@
             this.btnPartDelete.Text = "Delete";
             this.btnPartDelete.Click += new System.EventHandler(this.btnPartDelete_Click);
             // 
-            // btnAddPartToBasePartCollection2
+            // btnAddPartToBasePartCollection
             // 
-            this.btnAddPartToBasePartCollection2.Enabled = false;
-            this.btnAddPartToBasePartCollection2.Image = ((System.Drawing.Image)(resources.GetObject("btnAddPartToBasePartCollection2.Image")));
-            this.btnAddPartToBasePartCollection2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddPartToBasePartCollection2.Name = "btnAddPartToBasePartCollection2";
-            this.btnAddPartToBasePartCollection2.Size = new System.Drawing.Size(23, 22);
-            this.btnAddPartToBasePartCollection2.Click += new System.EventHandler(this.btnAddPartToBasePartCollection2_Click);
+            this.btnAddPartToBasePartCollection.Enabled = false;
+            this.btnAddPartToBasePartCollection.Image = ((System.Drawing.Image)(resources.GetObject("btnAddPartToBasePartCollection.Image")));
+            this.btnAddPartToBasePartCollection.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAddPartToBasePartCollection.Name = "btnAddPartToBasePartCollection";
+            this.btnAddPartToBasePartCollection.Size = new System.Drawing.Size(23, 22);
+            this.btnAddPartToBasePartCollection.Click += new System.EventHandler(this.btnAddPartToBasePartCollection2_Click);
             // 
             // toolStripSeparator24
             // 
@@ -1425,6 +1425,7 @@
             // 
             // btnGenerateDatFile
             // 
+            this.btnGenerateDatFile.BackColor = System.Drawing.Color.Pink;
             this.btnGenerateDatFile.Image = ((System.Drawing.Image)(resources.GetObject("btnGenerateDatFile.Image")));
             this.btnGenerateDatFile.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnGenerateDatFile.Name = "btnGenerateDatFile";
@@ -1438,7 +1439,7 @@
             this.gpStep.Dock = System.Windows.Forms.DockStyle.Top;
             this.gpStep.Location = new System.Drawing.Point(3, 196);
             this.gpStep.Name = "gpStep";
-            this.gpStep.Size = new System.Drawing.Size(1018, 45);
+            this.gpStep.Size = new System.Drawing.Size(1112, 45);
             this.gpStep.TabIndex = 97;
             this.gpStep.TabStop = false;
             this.gpStep.Text = "Step";
@@ -1471,7 +1472,7 @@
             this.btnStepDelete});
             this.toolStrip8.Location = new System.Drawing.Point(3, 16);
             this.toolStrip8.Name = "toolStrip8";
-            this.toolStrip8.Size = new System.Drawing.Size(1012, 26);
+            this.toolStrip8.Size = new System.Drawing.Size(1106, 26);
             this.toolStrip8.TabIndex = 73;
             this.toolStrip8.Text = "toolStrip8";
             // 
@@ -1600,7 +1601,7 @@
             this.fldModelRotZ.BackColor = System.Drawing.Color.LightGray;
             this.fldModelRotZ.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldModelRotZ.Name = "fldModelRotZ";
-            this.fldModelRotZ.Size = new System.Drawing.Size(50, 23);
+            this.fldModelRotZ.Size = new System.Drawing.Size(50, 26);
             // 
             // toolStripSeparator19
             // 
@@ -1612,7 +1613,7 @@
             this.btnStepSave.Image = ((System.Drawing.Image)(resources.GetObject("btnStepSave.Image")));
             this.btnStepSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnStepSave.Name = "btnStepSave";
-            this.btnStepSave.Size = new System.Drawing.Size(51, 20);
+            this.btnStepSave.Size = new System.Drawing.Size(51, 23);
             this.btnStepSave.Text = "Save";
             this.btnStepSave.Click += new System.EventHandler(this.btnStepSave_Click);
             // 
@@ -1631,7 +1632,7 @@
             this.gpSubModel.Dock = System.Windows.Forms.DockStyle.Top;
             this.gpSubModel.Location = new System.Drawing.Point(3, 151);
             this.gpSubModel.Name = "gpSubModel";
-            this.gpSubModel.Size = new System.Drawing.Size(1018, 45);
+            this.gpSubModel.Size = new System.Drawing.Size(1112, 45);
             this.gpSubModel.TabIndex = 96;
             this.gpSubModel.TabStop = false;
             this.gpSubModel.Text = "SubModel";
@@ -1665,7 +1666,7 @@
             this.btnSubModelDelete});
             this.toolStrip9.Location = new System.Drawing.Point(3, 16);
             this.toolStrip9.Name = "toolStrip9";
-            this.toolStrip9.Size = new System.Drawing.Size(1012, 26);
+            this.toolStrip9.Size = new System.Drawing.Size(1106, 26);
             this.toolStrip9.TabIndex = 73;
             this.toolStrip9.Text = "toolStrip9";
             // 
@@ -1792,7 +1793,7 @@
             // 
             this.toolStripLabel30.BackColor = System.Drawing.Color.Yellow;
             this.toolStripLabel30.Name = "toolStripLabel30";
-            this.toolStripLabel30.Size = new System.Drawing.Size(32, 15);
+            this.toolStripLabel30.Size = new System.Drawing.Size(32, 23);
             this.toolStripLabel30.Text = "RotZ";
             // 
             // fldSubModelRotZ
@@ -1800,7 +1801,7 @@
             this.fldSubModelRotZ.BackColor = System.Drawing.Color.LightGray;
             this.fldSubModelRotZ.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubModelRotZ.Name = "fldSubModelRotZ";
-            this.fldSubModelRotZ.Size = new System.Drawing.Size(50, 23);
+            this.fldSubModelRotZ.Size = new System.Drawing.Size(50, 26);
             // 
             // toolStripSeparator11
             // 
@@ -1831,7 +1832,7 @@
             this.gpModel.Dock = System.Windows.Forms.DockStyle.Top;
             this.gpModel.Location = new System.Drawing.Point(3, 106);
             this.gpModel.Name = "gpModel";
-            this.gpModel.Size = new System.Drawing.Size(1018, 45);
+            this.gpModel.Size = new System.Drawing.Size(1112, 45);
             this.gpModel.TabIndex = 95;
             this.gpModel.TabStop = false;
             this.gpModel.Text = "Model";
@@ -1854,7 +1855,7 @@
             this.btnAdjustModelStepNos});
             this.toolStrip7.Location = new System.Drawing.Point(3, 16);
             this.toolStrip7.Name = "toolStrip7";
-            this.toolStrip7.Size = new System.Drawing.Size(1012, 26);
+            this.toolStrip7.Size = new System.Drawing.Size(1106, 26);
             this.toolStrip7.TabIndex = 73;
             this.toolStrip7.Text = "toolStrip7";
             // 
@@ -1950,7 +1951,7 @@
             this.gpSubSet.Dock = System.Windows.Forms.DockStyle.Top;
             this.gpSubSet.Location = new System.Drawing.Point(3, 61);
             this.gpSubSet.Name = "gpSubSet";
-            this.gpSubSet.Size = new System.Drawing.Size(1018, 45);
+            this.gpSubSet.Size = new System.Drawing.Size(1112, 45);
             this.gpSubSet.TabIndex = 94;
             this.gpSubSet.TabStop = false;
             this.gpSubSet.Text = "SubSet";
@@ -1971,7 +1972,7 @@
             this.btnSubSetDelete});
             this.toolStrip3.Location = new System.Drawing.Point(3, 16);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(1012, 26);
+            this.toolStrip3.Size = new System.Drawing.Size(1106, 26);
             this.toolStrip3.TabIndex = 73;
             this.toolStrip3.Text = "toolStrip3";
             // 
@@ -2053,7 +2054,7 @@
             this.gpSet.Dock = System.Windows.Forms.DockStyle.Top;
             this.gpSet.Location = new System.Drawing.Point(3, 16);
             this.gpSet.Name = "gpSet";
-            this.gpSet.Size = new System.Drawing.Size(1018, 45);
+            this.gpSet.Size = new System.Drawing.Size(1112, 45);
             this.gpSet.TabIndex = 92;
             this.gpSet.TabStop = false;
             this.gpSet.Text = "Set";
@@ -2071,7 +2072,7 @@
             this.btnSetSaveNode});
             this.toolStrip6.Location = new System.Drawing.Point(3, 16);
             this.toolStrip6.Name = "toolStrip6";
-            this.toolStrip6.Size = new System.Drawing.Size(1012, 26);
+            this.toolStrip6.Size = new System.Drawing.Size(1106, 26);
             this.toolStrip6.TabIndex = 73;
             this.toolStrip6.Text = "toolStrip6";
             // 
@@ -2400,7 +2401,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1370, 749);
+            this.ClientSize = new System.Drawing.Size(1493, 749);
             this.Controls.Add(this.chkShowFBXDetails);
             this.Controls.Add(this.chkShowElementImages);
             this.Controls.Add(this.chkShowPartcolourImages);
@@ -2608,7 +2609,7 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.CheckBox chkBasePartCollection;
-        private System.Windows.Forms.ToolStripButton btnAddPartToBasePartCollection2;
+        private System.Windows.Forms.ToolStripButton btnAddPartToBasePartCollection;
         private System.Windows.Forms.ToolStripLabel lblQty;
         private System.Windows.Forms.ToolStripTextBox fldQty;
         private System.Windows.Forms.ToolStripLabel toolStripLabel21;
