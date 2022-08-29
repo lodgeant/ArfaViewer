@@ -27,7 +27,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Generator
 {
-    public class APIProxy
+    public class zzz_APIProxy
     {
         // string UnityLegoPartPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";    // Used for SyncFBXFiles
         //private string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
@@ -1052,9 +1052,6 @@ namespace Generator
         //        }
         //    }            
         //}
-
-        private void Sep(){}
-
 
     }
 }

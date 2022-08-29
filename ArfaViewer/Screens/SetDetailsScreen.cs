@@ -62,11 +62,14 @@ namespace Generator
                     dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
                     dgv.ColumnHeadersHeight = 30;
                 }
+                #endregion
+
                 lblSetDetailsCount.Text = "";
                 lblStatus.Text = "";
-                fldType.SelectedIndex = 0;                
+                fldType.SelectedIndex = 0;
                 fldStatus.SelectedIndex = 0;
-                #endregion
+                lblTreeviewStatus.Text = "";
+                lblSetDetailsStatus.Text = "";
 
                 // ** Refresh Screen **
                 RefreshThemeTreeview();
@@ -151,36 +154,6 @@ namespace Generator
 
         #region ** REFRESH THEME TREEVIEW FUNCTIONS **
 
-        //private void RefreshThemeTreeview_OLD()
-        //{
-        //    try
-        //    {
-        //        // ** Get all Theme Details from SET_DETAILS **
-        //        BaseClasses.ThemeDetailsCollection ThemeDetailsCollection = StaticData.GetAllThemeDetails();
-
-        //        // ** Convert ThemeDetails into TreeNode **
-        //        TreeNode[] ThemeTreeNodes = ThemeDetailsCollection.ConvertToTreeNodeList();
-
-        //        // ** Add Theme counts **                
-        //        ThemeTreeNodes = UpdateThemeCounts(ThemeTreeNodes);
-
-        //        // ** Add images to Themes & SubThemes **
-        //        ThemeTreeNodes = UpdateThemeImages(ThemeTreeNodes);
-
-        //        // ** Set tvThemesSummary **
-        //        tvThemesSummary.Nodes.Clear();
-        //        tvThemesSummary.Nodes.AddRange(ThemeTreeNodes);
-
-        //        // ** Set Theme dropdown values **
-        //        fldTheme.Items.Clear();
-        //        foreach(ThemeDetails td in ThemeDetailsCollection.ThemeDetailsList) fldTheme.Items.Add(td.Theme);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
-
         private BackgroundWorker bw_RefreshThemeTreeview;
 
         private void EnableControls_RefreshThemeTreeview(bool value)
@@ -227,9 +200,9 @@ namespace Generator
             {
                 //Delegates.ToolStripButton_SetText(this, btnRefreshStaticData, "Refresh Static Data");
                 //btnRefreshStaticData.ForeColor = Color.Black;
-                pbStatus.Value = 0;
+                pbThemeTreeview.Value = 0;
                 EnableControls_RefreshThemeTreeview(true);
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+                Delegates.ToolStripLabel_SetText(this, lblTreeviewStatus, "");
                 MessageBox.Show(ex.Message);
             }
         }
@@ -238,7 +211,7 @@ namespace Generator
         {
             try
             {
-                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, e.ProgressPercentage);
+                Delegates.ToolStripProgressBar_SetValue(this, pbThemeTreeview, e.ProgressPercentage);
             }
             catch (Exception ex)
             {
@@ -251,9 +224,9 @@ namespace Generator
             try
             {
                 //Delegates.ToolStripButton_SetTextAndForeColor(this, btnRefreshStaticData, "Refresh Static Data", Color.Black);
-                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                Delegates.ToolStripProgressBar_SetValue(this, pbThemeTreeview, 0);
                 EnableControls_RefreshThemeTreeview(true);
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+                Delegates.ToolStripLabel_SetText(this, lblTreeviewStatus, "");
             }
             catch (Exception ex)
             {
@@ -265,15 +238,15 @@ namespace Generator
         {
             try
             {
-                // ** Get all Theme Details from SET_DETAILS **
-                BaseClasses.ThemeDetailsCollection ThemeDetailsCollection = StaticData.GetAllThemeDetails();
-
-                // ** Convert ThemeDetails into TreeNode **
+                // ** Get all Theme Details from SET_DETAILS and convert into TreeNode[] **
+                Delegates.ToolStripLabel_SetText(this, lblTreeviewStatus, "Refreshing - Getting Theme details from API...");
+                ThemeDetailsCollection ThemeDetailsCollection = StaticData.GetAllThemeDetails();
                 TreeNode[] ThemeTreeNodes = ThemeDetailsCollection.ConvertToTreeNodeList();
+                //Thread.Sleep(1000);
 
                 // ** Get all image data up front **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Getting Theme image data...");
-                Delegates.ToolStripProgressBar_SetMax(this, pbStatus, ThemeTreeNodes.Length);
+                Delegates.ToolStripLabel_SetText(this, lblTreeviewStatus, "Refreshing - Getting Theme image data...");
+                Delegates.ToolStripProgressBar_SetMax(this, pbThemeTreeview, ThemeTreeNodes.Length);
                 int imageIndex = 0;
                 foreach(ThemeDetails td in ThemeDetailsCollection.ThemeDetailsList)
                 {
@@ -283,20 +256,23 @@ namespace Generator
                     foreach(string subTheme in td.SubThemeList) ArfaImage.GetImage(ImageType.THEME, new string[] { subTheme });                    
                     imageIndex += 1;
                 }
-                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                Delegates.ToolStripProgressBar_SetValue(this, pbThemeTreeview, 0);
+                //Thread.Sleep(1000);
 
                 // ** Add Theme counts **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Adding Theme counts...");
+                Delegates.ToolStripLabel_SetText(this, lblTreeviewStatus, "Refreshing - Adding Theme counts...");
                 ThemeTreeNodes = UpdateThemeCounts(ThemeTreeNodes);
+                //Thread.Sleep(1000);
 
                 // ** Add images to Themes & SubThemes **
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Adding Theme images...");
+                Delegates.ToolStripLabel_SetText(this, lblTreeviewStatus, "Refreshing - Adding Theme images...");
                 ThemeTreeNodes = UpdateThemeImages(ThemeTreeNodes);
+                //Thread.Sleep(1000);
 
                 // ** Set tvThemesSummary **                
                 Delegates.TreeView_ClearNodes(this, tvThemesSummary);
                 Delegates.TreeView_AddRange(this, tvThemesSummary, ThemeTreeNodes);
-
+                
                 // ** Set Theme dropdown values **
                 List<string> themeList = new List<string>();
                 foreach (ThemeDetails td in ThemeDetailsCollection.ThemeDetailsList) themeList.Add(td.Theme);                
@@ -492,9 +468,9 @@ namespace Generator
             {
                 //Delegates.ToolStripButton_SetText(this, btnRefreshStaticData, "Refresh Static Data");
                 //btnRefreshStaticData.ForeColor = Color.Black;
-                pbStatus.Value = 0;
+                pbSetDetails.Value = 0;
                 EnableControls_RefreshSetDetailsSummary(true);
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+                Delegates.ToolStripLabel_SetText(this, lblSetDetailsStatus, "");
                 MessageBox.Show(ex.Message);
             }
         }
@@ -503,7 +479,7 @@ namespace Generator
         {
             try
             {
-                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, e.ProgressPercentage);
+                Delegates.ToolStripProgressBar_SetValue(this, pbSetDetails, e.ProgressPercentage);
             }
             catch (Exception ex)
             {
@@ -518,7 +494,7 @@ namespace Generator
                 //Delegates.ToolStripButton_SetTextAndForeColor(this, btnRefreshStaticData, "Refresh Static Data", Color.Black);
                 //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
                 EnableControls_RefreshSetDetailsSummary(true);
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+                Delegates.ToolStripLabel_SetText(this, lblSetDetailsStatus, "");
             }
             catch (Exception ex)
             {
@@ -564,9 +540,9 @@ namespace Generator
             try
             {
                 #region ** GET DATA UPFRONT **                
-                Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Set Detail Summary - Getting image and instruction data...");
-                Delegates.ToolStripProgressBar_SetMax(this, pbStatus, coll.SetDetailsList.Count);
-                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                Delegates.ToolStripLabel_SetText(this, lblSetDetailsStatus, "Refreshing - getting upfront data...");
+                Delegates.ToolStripProgressBar_SetMax(this, pbSetDetails, coll.SetDetailsList.Count);
+                Delegates.ToolStripProgressBar_SetValue(this, pbSetDetails, 0);
                 Dictionary<string, bool> SetInstructionsExist = new Dictionary<string, bool>();
                 int index = 0;                
                 foreach (SetDetails sd in coll.SetDetailsList)
@@ -577,7 +553,7 @@ namespace Generator
                     if (chkShowSetImages.Checked) ArfaImage.GetImage(ImageType.SET, new string[] { sd.Ref });                    
                     index += 1;
                 }
-                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);                
+                Delegates.ToolStripProgressBar_SetValue(this, pbSetDetails, 0);                
                 #endregion
 
                 // ** GENERATE COLUMNS **
@@ -643,9 +619,7 @@ namespace Generator
             {
                 // ** Format columns **                
                 dg.Columns["Set Image"].HeaderText = "";
-                ((DataGridViewImageColumn)dg.Columns["Set Image"]).ImageLayout = DataGridViewImageCellLayout.Zoom;
-                //dg.Columns["Colour Image"].HeaderText = "";
-                //((DataGridViewImageColumn)dg.Columns["Colour Image"]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+                ((DataGridViewImageColumn)dg.Columns["Set Image"]).ImageLayout = DataGridViewImageCellLayout.Zoom;                
                 dg.AutoResizeColumns();
             }
         }

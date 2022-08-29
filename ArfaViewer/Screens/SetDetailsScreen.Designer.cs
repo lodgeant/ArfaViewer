@@ -73,6 +73,9 @@
             this.gpThemes = new System.Windows.Forms.GroupBox();
             this.tvThemesSummary = new System.Windows.Forms.TreeView();
             this.ilTheme = new System.Windows.Forms.ImageList(this.components);
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.pbThemeTreeview = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblTreeviewStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.pnlThemeImage = new System.Windows.Forms.Panel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btnThemesRefresh = new System.Windows.Forms.ToolStripButton();
@@ -97,6 +100,8 @@
             this.fldLDrawColourNameAc = new System.Windows.Forms.ToolStripTextBox();
             this.ilThemeTemplate = new System.Windows.Forms.ImageList(this.components);
             this.chkShowSetImages = new System.Windows.Forms.CheckBox();
+            this.pbSetDetails = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblSetDetailsStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1.SuspendLayout();
             this.gpSetDetails.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -107,6 +112,7 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.gpThemes.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
             this.gpThemeSummary.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSetDetailsSummary)).BeginInit();
@@ -456,18 +462,19 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.gpThemeSummary);
             this.splitContainer1.Size = new System.Drawing.Size(1884, 530);
-            this.splitContainer1.SplitterDistance = 240;
+            this.splitContainer1.SplitterDistance = 357;
             this.splitContainer1.TabIndex = 30;
             // 
             // gpThemes
             // 
             this.gpThemes.Controls.Add(this.tvThemesSummary);
+            this.gpThemes.Controls.Add(this.statusStrip1);
             this.gpThemes.Controls.Add(this.pnlThemeImage);
             this.gpThemes.Controls.Add(this.toolStrip2);
             this.gpThemes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpThemes.Location = new System.Drawing.Point(0, 0);
             this.gpThemes.Name = "gpThemes";
-            this.gpThemes.Size = new System.Drawing.Size(240, 530);
+            this.gpThemes.Size = new System.Drawing.Size(357, 530);
             this.gpThemes.TabIndex = 28;
             this.gpThemes.TabStop = false;
             this.gpThemes.Text = "Themes";
@@ -481,8 +488,8 @@
             this.tvThemesSummary.Location = new System.Drawing.Point(3, 41);
             this.tvThemesSummary.Name = "tvThemesSummary";
             this.tvThemesSummary.SelectedImageIndex = 0;
-            this.tvThemesSummary.Size = new System.Drawing.Size(234, 379);
-            this.tvThemesSummary.TabIndex = 87;
+            this.tvThemesSummary.Size = new System.Drawing.Size(351, 357);
+            this.tvThemesSummary.TabIndex = 89;
             this.tvThemesSummary.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvThemesSummary_AfterSelect);
             // 
             // ilTheme
@@ -491,13 +498,36 @@
             this.ilTheme.TransparentColor = System.Drawing.Color.Transparent;
             this.ilTheme.Images.SetKeyName(0, "package.png");
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pbThemeTreeview,
+            this.lblTreeviewStatus});
+            this.statusStrip1.Location = new System.Drawing.Point(3, 398);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(351, 22);
+            this.statusStrip1.TabIndex = 88;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // pbThemeTreeview
+            // 
+            this.pbThemeTreeview.ForeColor = System.Drawing.Color.Lime;
+            this.pbThemeTreeview.Name = "pbThemeTreeview";
+            this.pbThemeTreeview.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblTreeviewStatus
+            // 
+            this.lblTreeviewStatus.Name = "lblTreeviewStatus";
+            this.lblTreeviewStatus.Size = new System.Drawing.Size(97, 17);
+            this.lblTreeviewStatus.Text = "lblTreeviewStatus";
+            // 
             // pnlThemeImage
             // 
             this.pnlThemeImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnlThemeImage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlThemeImage.Location = new System.Drawing.Point(3, 420);
             this.pnlThemeImage.Name = "pnlThemeImage";
-            this.pnlThemeImage.Size = new System.Drawing.Size(234, 107);
+            this.pnlThemeImage.Size = new System.Drawing.Size(351, 107);
             this.pnlThemeImage.TabIndex = 86;
             // 
             // toolStrip2
@@ -510,7 +540,7 @@
             this.toolStripSeparator6});
             this.toolStrip2.Location = new System.Drawing.Point(3, 16);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(234, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(351, 25);
             this.toolStrip2.TabIndex = 27;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -559,7 +589,7 @@
             this.gpThemeSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpThemeSummary.Location = new System.Drawing.Point(0, 0);
             this.gpThemeSummary.Name = "gpThemeSummary";
-            this.gpThemeSummary.Size = new System.Drawing.Size(1640, 530);
+            this.gpThemeSummary.Size = new System.Drawing.Size(1523, 530);
             this.gpThemeSummary.TabIndex = 29;
             this.gpThemeSummary.TabStop = false;
             this.gpThemeSummary.Text = "Set Details Summary for Theme";
@@ -571,17 +601,19 @@
             this.dgSetDetailsSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgSetDetailsSummary.Location = new System.Drawing.Point(3, 41);
             this.dgSetDetailsSummary.Name = "dgSetDetailsSummary";
-            this.dgSetDetailsSummary.Size = new System.Drawing.Size(1634, 464);
+            this.dgSetDetailsSummary.Size = new System.Drawing.Size(1517, 464);
             this.dgSetDetailsSummary.TabIndex = 78;
             this.dgSetDetailsSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSetDetailsSummary_CellClick);
             // 
             // c
             // 
             this.c.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pbSetDetails,
+            this.lblSetDetailsStatus,
             this.lblSetDetailsCount});
             this.c.Location = new System.Drawing.Point(3, 505);
             this.c.Name = "c";
-            this.c.Size = new System.Drawing.Size(1634, 22);
+            this.c.Size = new System.Drawing.Size(1517, 22);
             this.c.TabIndex = 68;
             this.c.Text = "statusStrip2";
             // 
@@ -606,7 +638,7 @@
             this.fldLDrawColourNameAc});
             this.tsPartSummary.Location = new System.Drawing.Point(3, 16);
             this.tsPartSummary.Name = "tsPartSummary";
-            this.tsPartSummary.Size = new System.Drawing.Size(1634, 25);
+            this.tsPartSummary.Size = new System.Drawing.Size(1517, 25);
             this.tsPartSummary.TabIndex = 27;
             this.tsPartSummary.Text = "toolStrip4";
             // 
@@ -696,6 +728,18 @@
             this.chkShowSetImages.Text = "Show Set Images";
             this.chkShowSetImages.UseVisualStyleBackColor = false;
             // 
+            // pbSetDetails
+            // 
+            this.pbSetDetails.ForeColor = System.Drawing.Color.Lime;
+            this.pbSetDetails.Name = "pbSetDetails";
+            this.pbSetDetails.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblSetDetailsStatus
+            // 
+            this.lblSetDetailsStatus.Name = "lblSetDetailsStatus";
+            this.lblSetDetailsStatus.Size = new System.Drawing.Size(103, 17);
+            this.lblSetDetailsStatus.Text = "lblSetDetailsStatus";
+            // 
             // SetDetailsScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -723,6 +767,8 @@
             this.splitContainer1.ResumeLayout(false);
             this.gpThemes.ResumeLayout(false);
             this.gpThemes.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
             this.gpThemeSummary.ResumeLayout(false);
@@ -796,7 +842,6 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel19;
         private System.Windows.Forms.ImageList ilTheme;
         private System.Windows.Forms.ImageList ilThemeTemplate;
-        private System.Windows.Forms.TreeView tvThemesSummary;
         private System.Windows.Forms.Panel pnlThemeImage;
         private System.Windows.Forms.ToolStripLabel toolStripLabel10;
         private System.Windows.Forms.ToolStripTextBox fldImportFilePath;
@@ -806,5 +851,11 @@
         private System.Windows.Forms.ToolStripProgressBar pbStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.CheckBox chkShowSetImages;
+        private System.Windows.Forms.TreeView tvThemesSummary;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripProgressBar pbThemeTreeview;
+        private System.Windows.Forms.ToolStripStatusLabel lblTreeviewStatus;
+        private System.Windows.Forms.ToolStripProgressBar pbSetDetails;
+        private System.Windows.Forms.ToolStripStatusLabel lblSetDetailsStatus;
     }
 }
