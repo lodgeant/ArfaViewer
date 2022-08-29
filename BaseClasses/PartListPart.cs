@@ -12,18 +12,19 @@ namespace BaseClasses
     public class PartListPart
     {
         [XmlAttribute("LDrawRef")]
-        public string LDrawRef;
+        public string LDrawRef { get; set; }
 
         [XmlAttribute("LDrawColourID")]
-        public int LDrawColourID;
+        public int LDrawColourID { get; set; }
 
         [XmlAttribute("Qty")]
-        public int Qty;
+        public int Qty { get; set; }
 
         [XmlAttribute("QtyFound")]
-        public int QtyFound;    // Attribute used when doing tickbacks
+        public int QtyFound { get; set; }
 
-
+        [XmlAttribute("LDrawDescription")]
+        public string LDrawDescription { get; set; }
 
 
 

@@ -6,41 +6,22 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Data;
 
-
 namespace BaseClasses
 {
     [Serializable]
-    public class CompositePart
+    public class PartListPartCollection
     {
-        //[XmlAttribute("ParentLDrawRef")]
-        //public string ParentLDrawRef { get; set; }
+        [XmlElement("PartListPart")]
+        public List<PartListPart> PartListPartList { get; set; }
 
-        [XmlAttribute("LDrawRef")]
-        public string LDrawRef { get; set; }
+        public PartListPartCollection()
+        {
+            PartListPartList = new List<PartListPart>();
+        }
 
-        [XmlAttribute("LDrawDescription")]
-        public string LDrawDescription { get; set; }
 
-        [XmlAttribute("LDrawColourID")]
-        public int LDrawColourID { get; set; }
 
-        //[XmlAttribute("PosX")]
-        //public float PosX { get; set; }
 
-        //[XmlAttribute("PosY")]
-        //public float PosY { get; set; }
-
-        //[XmlAttribute("PosZ")]
-        //public float PosZ { get; set; }
-
-        //[XmlAttribute("RotX")]
-        //public float RotX { get; set; }
-
-        //[XmlAttribute("RotY")]
-        //public float RotY { get; set; }
-
-        //[XmlAttribute("RotZ")]
-        //public float RotZ { get; set; }
 
         public string SerializeToString(bool omitDeclaration)
         {
@@ -68,19 +49,16 @@ namespace BaseClasses
             }
         }
 
-        public CompositePart DeserialiseFromXMLString(String XMLString)
+        public PartListPartCollection DeserialiseFromXMLString(string XMLString)
         {
-            // ** IMPROVED METHOD **           
             var serializer = new XmlSerializer(this.GetType());
             using (TextReader reader = new StringReader(XMLString))
             {
-                return (CompositePart)serializer.Deserialize(reader);
+                return (PartListPartCollection)serializer.Deserialize(reader);
             }
         }
 
-       
-
-
+      
 
 
     }

@@ -403,11 +403,19 @@ namespace Generator
 
         // ** CompositePart functions **
 
-        public static CompositePartCollection GetAllCompositeSubParts_FromLDrawDetails(string LDrawRef)
+        //public static CompositePartCollection GetAllCompositeSubParts_FromLDrawDetails(string LDrawRef)
+        //{
+        //    string url = Global_Variables.APIUrl2 + "LDrawDetails/GetAllCompositeSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
+        //    string JSONString = GetJSONResponseFromURL(url);
+        //    CompositePartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<CompositePartCollection>(JSONString);
+        //    return coll;
+        //}
+
+        public static PartListPartCollection GetAllSubParts_FromLDrawDetails(string LDrawRef)
         {
-            string url = Global_Variables.APIUrl2 + "LDrawDetails/GetAllCompositeSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
+            string url = Global_Variables.APIUrl2 + "LDrawDetails/GetAllSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
             string JSONString = GetJSONResponseFromURL(url);
-            CompositePartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<CompositePartCollection>(JSONString);
+            PartListPartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<PartListPartCollection>(JSONString);
             return coll;
         }
 

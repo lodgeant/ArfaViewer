@@ -4082,7 +4082,6 @@ namespace Generator
                 lblPartCount.Text = "";
                 fldLDrawRef.Text = "";
                 fldLDrawImage.Image = null;
-                //lblLDrawDescription.Text = "";
                 fldLDrawColourName.Text = "";
                 fldLDrawColourID.Text = "";
                 chkBasePartCollection.Checked = false;
@@ -4168,7 +4167,6 @@ namespace Generator
                 if (partType == BasePart.PartType.COMPOSITE && StaticData.CheckIfSubPartMappingPartsExist(LDrawRef) == true) throw new Exception("Parent LDraw Ref already exists...");
                 #endregion
 
-
                 #region ** GENERATE NEW BasePart & ADD TO STATIC DATA **                
                 BasePart newBasePart = new BasePart()
                 {
@@ -4190,9 +4188,9 @@ namespace Generator
 
                 #region ** ADD ALL SUB PARTS FROM LDRAW .DAT FILE (IF PART = COMPOSITE) **
                 if (newBasePart.partType == BasePart.PartType.COMPOSITE)
-                {   
-                    CompositePartCollection SubPartCollection = StaticData.GetAllCompositeSubParts_FromLDrawDetails(LDrawRef);                    
-                    foreach (CompositePart cp in SubPartCollection.CompositePartList)
+                { 
+                    PartListPartCollection SubPartCollection = StaticData.GetAllSubParts_FromLDrawDetails(LDrawRef);
+                    foreach (PartListPart cp in SubPartCollection.PartListPartList)
                     {
                         // ** Trigger creation of LDrawDetails for Sub Part **
                         LDrawDetails subPart_lDrawDetails = StaticData.GetLDrawDetails(cp.LDrawRef);

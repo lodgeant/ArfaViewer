@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PartListPartCollection.cs" />
     <Compile Include="Core\BasePartCollection.cs" />
     <Compile Include="Core\BasePart.cs" />
     <Compile Include="BuildInstructions.cs" />
@@ -77,8 +78,8 @@
     <Compile Include="Set.cs" />
     <Compile Include="Core\PartColour.cs" />
     <Compile Include="Core\PartColourCollection.cs" />
-    <Compile Include="CompositePart.cs" />
-    <Compile Include="CompositePartCollection.cs" />
+    <Compile Include="zzz_CompositePart.cs" />
+    <Compile Include="zzz_CompositePartCollection.cs" />
     <Compile Include="PlacementMovement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

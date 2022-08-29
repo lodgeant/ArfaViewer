@@ -429,6 +429,7 @@ namespace Generator
                 fldImportFilePath.Enabled = value;
                 fldImportFilePathBrowse.Enabled = value;
                 btnImportSetDetailsFromCSVFile.Enabled = value;
+                chkShowSetImages.Enabled = value;
                 gpThemes.Enabled = value;
                 gpThemeSummary.Enabled = value;
                 gpSetDetails.Enabled = value;
@@ -540,7 +541,7 @@ namespace Generator
             try
             {
                 #region ** GET DATA UPFRONT **                
-                Delegates.ToolStripLabel_SetText(this, lblSetDetailsStatus, "Refreshing - getting upfront data...");
+                Delegates.ToolStripLabel_SetText(this, lblSetDetailsStatus, "Refreshing - Getting upfront data...");
                 Delegates.ToolStripProgressBar_SetMax(this, pbSetDetails, coll.SetDetailsList.Count);
                 Delegates.ToolStripProgressBar_SetValue(this, pbSetDetails, 0);
                 Dictionary<string, bool> SetInstructionsExist = new Dictionary<string, bool>();
