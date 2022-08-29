@@ -248,12 +248,19 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgPartListSummary = new System.Windows.Forms.DataGridView();
             this.toolStrip11 = new System.Windows.Forms.ToolStrip();
             this.btnPartListBasicCopyToClipboard = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblPartListCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dgMiniFigsPartListSummary = new System.Windows.Forms.DataGridView();
+            this.toolStrip4 = new System.Windows.Forms.ToolStrip();
+            this.btnPartListMFCopyToClipboard = new System.Windows.Forms.ToolStripButton();
+            this.statusStrip4 = new System.Windows.Forms.StatusStrip();
+            this.lblMiniFigsPartListCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.dgPartListWithMFsSummary = new System.Windows.Forms.DataGridView();
             this.toolStrip12 = new System.Windows.Forms.ToolStrip();
@@ -306,10 +313,18 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPartListSummary)).BeginInit();
             this.toolStrip11.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgMiniFigsPartListSummary)).BeginInit();
+            this.toolStrip4.SuspendLayout();
+            this.statusStrip4.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPartListWithMFsSummary)).BeginInit();
             this.toolStrip12.SuspendLayout();
@@ -2210,7 +2225,7 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.groupBox2);
+            this.splitContainer2.Panel1.Controls.Add(this.splitContainer3);
             // 
             // splitContainer2.Panel2
             // 
@@ -2218,6 +2233,24 @@
             this.splitContainer2.Size = new System.Drawing.Size(1485, 651);
             this.splitContainer2.SplitterDistance = 720;
             this.splitContainer2.TabIndex = 105;
+            // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.groupBox2);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.groupBox1);
+            this.splitContainer3.Size = new System.Drawing.Size(720, 651);
+            this.splitContainer3.SplitterDistance = 419;
+            this.splitContainer3.TabIndex = 1;
             // 
             // groupBox2
             // 
@@ -2227,8 +2260,8 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(720, 651);
-            this.groupBox2.TabIndex = 0;
+            this.groupBox2.Size = new System.Drawing.Size(720, 419);
+            this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Basic";
             // 
@@ -2239,7 +2272,7 @@
             this.dgPartListSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgPartListSummary.Location = new System.Drawing.Point(3, 41);
             this.dgPartListSummary.Name = "dgPartListSummary";
-            this.dgPartListSummary.Size = new System.Drawing.Size(714, 585);
+            this.dgPartListSummary.Size = new System.Drawing.Size(714, 353);
             this.dgPartListSummary.TabIndex = 109;
             this.dgPartListSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgPartListSummary_CellClick);
             // 
@@ -2266,7 +2299,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblPartListCount});
-            this.statusStrip1.Location = new System.Drawing.Point(3, 626);
+            this.statusStrip1.Location = new System.Drawing.Point(3, 394);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(714, 22);
             this.statusStrip1.TabIndex = 106;
@@ -2277,6 +2310,65 @@
             this.lblPartListCount.Name = "lblPartListCount";
             this.lblPartListCount.Size = new System.Drawing.Size(92, 17);
             this.lblPartListCount.Text = "lblPartListCount";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.dgMiniFigsPartListSummary);
+            this.groupBox1.Controls.Add(this.toolStrip4);
+            this.groupBox1.Controls.Add(this.statusStrip4);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(720, 228);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "MiniFig(s)";
+            // 
+            // dgMiniFigsPartListSummary
+            // 
+            this.dgMiniFigsPartListSummary.BackgroundColor = System.Drawing.Color.White;
+            this.dgMiniFigsPartListSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgMiniFigsPartListSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgMiniFigsPartListSummary.Location = new System.Drawing.Point(3, 41);
+            this.dgMiniFigsPartListSummary.Name = "dgMiniFigsPartListSummary";
+            this.dgMiniFigsPartListSummary.Size = new System.Drawing.Size(714, 162);
+            this.dgMiniFigsPartListSummary.TabIndex = 109;
+            this.dgMiniFigsPartListSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgMiniFigsPartListSummary_CellClick);
+            // 
+            // toolStrip4
+            // 
+            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnPartListMFCopyToClipboard});
+            this.toolStrip4.Location = new System.Drawing.Point(3, 16);
+            this.toolStrip4.Name = "toolStrip4";
+            this.toolStrip4.Size = new System.Drawing.Size(714, 25);
+            this.toolStrip4.TabIndex = 108;
+            this.toolStrip4.Text = "toolStrip4";
+            // 
+            // btnPartListMFCopyToClipboard
+            // 
+            this.btnPartListMFCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnPartListMFCopyToClipboard.Image")));
+            this.btnPartListMFCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPartListMFCopyToClipboard.Name = "btnPartListMFCopyToClipboard";
+            this.btnPartListMFCopyToClipboard.Size = new System.Drawing.Size(124, 22);
+            this.btnPartListMFCopyToClipboard.Text = "Copy to Clipboard";
+            this.btnPartListMFCopyToClipboard.Click += new System.EventHandler(this.btnPartListMFCopyToClipboard_Click);
+            // 
+            // statusStrip4
+            // 
+            this.statusStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblMiniFigsPartListCount});
+            this.statusStrip4.Location = new System.Drawing.Point(3, 203);
+            this.statusStrip4.Name = "statusStrip4";
+            this.statusStrip4.Size = new System.Drawing.Size(714, 22);
+            this.statusStrip4.TabIndex = 106;
+            this.statusStrip4.Text = "statusStrip2";
+            // 
+            // lblMiniFigsPartListCount
+            // 
+            this.lblMiniFigsPartListCount.Name = "lblMiniFigsPartListCount";
+            this.lblMiniFigsPartListCount.Size = new System.Drawing.Size(137, 17);
+            this.lblMiniFigsPartListCount.Text = "lblMiniFigsPartListCount";
             // 
             // groupBox4
             // 
@@ -2497,6 +2589,10 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPartListSummary)).EndInit();
@@ -2504,6 +2600,13 @@
             this.toolStrip11.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgMiniFigsPartListSummary)).EndInit();
+            this.toolStrip4.ResumeLayout(false);
+            this.toolStrip4.PerformLayout();
+            this.statusStrip4.ResumeLayout(false);
+            this.statusStrip4.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPartListWithMFsSummary)).EndInit();
@@ -2661,9 +2764,6 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel lblPartListCount;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.StatusStrip statusStrip3;
         private System.Windows.Forms.ToolStripStatusLabel lblPartListWithMFsCount;
@@ -2731,9 +2831,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsRecalulatePartList;
         private System.Windows.Forms.ToolStripMenuItem tsRecalulateSubSetRefs;
         private System.Windows.Forms.ToolStripButton btnPartSummaryCopyToClipboard;
-        private System.Windows.Forms.DataGridView dgPartListSummary;
-        private System.Windows.Forms.ToolStrip toolStrip11;
-        private System.Windows.Forms.ToolStripButton btnPartListBasicCopyToClipboard;
         private System.Windows.Forms.DataGridView dgPartListWithMFsSummary;
         private System.Windows.Forms.ToolStrip toolStrip12;
         private System.Windows.Forms.ToolStripButton btnPartListWithMFCopyToClipboard;
@@ -2759,6 +2856,19 @@
         private System.Windows.Forms.CheckBox chkShowFBXDetails;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.Panel pnlJSON;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.DataGridView dgPartListSummary;
+        private System.Windows.Forms.ToolStrip toolStrip11;
+        private System.Windows.Forms.ToolStripButton btnPartListBasicCopyToClipboard;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel lblPartListCount;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.DataGridView dgMiniFigsPartListSummary;
+        private System.Windows.Forms.ToolStrip toolStrip4;
+        private System.Windows.Forms.ToolStripButton btnPartListMFCopyToClipboard;
+        private System.Windows.Forms.StatusStrip statusStrip4;
+        private System.Windows.Forms.ToolStripStatusLabel lblMiniFigsPartListCount;
     }
 }
 

@@ -53,6 +53,42 @@ namespace BaseClasses
 
         // ** USEFUL FUNCTIONS **
 
+        public static Dictionary<string, int> GetPartCountDictionary_UsingModelXML(XmlDocument ModelXML)
+        {
+            Dictionary<string, int> partCountdDict = new Dictionary<string, int>();
+            XmlNodeList ModelPartNodeList = ModelXML.SelectNodes("//Part[@IsSubPart='false']");
+            foreach (XmlNode partNode in ModelPartNodeList)
+            {
+                // ** Get variables **
+                string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
+                string LDrawColourID = partNode.SelectSingleNode("@LDrawColourID").InnerXml;
+                string partKey = LDrawRef + "|" + LDrawColourID;
+
+                // ** Get Part Count details **
+                if (partCountdDict.ContainsKey(partKey) == false) partCountdDict.Add(partKey, 0);
+                partCountdDict[partKey] += 1;
+            }
+            return partCountdDict;
+        }
+
+        public static Dictionary<string, int> GetPartCountDictionary_UsingPartNodeList(XmlNodeList PartNodeList)
+        {
+            Dictionary<string, int> partCountdDict = new Dictionary<string, int>();
+            foreach (XmlNode partNode in PartNodeList)
+            {
+                // ** Get variables **
+                string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
+                string LDrawColourID = partNode.SelectSingleNode("@LDrawColourID").InnerXml;
+                string partKey = LDrawRef + "|" + LDrawColourID;
+
+                // ** Get Part Count details **
+                if (partCountdDict.ContainsKey(partKey) == false) partCountdDict.Add(partKey, 0);
+                partCountdDict[partKey] += 1;
+            }
+            return partCountdDict;
+        }
+
+
         public static PartList GetPartList_ForModel(XmlDocument ModelXML)
         {
             try
@@ -83,27 +119,66 @@ namespace BaseClasses
             }
         }
 
-        public static Dictionary<string, int> GetPartCountDictionary_UsingModelXML(XmlDocument ModelXML)
+        public static PartList GetPartList_FromPartNodeList(XmlNodeList PartNodeList)
         {
-            Dictionary<string, int> partCountdDict = new Dictionary<string, int>();
-            XmlNodeList ModelPartNodeList = ModelXML.SelectNodes("//Part[@IsSubPart='false']");
-            foreach (XmlNode partNode in ModelPartNodeList)
-            {
-                // ** Get variables **
-                string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                string LDrawColourID = partNode.SelectSingleNode("@LDrawColourID").InnerXml;
-                string partKey = LDrawRef + "|" + LDrawColourID;
+            try
+            {       
+                // ** Generate Part Count Dictionary **                
+                Dictionary<string, int> partCountDict = GetPartCountDictionary_UsingPartNodeList(PartNodeList);
 
-                // ** Get Part Count details **
-                if (partCountdDict.ContainsKey(partKey) == false) partCountdDict.Add(partKey, 0);
-                partCountdDict[partKey] += 1;
+                // ** Generate PartList object **
+                PartList pl = new PartList();
+                foreach (string partKey in partCountDict.Keys)
+                {
+                    // ** Get variables **           
+                    string LDrawRef = partKey.Split('|')[0];
+                    int LDrawColourID = int.Parse(partKey.Split('|')[1]);
+
+                    // ** Generate PartListPart **
+                    PartListPart plp = new PartListPart() { LDrawRef = LDrawRef, LDrawColourID = LDrawColourID };
+                    plp.Qty = partCountDict[partKey];
+                    //string XMLString = "//Part[@LDrawRef='" + LDrawRef + "' and @LDrawColourID='" + LDrawColourID + "' and @IsSubPart='false' and @TickedBack='true']";
+                    //plp.QtyFound = ModelXML.SelectNodes(XMLString).Count;
+                    pl.partList.Add(plp);
+                }
+                return pl;
             }
-            return partCountdDict;
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
 
 
 
+
+        public static PartList GetPartList_FromSetInstructionsCollection(SetInstructionsCollection siColl)
+        {
+            try
+            {
+                PartList pl = new PartList();
+                foreach (SetInstructions si in siColl.SetInstructionsList)
+                {
+                    XmlDocument MFSetXML = new XmlDocument();
+                    MFSetXML.LoadXml(si.Data);
+                    XmlNodeList MFpartNodeList = MFSetXML.SelectNodes("//PartListPart");
+                    foreach (XmlNode node in MFpartNodeList)
+                    {
+                        PartListPart plp = new PartListPart();
+                        plp.LDrawRef = node.SelectSingleNode("@LDrawRef").InnerXml;
+                        plp.LDrawColourID = int.Parse(node.SelectSingleNode("@LDrawColourID").InnerXml);
+                        plp.Qty = int.Parse(node.SelectSingleNode("@Qty").InnerXml);
+                        pl.partList.Add(plp);
+                    }
+                }
+                return pl;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
 
 
