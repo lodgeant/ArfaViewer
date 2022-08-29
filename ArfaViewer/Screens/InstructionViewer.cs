@@ -23,6 +23,8 @@ using System.Runtime.Serialization.Json;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Data.SqlTypes;
+using Newtonsoft.Json;
+using static ScintillaNET.Style;
 
 namespace Generator
 {
@@ -32,6 +34,7 @@ namespace Generator
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private Scintilla TextArea;
         private Scintilla TextArea2;
+        private Scintilla JSONTextArea;
         private XmlDocument currentSetXml;
         private XmlDocument fullSetXml;
         private DataTable dgPartSummaryTable_Orig;
@@ -98,7 +101,8 @@ namespace Generator
                 tsPartDetails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
                                 toolStripLabel1,
                                 fldLDrawRef,
-                                fldLDrawImage,                               
+                                fldLDrawImage,
+                                new ToolStripControlHost(chkBasePartCollection),
                                 btnAddPartToBasePartCollection,
                                 toolStripLabel2,
                                 fldLDrawColourID,
@@ -106,7 +110,7 @@ namespace Generator
                                 fldLDrawColourName,
                                 lblQty,
                                 fldQty,
-                                new ToolStripControlHost(chkBasePartCollection),                                                
+                                //new ToolStripControlHost(chkBasePartCollection),                                                
                                 toolStripLabel3,
                                 fldPlacementMovements,
                                 btnPartClear,
@@ -126,13 +130,10 @@ namespace Generator
                                 lblLDrawRefAc,
                                 new ToolStripControlHost(chkLDrawRefAcEquals),
                                 fldLDrawRefAc,
-
                                 lblLDrawColourNameAc,
                                 new ToolStripControlHost(chkLDrawColourNameAcEquals),
                                 fldLDrawColourNameAc,
-
                                 new ToolStripControlHost(chkFBXMissingAc),
-
                                 });
                 #endregion
 
@@ -155,6 +156,7 @@ namespace Generator
                 // ** Set up Scintilla **
                 SetupScintillaPanel1();
                 SetupScintillaPanel2();
+                SetupScintillapnlJSON();
                 log.Info("Set up Scintilla");
 
                 // ** REFRESH STATIC DATA **    
@@ -381,9 +383,83 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
-        
+
+        private void SetupScintillapnlJSON()
+        {
+            try
+            {
+                // ** Initialise Scintilla Control Surface **
+                JSONTextArea = new ScintillaNET.Scintilla();
+                pnlJSON.Controls.Add(JSONTextArea);
+                JSONTextArea.Dock = System.Windows.Forms.DockStyle.Fill;
+                JSONTextArea.WrapMode = WrapMode.None;
+                JSONTextArea.IndentationGuides = IndentView.LookBoth;
+
+                // Configuring the default style with properties **
+                JSONTextArea.StyleResetDefault();
+                JSONTextArea.Styles[Style.Default].Font = "Consolas";
+                JSONTextArea.Styles[Style.Default].Size = 8;
+                JSONTextArea.Styles[Style.Default].BackColor = Color.Black;
+                JSONTextArea.Styles[Style.Default].ForeColor = Color.White;
+
+                // ** Number Margin **
+                JSONTextArea.Styles[Style.LineNumber].ForeColor = Color.White;
+                JSONTextArea.Styles[Style.LineNumber].BackColor = Color.Black;
+                JSONTextArea.Styles[Style.IndentGuide].ForeColor = Color.White;
+                JSONTextArea.Styles[Style.IndentGuide].BackColor = Color.Black;
+                var nums = TextArea2.Margins[NUMBER_MARGIN];
+                nums.Width = 30;
+                nums.Type = MarginType.Number;
+                nums.Sensitive = true;
+                nums.Mask = 0;
+
+                // ** Code Folding **
+                //TextArea2.SetFoldMarginColor(true, Color.Black);
+                //TextArea2.SetFoldMarginHighlightColor(true, Color.Black);
+                //TextArea2.SetProperty("fold", "1");
+                //TextArea2.SetProperty("fold.compact", "1");
+
+                //TextArea2.Margins[FOLDING_MARGIN].Type = MarginType.Symbol;
+                //TextArea2.Margins[FOLDING_MARGIN].Mask = Marker.MaskFolders;
+                //TextArea2.Margins[FOLDING_MARGIN].Sensitive = true;
+                //TextArea2.Margins[FOLDING_MARGIN].Width = 20;
+                //for (int i = 25; i <= 31; i++)
+                //{
+                //    TextArea2.Markers[i].SetForeColor(Color.Black);
+                //    TextArea2.Markers[i].SetBackColor(Color.White);
+                //}
+
+                //TextArea2.Markers[Marker.Folder].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CirclePlus : MarkerSymbol.BoxPlus;
+                //TextArea2.Markers[Marker.FolderOpen].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CircleMinus : MarkerSymbol.BoxMinus;
+                //TextArea2.Markers[Marker.FolderEnd].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CirclePlusConnected : MarkerSymbol.BoxPlusConnected;
+                //TextArea2.Markers[Marker.FolderMidTail].Symbol = MarkerSymbol.TCorner;
+                //TextArea2.Markers[Marker.FolderOpenMid].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CircleMinusConnected : MarkerSymbol.BoxMinusConnected;
+                //TextArea2.Markers[Marker.FolderSub].Symbol = MarkerSymbol.VLine;
+                //TextArea2.Markers[Marker.FolderTail].Symbol = MarkerSymbol.LCorner;
+
+                //TextArea2.AutomaticFold = (AutomaticFold.Show | AutomaticFold.Click | AutomaticFold.Change);
+
+
+
+                // ** UPDATE LEXER TO XML **
+                JSONTextArea.Lexer = Lexer.Xml;
+                JSONTextArea.StyleClearAll();
+
+                // ** Configure the CPP Lexer styles **
+                JSONTextArea.Styles[Style.Xml.Comment].ForeColor = Color.Gray;
+                JSONTextArea.Styles[Style.Xml.Tag].ForeColor = Color.White;
+                JSONTextArea.Styles[Style.Xml.Attribute].ForeColor = Color.Red;
+                JSONTextArea.Styles[Style.Xml.DoubleString].ForeColor = Color.Yellow;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         #endregion
-        
+
         #region ** BUTTON FUNCTIONS **
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -1217,8 +1293,6 @@ namespace Generator
                     Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Screen - Merging MiniFig XML's...");
                     fullSetXml = new XmlDocument();
                     fullSetXml.LoadXml(currentSetXml.OuterXml);
-                    //Dictionary<string, XmlDocument> MiniFigXMLDict = StaticData.GetMiniFigXMLDict(currentSetXml);
-                    //if (MiniFigXMLDict.Count > 0) fullSetXml = Set.MergeMiniFigsIntoSetXML(fullSetXml, MiniFigXMLDict);                                   
                     List<string> MiniFigSetList = Set.GetMinFigSetRefsFromSetXML(currentSetXml);
                     SetInstructionsCollection siColl = StaticData.GetSetInstructionsData_UsingSetRefList(MiniFigSetList);
                     if(siColl.SetInstructionsList.Count > 0) fullSetXml = Set.MergeMiniFigsIntoSetXML(fullSetXml, siColl);
@@ -1231,6 +1305,22 @@ namespace Generator
                     // ** Update Scintilla XML areas **                    
                     Delegates.Scintilla_SetText(this, TextArea, XDocument.Parse(currentSetXml.OuterXml).ToString());
                     Delegates.Scintilla_SetText(this, TextArea2, XDocument.Parse(fullSetXml.OuterXml).ToString());
+
+
+                    // ** Update JSON Scintilla area **
+                    string XMLString = "";
+                    try
+                    {
+                        string JSONString = StaticData.GetRebrickableSetJSONString(SetRef);
+                        XDocument xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(Encoding.ASCII.GetBytes(JSONString), new XmlDictionaryReaderQuotas()));
+                        XMLString = xml.ToString();
+                        Delegates.Scintilla_SetText(this, JSONTextArea, XMLString);
+                    }
+                    catch(Exception ex)
+                    {
+                        XMLString = "Error: " + ex.Message;
+                    }
+                    Delegates.Scintilla_SetText(this, JSONTextArea, XMLString);
 
                     // ** Update Set Image **
                     pnlSetImage.BackgroundImage = ArfaImage.GetImage(ImageType.SET, new string[] { SetRef });
@@ -2005,8 +2095,8 @@ namespace Generator
             string LDrawRef_debug = "";
             try
             {
-                // ** Load JSON string to XML **
-                var xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(Encoding.ASCII.GetBytes(JSONString), new XmlDictionaryReaderQuotas()));
+                // ** Load JSON string to XML **                
+                XDocument xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(Encoding.ASCII.GetBytes(JSONString), new XmlDictionaryReaderQuotas()));
                 string XMLString = xml.ToString();
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(XMLString);

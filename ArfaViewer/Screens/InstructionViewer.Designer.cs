@@ -262,6 +262,8 @@
             this.lblPartListWithMFsCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip10 = new System.Windows.Forms.ToolStrip();
             this.btnCompareWithRebrickable = new System.Windows.Forms.ToolStripButton();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.pnlJSON = new System.Windows.Forms.Panel();
             this.chkShowPages = new System.Windows.Forms.CheckBox();
             this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
             this.chkShowElementImages = new System.Windows.Forms.CheckBox();
@@ -313,6 +315,7 @@
             this.toolStrip12.SuspendLayout();
             this.statusStrip3.SuspendLayout();
             this.toolStrip10.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -711,6 +714,7 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 25);
             this.tabControl1.Name = "tabControl1";
@@ -743,7 +747,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.gpNodeMgmt);
             this.splitContainer1.Size = new System.Drawing.Size(1479, 670);
-            this.splitContainer1.SplitterDistance = 357;
+            this.splitContainer1.SplitterDistance = 356;
             this.splitContainer1.TabIndex = 32;
             // 
             // gpSetStructure
@@ -754,7 +758,7 @@
             this.gpSetStructure.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpSetStructure.Location = new System.Drawing.Point(0, 0);
             this.gpSetStructure.Name = "gpSetStructure";
-            this.gpSetStructure.Size = new System.Drawing.Size(357, 670);
+            this.gpSetStructure.Size = new System.Drawing.Size(356, 670);
             this.gpSetStructure.TabIndex = 28;
             this.gpSetStructure.TabStop = false;
             this.gpSetStructure.Text = "Set Structure";
@@ -769,7 +773,7 @@
             this.tvSetSummary.Location = new System.Drawing.Point(3, 41);
             this.tvSetSummary.Name = "tvSetSummary";
             this.tvSetSummary.SelectedImageIndex = 0;
-            this.tvSetSummary.Size = new System.Drawing.Size(351, 426);
+            this.tvSetSummary.Size = new System.Drawing.Size(350, 426);
             this.tvSetSummary.TabIndex = 84;
             this.tvSetSummary.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvSetSummary_AfterSelect);
             // 
@@ -779,7 +783,7 @@
             this.pnlSetImage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlSetImage.Location = new System.Drawing.Point(3, 467);
             this.pnlSetImage.Name = "pnlSetImage";
-            this.pnlSetImage.Size = new System.Drawing.Size(351, 200);
+            this.pnlSetImage.Size = new System.Drawing.Size(350, 200);
             this.pnlSetImage.TabIndex = 83;
             // 
             // toolStrip2
@@ -799,7 +803,7 @@
             this.btnSetClear});
             this.toolStrip2.Location = new System.Drawing.Point(3, 16);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(351, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(350, 25);
             this.toolStrip2.TabIndex = 26;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -906,7 +910,7 @@
             this.gpNodeMgmt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpNodeMgmt.Location = new System.Drawing.Point(0, 0);
             this.gpNodeMgmt.Name = "gpNodeMgmt";
-            this.gpNodeMgmt.Size = new System.Drawing.Size(1118, 670);
+            this.gpNodeMgmt.Size = new System.Drawing.Size(1119, 670);
             this.gpNodeMgmt.TabIndex = 33;
             this.gpNodeMgmt.TabStop = false;
             this.gpNodeMgmt.Text = "Node Management";
@@ -925,7 +929,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(3, 241);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1112, 327);
+            this.groupBox3.Size = new System.Drawing.Size(1113, 327);
             this.groupBox3.TabIndex = 100;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Part Summary";
@@ -980,7 +984,7 @@
             this.dgPartSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgPartSummary.Location = new System.Drawing.Point(3, 41);
             this.dgPartSummary.Name = "dgPartSummary";
-            this.dgPartSummary.Size = new System.Drawing.Size(1106, 261);
+            this.dgPartSummary.Size = new System.Drawing.Size(1107, 261);
             this.dgPartSummary.TabIndex = 77;
             this.dgPartSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgPartSummary_CellClick);
             // 
@@ -1011,7 +1015,7 @@
             this.lblPartSummaryItemFilteredCount});
             this.c.Location = new System.Drawing.Point(3, 302);
             this.c.Name = "c";
-            this.c.Size = new System.Drawing.Size(1106, 22);
+            this.c.Size = new System.Drawing.Size(1107, 22);
             this.c.TabIndex = 67;
             this.c.Text = "statusStrip2";
             // 
@@ -1040,7 +1044,7 @@
             this.fldLDrawColourNameAc});
             this.tsPartSummary.Location = new System.Drawing.Point(3, 16);
             this.tsPartSummary.Name = "tsPartSummary";
-            this.tsPartSummary.Size = new System.Drawing.Size(1106, 25);
+            this.tsPartSummary.Size = new System.Drawing.Size(1107, 25);
             this.tsPartSummary.TabIndex = 26;
             this.tsPartSummary.Text = "toolStrip4";
             // 
@@ -1095,7 +1099,7 @@
             this.gbPartDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gbPartDetails.Location = new System.Drawing.Point(3, 568);
             this.gbPartDetails.Name = "gbPartDetails";
-            this.gbPartDetails.Size = new System.Drawing.Size(1112, 99);
+            this.gbPartDetails.Size = new System.Drawing.Size(1113, 99);
             this.gbPartDetails.TabIndex = 99;
             this.gbPartDetails.TabStop = false;
             this.gbPartDetails.Text = "Part Details";
@@ -1109,7 +1113,7 @@
             this.fldLDrawSize});
             this.tsBasePartCollection.Location = new System.Drawing.Point(3, 66);
             this.tsBasePartCollection.Name = "tsBasePartCollection";
-            this.tsBasePartCollection.Size = new System.Drawing.Size(1106, 25);
+            this.tsBasePartCollection.Size = new System.Drawing.Size(1107, 25);
             this.tsBasePartCollection.TabIndex = 79;
             this.tsBasePartCollection.Text = "toolStrip10";
             // 
@@ -1159,7 +1163,7 @@
             this.fldPartRotZ});
             this.tsPartPosDetails.Location = new System.Drawing.Point(3, 41);
             this.tsPartPosDetails.Name = "tsPartPosDetails";
-            this.tsPartPosDetails.Size = new System.Drawing.Size(1106, 25);
+            this.tsPartPosDetails.Size = new System.Drawing.Size(1107, 25);
             this.tsPartPosDetails.TabIndex = 78;
             this.tsPartPosDetails.Text = "toolStrip10";
             // 
@@ -1286,7 +1290,7 @@
             this.btnGenerateDatFile});
             this.tsPartDetails.Location = new System.Drawing.Point(3, 16);
             this.tsPartDetails.Name = "tsPartDetails";
-            this.tsPartDetails.Size = new System.Drawing.Size(1106, 25);
+            this.tsPartDetails.Size = new System.Drawing.Size(1107, 25);
             this.tsPartDetails.TabIndex = 75;
             this.tsPartDetails.Text = "toolStrip5";
             // 
@@ -1429,7 +1433,7 @@
             this.btnGenerateDatFile.Image = ((System.Drawing.Image)(resources.GetObject("btnGenerateDatFile.Image")));
             this.btnGenerateDatFile.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnGenerateDatFile.Name = "btnGenerateDatFile";
-            this.btnGenerateDatFile.Size = new System.Drawing.Size(120, 20);
+            this.btnGenerateDatFile.Size = new System.Drawing.Size(120, 22);
             this.btnGenerateDatFile.Text = "Generate .DAT file";
             this.btnGenerateDatFile.Click += new System.EventHandler(this.btnGenerateDatFile_Click);
             // 
@@ -1439,7 +1443,7 @@
             this.gpStep.Dock = System.Windows.Forms.DockStyle.Top;
             this.gpStep.Location = new System.Drawing.Point(3, 196);
             this.gpStep.Name = "gpStep";
-            this.gpStep.Size = new System.Drawing.Size(1112, 45);
+            this.gpStep.Size = new System.Drawing.Size(1113, 45);
             this.gpStep.TabIndex = 97;
             this.gpStep.TabStop = false;
             this.gpStep.Text = "Step";
@@ -1472,7 +1476,7 @@
             this.btnStepDelete});
             this.toolStrip8.Location = new System.Drawing.Point(3, 16);
             this.toolStrip8.Name = "toolStrip8";
-            this.toolStrip8.Size = new System.Drawing.Size(1106, 26);
+            this.toolStrip8.Size = new System.Drawing.Size(1107, 26);
             this.toolStrip8.TabIndex = 73;
             this.toolStrip8.Text = "toolStrip8";
             // 
@@ -1632,7 +1636,7 @@
             this.gpSubModel.Dock = System.Windows.Forms.DockStyle.Top;
             this.gpSubModel.Location = new System.Drawing.Point(3, 151);
             this.gpSubModel.Name = "gpSubModel";
-            this.gpSubModel.Size = new System.Drawing.Size(1112, 45);
+            this.gpSubModel.Size = new System.Drawing.Size(1113, 45);
             this.gpSubModel.TabIndex = 96;
             this.gpSubModel.TabStop = false;
             this.gpSubModel.Text = "SubModel";
@@ -1666,7 +1670,7 @@
             this.btnSubModelDelete});
             this.toolStrip9.Location = new System.Drawing.Point(3, 16);
             this.toolStrip9.Name = "toolStrip9";
-            this.toolStrip9.Size = new System.Drawing.Size(1106, 26);
+            this.toolStrip9.Size = new System.Drawing.Size(1107, 26);
             this.toolStrip9.TabIndex = 73;
             this.toolStrip9.Text = "toolStrip9";
             // 
@@ -1832,7 +1836,7 @@
             this.gpModel.Dock = System.Windows.Forms.DockStyle.Top;
             this.gpModel.Location = new System.Drawing.Point(3, 106);
             this.gpModel.Name = "gpModel";
-            this.gpModel.Size = new System.Drawing.Size(1112, 45);
+            this.gpModel.Size = new System.Drawing.Size(1113, 45);
             this.gpModel.TabIndex = 95;
             this.gpModel.TabStop = false;
             this.gpModel.Text = "Model";
@@ -1855,7 +1859,7 @@
             this.btnAdjustModelStepNos});
             this.toolStrip7.Location = new System.Drawing.Point(3, 16);
             this.toolStrip7.Name = "toolStrip7";
-            this.toolStrip7.Size = new System.Drawing.Size(1106, 26);
+            this.toolStrip7.Size = new System.Drawing.Size(1107, 26);
             this.toolStrip7.TabIndex = 73;
             this.toolStrip7.Text = "toolStrip7";
             // 
@@ -1951,7 +1955,7 @@
             this.gpSubSet.Dock = System.Windows.Forms.DockStyle.Top;
             this.gpSubSet.Location = new System.Drawing.Point(3, 61);
             this.gpSubSet.Name = "gpSubSet";
-            this.gpSubSet.Size = new System.Drawing.Size(1112, 45);
+            this.gpSubSet.Size = new System.Drawing.Size(1113, 45);
             this.gpSubSet.TabIndex = 94;
             this.gpSubSet.TabStop = false;
             this.gpSubSet.Text = "SubSet";
@@ -1972,7 +1976,7 @@
             this.btnSubSetDelete});
             this.toolStrip3.Location = new System.Drawing.Point(3, 16);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(1106, 26);
+            this.toolStrip3.Size = new System.Drawing.Size(1107, 26);
             this.toolStrip3.TabIndex = 73;
             this.toolStrip3.Text = "toolStrip3";
             // 
@@ -2054,7 +2058,7 @@
             this.gpSet.Dock = System.Windows.Forms.DockStyle.Top;
             this.gpSet.Location = new System.Drawing.Point(3, 16);
             this.gpSet.Name = "gpSet";
-            this.gpSet.Size = new System.Drawing.Size(1112, 45);
+            this.gpSet.Size = new System.Drawing.Size(1113, 45);
             this.gpSet.TabIndex = 92;
             this.gpSet.TabStop = false;
             this.gpSet.Text = "Set";
@@ -2072,7 +2076,7 @@
             this.btnSetSaveNode});
             this.toolStrip6.Location = new System.Drawing.Point(3, 16);
             this.toolStrip6.Name = "toolStrip6";
-            this.toolStrip6.Size = new System.Drawing.Size(1106, 26);
+            this.toolStrip6.Size = new System.Drawing.Size(1107, 26);
             this.toolStrip6.TabIndex = 73;
             this.toolStrip6.Text = "toolStrip6";
             // 
@@ -2131,7 +2135,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1362, 676);
+            this.tabPage2.Size = new System.Drawing.Size(1485, 676);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "XML";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -2141,7 +2145,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 28);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1356, 645);
+            this.panel1.Size = new System.Drawing.Size(1479, 645);
             this.panel1.TabIndex = 27;
             // 
             // toolStrip5
@@ -2151,7 +2155,7 @@
             this.toolStripSeparator18});
             this.toolStrip5.Location = new System.Drawing.Point(3, 3);
             this.toolStrip5.Name = "toolStrip5";
-            this.toolStrip5.Size = new System.Drawing.Size(1356, 25);
+            this.toolStrip5.Size = new System.Drawing.Size(1479, 25);
             this.toolStrip5.TabIndex = 26;
             this.toolStrip5.Text = "toolStrip5";
             // 
@@ -2174,7 +2178,7 @@
             this.tabPage4.Controls.Add(this.panel2);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1362, 676);
+            this.tabPage4.Size = new System.Drawing.Size(1485, 676);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "XML (with MFs)";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -2184,7 +2188,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1362, 676);
+            this.panel2.Size = new System.Drawing.Size(1485, 676);
             this.panel2.TabIndex = 3;
             // 
             // tabPage3
@@ -2193,7 +2197,7 @@
             this.tabPage3.Controls.Add(this.toolStrip10);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1362, 676);
+            this.tabPage3.Size = new System.Drawing.Size(1485, 676);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Part List";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -2211,8 +2215,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox4);
-            this.splitContainer2.Size = new System.Drawing.Size(1362, 651);
-            this.splitContainer2.SplitterDistance = 661;
+            this.splitContainer2.Size = new System.Drawing.Size(1485, 651);
+            this.splitContainer2.SplitterDistance = 720;
             this.splitContainer2.TabIndex = 105;
             // 
             // groupBox2
@@ -2223,7 +2227,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(661, 651);
+            this.groupBox2.Size = new System.Drawing.Size(720, 651);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Basic";
@@ -2235,7 +2239,7 @@
             this.dgPartListSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgPartListSummary.Location = new System.Drawing.Point(3, 41);
             this.dgPartListSummary.Name = "dgPartListSummary";
-            this.dgPartListSummary.Size = new System.Drawing.Size(655, 585);
+            this.dgPartListSummary.Size = new System.Drawing.Size(714, 585);
             this.dgPartListSummary.TabIndex = 109;
             this.dgPartListSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgPartListSummary_CellClick);
             // 
@@ -2245,7 +2249,7 @@
             this.btnPartListBasicCopyToClipboard});
             this.toolStrip11.Location = new System.Drawing.Point(3, 16);
             this.toolStrip11.Name = "toolStrip11";
-            this.toolStrip11.Size = new System.Drawing.Size(655, 25);
+            this.toolStrip11.Size = new System.Drawing.Size(714, 25);
             this.toolStrip11.TabIndex = 108;
             this.toolStrip11.Text = "toolStrip11";
             // 
@@ -2264,7 +2268,7 @@
             this.lblPartListCount});
             this.statusStrip1.Location = new System.Drawing.Point(3, 626);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(655, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(714, 22);
             this.statusStrip1.TabIndex = 106;
             this.statusStrip1.Text = "statusStrip2";
             // 
@@ -2282,7 +2286,7 @@
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox4.Location = new System.Drawing.Point(0, 0);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(697, 651);
+            this.groupBox4.Size = new System.Drawing.Size(761, 651);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "With MFs";
@@ -2294,7 +2298,7 @@
             this.dgPartListWithMFsSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgPartListWithMFsSummary.Location = new System.Drawing.Point(3, 41);
             this.dgPartListWithMFsSummary.Name = "dgPartListWithMFsSummary";
-            this.dgPartListWithMFsSummary.Size = new System.Drawing.Size(691, 585);
+            this.dgPartListWithMFsSummary.Size = new System.Drawing.Size(755, 585);
             this.dgPartListWithMFsSummary.TabIndex = 110;
             this.dgPartListWithMFsSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgPartListWithMFsSummary_CellClick);
             // 
@@ -2304,7 +2308,7 @@
             this.btnPartListWithMFCopyToClipboard});
             this.toolStrip12.Location = new System.Drawing.Point(3, 16);
             this.toolStrip12.Name = "toolStrip12";
-            this.toolStrip12.Size = new System.Drawing.Size(691, 25);
+            this.toolStrip12.Size = new System.Drawing.Size(755, 25);
             this.toolStrip12.TabIndex = 109;
             this.toolStrip12.Text = "toolStrip12";
             // 
@@ -2323,7 +2327,7 @@
             this.lblPartListWithMFsCount});
             this.statusStrip3.Location = new System.Drawing.Point(3, 626);
             this.statusStrip3.Name = "statusStrip3";
-            this.statusStrip3.Size = new System.Drawing.Size(691, 22);
+            this.statusStrip3.Size = new System.Drawing.Size(755, 22);
             this.statusStrip3.TabIndex = 107;
             this.statusStrip3.Text = "statusStrip2";
             // 
@@ -2339,7 +2343,7 @@
             this.btnCompareWithRebrickable});
             this.toolStrip10.Location = new System.Drawing.Point(0, 0);
             this.toolStrip10.Name = "toolStrip10";
-            this.toolStrip10.Size = new System.Drawing.Size(1362, 25);
+            this.toolStrip10.Size = new System.Drawing.Size(1485, 25);
             this.toolStrip10.TabIndex = 102;
             this.toolStrip10.Text = "toolStrip10";
             // 
@@ -2351,6 +2355,24 @@
             this.btnCompareWithRebrickable.Size = new System.Drawing.Size(166, 22);
             this.btnCompareWithRebrickable.Text = "Compare with Rebrickable";
             this.btnCompareWithRebrickable.Click += new System.EventHandler(this.btnCompareWithRebrickable_Click);
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.pnlJSON);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(1485, 676);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Rebrickable XML";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // pnlJSON
+            // 
+            this.pnlJSON.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlJSON.Location = new System.Drawing.Point(0, 0);
+            this.pnlJSON.Name = "pnlJSON";
+            this.pnlJSON.Size = new System.Drawing.Size(1485, 676);
+            this.pnlJSON.TabIndex = 28;
             // 
             // chkShowPages
             // 
@@ -2491,6 +2513,7 @@
             this.statusStrip3.PerformLayout();
             this.toolStrip10.ResumeLayout(false);
             this.toolStrip10.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2734,6 +2757,8 @@
         private System.Windows.Forms.CheckBox chkShowPartcolourImages;
         private System.Windows.Forms.CheckBox chkShowElementImages;
         private System.Windows.Forms.CheckBox chkShowFBXDetails;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Panel pnlJSON;
     }
 }
 

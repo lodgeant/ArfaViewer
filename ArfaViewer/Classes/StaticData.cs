@@ -214,6 +214,14 @@ namespace Generator
             PostJSONRequestFromURL(url, json);
         }
 
+        public static PartListPartCollection GetAllSubParts_FromLDrawDetails(string LDrawRef)
+        {
+            string url = Global_Variables.APIUrl2 + "LDrawDetails/GetAllSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
+            string JSONString = GetJSONResponseFromURL(url);
+            PartListPartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<PartListPartCollection>(JSONString);
+            return coll;
+        }
+
 
         // ** FBXDetails functions **
 
@@ -315,8 +323,9 @@ namespace Generator
 
         public static string GetRebrickableSetJSONString(string SetRef)
         {
-            string url = Global_Variables.APIUrl2 + "/GetRebrickableSetJSONString?SetRef=" + SetRef;
+            string url = Global_Variables.APIUrl2 + "Rebrickable/GetRebrickableSetJSONString?SetRef=" + SetRef;
             string JSONString = GetJSONResponseFromURL(url);
+            JSONString = JSONString.Replace("\\", "").TrimStart('\"').TrimEnd('\"');
             return JSONString;
         }
 
@@ -401,7 +410,7 @@ namespace Generator
 
 
 
-        // ** CompositePart functions **
+        // ** CompositePart functions - DEMISED **
 
         //public static CompositePartCollection GetAllCompositeSubParts_FromLDrawDetails(string LDrawRef)
         //{
@@ -411,14 +420,7 @@ namespace Generator
         //    return coll;
         //}
 
-        public static PartListPartCollection GetAllSubParts_FromLDrawDetails(string LDrawRef)
-        {
-            string url = Global_Variables.APIUrl2 + "LDrawDetails/GetAllSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
-            string JSONString = GetJSONResponseFromURL(url);
-            PartListPartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<PartListPartCollection>(JSONString);
-            return coll;
-        }
-
+        
 
 
 

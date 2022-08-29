@@ -19,6 +19,8 @@ using BaseClasses;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Xml.Linq;
+using Newtonsoft.Json;
+
 
 
 namespace Generator
@@ -83,6 +85,15 @@ namespace Generator
                 //string setRef = "7327-1";
                 //SetDetails sd = StaticData.GetSetDetails(setRef);
                 //StaticData.UpdateSetDetailsInstructions_UsingSetRef(setRef, sd.Instructions);
+
+                
+                //string JSONString = StaticData.GetRebrickableSetJSONString("7305-1");
+                //JSONString = JSONString.Replace("\\", "").TrimStart('\"').TrimEnd('\"');               
+                //byte[] buffer = Encoding.ASCII.GetBytes(JSONString);
+                //XDocument xml2 = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(buffer, new XmlDictionaryReaderQuotas()));
+                //string XMLString2 = xml2.ToString();
+
+                //XmlDocument doc1 = JsonConvert.DeserializeXmlNode(JSONString);
 
 
             }
