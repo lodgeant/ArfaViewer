@@ -25,6 +25,7 @@ using System.Runtime.InteropServices;
 using System.Data.SqlTypes;
 using Newtonsoft.Json;
 using static ScintillaNET.Style;
+using Newtonsoft.Json.Linq;
 
 namespace Generator
 {
@@ -40,6 +41,8 @@ namespace Generator
         private DataTable dgPartSummaryTable_Orig;
         private TreeNode lastSelectedNode;
         private string lastSelectedNodeFullPath = "";
+        //private string mode = "EDIT";
+        private string mode = "READ-ONLY";
 
 
         public InstructionViewer(string prePopulatedSetRef)
@@ -48,9 +51,7 @@ namespace Generator
             try
             {
                 // ** Post header **            
-                string[] versionArray = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
-                this.Text = "Generator";
-                this.Text += " | " + "v" + versionArray[0] + "." + versionArray[1] + "." + versionArray[2];
+                PostHeader();
                 log.Info(".......................................................................GENERATOR SCREEN STARTED.......................................................................");
 
                 #region ** FORMAT SUMMARIES **
@@ -974,13 +975,17 @@ namespace Generator
                 string SetRef = fldCurrentSetRef.Text;
 
                 // ** Get Set Instructions from API **
-                //SetDetails setDetails = StaticData.GetSetDetails(SetRef);
                 SetInstructions setInstructions = StaticData.GetSetInstructions(SetRef);
                 if (setInstructions == null) throw new Exception("Set " + SetRef + " not found...");
                 string setXML = setInstructions.Data;
                 currentSetXml = new XmlDocument();
                 currentSetXml.LoadXml(setXML);
 
+                // ** Determine mode using SetDetails **
+                SetDetails setDetails = StaticData.GetSetDetails(SetRef);
+                mode = "EDIT";
+                if(setDetails.AssignedTo != Global_Variables.currentUser) mode = "READ-ONLY";
+               
                 // ** Tidy Up **
                 ClearAllFields();
                 RefreshScreen();
@@ -1289,6 +1294,10 @@ namespace Generator
                         tvSetSummary.Focus();
                     }
                 }
+
+                // Apply mode settings
+                ApplyModeSettings();
+
             }
             catch (Exception ex)
             {
@@ -1336,9 +1345,27 @@ namespace Generator
                     // ** Update Set Image **
                     pnlSetImage.BackgroundImage = ArfaImage.GetImage(ImageType.SET, new string[] { SetRef });
 
+                    #region ** GET IMAGE DATA UPFRONT **
+                    XmlNodeList allPartsNodeList = fullSetXml.SelectNodes("//PartListPart");
+                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Getting part image data (up front)...");
+                    Delegates.ToolStripProgressBar_SetMax(this, pbStatus, allPartsNodeList.Count);
+                    Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                    int index = 0;                    
+                    foreach (XmlNode partNode in allPartsNodeList)
+                    {
+                        //bw_RefreshScreen.ReportProgress(index, "Working...");
+                        Delegates.ToolStripProgressBar_SetValue(this, pbStatus, index);
+                        int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
+                        string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
+                        if (chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+                        index += 1;
+                    }
+                    Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                    #endregion
+
                     #region ** UPDATE PART LIST SUMMARIES - Current Set XML **
                     {
-                        Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Updating parts list: Basic...");
+                        Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Updating Part List: Basic...");
                         XmlNodeList partListNodeList = currentSetXml.SelectNodes("//PartListPart");
                         Stopwatch watch = new Stopwatch(); watch.Start();
                         DataTable partListTable = GeneratePartListTable(partListNodeList);
@@ -1364,7 +1391,7 @@ namespace Generator
 
                     #region ** UPDATE PART LIST SUMMARIES - MINIFIGS **
                     {
-                        Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Updating parts list: MiniFigs(s)...");
+                        Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Updating Part List: MiniFigs(s)...");
                         PartList pl = PartList.GetPartList_FromSetInstructionsCollection(siColl);
                         XmlDocument doc = new XmlDocument();
                         doc.LoadXml(pl.SerializeToString(true));
@@ -1392,7 +1419,7 @@ namespace Generator
                     #endregion
 
                     #region ** UPDATE PART LIST SUMMARIES - Full Set XML **
-                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Updating parts list: Full...");
+                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Updating Part List: Full...");
                     if (fullSetXml != null)
                     {
                         XmlNodeList partListNodeList = fullSetXml.SelectNodes("//PartListPart");
@@ -5459,7 +5486,59 @@ namespace Generator
             }
         }
     
-    
+        private void PostHeader()
+        {
+            string[] versionArray = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
+            this.Text = "Instruction Viewer";
+            this.Text += " | " + "v" + versionArray[0] + "." + versionArray[1] + "." + versionArray[2];
+        }
+
+
+        private void ApplyModeSettings()
+        {
+            try
+            {
+                if (mode.Equals("EDIT"))
+                {
+                    // ** Post header **            
+                    PostHeader();
+
+                    // ** Disable buttons **
+                    btnSaveSet.Enabled = true;
+                    gpSet.Enabled = true;
+                    gpSubSet.Enabled = true;
+                    gpModel.Enabled = true;
+                    gpSubModel.Enabled = true;
+                    gpStep.Enabled = true;
+                    btnPartAdd.Enabled = true;
+                    btnPartSave.Enabled = true;
+                    btnPartDelete.Enabled = true;
+                }
+                else if (mode.Equals("READ-ONLY"))
+                {
+                    // ** Post header **            
+                    PostHeader();
+                    this.Text += " |  #### READ-ONLY ####";
+
+                    // ** Disable buttons **
+                    btnSaveSet.Enabled = false;                    
+                    gpSet.Enabled = false;
+                    gpSubSet.Enabled = false;
+                    gpModel.Enabled = false;
+                    gpSubModel.Enabled = false;
+                    gpStep.Enabled = false;
+                    btnPartAdd.Enabled = false;
+                    btnPartSave.Enabled = false;
+                    btnPartDelete.Enabled = false;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
     
     }
 

@@ -42,7 +42,7 @@ namespace Generator
                 log.Info(".......................................................................APPLICATION STARTED.......................................................................");
 
                 // ** Generate Proxy API **
-                Global_Variables.APIProxy = new zzz_APIProxy();
+                //Global_Variables.APIProxy = new zzz_APIProxy();
 
 
                 // ** Refresh static data **                
