@@ -41,10 +41,8 @@ namespace Generator
         private DataTable dgPartSummaryTable_Orig;
         private TreeNode lastSelectedNode;
         private string lastSelectedNodeFullPath = "";
-        //private string mode = "EDIT";
-        private string mode = "READ-ONLY";
-
-
+        private string mode = "EDIT";
+        
         public InstructionViewer(string prePopulatedSetRef)
         {
             InitializeComponent();
@@ -1004,9 +1002,6 @@ namespace Generator
                 if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
                 if (currentSetXml == null) throw new Exception("No Set currently loaded...");
 
-                // ** Update SetDetails **
-                //StaticData.UpdateSetDetailsInstructions_UsingSetRef(fldCurrentSetRef.Text, currentSetXml.OuterXml);
-
                 // ** Update SetInstructions **
                 SetInstructions setInstructions = new SetInstructions() { Ref = fldCurrentSetRef.Text, Data = currentSetXml.OuterXml };
                 StaticData.UpdateSetInstructions(setInstructions);
@@ -1691,6 +1686,16 @@ namespace Generator
                     fldSubSetDescription.Text = Description;
                     fldSubSetType.Text = SubSetType;
                     gpSubSet.Enabled = true;
+
+                    // ** POST PART DATA FOR SUBSET **
+                    string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//Part";
+                    if (chkShowSubParts.Checked == false) xmlString += "[@IsSubPart='false']";
+                    XmlNodeList partNodeList = fullSetXml.SelectNodes(xmlString);
+                    dgPartSummaryTable_Orig = GenerateStepPartTable(partNodeList);
+                    dgPartSummary.DataSource = dgPartSummaryTable_Orig;
+                    AdjustPartSummaryRowFormatting(dgPartSummary);
+                    ProcessPartSummaryFilter();
+                    lblPartCount.Text = dgPartSummaryTable_Orig.Rows.Count.ToString("#,##0") + " Part(s)";
                 }
                 else if (Type.Equals("MODEL"))
                 {
@@ -1707,13 +1712,10 @@ namespace Generator
                     fldModelType.Text = ModelType;
                     gpModel.Enabled = true;
 
-                    // ** POST PART DATA FOR STEP **
+                    // ** POST PART DATA FOR MODEL **
                     //XmlNodeList partNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + Ref + "']//Part[@IsSubPart='false']");
                     string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']//Part";
-                    if (chkShowSubParts.Checked == false)
-                    {
-                        xmlString += "[@IsSubPart='false']";
-                    }
+                    if (chkShowSubParts.Checked == false) xmlString += "[@IsSubPart='false']";                   
                     //XmlNodeList partNodeList = currentSetXml.SelectNodes(xmlString);
                     XmlNodeList partNodeList = fullSetXml.SelectNodes(xmlString);
                     dgPartSummaryTable_Orig = GenerateStepPartTable(partNodeList);
@@ -1748,17 +1750,12 @@ namespace Generator
                     fldSubModelRotZ.Text = RotZ;
                     gpSubModel.Enabled = true;
 
-                    // ** POST PART DATA FOR STEP **
+                    // ** POST PART DATA FOR SUBMODEL **
                     //XmlNodeList partNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + Ref + "']//Part[@IsSubPart='false']");
                     //XmlNodeList partNodeList = currentSetXml.SelectNodes("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + Ref + "']//Part");                    
                     String xmlString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + SubModelRef + "']//Part";
-                    if (chkShowSubParts.Checked == false)
-                    {
-                        xmlString += "[@IsSubPart='false']";
-                    }
+                    if (chkShowSubParts.Checked == false) xmlString += "[@IsSubPart='false']";                   
                     XmlNodeList partNodeList = currentSetXml.SelectNodes(xmlString);
-                    //DataTable partTable = GenerateStepPartTable(partNodeList);
-                    //dgPartSummary.DataSource = partTable;
                     dgPartSummaryTable_Orig = GenerateStepPartTable(partNodeList);
                     dgPartSummary.DataSource = dgPartSummaryTable_Orig;
                     AdjustPartSummaryRowFormatting(dgPartSummary);
@@ -2080,7 +2077,6 @@ namespace Generator
 
         #endregion
 
-
         #region ** REBRICKABLE MATCHING FUNCTIONS **
 
         private void CompareSetPartsWithRebrickable()
@@ -2251,7 +2247,6 @@ namespace Generator
         }
 
         #endregion
-
 
         #region ** SUBSET FUNCTIONS **
 
