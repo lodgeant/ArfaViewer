@@ -302,6 +302,7 @@
             // 
             // btnShowStaticDataScreen
             // 
+            this.btnShowStaticDataScreen.BackColor = System.Drawing.Color.PaleGreen;
             this.btnShowStaticDataScreen.Location = new System.Drawing.Point(12, 229);
             this.btnShowStaticDataScreen.Name = "btnShowStaticDataScreen";
             this.btnShowStaticDataScreen.Size = new System.Drawing.Size(102, 57);

@@ -33,41 +33,44 @@
             this.btnExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnRefreshAll = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.gpBasePart = new System.Windows.Forms.GroupBox();
-            this.chkIsLargeModel = new System.Windows.Forms.CheckBox();
+            this.chkBasePartIsLargeModel = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.chkIsSticker = new System.Windows.Forms.CheckBox();
-            this.chkIsSubPart = new System.Windows.Forms.CheckBox();
+            this.chkBasePartIsSticker = new System.Windows.Forms.CheckBox();
+            this.chkBasePartIsSubPart = new System.Windows.Forms.CheckBox();
             this.dgBasePartSummary = new System.Windows.Forms.DataGridView();
             this.c = new System.Windows.Forms.StatusStrip();
+            this.pbBasePartStatus = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblBasePartStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblBasePartCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblBasePartSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsBasePartDetails = new System.Windows.Forms.ToolStrip();
-            this.lblLDrawRef = new System.Windows.Forms.ToolStripLabel();
-            this.fldLDrawRef = new System.Windows.Forms.ToolStripTextBox();
-            this.fldLDrawImage = new System.Windows.Forms.ToolStripButton();
-            this.lblLDrawDescription = new System.Windows.Forms.ToolStripLabel();
-            this.fldLDrawDescription = new System.Windows.Forms.ToolStripTextBox();
-            this.lblLDrawSize = new System.Windows.Forms.ToolStripLabel();
-            this.fldLDrawSize = new System.Windows.Forms.ToolStripTextBox();
-            this.lblPartType = new System.Windows.Forms.ToolStripLabel();
-            this.fldPartType = new System.Windows.Forms.ToolStripComboBox();
-            this.lblLDrawPartType = new System.Windows.Forms.ToolStripLabel();
-            this.fldLDrawPartType = new System.Windows.Forms.ToolStripComboBox();
-            this.lblOffsetX = new System.Windows.Forms.ToolStripLabel();
-            this.fldOffsetX = new System.Windows.Forms.ToolStripTextBox();
-            this.lblOffsetY = new System.Windows.Forms.ToolStripLabel();
-            this.fldOffsetY = new System.Windows.Forms.ToolStripTextBox();
-            this.lblOffsetZ = new System.Windows.Forms.ToolStripLabel();
-            this.fldOffsetZ = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartLDrawRef = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartLDrawRef = new System.Windows.Forms.ToolStripTextBox();
+            this.fldBasePartLDrawImage = new System.Windows.Forms.ToolStripButton();
+            this.lblBasePartLDrawDescription = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartLDrawDescription = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartLDrawSize = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartLDrawSize = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartPartType = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartPartType = new System.Windows.Forms.ToolStripComboBox();
+            this.lblBasePartLDrawPartType = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartLDrawPartType = new System.Windows.Forms.ToolStripComboBox();
+            this.lblBasePartOffsetX = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartOffsetX = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartOffsetY = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartOffsetY = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartOffsetZ = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartOffsetZ = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnPartClear = new System.Windows.Forms.ToolStripButton();
+            this.btnBasePartClear = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnPartSave = new System.Windows.Forms.ToolStripButton();
-            this.btnPartDelete = new System.Windows.Forms.ToolStripButton();
+            this.btnBasePartSave = new System.Windows.Forms.ToolStripButton();
+            this.btnBasePartDelete = new System.Windows.Forms.ToolStripButton();
             this.tsBasePartSummary = new System.Windows.Forms.ToolStrip();
             this.btnBasePartRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -75,27 +78,31 @@
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.lblLDrawRefAc = new System.Windows.Forms.ToolStripLabel();
             this.fldLDrawRefAc = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripLabel18 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox16 = new System.Windows.Forms.ToolStripTextBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.gpLDrawDetails = new System.Windows.Forms.GroupBox();
             this.dgLDrawDetailsSummary = new System.Windows.Forms.DataGridView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.pbLDrawDetailsStatus = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblLDrawDetailsStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblLDrawDetailsCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblLDrawDetailsSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsLDrawDetailsDetails = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox3 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripLabel6 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripComboBox2 = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripLabel9 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox7 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox4 = new System.Windows.Forms.ToolStripTextBox();
+            this.lblLDrawDetailsLDrawRef = new System.Windows.Forms.ToolStripLabel();
+            this.fldLDrawDetailsLDrawRef = new System.Windows.Forms.ToolStripTextBox();
+            this.fldLDrawDetailsLDrawImage = new System.Windows.Forms.ToolStripButton();
+            this.lblLDrawDetailsLDrawDescription = new System.Windows.Forms.ToolStripLabel();
+            this.fldLDrawDetailsLDrawDescription = new System.Windows.Forms.ToolStripTextBox();
+            this.lblLDrawDetailsPartType = new System.Windows.Forms.ToolStripLabel();
+            this.fldLDrawDetailsPartType = new System.Windows.Forms.ToolStripComboBox();
+            this.lblLDrawDetailsLDrawPartType = new System.Windows.Forms.ToolStripLabel();
+            this.fldLDrawDetailsLDrawPartType = new System.Windows.Forms.ToolStripComboBox();
+            this.lblLDrawDetailsSubPartCount = new System.Windows.Forms.ToolStripLabel();
+            this.fldLDrawDetailsSubPartCount = new System.Windows.Forms.ToolStripTextBox();
+            this.lblLDrawDetailsLDrawRefList = new System.Windows.Forms.ToolStripLabel();
+            this.fldLDrawDetailsLDrawRefList = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
@@ -113,6 +120,8 @@
             this.gpSubPartMapping = new System.Windows.Forms.GroupBox();
             this.dgSubPartMappingSummary = new System.Windows.Forms.DataGridView();
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
+            this.pbSubPartMappingStatus = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblSubPartMappingStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblSubPartMappingCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblSubPartMappingSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip5 = new System.Windows.Forms.ToolStrip();
@@ -149,13 +158,6 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.chkShowPartImages = new System.Windows.Forms.CheckBox();
-            this.pbBasePartStatus = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblBasePartStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.pbLDrawDetailsStatus = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblLDrawDetailsStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.pbSubPartMappingStatus = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblSubPartMappingStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.tsHeader.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -228,6 +230,11 @@
             this.btnRefreshAll.Text = "Refresh All";
             this.btnRefreshAll.Click += new System.EventHandler(this.btnRefreshAll_Click);
             // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(6, 25);
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
@@ -270,10 +277,10 @@
             // 
             // gpBasePart
             // 
-            this.gpBasePart.Controls.Add(this.chkIsLargeModel);
+            this.gpBasePart.Controls.Add(this.chkBasePartIsLargeModel);
             this.gpBasePart.Controls.Add(this.checkBox2);
-            this.gpBasePart.Controls.Add(this.chkIsSticker);
-            this.gpBasePart.Controls.Add(this.chkIsSubPart);
+            this.gpBasePart.Controls.Add(this.chkBasePartIsSticker);
+            this.gpBasePart.Controls.Add(this.chkBasePartIsSubPart);
             this.gpBasePart.Controls.Add(this.dgBasePartSummary);
             this.gpBasePart.Controls.Add(this.c);
             this.gpBasePart.Controls.Add(this.tsBasePartDetails);
@@ -286,46 +293,46 @@
             this.gpBasePart.TabStop = false;
             this.gpBasePart.Text = "Base Part";
             // 
-            // chkIsLargeModel
+            // chkBasePartIsLargeModel
             // 
-            this.chkIsLargeModel.AutoSize = true;
-            this.chkIsLargeModel.Location = new System.Drawing.Point(839, 218);
-            this.chkIsLargeModel.Name = "chkIsLargeModel";
-            this.chkIsLargeModel.Size = new System.Drawing.Size(96, 17);
-            this.chkIsLargeModel.TabIndex = 83;
-            this.chkIsLargeModel.Text = "Is Large Model";
-            this.chkIsLargeModel.UseVisualStyleBackColor = true;
+            this.chkBasePartIsLargeModel.AutoSize = true;
+            this.chkBasePartIsLargeModel.Location = new System.Drawing.Point(839, 218);
+            this.chkBasePartIsLargeModel.Name = "chkBasePartIsLargeModel";
+            this.chkBasePartIsLargeModel.Size = new System.Drawing.Size(96, 17);
+            this.chkBasePartIsLargeModel.TabIndex = 83;
+            this.chkBasePartIsLargeModel.Text = "Is Large Model";
+            this.chkBasePartIsLargeModel.UseVisualStyleBackColor = true;
             // 
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
             this.checkBox2.BackColor = System.Drawing.Color.Pink;
-            this.checkBox2.Location = new System.Drawing.Point(465, 19);
+            this.checkBox2.Location = new System.Drawing.Point(909, 18);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(104, 17);
             this.checkBox2.TabIndex = 82;
             this.checkBox2.Text = "Lock LDraw Ref";
             this.checkBox2.UseVisualStyleBackColor = false;
             // 
-            // chkIsSticker
+            // chkBasePartIsSticker
             // 
-            this.chkIsSticker.AutoSize = true;
-            this.chkIsSticker.Location = new System.Drawing.Point(632, 116);
-            this.chkIsSticker.Name = "chkIsSticker";
-            this.chkIsSticker.Size = new System.Drawing.Size(70, 17);
-            this.chkIsSticker.TabIndex = 81;
-            this.chkIsSticker.Text = "Is Sticker";
-            this.chkIsSticker.UseVisualStyleBackColor = true;
+            this.chkBasePartIsSticker.AutoSize = true;
+            this.chkBasePartIsSticker.Location = new System.Drawing.Point(632, 116);
+            this.chkBasePartIsSticker.Name = "chkBasePartIsSticker";
+            this.chkBasePartIsSticker.Size = new System.Drawing.Size(70, 17);
+            this.chkBasePartIsSticker.TabIndex = 81;
+            this.chkBasePartIsSticker.Text = "Is Sticker";
+            this.chkBasePartIsSticker.UseVisualStyleBackColor = true;
             // 
-            // chkIsSubPart
+            // chkBasePartIsSubPart
             // 
-            this.chkIsSubPart.AutoSize = true;
-            this.chkIsSubPart.Location = new System.Drawing.Point(978, 138);
-            this.chkIsSubPart.Name = "chkIsSubPart";
-            this.chkIsSubPart.Size = new System.Drawing.Size(78, 17);
-            this.chkIsSubPart.TabIndex = 80;
-            this.chkIsSubPart.Text = "Is Sub Part";
-            this.chkIsSubPart.UseVisualStyleBackColor = true;
+            this.chkBasePartIsSubPart.AutoSize = true;
+            this.chkBasePartIsSubPart.Location = new System.Drawing.Point(978, 138);
+            this.chkBasePartIsSubPart.Name = "chkBasePartIsSubPart";
+            this.chkBasePartIsSubPart.Size = new System.Drawing.Size(78, 17);
+            this.chkBasePartIsSubPart.TabIndex = 80;
+            this.chkBasePartIsSubPart.Text = "Is Sub Part";
+            this.chkBasePartIsSubPart.UseVisualStyleBackColor = true;
             // 
             // dgBasePartSummary
             // 
@@ -336,6 +343,7 @@
             this.dgBasePartSummary.Name = "dgBasePartSummary";
             this.dgBasePartSummary.Size = new System.Drawing.Size(1742, 296);
             this.dgBasePartSummary.TabIndex = 78;
+            this.dgBasePartSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgBasePartSummary_CellClick);
             // 
             // c
             // 
@@ -349,6 +357,18 @@
             this.c.Size = new System.Drawing.Size(1742, 22);
             this.c.TabIndex = 77;
             this.c.Text = "statusStrip2";
+            // 
+            // pbBasePartStatus
+            // 
+            this.pbBasePartStatus.ForeColor = System.Drawing.Color.Lime;
+            this.pbBasePartStatus.Name = "pbBasePartStatus";
+            this.pbBasePartStatus.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblBasePartStatus
+            // 
+            this.lblBasePartStatus.Name = "lblBasePartStatus";
+            this.lblBasePartStatus.Size = new System.Drawing.Size(97, 17);
+            this.lblBasePartStatus.Text = "lblBasePartStatus";
             // 
             // lblBasePartCount
             // 
@@ -368,182 +388,184 @@
             // 
             this.tsBasePartDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tsBasePartDetails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblLDrawRef,
-            this.fldLDrawRef,
-            this.fldLDrawImage,
-            this.lblLDrawDescription,
-            this.fldLDrawDescription,
-            this.lblLDrawSize,
-            this.fldLDrawSize,
-            this.lblPartType,
-            this.fldPartType,
-            this.lblLDrawPartType,
-            this.fldLDrawPartType,
-            this.lblOffsetX,
-            this.fldOffsetX,
-            this.lblOffsetY,
-            this.fldOffsetY,
-            this.lblOffsetZ,
-            this.fldOffsetZ,
+            this.lblBasePartLDrawRef,
+            this.fldBasePartLDrawRef,
+            this.fldBasePartLDrawImage,
+            this.lblBasePartLDrawDescription,
+            this.fldBasePartLDrawDescription,
+            this.lblBasePartLDrawSize,
+            this.fldBasePartLDrawSize,
+            this.lblBasePartPartType,
+            this.fldBasePartPartType,
+            this.lblBasePartLDrawPartType,
+            this.fldBasePartLDrawPartType,
+            this.lblBasePartOffsetX,
+            this.fldBasePartOffsetX,
+            this.lblBasePartOffsetY,
+            this.fldBasePartOffsetY,
+            this.lblBasePartOffsetZ,
+            this.fldBasePartOffsetZ,
             this.toolStripSeparator15,
-            this.btnPartClear,
+            this.btnBasePartClear,
             this.toolStripSeparator3,
-            this.btnPartSave,
-            this.btnPartDelete});
+            this.btnBasePartSave,
+            this.btnBasePartDelete});
             this.tsBasePartDetails.Location = new System.Drawing.Point(3, 359);
             this.tsBasePartDetails.Name = "tsBasePartDetails";
             this.tsBasePartDetails.Size = new System.Drawing.Size(1742, 25);
             this.tsBasePartDetails.TabIndex = 76;
             this.tsBasePartDetails.Text = "toolStrip5";
             // 
-            // lblLDrawRef
+            // lblBasePartLDrawRef
             // 
-            this.lblLDrawRef.Name = "lblLDrawRef";
-            this.lblLDrawRef.Size = new System.Drawing.Size(63, 22);
-            this.lblLDrawRef.Text = "LDraw Ref:";
+            this.lblBasePartLDrawRef.Name = "lblBasePartLDrawRef";
+            this.lblBasePartLDrawRef.Size = new System.Drawing.Size(63, 22);
+            this.lblBasePartLDrawRef.Text = "LDraw Ref:";
             // 
-            // fldLDrawRef
+            // fldBasePartLDrawRef
             // 
-            this.fldLDrawRef.BackColor = System.Drawing.Color.LightGray;
-            this.fldLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldLDrawRef.Name = "fldLDrawRef";
-            this.fldLDrawRef.Size = new System.Drawing.Size(100, 25);
+            this.fldBasePartLDrawRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartLDrawRef.Name = "fldBasePartLDrawRef";
+            this.fldBasePartLDrawRef.Size = new System.Drawing.Size(100, 25);
+            this.fldBasePartLDrawRef.Leave += new System.EventHandler(this.fldBasePartLDrawRef_Leave);
             // 
-            // fldLDrawImage
+            // fldBasePartLDrawImage
             // 
-            this.fldLDrawImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.fldLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.fldLDrawImage.Name = "fldLDrawImage";
-            this.fldLDrawImage.Size = new System.Drawing.Size(23, 22);
+            this.fldBasePartLDrawImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fldBasePartLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fldBasePartLDrawImage.Name = "fldBasePartLDrawImage";
+            this.fldBasePartLDrawImage.Size = new System.Drawing.Size(23, 22);
+            this.fldBasePartLDrawImage.Click += new System.EventHandler(this.fldBasePartLDrawImage_Click);
             // 
-            // lblLDrawDescription
+            // lblBasePartLDrawDescription
             // 
-            this.lblLDrawDescription.Name = "lblLDrawDescription";
-            this.lblLDrawDescription.Size = new System.Drawing.Size(106, 22);
-            this.lblLDrawDescription.Text = "LDraw Description:";
+            this.lblBasePartLDrawDescription.Name = "lblBasePartLDrawDescription";
+            this.lblBasePartLDrawDescription.Size = new System.Drawing.Size(106, 22);
+            this.lblBasePartLDrawDescription.Text = "LDraw Description:";
             // 
-            // fldLDrawDescription
+            // fldBasePartLDrawDescription
             // 
-            this.fldLDrawDescription.BackColor = System.Drawing.Color.LightGray;
-            this.fldLDrawDescription.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldLDrawDescription.Name = "fldLDrawDescription";
-            this.fldLDrawDescription.Size = new System.Drawing.Size(200, 25);
+            this.fldBasePartLDrawDescription.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartLDrawDescription.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartLDrawDescription.Name = "fldBasePartLDrawDescription";
+            this.fldBasePartLDrawDescription.Size = new System.Drawing.Size(200, 25);
             // 
-            // lblLDrawSize
+            // lblBasePartLDrawSize
             // 
-            this.lblLDrawSize.Name = "lblLDrawSize";
-            this.lblLDrawSize.Size = new System.Drawing.Size(66, 22);
-            this.lblLDrawSize.Text = "LDraw Size:";
+            this.lblBasePartLDrawSize.Name = "lblBasePartLDrawSize";
+            this.lblBasePartLDrawSize.Size = new System.Drawing.Size(66, 22);
+            this.lblBasePartLDrawSize.Text = "LDraw Size:";
             // 
-            // fldLDrawSize
+            // fldBasePartLDrawSize
             // 
-            this.fldLDrawSize.BackColor = System.Drawing.Color.LightGray;
-            this.fldLDrawSize.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldLDrawSize.Name = "fldLDrawSize";
-            this.fldLDrawSize.Size = new System.Drawing.Size(30, 25);
+            this.fldBasePartLDrawSize.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartLDrawSize.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartLDrawSize.Name = "fldBasePartLDrawSize";
+            this.fldBasePartLDrawSize.Size = new System.Drawing.Size(30, 25);
             // 
-            // lblPartType
+            // lblBasePartPartType
             // 
-            this.lblPartType.Name = "lblPartType";
-            this.lblPartType.Size = new System.Drawing.Size(55, 22);
-            this.lblPartType.Text = "Part Type";
+            this.lblBasePartPartType.Name = "lblBasePartPartType";
+            this.lblBasePartPartType.Size = new System.Drawing.Size(55, 22);
+            this.lblBasePartPartType.Text = "Part Type";
             // 
-            // fldPartType
+            // fldBasePartPartType
             // 
-            this.fldPartType.BackColor = System.Drawing.Color.LightGray;
-            this.fldPartType.Name = "fldPartType";
-            this.fldPartType.Size = new System.Drawing.Size(100, 25);
+            this.fldBasePartPartType.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartPartType.Name = "fldBasePartPartType";
+            this.fldBasePartPartType.Size = new System.Drawing.Size(100, 25);
             // 
-            // lblLDrawPartType
+            // lblBasePartLDrawPartType
             // 
-            this.lblLDrawPartType.Name = "lblLDrawPartType";
-            this.lblLDrawPartType.Size = new System.Drawing.Size(91, 22);
-            this.lblLDrawPartType.Text = "LDraw Part Type";
+            this.lblBasePartLDrawPartType.Name = "lblBasePartLDrawPartType";
+            this.lblBasePartLDrawPartType.Size = new System.Drawing.Size(91, 22);
+            this.lblBasePartLDrawPartType.Text = "LDraw Part Type";
             // 
-            // fldLDrawPartType
+            // fldBasePartLDrawPartType
             // 
-            this.fldLDrawPartType.BackColor = System.Drawing.Color.LightGray;
-            this.fldLDrawPartType.Name = "fldLDrawPartType";
-            this.fldLDrawPartType.Size = new System.Drawing.Size(100, 25);
+            this.fldBasePartLDrawPartType.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartLDrawPartType.Name = "fldBasePartLDrawPartType";
+            this.fldBasePartLDrawPartType.Size = new System.Drawing.Size(100, 25);
             // 
-            // lblOffsetX
+            // lblBasePartOffsetX
             // 
-            this.lblOffsetX.BackColor = System.Drawing.Color.Yellow;
-            this.lblOffsetX.Name = "lblOffsetX";
-            this.lblOffsetX.Size = new System.Drawing.Size(46, 22);
-            this.lblOffsetX.Text = "OffsetX";
+            this.lblBasePartOffsetX.BackColor = System.Drawing.Color.Yellow;
+            this.lblBasePartOffsetX.Name = "lblBasePartOffsetX";
+            this.lblBasePartOffsetX.Size = new System.Drawing.Size(46, 22);
+            this.lblBasePartOffsetX.Text = "OffsetX";
             // 
-            // fldOffsetX
+            // fldBasePartOffsetX
             // 
-            this.fldOffsetX.BackColor = System.Drawing.Color.LightGray;
-            this.fldOffsetX.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldOffsetX.Name = "fldOffsetX";
-            this.fldOffsetX.Size = new System.Drawing.Size(50, 25);
+            this.fldBasePartOffsetX.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartOffsetX.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartOffsetX.Name = "fldBasePartOffsetX";
+            this.fldBasePartOffsetX.Size = new System.Drawing.Size(50, 25);
             // 
-            // lblOffsetY
+            // lblBasePartOffsetY
             // 
-            this.lblOffsetY.BackColor = System.Drawing.Color.Yellow;
-            this.lblOffsetY.Name = "lblOffsetY";
-            this.lblOffsetY.Size = new System.Drawing.Size(46, 22);
-            this.lblOffsetY.Text = "OffsetY";
+            this.lblBasePartOffsetY.BackColor = System.Drawing.Color.Yellow;
+            this.lblBasePartOffsetY.Name = "lblBasePartOffsetY";
+            this.lblBasePartOffsetY.Size = new System.Drawing.Size(46, 22);
+            this.lblBasePartOffsetY.Text = "OffsetY";
             // 
-            // fldOffsetY
+            // fldBasePartOffsetY
             // 
-            this.fldOffsetY.BackColor = System.Drawing.Color.LightGray;
-            this.fldOffsetY.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldOffsetY.Name = "fldOffsetY";
-            this.fldOffsetY.Size = new System.Drawing.Size(50, 25);
+            this.fldBasePartOffsetY.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartOffsetY.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartOffsetY.Name = "fldBasePartOffsetY";
+            this.fldBasePartOffsetY.Size = new System.Drawing.Size(50, 25);
             // 
-            // lblOffsetZ
+            // lblBasePartOffsetZ
             // 
-            this.lblOffsetZ.BackColor = System.Drawing.Color.Yellow;
-            this.lblOffsetZ.Name = "lblOffsetZ";
-            this.lblOffsetZ.Size = new System.Drawing.Size(46, 22);
-            this.lblOffsetZ.Text = "OffsetZ";
+            this.lblBasePartOffsetZ.BackColor = System.Drawing.Color.Yellow;
+            this.lblBasePartOffsetZ.Name = "lblBasePartOffsetZ";
+            this.lblBasePartOffsetZ.Size = new System.Drawing.Size(46, 22);
+            this.lblBasePartOffsetZ.Text = "OffsetZ";
             // 
-            // fldOffsetZ
+            // fldBasePartOffsetZ
             // 
-            this.fldOffsetZ.BackColor = System.Drawing.Color.LightGray;
-            this.fldOffsetZ.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldOffsetZ.Name = "fldOffsetZ";
-            this.fldOffsetZ.Size = new System.Drawing.Size(50, 25);
+            this.fldBasePartOffsetZ.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartOffsetZ.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartOffsetZ.Name = "fldBasePartOffsetZ";
+            this.fldBasePartOffsetZ.Size = new System.Drawing.Size(50, 25);
             // 
             // toolStripSeparator15
             // 
             this.toolStripSeparator15.Name = "toolStripSeparator15";
             this.toolStripSeparator15.Size = new System.Drawing.Size(6, 25);
             // 
-            // btnPartClear
+            // btnBasePartClear
             // 
-            this.btnPartClear.BackColor = System.Drawing.Color.Pink;
-            this.btnPartClear.Image = ((System.Drawing.Image)(resources.GetObject("btnPartClear.Image")));
-            this.btnPartClear.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPartClear.Name = "btnPartClear";
-            this.btnPartClear.Size = new System.Drawing.Size(54, 22);
-            this.btnPartClear.Text = "Clear";
+            this.btnBasePartClear.BackColor = System.Drawing.Color.Pink;
+            this.btnBasePartClear.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartClear.Image")));
+            this.btnBasePartClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBasePartClear.Name = "btnBasePartClear";
+            this.btnBasePartClear.Size = new System.Drawing.Size(54, 22);
+            this.btnBasePartClear.Text = "Clear";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // btnPartSave
+            // btnBasePartSave
             // 
-            this.btnPartSave.BackColor = System.Drawing.Color.Pink;
-            this.btnPartSave.Image = ((System.Drawing.Image)(resources.GetObject("btnPartSave.Image")));
-            this.btnPartSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPartSave.Name = "btnPartSave";
-            this.btnPartSave.Size = new System.Drawing.Size(51, 22);
-            this.btnPartSave.Text = "Save";
+            this.btnBasePartSave.BackColor = System.Drawing.Color.Pink;
+            this.btnBasePartSave.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartSave.Image")));
+            this.btnBasePartSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBasePartSave.Name = "btnBasePartSave";
+            this.btnBasePartSave.Size = new System.Drawing.Size(51, 22);
+            this.btnBasePartSave.Text = "Save";
             // 
-            // btnPartDelete
+            // btnBasePartDelete
             // 
-            this.btnPartDelete.BackColor = System.Drawing.Color.Pink;
-            this.btnPartDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnPartDelete.Image")));
-            this.btnPartDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPartDelete.Name = "btnPartDelete";
-            this.btnPartDelete.Size = new System.Drawing.Size(60, 22);
-            this.btnPartDelete.Text = "Delete";
+            this.btnBasePartDelete.BackColor = System.Drawing.Color.Pink;
+            this.btnBasePartDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartDelete.Image")));
+            this.btnBasePartDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBasePartDelete.Name = "btnBasePartDelete";
+            this.btnBasePartDelete.Size = new System.Drawing.Size(60, 22);
+            this.btnBasePartDelete.Text = "Delete";
             // 
             // tsBasePartSummary
             // 
@@ -553,7 +575,9 @@
             this.btnPartSummaryCopyToClipboard,
             this.toolStripSeparator7,
             this.lblLDrawRefAc,
-            this.fldLDrawRefAc});
+            this.fldLDrawRefAc,
+            this.toolStripLabel18,
+            this.toolStripTextBox16});
             this.tsBasePartSummary.Location = new System.Drawing.Point(3, 16);
             this.tsBasePartSummary.Name = "tsBasePartSummary";
             this.tsBasePartSummary.Size = new System.Drawing.Size(1742, 25);
@@ -600,6 +624,19 @@
             this.fldLDrawRefAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawRefAc.Name = "fldLDrawRefAc";
             this.fldLDrawRefAc.Size = new System.Drawing.Size(100, 25);
+            // 
+            // toolStripLabel18
+            // 
+            this.toolStripLabel18.Name = "toolStripLabel18";
+            this.toolStripLabel18.Size = new System.Drawing.Size(106, 22);
+            this.toolStripLabel18.Text = "LDraw Description:";
+            // 
+            // toolStripTextBox16
+            // 
+            this.toolStripTextBox16.BackColor = System.Drawing.Color.Wheat;
+            this.toolStripTextBox16.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripTextBox16.Name = "toolStripTextBox16";
+            this.toolStripTextBox16.Size = new System.Drawing.Size(300, 25);
             // 
             // splitContainer2
             // 
@@ -659,6 +696,7 @@
             this.dgLDrawDetailsSummary.Name = "dgLDrawDetailsSummary";
             this.dgLDrawDetailsSummary.Size = new System.Drawing.Size(1351, 112);
             this.dgLDrawDetailsSummary.TabIndex = 79;
+            this.dgLDrawDetailsSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgLDrawDetailsSummary_CellClick);
             // 
             // statusStrip1
             // 
@@ -672,6 +710,18 @@
             this.statusStrip1.Size = new System.Drawing.Size(1351, 22);
             this.statusStrip1.TabIndex = 78;
             this.statusStrip1.Text = "statusStrip2";
+            // 
+            // pbLDrawDetailsStatus
+            // 
+            this.pbLDrawDetailsStatus.ForeColor = System.Drawing.Color.Lime;
+            this.pbLDrawDetailsStatus.Name = "pbLDrawDetailsStatus";
+            this.pbLDrawDetailsStatus.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblLDrawDetailsStatus
+            // 
+            this.lblLDrawDetailsStatus.Name = "lblLDrawDetailsStatus";
+            this.lblLDrawDetailsStatus.Size = new System.Drawing.Size(120, 17);
+            this.lblLDrawDetailsStatus.Text = "lblLDrawDetailsStatus";
             // 
             // lblLDrawDetailsCount
             // 
@@ -691,19 +741,19 @@
             // 
             this.tsLDrawDetailsDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tsLDrawDetailsDetails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel2,
-            this.toolStripTextBox2,
-            this.toolStripButton3,
-            this.toolStripLabel3,
-            this.toolStripTextBox3,
-            this.toolStripLabel5,
-            this.toolStripComboBox1,
-            this.toolStripLabel6,
-            this.toolStripComboBox2,
-            this.toolStripLabel9,
-            this.toolStripTextBox7,
-            this.toolStripLabel4,
-            this.toolStripTextBox4,
+            this.lblLDrawDetailsLDrawRef,
+            this.fldLDrawDetailsLDrawRef,
+            this.fldLDrawDetailsLDrawImage,
+            this.lblLDrawDetailsLDrawDescription,
+            this.fldLDrawDetailsLDrawDescription,
+            this.lblLDrawDetailsPartType,
+            this.fldLDrawDetailsPartType,
+            this.lblLDrawDetailsLDrawPartType,
+            this.fldLDrawDetailsLDrawPartType,
+            this.lblLDrawDetailsSubPartCount,
+            this.fldLDrawDetailsSubPartCount,
+            this.lblLDrawDetailsLDrawRefList,
+            this.fldLDrawDetailsLDrawRefList,
             this.toolStripSeparator6,
             this.toolStripButton4,
             this.toolStripSeparator8,
@@ -715,90 +765,92 @@
             this.tsLDrawDetailsDetails.TabIndex = 77;
             this.tsLDrawDetailsDetails.Text = "toolStrip5";
             // 
-            // toolStripLabel2
+            // lblLDrawDetailsLDrawRef
             // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(63, 22);
-            this.toolStripLabel2.Text = "LDraw Ref:";
+            this.lblLDrawDetailsLDrawRef.Name = "lblLDrawDetailsLDrawRef";
+            this.lblLDrawDetailsLDrawRef.Size = new System.Drawing.Size(63, 22);
+            this.lblLDrawDetailsLDrawRef.Text = "LDraw Ref:";
             // 
-            // toolStripTextBox2
+            // fldLDrawDetailsLDrawRef
             // 
-            this.toolStripTextBox2.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripTextBox2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox2.Name = "toolStripTextBox2";
-            this.toolStripTextBox2.Size = new System.Drawing.Size(100, 25);
+            this.fldLDrawDetailsLDrawRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawDetailsLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldLDrawDetailsLDrawRef.Name = "fldLDrawDetailsLDrawRef";
+            this.fldLDrawDetailsLDrawRef.Size = new System.Drawing.Size(100, 25);
+            this.fldLDrawDetailsLDrawRef.Leave += new System.EventHandler(this.fldLDrawDetailsLDrawRef_Leave);
             // 
-            // toolStripButton3
+            // fldLDrawDetailsLDrawImage
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+            this.fldLDrawDetailsLDrawImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fldLDrawDetailsLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fldLDrawDetailsLDrawImage.Name = "fldLDrawDetailsLDrawImage";
+            this.fldLDrawDetailsLDrawImage.Size = new System.Drawing.Size(23, 22);
+            this.fldLDrawDetailsLDrawImage.Click += new System.EventHandler(this.fldLDrawDetailsLDrawImage_Click);
             // 
-            // toolStripLabel3
+            // lblLDrawDetailsLDrawDescription
             // 
-            this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(106, 22);
-            this.toolStripLabel3.Text = "LDraw Description:";
+            this.lblLDrawDetailsLDrawDescription.Name = "lblLDrawDetailsLDrawDescription";
+            this.lblLDrawDetailsLDrawDescription.Size = new System.Drawing.Size(106, 22);
+            this.lblLDrawDetailsLDrawDescription.Text = "LDraw Description:";
             // 
-            // toolStripTextBox3
+            // fldLDrawDetailsLDrawDescription
             // 
-            this.toolStripTextBox3.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripTextBox3.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox3.Name = "toolStripTextBox3";
-            this.toolStripTextBox3.Size = new System.Drawing.Size(200, 25);
+            this.fldLDrawDetailsLDrawDescription.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawDetailsLDrawDescription.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldLDrawDetailsLDrawDescription.Name = "fldLDrawDetailsLDrawDescription";
+            this.fldLDrawDetailsLDrawDescription.Size = new System.Drawing.Size(200, 25);
             // 
-            // toolStripLabel5
+            // lblLDrawDetailsPartType
             // 
-            this.toolStripLabel5.Name = "toolStripLabel5";
-            this.toolStripLabel5.Size = new System.Drawing.Size(55, 22);
-            this.toolStripLabel5.Text = "Part Type";
+            this.lblLDrawDetailsPartType.Name = "lblLDrawDetailsPartType";
+            this.lblLDrawDetailsPartType.Size = new System.Drawing.Size(55, 22);
+            this.lblLDrawDetailsPartType.Text = "Part Type";
             // 
-            // toolStripComboBox1
+            // fldLDrawDetailsPartType
             // 
-            this.toolStripComboBox1.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(100, 25);
+            this.fldLDrawDetailsPartType.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawDetailsPartType.Name = "fldLDrawDetailsPartType";
+            this.fldLDrawDetailsPartType.Size = new System.Drawing.Size(100, 25);
             // 
-            // toolStripLabel6
+            // lblLDrawDetailsLDrawPartType
             // 
-            this.toolStripLabel6.Name = "toolStripLabel6";
-            this.toolStripLabel6.Size = new System.Drawing.Size(91, 22);
-            this.toolStripLabel6.Text = "LDraw Part Type";
+            this.lblLDrawDetailsLDrawPartType.Name = "lblLDrawDetailsLDrawPartType";
+            this.lblLDrawDetailsLDrawPartType.Size = new System.Drawing.Size(91, 22);
+            this.lblLDrawDetailsLDrawPartType.Text = "LDraw Part Type";
             // 
-            // toolStripComboBox2
+            // fldLDrawDetailsLDrawPartType
             // 
-            this.toolStripComboBox2.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripComboBox2.Name = "toolStripComboBox2";
-            this.toolStripComboBox2.Size = new System.Drawing.Size(100, 25);
+            this.fldLDrawDetailsLDrawPartType.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawDetailsLDrawPartType.Name = "fldLDrawDetailsLDrawPartType";
+            this.fldLDrawDetailsLDrawPartType.Size = new System.Drawing.Size(100, 25);
             // 
-            // toolStripLabel9
+            // lblLDrawDetailsSubPartCount
             // 
-            this.toolStripLabel9.BackColor = System.Drawing.Color.Yellow;
-            this.toolStripLabel9.Name = "toolStripLabel9";
-            this.toolStripLabel9.Size = new System.Drawing.Size(87, 22);
-            this.toolStripLabel9.Text = "Sub Part Count";
+            this.lblLDrawDetailsSubPartCount.BackColor = System.Drawing.Color.Yellow;
+            this.lblLDrawDetailsSubPartCount.Name = "lblLDrawDetailsSubPartCount";
+            this.lblLDrawDetailsSubPartCount.Size = new System.Drawing.Size(87, 22);
+            this.lblLDrawDetailsSubPartCount.Text = "Sub Part Count";
             // 
-            // toolStripTextBox7
+            // fldLDrawDetailsSubPartCount
             // 
-            this.toolStripTextBox7.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripTextBox7.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox7.Name = "toolStripTextBox7";
-            this.toolStripTextBox7.Size = new System.Drawing.Size(25, 25);
+            this.fldLDrawDetailsSubPartCount.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawDetailsSubPartCount.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldLDrawDetailsSubPartCount.Name = "fldLDrawDetailsSubPartCount";
+            this.fldLDrawDetailsSubPartCount.Size = new System.Drawing.Size(25, 25);
             // 
-            // toolStripLabel4
+            // lblLDrawDetailsLDrawRefList
             // 
-            this.toolStripLabel4.BackColor = System.Drawing.Color.Yellow;
-            this.toolStripLabel4.Name = "toolStripLabel4";
-            this.toolStripLabel4.Size = new System.Drawing.Size(81, 22);
-            this.toolStripLabel4.Text = "LDraw Ref List";
+            this.lblLDrawDetailsLDrawRefList.BackColor = System.Drawing.Color.Yellow;
+            this.lblLDrawDetailsLDrawRefList.Name = "lblLDrawDetailsLDrawRefList";
+            this.lblLDrawDetailsLDrawRefList.Size = new System.Drawing.Size(81, 22);
+            this.lblLDrawDetailsLDrawRefList.Text = "LDraw Ref List";
             // 
-            // toolStripTextBox4
+            // fldLDrawDetailsLDrawRefList
             // 
-            this.toolStripTextBox4.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripTextBox4.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox4.Name = "toolStripTextBox4";
-            this.toolStripTextBox4.Size = new System.Drawing.Size(100, 25);
+            this.fldLDrawDetailsLDrawRefList.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawDetailsLDrawRefList.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldLDrawDetailsLDrawRefList.Name = "fldLDrawDetailsLDrawRefList";
+            this.fldLDrawDetailsLDrawRefList.Size = new System.Drawing.Size(100, 25);
             // 
             // toolStripSeparator6
             // 
@@ -957,6 +1009,18 @@
             this.statusStrip2.Size = new System.Drawing.Size(1350, 22);
             this.statusStrip2.TabIndex = 79;
             this.statusStrip2.Text = "statusStrip2";
+            // 
+            // pbSubPartMappingStatus
+            // 
+            this.pbSubPartMappingStatus.ForeColor = System.Drawing.Color.Lime;
+            this.pbSubPartMappingStatus.Name = "pbSubPartMappingStatus";
+            this.pbSubPartMappingStatus.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblSubPartMappingStatus
+            // 
+            this.lblSubPartMappingStatus.Name = "lblSubPartMappingStatus";
+            this.lblSubPartMappingStatus.Size = new System.Drawing.Size(141, 17);
+            this.lblSubPartMappingStatus.Text = "lblSubPartMappingStatus";
             // 
             // lblSubPartMappingCount
             // 
@@ -1252,47 +1316,6 @@
             this.chkShowPartImages.Text = "Show Part Images";
             this.chkShowPartImages.UseVisualStyleBackColor = false;
             // 
-            // pbBasePartStatus
-            // 
-            this.pbBasePartStatus.ForeColor = System.Drawing.Color.Lime;
-            this.pbBasePartStatus.Name = "pbBasePartStatus";
-            this.pbBasePartStatus.Size = new System.Drawing.Size(100, 16);
-            // 
-            // lblBasePartStatus
-            // 
-            this.lblBasePartStatus.Name = "lblBasePartStatus";
-            this.lblBasePartStatus.Size = new System.Drawing.Size(97, 17);
-            this.lblBasePartStatus.Text = "lblBasePartStatus";
-            // 
-            // pbLDrawDetailsStatus
-            // 
-            this.pbLDrawDetailsStatus.ForeColor = System.Drawing.Color.Lime;
-            this.pbLDrawDetailsStatus.Name = "pbLDrawDetailsStatus";
-            this.pbLDrawDetailsStatus.Size = new System.Drawing.Size(100, 16);
-            // 
-            // lblLDrawDetailsStatus
-            // 
-            this.lblLDrawDetailsStatus.Name = "lblLDrawDetailsStatus";
-            this.lblLDrawDetailsStatus.Size = new System.Drawing.Size(120, 17);
-            this.lblLDrawDetailsStatus.Text = "lblLDrawDetailsStatus";
-            // 
-            // pbSubPartMappingStatus
-            // 
-            this.pbSubPartMappingStatus.ForeColor = System.Drawing.Color.Lime;
-            this.pbSubPartMappingStatus.Name = "pbSubPartMappingStatus";
-            this.pbSubPartMappingStatus.Size = new System.Drawing.Size(100, 16);
-            // 
-            // lblSubPartMappingStatus
-            // 
-            this.lblSubPartMappingStatus.Name = "lblSubPartMappingStatus";
-            this.lblSubPartMappingStatus.Size = new System.Drawing.Size(141, 17);
-            this.lblSubPartMappingStatus.Text = "lblSubPartMappingStatus";
-            // 
-            // toolStripSeparator13
-            // 
-            this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(6, 25);
-            // 
             // StaticDataScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1371,38 +1394,38 @@
         private System.Windows.Forms.ToolStripLabel lblLDrawRefAc;
         private System.Windows.Forms.ToolStripTextBox fldLDrawRefAc;
         private System.Windows.Forms.ToolStrip tsBasePartDetails;
-        private System.Windows.Forms.ToolStripLabel lblLDrawRef;
-        private System.Windows.Forms.ToolStripTextBox fldLDrawRef;
-        private System.Windows.Forms.ToolStripButton fldLDrawImage;
-        private System.Windows.Forms.ToolStripLabel lblLDrawDescription;
-        private System.Windows.Forms.ToolStripTextBox fldLDrawSize;
-        private System.Windows.Forms.ToolStripLabel lblLDrawSize;
-        private System.Windows.Forms.ToolStripButton btnPartClear;
+        private System.Windows.Forms.ToolStripLabel lblBasePartLDrawRef;
+        private System.Windows.Forms.ToolStripTextBox fldBasePartLDrawRef;
+        private System.Windows.Forms.ToolStripButton fldBasePartLDrawImage;
+        private System.Windows.Forms.ToolStripLabel lblBasePartLDrawDescription;
+        private System.Windows.Forms.ToolStripTextBox fldBasePartLDrawSize;
+        private System.Windows.Forms.ToolStripLabel lblBasePartLDrawSize;
+        private System.Windows.Forms.ToolStripButton btnBasePartClear;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton btnPartSave;
-        private System.Windows.Forms.ToolStripButton btnPartDelete;
+        private System.Windows.Forms.ToolStripButton btnBasePartSave;
+        private System.Windows.Forms.ToolStripButton btnBasePartDelete;
         private System.Windows.Forms.StatusStrip c;
         private System.Windows.Forms.ToolStripStatusLabel lblBasePartCount;
         private System.Windows.Forms.ToolStripStatusLabel lblBasePartSummaryItemFilteredCount;
         private System.Windows.Forms.DataGridView dgBasePartSummary;
-        private System.Windows.Forms.ToolStripTextBox fldLDrawDescription;
-        private System.Windows.Forms.CheckBox chkIsSubPart;
-        private System.Windows.Forms.ToolStripLabel lblOffsetX;
-        private System.Windows.Forms.ToolStripTextBox fldOffsetX;
-        private System.Windows.Forms.ToolStripLabel lblOffsetY;
-        private System.Windows.Forms.ToolStripTextBox fldOffsetY;
-        private System.Windows.Forms.ToolStripLabel lblOffsetZ;
-        private System.Windows.Forms.ToolStripTextBox fldOffsetZ;
+        private System.Windows.Forms.ToolStripTextBox fldBasePartLDrawDescription;
+        private System.Windows.Forms.CheckBox chkBasePartIsSubPart;
+        private System.Windows.Forms.ToolStripLabel lblBasePartOffsetX;
+        private System.Windows.Forms.ToolStripTextBox fldBasePartOffsetX;
+        private System.Windows.Forms.ToolStripLabel lblBasePartOffsetY;
+        private System.Windows.Forms.ToolStripTextBox fldBasePartOffsetY;
+        private System.Windows.Forms.ToolStripLabel lblBasePartOffsetZ;
+        private System.Windows.Forms.ToolStripTextBox fldBasePartOffsetZ;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
-        private System.Windows.Forms.CheckBox chkIsSticker;
-        private System.Windows.Forms.ToolStripLabel lblPartType;
-        private System.Windows.Forms.ToolStripComboBox fldPartType;
-        private System.Windows.Forms.ToolStripLabel lblLDrawPartType;
-        private System.Windows.Forms.ToolStripComboBox fldLDrawPartType;
+        private System.Windows.Forms.CheckBox chkBasePartIsSticker;
+        private System.Windows.Forms.ToolStripLabel lblBasePartPartType;
+        private System.Windows.Forms.ToolStripComboBox fldBasePartPartType;
+        private System.Windows.Forms.ToolStripLabel lblBasePartLDrawPartType;
+        private System.Windows.Forms.ToolStripComboBox fldBasePartLDrawPartType;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.ToolStripButton btnBasePartRefresh;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.CheckBox chkIsLargeModel;
+        private System.Windows.Forms.CheckBox chkBasePartIsLargeModel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton btnRefreshAll;
         private System.Windows.Forms.CheckBox chkShowPartImages;
@@ -1413,17 +1436,17 @@
         private System.Windows.Forms.ToolStripStatusLabel lblLDrawDetailsCount;
         private System.Windows.Forms.ToolStripStatusLabel lblLDrawDetailsSummaryItemFilteredCount;
         private System.Windows.Forms.ToolStrip tsLDrawDetailsDetails;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox2;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox3;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel5;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel6;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox2;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel9;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox7;
+        private System.Windows.Forms.ToolStripLabel lblLDrawDetailsLDrawRef;
+        private System.Windows.Forms.ToolStripTextBox fldLDrawDetailsLDrawRef;
+        private System.Windows.Forms.ToolStripButton fldLDrawDetailsLDrawImage;
+        private System.Windows.Forms.ToolStripLabel lblLDrawDetailsLDrawDescription;
+        private System.Windows.Forms.ToolStripTextBox fldLDrawDetailsLDrawDescription;
+        private System.Windows.Forms.ToolStripLabel lblLDrawDetailsPartType;
+        private System.Windows.Forms.ToolStripComboBox fldLDrawDetailsPartType;
+        private System.Windows.Forms.ToolStripLabel lblLDrawDetailsLDrawPartType;
+        private System.Windows.Forms.ToolStripComboBox fldLDrawDetailsLDrawPartType;
+        private System.Windows.Forms.ToolStripLabel lblLDrawDetailsSubPartCount;
+        private System.Windows.Forms.ToolStripTextBox fldLDrawDetailsSubPartCount;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
@@ -1437,8 +1460,8 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel4;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox4;
+        private System.Windows.Forms.ToolStripLabel lblLDrawDetailsLDrawRefList;
+        private System.Windows.Forms.ToolStripTextBox fldLDrawDetailsLDrawRefList;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.GroupBox gpSubPartMapping;
         private System.Windows.Forms.DataGridView dgSubPartMappingSummary;
@@ -1484,5 +1507,7 @@
         private System.Windows.Forms.ToolStripProgressBar pbSubPartMappingStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblSubPartMappingStatus;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel18;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox16;
     }
 }

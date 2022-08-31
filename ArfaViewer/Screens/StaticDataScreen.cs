@@ -68,37 +68,36 @@ namespace Generator
                 #region ** ADD BASEPART SUMMARY TOOLSTRIP ITEMS **
                 tsBasePartDetails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] 
                 {
-                    lblLDrawRef,
-                    fldLDrawRef,
-                    fldLDrawImage,
-                    lblLDrawDescription,
-                    fldLDrawDescription,
-                    lblLDrawSize,
-                    fldLDrawSize,
-                    lblPartType,
-                    fldPartType,
-                    lblLDrawPartType,
-                    fldLDrawPartType,
-                    new ToolStripControlHost(chkIsSubPart),
-                    new ToolStripControlHost(chkIsSticker),
-                    new ToolStripControlHost(chkIsLargeModel),
-                    lblOffsetX,
-                    fldOffsetX,
-                    lblOffsetY,
-                    fldOffsetY,
-                    lblOffsetZ,
-                    fldOffsetZ,
+                    lblBasePartLDrawRef,
+                    fldBasePartLDrawRef,
+                    fldBasePartLDrawImage,
+                    lblBasePartLDrawDescription,
+                    fldBasePartLDrawDescription,
+                    lblBasePartLDrawSize,
+                    fldBasePartLDrawSize,
+                    lblBasePartPartType,
+                    fldBasePartPartType,
+                    lblBasePartLDrawPartType,
+                    fldBasePartLDrawPartType,
+                    new ToolStripControlHost(chkBasePartIsSubPart),
+                    new ToolStripControlHost(chkBasePartIsSticker),
+                    new ToolStripControlHost(chkBasePartIsLargeModel),
+                    lblBasePartOffsetX,
+                    fldBasePartOffsetX,
+                    lblBasePartOffsetY,
+                    fldBasePartOffsetY,
+                    lblBasePartOffsetZ,
+                    fldBasePartOffsetZ,
                     toolStripSeparator15,                    
-                    btnPartClear,
+                    btnBasePartClear,
                     toolStripSeparator3,                    
-                    btnPartSave,
-                    btnPartDelete
+                    btnBasePartSave,
+                    btnBasePartDelete
                 });
                 #endregion
 
                 // ** Populate all PartType related dropdowns **
                 PopulatePartType_Dropdowns();
-
             }
             catch (Exception ex)
             {                
@@ -135,6 +134,26 @@ namespace Generator
             RefreshSubPartMapping();
         }
 
+        private void fldBasePartLDrawRef_Leave(object sender, EventArgs e)
+        {
+            fldBasePartLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { fldBasePartLDrawRef.Text });
+        }
+
+        private void fldLDrawDetailsLDrawRef_Leave(object sender, EventArgs e)
+        {
+            fldLDrawDetailsLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { fldLDrawDetailsLDrawRef.Text });
+        }
+
+        private void fldBasePartLDrawImage_Click(object sender, EventArgs e)
+        {
+            ShowPart(fldBasePartLDrawRef.Text, fldBasePartLDrawImage.Image);
+        }
+
+        private void fldLDrawDetailsLDrawImage_Click(object sender, EventArgs e)
+        {
+            ShowPart(fldLDrawDetailsLDrawRef.Text, fldLDrawDetailsLDrawImage.Image);
+        }
+
         #endregion
 
         private void PopulatePartType_Dropdowns()
@@ -142,13 +161,30 @@ namespace Generator
             List<BasePart.PartType> PartTypeList = Enum.GetValues(typeof(BasePart.PartType)).Cast<BasePart.PartType>().ToList();
             List<BasePart.LDrawPartType> LDrawPartTypeList = Enum.GetValues(typeof(BasePart.LDrawPartType)).Cast<BasePart.LDrawPartType>().ToList();
 
-            fldPartType.Items.Clear();
-            fldPartType.Text = "";
-            foreach (var value in PartTypeList) fldPartType.Items.Add(value);
-            fldLDrawPartType.Items.Clear();
-            fldLDrawPartType.Text = "";
-            foreach (var value in LDrawPartTypeList) fldLDrawPartType.Items.Add(value);
+            fldBasePartPartType.Items.Clear();
+            fldBasePartPartType.Text = "";
+            foreach (var value in PartTypeList) fldBasePartPartType.Items.Add(value);
+            fldBasePartLDrawPartType.Items.Clear();
+            fldBasePartLDrawPartType.Text = "";
+            foreach (var value in LDrawPartTypeList) fldBasePartLDrawPartType.Items.Add(value);
 
+        }
+
+        private void ShowPart(string LDrawRef, Image Image)
+        {
+            try
+            {
+                if (LDrawRef != "" && Image != null)
+                {
+                    PartViewer.image = (Bitmap)Image;
+                    PartViewer form = new PartViewer();
+                    form.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         #region ** REFRESH BASEPART FUNCTIONS **
@@ -610,10 +646,107 @@ namespace Generator
             }
         }
 
-        
+
+
 
         #endregion
 
+       
 
+
+
+
+        #region ** CELL CLICK FUNCTIONS **
+
+        private void dgBasePartSummary_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 0)
+                {                    
+                    var obj = dgBasePartSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    if(obj != DBNull.Value)
+                    {
+                        Bitmap image = (Bitmap)dgBasePartSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                        PartViewer.image = image;
+                        PartViewer form = new PartViewer();
+                        form.Visible = true;
+                    }
+                }
+                else
+                {
+                    // Get Set_Details for Set Ref              
+                    string LDrawRef = dgBasePartSummary.Rows[e.RowIndex].Cells["LDraw Ref"].Value.ToString();
+                    BasePart bp = StaticData.GetBasePart(LDrawRef);
+
+                    // ** Post data to form **
+                    fldBasePartLDrawRef.Text = bp.LDrawRef;
+                    fldBasePartLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { LDrawRef });
+                    fldBasePartLDrawDescription.Text = bp.LDrawDescription;                    
+                    fldBasePartLDrawSize.Text = "";
+                    if (bp.LDrawSize > 0) fldBasePartLDrawSize.Text = bp.LDrawSize.ToString();
+                    fldBasePartPartType.Text = bp.partType.ToString();
+                    fldBasePartLDrawPartType.Text = bp.lDrawPartType.ToString();
+                    chkBasePartIsSubPart.Checked = bp.IsSubPart;
+                    chkBasePartIsSticker.Checked = bp.IsSticker;
+                    chkBasePartIsLargeModel.Checked = bp.IsLargeModel;
+                    fldBasePartOffsetX.Text = bp.OffsetX.ToString();
+                    fldBasePartOffsetY.Text = bp.OffsetY.ToString();
+                    fldBasePartOffsetZ.Text = bp.OffsetZ.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
+            }
+        }
+
+        private void dgLDrawDetailsSummary_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 0)
+                {
+                    var obj = dgLDrawDetailsSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    if (obj != DBNull.Value)
+                    {
+                        Bitmap image = (Bitmap)obj;
+                        PartViewer.image = image;
+                        PartViewer form = new PartViewer();
+                        form.Visible = true;
+                    }
+                }
+                else
+                {
+                    // Get LDrawDetails for LDraw Ref              
+                    string LDrawRef = dgLDrawDetailsSummary.Rows[e.RowIndex].Cells["LDraw Ref"].Value.ToString();
+                    LDrawDetails ldd = StaticData.GetLDrawDetails(LDrawRef);
+
+                    // ** Post data to form **
+                    fldLDrawDetailsLDrawRef.Text = ldd.LDrawRef;
+                    fldLDrawDetailsLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { LDrawRef });
+                    fldLDrawDetailsLDrawDescription.Text = ldd.LDrawDescription;
+                    fldLDrawDetailsPartType.Text = ldd.PartType.ToString();
+                    fldLDrawDetailsLDrawPartType.Text = ldd.LDrawPartType.ToString();
+                    fldLDrawDetailsSubPartCount.Text = ldd.SubPartCount.ToString();
+                    fldLDrawDetailsLDrawRefList.Text = String.Join(",", ldd.SubPartLDrawRefList);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
+            }
+        }
+
+
+        // SUB PART MAPPING
+
+
+
+
+
+        #endregion
+
+       
     }
 }

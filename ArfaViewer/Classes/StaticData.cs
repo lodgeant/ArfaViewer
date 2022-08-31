@@ -357,6 +357,14 @@ namespace Generator
             return coll;
         }
 
+        public static BasePart GetBasePart(string LDrawRef)
+        {
+            BasePart item = null;
+            BasePartCollection coll = GetBasePartData_UsingLDrawRefList(new List<string>() { LDrawRef });
+            if (coll.BasePartList.Count > 0) item = coll.BasePartList[0];
+            return item;
+        }
+
         public static string GetLDrawDescription(string LDrawRef)
         {
             string url = Global_Variables.APIUrl2 + "BasePart/GetLDrawDescription_UsingLDrawRef?LDrawRef=" + LDrawRef;
