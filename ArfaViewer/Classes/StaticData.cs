@@ -207,6 +207,14 @@ namespace Generator
             return ldd;
         }
 
+        public static LDrawDetailsCollection GetLDrawDetailsData_All()
+        {
+            string url = Global_Variables.APIUrl2 + "LDrawDetails/GetLDrawDetailsData_All";
+            string JSONString = GetJSONResponseFromURL(url);
+            LDrawDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<LDrawDetailsCollection>(JSONString);
+            return coll;
+        }
+
         public static void AddLDrawDetails(LDrawDetails ldd)
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(ldd);
@@ -341,6 +349,14 @@ namespace Generator
             return coll;
         }
 
+        public static BasePartCollection GetBasePartData_All()
+        {
+            string url = Global_Variables.APIUrl2 + "BasePart/GetBasePartData_All";
+            string JSONString = GetJSONResponseFromURL(url);
+            BasePartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<BasePartCollection>(JSONString);
+            return coll;
+        }
+
         public static string GetLDrawDescription(string LDrawRef)
         {
             string url = Global_Variables.APIUrl2 + "BasePart/GetLDrawDescription_UsingLDrawRef?LDrawRef=" + LDrawRef;
@@ -383,6 +399,14 @@ namespace Generator
         public static SubPartMappingCollection GetSubPartMappingData_UsingParentLDrawRefList(string ParentLDrawRef)
         {
             string url = Global_Variables.APIUrl2 + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRefList?ParentLDrawRef=" + ParentLDrawRef;
+            string JSONString = GetJSONResponseFromURL(url);
+            SubPartMappingCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SubPartMappingCollection>(JSONString);
+            return coll;
+        }
+
+        public static SubPartMappingCollection GetSubPartMappingData_All()
+        {
+            string url = Global_Variables.APIUrl2 + "SubPartMapping/GetSubPartMappingData_All";
             string JSONString = GetJSONResponseFromURL(url);
             SubPartMappingCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SubPartMappingCollection>(JSONString);
             return coll;

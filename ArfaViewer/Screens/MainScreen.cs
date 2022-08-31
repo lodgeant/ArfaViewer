@@ -159,6 +159,12 @@ namespace Generator
             GenerateMiniFigLDrawFiles();
         }
 
+        private void btnShowStaticDataScreen_Click(object sender, EventArgs e)
+        {
+            StaticDataScreen form = new StaticDataScreen();
+            form.Visible = true;
+        }
+
         #endregion
 
         private void UploadImage()
@@ -821,7 +827,7 @@ namespace Generator
         //    }
         //}
 
-        private async Task UpdateLDrawStaticDataDetails_NEW()
+        private void UpdateLDrawStaticDataDetails_NEW()
         {
             // FUNCTION BELOW STILL NEEDS TO BE FINISHED
             //try
@@ -1422,8 +1428,7 @@ namespace Generator
 
                     string correctLine = lines[index + 6];
 
-                    string test = "";
-
+                    
 
                     
                 }
@@ -1437,9 +1442,6 @@ namespace Generator
             }
         }
 
-        
-        
-
-
+       
     }
 }

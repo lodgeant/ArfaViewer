@@ -2237,7 +2237,7 @@ namespace Generator
                 }
                 return partListTable;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //MessageBox.Show(ex.Message);
                 //MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
@@ -5019,7 +5019,7 @@ namespace Generator
                 //currentSetXml.Load(setfileLocation);
 
                 // ** LOAD Set XML into Object - NEW **
-                string setRef = "TEST-1";
+                //string setRef = "TEST-1";
                 ////CloudBlockBlob blob = blobClient.GetContainerReference("set-xmls").GetBlockBlobReference(setRef + ".xml");
                 //BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(setRef + ".xml");
                 //if (blob.Exists() == false)

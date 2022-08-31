@@ -50,7 +50,10 @@ namespace Generator
                 // [2] If image is NOT in local cache, check whether image is available on Azure storage. If the image is NOT in Azure storage either, the image will be downloaded from a 3rd party url.
                 //image = StaticData.GetImage(imageType, _params);
                 image = GetImageDetails(imageType, _params);
-                if (image != null) Global_Variables.ImageDict[imageType].Add(itemRef, image);                
+                if (image != null && Global_Variables.ImageDict[imageType].Keys.Contains(itemRef) == false)
+                {
+                    Global_Variables.ImageDict[imageType].Add(itemRef, image);
+                }
             }
             return image;
         }

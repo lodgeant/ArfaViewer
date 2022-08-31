@@ -95,5 +95,43 @@ namespace BaseClasses
             return sb.ToString();
         }
 
+
+        public static DataTable GetDatatableFromBasePartCollection(BasePartCollection coll)
+        {
+            DataTable table = new DataTable("","");
+            table.Columns.Add("LDraw Ref", typeof(string));
+            table.Columns.Add("LDraw Description", typeof(string));
+            table.Columns.Add("LDraw Size", typeof(int));
+            table.Columns.Add("Part Type", typeof(string));
+            table.Columns.Add("LDraw Part Type", typeof(string));
+            table.Columns.Add("Is Sub Part", typeof(bool));
+            table.Columns.Add("Is Sticker", typeof(bool));
+            table.Columns.Add("Is Large Model", typeof(bool));
+            table.Columns.Add("OffsetX", typeof(float));
+            table.Columns.Add("OffsetY", typeof(float));
+            table.Columns.Add("OffsetZ", typeof(float));
+            table.Columns.Add("Sub Part Count", typeof(int));
+            foreach (BasePart bp in coll.BasePartList)
+            {
+                DataRow newRow = table.NewRow();
+                newRow["LDraw Ref"] = bp.LDrawRef;
+                newRow["LDraw Description"] = bp.LDrawDescription;
+                newRow["LDraw Size"] = bp.LDrawSize;
+                newRow["Part Type"] = bp.partType;
+                newRow["LDraw Part Type"] = bp.lDrawPartType;
+                newRow["Is Sub Part"] = bp.IsSubPart;
+                newRow["Is Sticker"] = bp.IsSticker;
+                newRow["Is Large Model"] = bp.IsLargeModel;
+                newRow["OffsetX"] = bp.OffsetX;
+                newRow["OffsetY"] = bp.OffsetY;
+                newRow["OffsetZ"] = bp.OffsetZ;
+                newRow["Sub Part Count"] = bp.SubPartCount;
+                table.Rows.Add(newRow);
+            }
+            return table;
+        }
+
+
+
     }
 }

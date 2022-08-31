@@ -99,6 +99,35 @@ namespace BaseClasses
             return sb.ToString();
         }
 
+
+
+        public static DataTable GetDatatableFromLDrawDetailsCollection(LDrawDetailsCollection coll)
+        {
+            DataTable table = new DataTable("", "");
+            table.Columns.Add("LDraw Ref", typeof(string));
+            table.Columns.Add("LDraw Description", typeof(string));
+            table.Columns.Add("Part Type", typeof(string));
+            table.Columns.Add("LDraw Part Type", typeof(string));            
+            table.Columns.Add("Sub Part Count", typeof(int));
+            table.Columns.Add("Sub Part Ref List", typeof(string));
+            //table.Columns.Add("Data", typeof(string));
+            foreach (LDrawDetails item in coll.LDrawDetailsList)
+            {
+                DataRow newRow = table.NewRow();
+                newRow["LDraw Ref"] = item.LDrawRef;
+                newRow["LDraw Description"] = item.LDrawDescription;
+                newRow["Part Type"] = item.PartType;
+                newRow["LDraw Part Type"] = item.LDrawPartType;                
+                newRow["Sub Part Count"] = item.SubPartCount;
+                newRow["Sub Part Ref List"] = String.Join(",", item.SubPartLDrawRefList);
+                //newRow["Data"] = item.Data;
+                table.Rows.Add(newRow);
+            }
+            return table;
+        }
+
+
+
     }
 
 

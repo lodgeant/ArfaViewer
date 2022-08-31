@@ -54,6 +54,7 @@
             this.btnShowSetDetailsScreen = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.fldImageType = new System.Windows.Forms.ComboBox();
+            this.btnShowStaticDataScreen = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -111,7 +112,7 @@
             this.statusStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pbStatus,
             this.lblStatus});
-            this.statusStrip2.Location = new System.Drawing.Point(0, 241);
+            this.statusStrip2.Location = new System.Drawing.Point(0, 301);
             this.statusStrip2.Name = "statusStrip2";
             this.statusStrip2.Size = new System.Drawing.Size(883, 22);
             this.statusStrip2.TabIndex = 36;
@@ -299,11 +300,22 @@
             this.fldImageType.Size = new System.Drawing.Size(121, 21);
             this.fldImageType.TabIndex = 43;
             // 
+            // btnShowStaticDataScreen
+            // 
+            this.btnShowStaticDataScreen.Location = new System.Drawing.Point(12, 229);
+            this.btnShowStaticDataScreen.Name = "btnShowStaticDataScreen";
+            this.btnShowStaticDataScreen.Size = new System.Drawing.Size(102, 57);
+            this.btnShowStaticDataScreen.TabIndex = 64;
+            this.btnShowStaticDataScreen.Text = "Static Data Screen";
+            this.btnShowStaticDataScreen.UseVisualStyleBackColor = false;
+            this.btnShowStaticDataScreen.Click += new System.EventHandler(this.btnShowStaticDataScreen_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(883, 263);
+            this.ClientSize = new System.Drawing.Size(883, 323);
+            this.Controls.Add(this.btnShowStaticDataScreen);
             this.Controls.Add(this.fldImageType);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnShowSetDetailsScreen);
@@ -362,5 +374,6 @@
         private System.Windows.Forms.Button btnShowSetDetailsScreen;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox fldImageType;
+        private System.Windows.Forms.Button btnShowStaticDataScreen;
     }
 }
