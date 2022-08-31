@@ -420,6 +420,21 @@ namespace Generator
             return coll;
         }
 
+
+        public static SubPartMapping GetSubPartMapping(string ParentLDrawRef, string SubPartLDrawRef)
+        {
+            SubPartMapping item = null;
+            string url = Global_Variables.APIUrl2 + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRefAndSubPartLDrawRef?ParentLDrawRef=" + ParentLDrawRef + "&SubPartLDrawRef=" + SubPartLDrawRef;
+            string JSONString = GetJSONResponseFromURL(url);
+            SubPartMappingCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SubPartMappingCollection>(JSONString);
+            if (coll.SubPartMappingList.Count > 0) item = coll.SubPartMappingList[0];
+            return item;
+        }
+
+
+
+
+
         public static bool CheckIfSubPartMappingPartsExist(string LDrawRef)
         {
             string url = Global_Variables.APIUrl2 + "SubPartMapping/CheckIfSubPartMappingPartsExist?ParentLDrawRef=" + LDrawRef;

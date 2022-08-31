@@ -12,11 +12,16 @@ using System.Runtime.Serialization.Json;
 using System.Xml.Linq;
 using System.Xml;
 using BaseClasses;
+using ScintillaNET;
 
 namespace Generator
 {
     public partial class StaticDataScreen : Form
     {
+        private Scintilla LDrawDetailsData;
+        private Scintilla SubPartMappingData;
+
+
         public StaticDataScreen()
         {
             InitializeComponent();
@@ -96,6 +101,10 @@ namespace Generator
                 });
                 #endregion
 
+                // ** Set up Scintilla **
+                SetupScintilla_LDrawDetailsData();
+                SetupScintilla_SubPartMappingData();
+
                 // ** Populate all PartType related dropdowns **
                 PopulatePartType_Dropdowns();
             }
@@ -152,6 +161,104 @@ namespace Generator
         private void fldLDrawDetailsLDrawImage_Click(object sender, EventArgs e)
         {
             ShowPart(fldLDrawDetailsLDrawRef.Text, fldLDrawDetailsLDrawImage.Image);
+        }
+
+        #endregion
+
+        #region ** SCINTILLA FUNCTIONS **
+
+        private const int NUMBER_MARGIN = 1;
+        private const int FOLDING_MARGIN = 3;
+        private const bool CODEFOLDING_CURCULAR = false;
+
+        private void SetupScintilla_LDrawDetailsData()
+        {
+            try
+            {
+                // ** Initialise Scintilla Control Surface **
+                LDrawDetailsData = new ScintillaNET.Scintilla();
+                pnlLDrawDetailsData.Controls.Add(LDrawDetailsData);
+                LDrawDetailsData.Dock = System.Windows.Forms.DockStyle.Fill;
+                LDrawDetailsData.WrapMode = WrapMode.None;
+                LDrawDetailsData.IndentationGuides = IndentView.LookBoth;
+
+                // Configuring the default style with properties **
+                LDrawDetailsData.StyleResetDefault();
+                LDrawDetailsData.Styles[Style.Default].Font = "Consolas";
+                LDrawDetailsData.Styles[Style.Default].Size = 8;
+                LDrawDetailsData.Styles[Style.Default].BackColor = Color.Black;
+                LDrawDetailsData.Styles[Style.Default].ForeColor = Color.White;
+
+                // ** Number Margin **
+                LDrawDetailsData.Styles[Style.LineNumber].ForeColor = Color.White;
+                LDrawDetailsData.Styles[Style.LineNumber].BackColor = Color.Black;
+                LDrawDetailsData.Styles[Style.IndentGuide].ForeColor = Color.White;
+                LDrawDetailsData.Styles[Style.IndentGuide].BackColor = Color.Black;
+                var nums = LDrawDetailsData.Margins[NUMBER_MARGIN];
+                nums.Width = 30;
+                nums.Type = MarginType.Number;
+                nums.Sensitive = true;
+                nums.Mask = 0;
+
+                // ** UPDATE LEXER TO XML **
+                LDrawDetailsData.Lexer = Lexer.Xml;
+                LDrawDetailsData.StyleClearAll();
+
+                // ** Configure the CPP Lexer styles **
+                LDrawDetailsData.Styles[Style.Xml.Comment].ForeColor = Color.Gray;
+                LDrawDetailsData.Styles[Style.Xml.Tag].ForeColor = Color.White;
+                LDrawDetailsData.Styles[Style.Xml.Attribute].ForeColor = Color.Red;
+                LDrawDetailsData.Styles[Style.Xml.DoubleString].ForeColor = Color.Yellow;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void SetupScintilla_SubPartMappingData()
+        {
+            try
+            {
+                // ** Initialise Scintilla Control Surface **
+                SubPartMappingData = new ScintillaNET.Scintilla();
+                pnlSubPartMappingData.Controls.Add(SubPartMappingData);
+                SubPartMappingData.Dock = System.Windows.Forms.DockStyle.Fill;
+                SubPartMappingData.WrapMode = WrapMode.None;
+                SubPartMappingData.IndentationGuides = IndentView.LookBoth;
+
+                // Configuring the default style with properties **
+                SubPartMappingData.StyleResetDefault();
+                SubPartMappingData.Styles[Style.Default].Font = "Consolas";
+                SubPartMappingData.Styles[Style.Default].Size = 8;
+                SubPartMappingData.Styles[Style.Default].BackColor = Color.Black;
+                SubPartMappingData.Styles[Style.Default].ForeColor = Color.White;
+
+                // ** Number Margin **
+                SubPartMappingData.Styles[Style.LineNumber].ForeColor = Color.White;
+                SubPartMappingData.Styles[Style.LineNumber].BackColor = Color.Black;
+                SubPartMappingData.Styles[Style.IndentGuide].ForeColor = Color.White;
+                SubPartMappingData.Styles[Style.IndentGuide].BackColor = Color.Black;
+                var nums = SubPartMappingData.Margins[NUMBER_MARGIN];
+                nums.Width = 30;
+                nums.Type = MarginType.Number;
+                nums.Sensitive = true;
+                nums.Mask = 0;
+
+                // ** UPDATE LEXER TO XML **
+                SubPartMappingData.Lexer = Lexer.Xml;
+                SubPartMappingData.StyleClearAll();
+
+                // ** Configure the CPP Lexer styles **
+                SubPartMappingData.Styles[Style.Xml.Comment].ForeColor = Color.Gray;
+                SubPartMappingData.Styles[Style.Xml.Tag].ForeColor = Color.White;
+                SubPartMappingData.Styles[Style.Xml.Attribute].ForeColor = Color.Red;
+                SubPartMappingData.Styles[Style.Xml.DoubleString].ForeColor = Color.Yellow;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         #endregion
@@ -367,6 +474,7 @@ namespace Generator
                 dgLDrawDetailsSummary.DataSource = null;
                 lblLDrawDetailsCount.Text = "";
                 lblLDrawDetailsSummaryItemFilteredCount.Text = "";
+                LDrawDetailsData.Text = "";
 
                 // ** Run background to process functions **
                 bw_RefreshLDrawDetails = new BackgroundWorker
@@ -516,6 +624,7 @@ namespace Generator
                 dgSubPartMappingSummary.DataSource = null;
                 lblSubPartMappingCount.Text = "";
                 lblSubPartMappingSummaryItemFilteredCount.Text = "";
+                SubPartMappingData.Text = "";
 
                 // ** Run background to process functions **
                 bw_RefreshSubPartMapping = new BackgroundWorker
@@ -651,11 +760,6 @@ namespace Generator
 
         #endregion
 
-       
-
-
-
-
         #region ** CELL CLICK FUNCTIONS **
 
         private void dgBasePartSummary_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -720,16 +824,17 @@ namespace Generator
                 {
                     // Get LDrawDetails for LDraw Ref              
                     string LDrawRef = dgLDrawDetailsSummary.Rows[e.RowIndex].Cells["LDraw Ref"].Value.ToString();
-                    LDrawDetails ldd = StaticData.GetLDrawDetails(LDrawRef);
+                    LDrawDetails item = StaticData.GetLDrawDetails(LDrawRef);
 
                     // ** Post data to form **
-                    fldLDrawDetailsLDrawRef.Text = ldd.LDrawRef;
+                    fldLDrawDetailsLDrawRef.Text = item.LDrawRef;
                     fldLDrawDetailsLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { LDrawRef });
-                    fldLDrawDetailsLDrawDescription.Text = ldd.LDrawDescription;
-                    fldLDrawDetailsPartType.Text = ldd.PartType.ToString();
-                    fldLDrawDetailsLDrawPartType.Text = ldd.LDrawPartType.ToString();
-                    fldLDrawDetailsSubPartCount.Text = ldd.SubPartCount.ToString();
-                    fldLDrawDetailsLDrawRefList.Text = String.Join(",", ldd.SubPartLDrawRefList);
+                    fldLDrawDetailsLDrawDescription.Text = item.LDrawDescription;
+                    fldLDrawDetailsPartType.Text = item.PartType.ToString();
+                    fldLDrawDetailsLDrawPartType.Text = item.LDrawPartType.ToString();
+                    fldLDrawDetailsSubPartCount.Text = item.SubPartCount.ToString();
+                    fldLDrawDetailsLDrawRefList.Text = String.Join(",", item.SubPartLDrawRefList);
+                    LDrawDetailsData.Text = item.Data;
                 }
             }
             catch (Exception ex)
@@ -738,15 +843,52 @@ namespace Generator
             }
         }
 
+        private void dgSubPartMappingSummary_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 0)
+                {
+                    var obj = dgSubPartMappingSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    if (obj != DBNull.Value)
+                    {
+                        Bitmap image = (Bitmap)obj;
+                        PartViewer.image = image;
+                        PartViewer form = new PartViewer();
+                        form.Visible = true;
+                    }
+                }
+                else
+                {
+                    // Get SubPartMapping for Parent LDraw Ref & Sub Part LDraw Ref **
+                    string ParentLDrawRef = dgSubPartMappingSummary.Rows[e.RowIndex].Cells["Parent LDraw Ref"].Value.ToString();
+                    string SubPartLDrawRef = dgSubPartMappingSummary.Rows[e.RowIndex].Cells["Sub Part LDraw Ref"].Value.ToString();
+                    SubPartMapping spm = StaticData.GetSubPartMapping(ParentLDrawRef, SubPartLDrawRef);
+                    LDrawDetails ldd = StaticData.GetLDrawDetails(SubPartLDrawRef);
 
-        // SUB PART MAPPING
-
-
-
-
+                    // ** Post data to form **
+                    fldSubPartMappingParentLDrawRef.Text = spm.ParentLDrawRef;
+                    fldSubPartMappingParentLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { ParentLDrawRef });
+                    fldSubPartMappingSubPartLDrawRef.Text = spm.SubPartLDrawRef;
+                    fldSubPartMappingSubPartLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { SubPartLDrawRef });
+                    fldSubPartMappingSubPartLDrawColourID.Text = spm.LDrawColourID.ToString();
+                    fldSubPartMappingPosX.Text = spm.PosX.ToString();
+                    fldSubPartMappingPosY.Text = spm.PosY.ToString();
+                    fldSubPartMappingPosZ.Text = spm.PosZ.ToString();
+                    fldSubPartMappingRotX.Text = spm.RotX.ToString();
+                    fldSubPartMappingRotY.Text = spm.RotY.ToString();
+                    fldSubPartMappingRotZ.Text = spm.RotZ.ToString();
+                    SubPartMappingData.Text = ldd.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
+            }
+        }
 
         #endregion
 
-       
+
     }
 }

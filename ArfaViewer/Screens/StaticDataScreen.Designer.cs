@@ -116,6 +116,7 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.pnlLDrawDetailsData = new System.Windows.Forms.Panel();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.gpSubPartMapping = new System.Windows.Forms.GroupBox();
             this.dgSubPartMappingSummary = new System.Windows.Forms.DataGridView();
@@ -125,24 +126,24 @@
             this.lblSubPartMappingCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblSubPartMappingSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip5 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel8 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox6 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel10 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox8 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel11 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox11 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel13 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox9 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel17 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox15 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel16 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox14 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel15 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox13 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel14 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox12 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel12 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox10 = new System.Windows.Forms.ToolStripTextBox();
+            this.lblSubPartMappingParentLDrawRef = new System.Windows.Forms.ToolStripLabel();
+            this.fldSubPartMappingParentLDrawRef = new System.Windows.Forms.ToolStripTextBox();
+            this.lblSubPartMappingSubPartLDrawRef = new System.Windows.Forms.ToolStripLabel();
+            this.fldSubPartMappingSubPartLDrawRef = new System.Windows.Forms.ToolStripTextBox();
+            this.lblSubPartMappingSubPartLDrawColourID = new System.Windows.Forms.ToolStripLabel();
+            this.fldSubPartMappingSubPartLDrawColourID = new System.Windows.Forms.ToolStripTextBox();
+            this.lblSubPartMappingPosX = new System.Windows.Forms.ToolStripLabel();
+            this.fldSubPartMappingPosX = new System.Windows.Forms.ToolStripTextBox();
+            this.lblSubPartMappingPosY = new System.Windows.Forms.ToolStripLabel();
+            this.fldSubPartMappingPosY = new System.Windows.Forms.ToolStripTextBox();
+            this.lblSubPartMappingPosZ = new System.Windows.Forms.ToolStripLabel();
+            this.fldSubPartMappingPosZ = new System.Windows.Forms.ToolStripTextBox();
+            this.lblSubPartMappingRotX = new System.Windows.Forms.ToolStripLabel();
+            this.fldSubPartMappingRotX = new System.Windows.Forms.ToolStripTextBox();
+            this.lblSubPartMappingRotY = new System.Windows.Forms.ToolStripLabel();
+            this.fldSubPartMappingRotY = new System.Windows.Forms.ToolStripTextBox();
+            this.lblSubPartMappingRotZ = new System.Windows.Forms.ToolStripLabel();
+            this.fldSubPartMappingRotZ = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
@@ -156,8 +157,11 @@
             this.toolStripLabel7 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox5 = new System.Windows.Forms.ToolStripTextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.pnlSubPartMappingData = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.chkShowPartImages = new System.Windows.Forms.CheckBox();
+            this.fldSubPartMappingParentLDrawImage = new System.Windows.Forms.ToolStripButton();
+            this.fldSubPartMappingSubPartLDrawImage = new System.Windows.Forms.ToolStripButton();
             this.tsHeader.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -183,6 +187,7 @@
             this.statusStrip1.SuspendLayout();
             this.tsLDrawDetailsDetails.SuspendLayout();
             this.tsLDrawDetailsSummary.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
@@ -192,6 +197,7 @@
             this.statusStrip2.SuspendLayout();
             this.toolStrip5.SuspendLayout();
             this.toolStrip4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tsHeader
@@ -947,7 +953,7 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.BackColor = System.Drawing.Color.Pink;
+            this.groupBox4.Controls.Add(this.pnlLDrawDetailsData);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox4.Location = new System.Drawing.Point(0, 0);
             this.groupBox4.Name = "groupBox4";
@@ -955,6 +961,14 @@
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Data";
+            // 
+            // pnlLDrawDetailsData
+            // 
+            this.pnlLDrawDetailsData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlLDrawDetailsData.Location = new System.Drawing.Point(3, 16);
+            this.pnlLDrawDetailsData.Name = "pnlLDrawDetailsData";
+            this.pnlLDrawDetailsData.Size = new System.Drawing.Size(381, 184);
+            this.pnlLDrawDetailsData.TabIndex = 0;
             // 
             // splitContainer4
             // 
@@ -970,7 +984,7 @@
             // 
             this.splitContainer4.Panel2.Controls.Add(this.groupBox5);
             this.splitContainer4.Size = new System.Drawing.Size(1748, 169);
-            this.splitContainer4.SplitterDistance = 1356;
+            this.splitContainer4.SplitterDistance = 1119;
             this.splitContainer4.TabIndex = 2;
             // 
             // gpSubPartMapping
@@ -982,7 +996,7 @@
             this.gpSubPartMapping.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpSubPartMapping.Location = new System.Drawing.Point(0, 0);
             this.gpSubPartMapping.Name = "gpSubPartMapping";
-            this.gpSubPartMapping.Size = new System.Drawing.Size(1356, 169);
+            this.gpSubPartMapping.Size = new System.Drawing.Size(1119, 169);
             this.gpSubPartMapping.TabIndex = 2;
             this.gpSubPartMapping.TabStop = false;
             this.gpSubPartMapping.Text = "Sub Part Mapping";
@@ -994,8 +1008,9 @@
             this.dgSubPartMappingSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgSubPartMappingSummary.Location = new System.Drawing.Point(3, 41);
             this.dgSubPartMappingSummary.Name = "dgSubPartMappingSummary";
-            this.dgSubPartMappingSummary.Size = new System.Drawing.Size(1350, 78);
+            this.dgSubPartMappingSummary.Size = new System.Drawing.Size(1113, 78);
             this.dgSubPartMappingSummary.TabIndex = 80;
+            this.dgSubPartMappingSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSubPartMappingSummary_CellClick);
             // 
             // statusStrip2
             // 
@@ -1006,7 +1021,7 @@
             this.lblSubPartMappingSummaryItemFilteredCount});
             this.statusStrip2.Location = new System.Drawing.Point(3, 119);
             this.statusStrip2.Name = "statusStrip2";
-            this.statusStrip2.Size = new System.Drawing.Size(1350, 22);
+            this.statusStrip2.Size = new System.Drawing.Size(1113, 22);
             this.statusStrip2.TabIndex = 79;
             this.statusStrip2.Text = "statusStrip2";
             // 
@@ -1040,24 +1055,26 @@
             // 
             this.toolStrip5.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel8,
-            this.toolStripTextBox6,
-            this.toolStripLabel10,
-            this.toolStripTextBox8,
-            this.toolStripLabel11,
-            this.toolStripTextBox11,
-            this.toolStripLabel13,
-            this.toolStripTextBox9,
-            this.toolStripLabel17,
-            this.toolStripTextBox15,
-            this.toolStripLabel16,
-            this.toolStripTextBox14,
-            this.toolStripLabel15,
-            this.toolStripTextBox13,
-            this.toolStripLabel14,
-            this.toolStripTextBox12,
-            this.toolStripLabel12,
-            this.toolStripTextBox10,
+            this.lblSubPartMappingParentLDrawRef,
+            this.fldSubPartMappingParentLDrawRef,
+            this.fldSubPartMappingParentLDrawImage,
+            this.lblSubPartMappingSubPartLDrawRef,
+            this.fldSubPartMappingSubPartLDrawRef,
+            this.fldSubPartMappingSubPartLDrawImage,
+            this.lblSubPartMappingSubPartLDrawColourID,
+            this.fldSubPartMappingSubPartLDrawColourID,
+            this.lblSubPartMappingPosX,
+            this.fldSubPartMappingPosX,
+            this.lblSubPartMappingPosY,
+            this.fldSubPartMappingPosY,
+            this.lblSubPartMappingPosZ,
+            this.fldSubPartMappingPosZ,
+            this.lblSubPartMappingRotX,
+            this.fldSubPartMappingRotX,
+            this.lblSubPartMappingRotY,
+            this.fldSubPartMappingRotY,
+            this.lblSubPartMappingRotZ,
+            this.fldSubPartMappingRotZ,
             this.toolStripSeparator11,
             this.toolStripButton10,
             this.toolStripSeparator12,
@@ -1065,132 +1082,132 @@
             this.toolStripButton12});
             this.toolStrip5.Location = new System.Drawing.Point(3, 141);
             this.toolStrip5.Name = "toolStrip5";
-            this.toolStrip5.Size = new System.Drawing.Size(1350, 25);
+            this.toolStrip5.Size = new System.Drawing.Size(1113, 25);
             this.toolStrip5.TabIndex = 78;
             this.toolStrip5.Text = "toolStrip5";
             // 
-            // toolStripLabel8
+            // lblSubPartMappingParentLDrawRef
             // 
-            this.toolStripLabel8.Name = "toolStripLabel8";
-            this.toolStripLabel8.Size = new System.Drawing.Size(100, 22);
-            this.toolStripLabel8.Text = "Parent LDraw Ref:";
+            this.lblSubPartMappingParentLDrawRef.Name = "lblSubPartMappingParentLDrawRef";
+            this.lblSubPartMappingParentLDrawRef.Size = new System.Drawing.Size(100, 22);
+            this.lblSubPartMappingParentLDrawRef.Text = "Parent LDraw Ref:";
             // 
-            // toolStripTextBox6
+            // fldSubPartMappingParentLDrawRef
             // 
-            this.toolStripTextBox6.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripTextBox6.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox6.Name = "toolStripTextBox6";
-            this.toolStripTextBox6.Size = new System.Drawing.Size(100, 25);
+            this.fldSubPartMappingParentLDrawRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingParentLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldSubPartMappingParentLDrawRef.Name = "fldSubPartMappingParentLDrawRef";
+            this.fldSubPartMappingParentLDrawRef.Size = new System.Drawing.Size(100, 25);
             // 
-            // toolStripLabel10
+            // lblSubPartMappingSubPartLDrawRef
             // 
-            this.toolStripLabel10.Name = "toolStripLabel10";
-            this.toolStripLabel10.Size = new System.Drawing.Size(110, 22);
-            this.toolStripLabel10.Text = "Sub Part LDraw Ref:";
+            this.lblSubPartMappingSubPartLDrawRef.Name = "lblSubPartMappingSubPartLDrawRef";
+            this.lblSubPartMappingSubPartLDrawRef.Size = new System.Drawing.Size(110, 22);
+            this.lblSubPartMappingSubPartLDrawRef.Text = "Sub Part LDraw Ref:";
             // 
-            // toolStripTextBox8
+            // fldSubPartMappingSubPartLDrawRef
             // 
-            this.toolStripTextBox8.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripTextBox8.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox8.Name = "toolStripTextBox8";
-            this.toolStripTextBox8.Size = new System.Drawing.Size(100, 25);
+            this.fldSubPartMappingSubPartLDrawRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingSubPartLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldSubPartMappingSubPartLDrawRef.Name = "fldSubPartMappingSubPartLDrawRef";
+            this.fldSubPartMappingSubPartLDrawRef.Size = new System.Drawing.Size(100, 25);
             // 
-            // toolStripLabel11
+            // lblSubPartMappingSubPartLDrawColourID
             // 
-            this.toolStripLabel11.Name = "toolStripLabel11";
-            this.toolStripLabel11.Size = new System.Drawing.Size(96, 22);
-            this.toolStripLabel11.Text = "LDraw Colour ID:";
+            this.lblSubPartMappingSubPartLDrawColourID.Name = "lblSubPartMappingSubPartLDrawColourID";
+            this.lblSubPartMappingSubPartLDrawColourID.Size = new System.Drawing.Size(96, 22);
+            this.lblSubPartMappingSubPartLDrawColourID.Text = "LDraw Colour ID:";
             // 
-            // toolStripTextBox11
+            // fldSubPartMappingSubPartLDrawColourID
             // 
-            this.toolStripTextBox11.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripTextBox11.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox11.Name = "toolStripTextBox11";
-            this.toolStripTextBox11.Size = new System.Drawing.Size(25, 25);
+            this.fldSubPartMappingSubPartLDrawColourID.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingSubPartLDrawColourID.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldSubPartMappingSubPartLDrawColourID.Name = "fldSubPartMappingSubPartLDrawColourID";
+            this.fldSubPartMappingSubPartLDrawColourID.Size = new System.Drawing.Size(25, 25);
             // 
-            // toolStripLabel13
+            // lblSubPartMappingPosX
             // 
-            this.toolStripLabel13.BackColor = System.Drawing.Color.Yellow;
-            this.toolStripLabel13.Name = "toolStripLabel13";
-            this.toolStripLabel13.Size = new System.Drawing.Size(36, 22);
-            this.toolStripLabel13.Text = "PosX:";
+            this.lblSubPartMappingPosX.BackColor = System.Drawing.Color.Yellow;
+            this.lblSubPartMappingPosX.Name = "lblSubPartMappingPosX";
+            this.lblSubPartMappingPosX.Size = new System.Drawing.Size(36, 22);
+            this.lblSubPartMappingPosX.Text = "PosX:";
             // 
-            // toolStripTextBox9
+            // fldSubPartMappingPosX
             // 
-            this.toolStripTextBox9.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripTextBox9.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox9.Name = "toolStripTextBox9";
-            this.toolStripTextBox9.Size = new System.Drawing.Size(25, 25);
+            this.fldSubPartMappingPosX.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingPosX.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldSubPartMappingPosX.Name = "fldSubPartMappingPosX";
+            this.fldSubPartMappingPosX.Size = new System.Drawing.Size(25, 25);
             // 
-            // toolStripLabel17
+            // lblSubPartMappingPosY
             // 
-            this.toolStripLabel17.BackColor = System.Drawing.Color.Yellow;
-            this.toolStripLabel17.Name = "toolStripLabel17";
-            this.toolStripLabel17.Size = new System.Drawing.Size(36, 22);
-            this.toolStripLabel17.Text = "PosY:";
+            this.lblSubPartMappingPosY.BackColor = System.Drawing.Color.Yellow;
+            this.lblSubPartMappingPosY.Name = "lblSubPartMappingPosY";
+            this.lblSubPartMappingPosY.Size = new System.Drawing.Size(36, 22);
+            this.lblSubPartMappingPosY.Text = "PosY:";
             // 
-            // toolStripTextBox15
+            // fldSubPartMappingPosY
             // 
-            this.toolStripTextBox15.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripTextBox15.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox15.Name = "toolStripTextBox15";
-            this.toolStripTextBox15.Size = new System.Drawing.Size(25, 25);
+            this.fldSubPartMappingPosY.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingPosY.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldSubPartMappingPosY.Name = "fldSubPartMappingPosY";
+            this.fldSubPartMappingPosY.Size = new System.Drawing.Size(25, 25);
             // 
-            // toolStripLabel16
+            // lblSubPartMappingPosZ
             // 
-            this.toolStripLabel16.BackColor = System.Drawing.Color.Yellow;
-            this.toolStripLabel16.Name = "toolStripLabel16";
-            this.toolStripLabel16.Size = new System.Drawing.Size(36, 22);
-            this.toolStripLabel16.Text = "PosZ:";
+            this.lblSubPartMappingPosZ.BackColor = System.Drawing.Color.Yellow;
+            this.lblSubPartMappingPosZ.Name = "lblSubPartMappingPosZ";
+            this.lblSubPartMappingPosZ.Size = new System.Drawing.Size(36, 22);
+            this.lblSubPartMappingPosZ.Text = "PosZ:";
             // 
-            // toolStripTextBox14
+            // fldSubPartMappingPosZ
             // 
-            this.toolStripTextBox14.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripTextBox14.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox14.Name = "toolStripTextBox14";
-            this.toolStripTextBox14.Size = new System.Drawing.Size(25, 25);
+            this.fldSubPartMappingPosZ.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingPosZ.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldSubPartMappingPosZ.Name = "fldSubPartMappingPosZ";
+            this.fldSubPartMappingPosZ.Size = new System.Drawing.Size(25, 25);
             // 
-            // toolStripLabel15
+            // lblSubPartMappingRotX
             // 
-            this.toolStripLabel15.BackColor = System.Drawing.Color.Yellow;
-            this.toolStripLabel15.Name = "toolStripLabel15";
-            this.toolStripLabel15.Size = new System.Drawing.Size(35, 22);
-            this.toolStripLabel15.Text = "RotX:";
+            this.lblSubPartMappingRotX.BackColor = System.Drawing.Color.Yellow;
+            this.lblSubPartMappingRotX.Name = "lblSubPartMappingRotX";
+            this.lblSubPartMappingRotX.Size = new System.Drawing.Size(35, 22);
+            this.lblSubPartMappingRotX.Text = "RotX:";
             // 
-            // toolStripTextBox13
+            // fldSubPartMappingRotX
             // 
-            this.toolStripTextBox13.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripTextBox13.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox13.Name = "toolStripTextBox13";
-            this.toolStripTextBox13.Size = new System.Drawing.Size(25, 25);
+            this.fldSubPartMappingRotX.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingRotX.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldSubPartMappingRotX.Name = "fldSubPartMappingRotX";
+            this.fldSubPartMappingRotX.Size = new System.Drawing.Size(25, 25);
             // 
-            // toolStripLabel14
+            // lblSubPartMappingRotY
             // 
-            this.toolStripLabel14.BackColor = System.Drawing.Color.Yellow;
-            this.toolStripLabel14.Name = "toolStripLabel14";
-            this.toolStripLabel14.Size = new System.Drawing.Size(35, 22);
-            this.toolStripLabel14.Text = "RotY:";
+            this.lblSubPartMappingRotY.BackColor = System.Drawing.Color.Yellow;
+            this.lblSubPartMappingRotY.Name = "lblSubPartMappingRotY";
+            this.lblSubPartMappingRotY.Size = new System.Drawing.Size(35, 22);
+            this.lblSubPartMappingRotY.Text = "RotY:";
             // 
-            // toolStripTextBox12
+            // fldSubPartMappingRotY
             // 
-            this.toolStripTextBox12.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripTextBox12.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox12.Name = "toolStripTextBox12";
-            this.toolStripTextBox12.Size = new System.Drawing.Size(25, 25);
+            this.fldSubPartMappingRotY.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingRotY.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldSubPartMappingRotY.Name = "fldSubPartMappingRotY";
+            this.fldSubPartMappingRotY.Size = new System.Drawing.Size(25, 25);
             // 
-            // toolStripLabel12
+            // lblSubPartMappingRotZ
             // 
-            this.toolStripLabel12.BackColor = System.Drawing.Color.Yellow;
-            this.toolStripLabel12.Name = "toolStripLabel12";
-            this.toolStripLabel12.Size = new System.Drawing.Size(35, 22);
-            this.toolStripLabel12.Text = "RotZ:";
+            this.lblSubPartMappingRotZ.BackColor = System.Drawing.Color.Yellow;
+            this.lblSubPartMappingRotZ.Name = "lblSubPartMappingRotZ";
+            this.lblSubPartMappingRotZ.Size = new System.Drawing.Size(35, 22);
+            this.lblSubPartMappingRotZ.Text = "RotZ:";
             // 
-            // toolStripTextBox10
+            // fldSubPartMappingRotZ
             // 
-            this.toolStripTextBox10.BackColor = System.Drawing.Color.LightGray;
-            this.toolStripTextBox10.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox10.Name = "toolStripTextBox10";
-            this.toolStripTextBox10.Size = new System.Drawing.Size(25, 25);
+            this.fldSubPartMappingRotZ.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingRotZ.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldSubPartMappingRotZ.Name = "fldSubPartMappingRotZ";
+            this.fldSubPartMappingRotZ.Size = new System.Drawing.Size(25, 25);
             // 
             // toolStripSeparator11
             // 
@@ -1226,7 +1243,7 @@
             this.toolStripButton12.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton12.Image")));
             this.toolStripButton12.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton12.Name = "toolStripButton12";
-            this.toolStripButton12.Size = new System.Drawing.Size(60, 22);
+            this.toolStripButton12.Size = new System.Drawing.Size(60, 20);
             this.toolStripButton12.Text = "Delete";
             // 
             // toolStrip4
@@ -1240,7 +1257,7 @@
             this.toolStripTextBox5});
             this.toolStrip4.Location = new System.Drawing.Point(3, 16);
             this.toolStrip4.Name = "toolStrip4";
-            this.toolStrip4.Size = new System.Drawing.Size(1350, 25);
+            this.toolStrip4.Size = new System.Drawing.Size(1113, 25);
             this.toolStrip4.TabIndex = 29;
             this.toolStrip4.Text = "toolStrip4";
             // 
@@ -1287,14 +1304,22 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.BackColor = System.Drawing.Color.Pink;
+            this.groupBox5.Controls.Add(this.pnlSubPartMappingData);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox5.Location = new System.Drawing.Point(0, 0);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(388, 169);
+            this.groupBox5.Size = new System.Drawing.Size(625, 169);
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Data";
+            // 
+            // pnlSubPartMappingData
+            // 
+            this.pnlSubPartMappingData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlSubPartMappingData.Location = new System.Drawing.Point(3, 16);
+            this.pnlSubPartMappingData.Name = "pnlSubPartMappingData";
+            this.pnlSubPartMappingData.Size = new System.Drawing.Size(619, 150);
+            this.pnlSubPartMappingData.TabIndex = 1;
             // 
             // tabPage2
             // 
@@ -1315,6 +1340,20 @@
             this.chkShowPartImages.TabIndex = 111;
             this.chkShowPartImages.Text = "Show Part Images";
             this.chkShowPartImages.UseVisualStyleBackColor = false;
+            // 
+            // fldSubPartMappingParentLDrawImage
+            // 
+            this.fldSubPartMappingParentLDrawImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fldSubPartMappingParentLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fldSubPartMappingParentLDrawImage.Name = "fldSubPartMappingParentLDrawImage";
+            this.fldSubPartMappingParentLDrawImage.Size = new System.Drawing.Size(23, 22);
+            // 
+            // fldSubPartMappingSubPartLDrawImage
+            // 
+            this.fldSubPartMappingSubPartLDrawImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fldSubPartMappingSubPartLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fldSubPartMappingSubPartLDrawImage.Name = "fldSubPartMappingSubPartLDrawImage";
+            this.fldSubPartMappingSubPartLDrawImage.Size = new System.Drawing.Size(23, 22);
             // 
             // StaticDataScreen
             // 
@@ -1360,6 +1399,7 @@
             this.tsLDrawDetailsDetails.PerformLayout();
             this.tsLDrawDetailsSummary.ResumeLayout(false);
             this.tsLDrawDetailsSummary.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
@@ -1373,6 +1413,7 @@
             this.toolStrip5.PerformLayout();
             this.toolStrip4.ResumeLayout(false);
             this.toolStrip4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1469,24 +1510,24 @@
         private System.Windows.Forms.ToolStripStatusLabel lblSubPartMappingCount;
         private System.Windows.Forms.ToolStripStatusLabel lblSubPartMappingSummaryItemFilteredCount;
         private System.Windows.Forms.ToolStrip toolStrip5;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel8;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox6;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel10;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox8;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel11;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox11;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel13;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox9;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel17;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox15;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel16;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox14;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel15;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox13;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel14;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox12;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel12;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox10;
+        private System.Windows.Forms.ToolStripLabel lblSubPartMappingParentLDrawRef;
+        private System.Windows.Forms.ToolStripTextBox fldSubPartMappingParentLDrawRef;
+        private System.Windows.Forms.ToolStripLabel lblSubPartMappingSubPartLDrawRef;
+        private System.Windows.Forms.ToolStripTextBox fldSubPartMappingSubPartLDrawRef;
+        private System.Windows.Forms.ToolStripLabel lblSubPartMappingSubPartLDrawColourID;
+        private System.Windows.Forms.ToolStripTextBox fldSubPartMappingSubPartLDrawColourID;
+        private System.Windows.Forms.ToolStripLabel lblSubPartMappingPosX;
+        private System.Windows.Forms.ToolStripTextBox fldSubPartMappingPosX;
+        private System.Windows.Forms.ToolStripLabel lblSubPartMappingPosY;
+        private System.Windows.Forms.ToolStripTextBox fldSubPartMappingPosY;
+        private System.Windows.Forms.ToolStripLabel lblSubPartMappingPosZ;
+        private System.Windows.Forms.ToolStripTextBox fldSubPartMappingPosZ;
+        private System.Windows.Forms.ToolStripLabel lblSubPartMappingRotX;
+        private System.Windows.Forms.ToolStripTextBox fldSubPartMappingRotX;
+        private System.Windows.Forms.ToolStripLabel lblSubPartMappingRotY;
+        private System.Windows.Forms.ToolStripTextBox fldSubPartMappingRotY;
+        private System.Windows.Forms.ToolStripLabel lblSubPartMappingRotZ;
+        private System.Windows.Forms.ToolStripTextBox fldSubPartMappingRotZ;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripButton toolStripButton10;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
@@ -1509,5 +1550,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripLabel toolStripLabel18;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox16;
+        private System.Windows.Forms.Panel pnlLDrawDetailsData;
+        private System.Windows.Forms.Panel pnlSubPartMappingData;
+        private System.Windows.Forms.ToolStripButton fldSubPartMappingParentLDrawImage;
+        private System.Windows.Forms.ToolStripButton fldSubPartMappingSubPartLDrawImage;
     }
 }
