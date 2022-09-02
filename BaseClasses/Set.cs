@@ -392,6 +392,64 @@ namespace BaseClasses
 
 
 
+        public static string ConvertSetToLDRString(Set set)
+        {
+            XmlDocument SetXML = new XmlDocument();
+            SetXML.LoadXml(set.SerializeToString(true));
+            string LDRString = ConvertSetXMLToLDRString(SetXML);
+            return LDRString;
+        }
+
+        public static string ConvertSetXMLToLDRString(XmlDocument SetXML)
+        {
+            StringBuilder sb = new StringBuilder();
+            try
+            {                
+                // get all part nodes               
+                XmlNodeList allPartNodes = SetXML.SelectNodes("//SubSetList//Part[@IsSubPart='false']");
+                foreach (XmlNode partNode in allPartNodes)
+                {
+                    // ** Get variables **
+                    string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
+                    string LDrawColourID = partNode.SelectSingleNode("@LDrawColourID").InnerXml;
+                    double posX = double.Parse(partNode.SelectSingleNode("@PosX").InnerXml);
+                    double posY = double.Parse(partNode.SelectSingleNode("@PosY").InnerXml);
+                    double posZ = double.Parse(partNode.SelectSingleNode("@PosZ").InnerXml);
+                    string rotX = partNode.SelectSingleNode("@RotX").InnerXml;
+                    string rotY = partNode.SelectSingleNode("@RotY").InnerXml;
+                    string rotZ = partNode.SelectSingleNode("@RotZ").InnerXml;
+
+                    //  1 0 0 -24 0 1 0 0 0 1 0 0 0 1 62810.dat
+                    string LDRString = "";
+                    LDRString += "1" + " ";
+                    LDRString += LDrawColourID + " ";
+
+                    // ** x, y, z **                    
+                    double ldraw_posX = posZ / -0.04;
+                    double ldraw_posY = posY / -0.04;
+                    double ldraw_posZ = posX / -0.04;
+                    LDRString += ldraw_posX + " ";
+                    LDRString += ldraw_posY + " ";
+                    LDRString += ldraw_posZ + " ";
+                    //LDRString += "0 0" + " ";
+
+                    // ** Rotation **
+                    LDRString += "1 0 0 0 1 0 0 0 1" + " ";
+                    LDRString += LDrawRef + ".dat" + Environment.NewLine;
+
+                    sb.Append(LDRString);
+                }
+            }
+            catch (Exception)
+            {
+                sb.Clear();
+            }
+            return sb.ToString();
+        }
+
+
+
+
 
     }
 }

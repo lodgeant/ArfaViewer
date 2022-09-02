@@ -117,7 +117,7 @@ namespace BaseClasses
                 }
                 return pl;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -147,7 +147,7 @@ namespace BaseClasses
                 }
                 return pl;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -178,7 +178,7 @@ namespace BaseClasses
                 }
                 return pl;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

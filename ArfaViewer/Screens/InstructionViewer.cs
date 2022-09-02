@@ -33,10 +33,11 @@ namespace Generator
     public partial class InstructionViewer : Form
     {
         // ** Variables **
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private Scintilla TextArea;
-        private Scintilla TextArea2;
-        private Scintilla JSONTextArea;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);        
+        private Scintilla SetXML = new Scintilla();
+        private Scintilla SetWithMFXML = new Scintilla();
+        private Scintilla RebrickableXML = new Scintilla();
+        private Scintilla LDRString = new Scintilla();
         private XmlDocument currentSetXml;
         private XmlDocument fullSetXml;
         private DataTable dgPartSummaryTable_Orig;
@@ -74,6 +75,7 @@ namespace Generator
                 lblPartSummaryItemFilteredCount.Text = "";
                 lblPartListCount.Text = "";
                 lblPartListWithMFsCount.Text = "";
+                lblMiniFigsPartListCount.Text = "";
                 #endregion
 
                 #region ** ADD MAIN HEADER LINE TOOLSTRIP ITEMS **
@@ -150,18 +152,18 @@ namespace Generator
                                     });
                 #endregion
 
-
-                lblMiniFigsPartListCount.Text = "";
-
-
                 // ** Populate the Ref field based on external request **
                 fldCurrentSetRef.Text = prePopulatedSetRef;
 
-                // ** Set up Scintilla **
-                SetupScintillaPanel1();
-                SetupScintillaPanel2();
-                SetupScintillapnlJSON();
-                log.Info("Set up Scintilla");
+                // ** Set up Scintilla **               
+                pnlRebrickableXML.Controls.Add(RebrickableXML);
+                ApplyDefaultScintillaStyles(RebrickableXML);
+                pnlSetXML.Controls.Add(SetXML);
+                ApplyDefaultScintillaStyles(SetXML);
+                pnlSetWithMFXML.Controls.Add(SetWithMFXML);
+                ApplyDefaultScintillaStyles(SetWithMFXML);
+                pnlLDRString.Controls.Add(LDRString);
+                ApplyDefaultScintillaStyles(LDRString);
 
                 // ** REFRESH STATIC DATA **    
                 RefreshLDrawColourNameDropdown();
@@ -240,226 +242,68 @@ namespace Generator
         private const int FOLDING_MARGIN = 3;
         private const bool CODEFOLDING_CURCULAR = false;
 
-        private void SetupScintillaPanel1()
+        private void ApplyDefaultScintillaStyles(Scintilla TextArea)
         {
-            try
-            {
-                // ** Initialise Scintilla Control Surface **
-                TextArea = new ScintillaNET.Scintilla();
-                panel1.Controls.Add(TextArea);
-                TextArea.Dock = System.Windows.Forms.DockStyle.Fill;
-                TextArea.WrapMode = WrapMode.None;
-                TextArea.IndentationGuides = IndentView.LookBoth;
+            TextArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            TextArea.WrapMode = WrapMode.None;
+            TextArea.IndentationGuides = IndentView.LookBoth;
 
-                // Configuring the default style with properties **
-                TextArea.StyleResetDefault();
-                TextArea.Styles[Style.Default].Font = "Consolas";
-                TextArea.Styles[Style.Default].Size = 8;
-                TextArea.Styles[Style.Default].BackColor = Color.Black;
-                TextArea.Styles[Style.Default].ForeColor = Color.White;
+            // Configuring the default style with properties **
+            TextArea.StyleResetDefault();
+            TextArea.Styles[Style.Default].Font = "Consolas";
+            TextArea.Styles[Style.Default].Size = 8;
+            TextArea.Styles[Style.Default].BackColor = Color.Black;
+            TextArea.Styles[Style.Default].ForeColor = Color.White;
 
-                // ** Number Margin **
-                TextArea.Styles[Style.LineNumber].ForeColor = Color.White;
-                TextArea.Styles[Style.LineNumber].BackColor = Color.Black;
-                TextArea.Styles[Style.IndentGuide].ForeColor = Color.White;
-                TextArea.Styles[Style.IndentGuide].BackColor = Color.Black;
-                var nums = TextArea.Margins[NUMBER_MARGIN];
-                nums.Width = 30;
-                nums.Type = MarginType.Number;
-                nums.Sensitive = true;
-                nums.Mask = 0;
+            // ** Number Margin **
+            TextArea.Styles[Style.LineNumber].ForeColor = Color.White;
+            TextArea.Styles[Style.LineNumber].BackColor = Color.Black;
+            TextArea.Styles[Style.IndentGuide].ForeColor = Color.White;
+            TextArea.Styles[Style.IndentGuide].BackColor = Color.Black;
+            var nums = TextArea.Margins[NUMBER_MARGIN];
+            nums.Width = 30;
+            nums.Type = MarginType.Number;
+            nums.Sensitive = true;
+            nums.Mask = 0;
 
-                // ** Code Folding **
-                //TextArea.SetFoldMarginColor(true, Color.Black);
-                //TextArea.SetFoldMarginHighlightColor(true, Color.Black);
-                //TextArea.SetProperty("fold", "1");
-                //TextArea.SetProperty("fold.compact", "1");
 
-                //TextArea.Margins[FOLDING_MARGIN].Type = MarginType.Symbol;
-                //TextArea.Margins[FOLDING_MARGIN].Mask = Marker.MaskFolders;
-                //TextArea.Margins[FOLDING_MARGIN].Sensitive = true;
-                //TextArea.Margins[FOLDING_MARGIN].Width = 20;
-                //for (int i = 25; i <= 31; i++)
-                //{
-                //    TextArea.Markers[i].SetForeColor(Color.Black);
-                //    TextArea.Markers[i].SetBackColor(Color.White);
-                //}
+            // ** Code Folding **
+            //TextArea2.SetFoldMarginColor(true, Color.Black);
+            //TextArea2.SetFoldMarginHighlightColor(true, Color.Black);
+            //TextArea2.SetProperty("fold", "1");
+            //TextArea2.SetProperty("fold.compact", "1");
 
-                //TextArea.Markers[Marker.Folder].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CirclePlus : MarkerSymbol.BoxPlus;
-                //TextArea.Markers[Marker.FolderOpen].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CircleMinus : MarkerSymbol.BoxMinus;
-                //TextArea.Markers[Marker.FolderEnd].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CirclePlusConnected : MarkerSymbol.BoxPlusConnected;
-                //TextArea.Markers[Marker.FolderMidTail].Symbol = MarkerSymbol.TCorner;
-                //TextArea.Markers[Marker.FolderOpenMid].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CircleMinusConnected : MarkerSymbol.BoxMinusConnected;
-                //TextArea.Markers[Marker.FolderSub].Symbol = MarkerSymbol.VLine;
-                //TextArea.Markers[Marker.FolderTail].Symbol = MarkerSymbol.LCorner;
+            //TextArea2.Margins[FOLDING_MARGIN].Type = MarginType.Symbol;
+            //TextArea2.Margins[FOLDING_MARGIN].Mask = Marker.MaskFolders;
+            //TextArea2.Margins[FOLDING_MARGIN].Sensitive = true;
+            //TextArea2.Margins[FOLDING_MARGIN].Width = 20;
+            //for (int i = 25; i <= 31; i++)
+            //{
+            //    TextArea2.Markers[i].SetForeColor(Color.Black);
+            //    TextArea2.Markers[i].SetBackColor(Color.White);
+            //}
 
-                //TextArea.AutomaticFold = (AutomaticFold.Show | AutomaticFold.Click | AutomaticFold.Change);
+            //TextArea2.Markers[Marker.Folder].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CirclePlus : MarkerSymbol.BoxPlus;
+            //TextArea2.Markers[Marker.FolderOpen].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CircleMinus : MarkerSymbol.BoxMinus;
+            //TextArea2.Markers[Marker.FolderEnd].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CirclePlusConnected : MarkerSymbol.BoxPlusConnected;
+            //TextArea2.Markers[Marker.FolderMidTail].Symbol = MarkerSymbol.TCorner;
+            //TextArea2.Markers[Marker.FolderOpenMid].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CircleMinusConnected : MarkerSymbol.BoxMinusConnected;
+            //TextArea2.Markers[Marker.FolderSub].Symbol = MarkerSymbol.VLine;
+            //TextArea2.Markers[Marker.FolderTail].Symbol = MarkerSymbol.LCorner;
+
+            //TextArea2.AutomaticFold = (AutomaticFold.Show | AutomaticFold.Click | AutomaticFold.Change);
 
 
 
-                // ** UPDATE LEXER TO XML **
-                TextArea.Lexer = Lexer.Xml;
-                TextArea.StyleClearAll();
+            // ** UPDATE LEXER TO XML **
+            TextArea.Lexer = Lexer.Xml;
+            TextArea.StyleClearAll();
 
-                // ** Configure the CPP Lexer styles **
-                TextArea.Styles[Style.Xml.Comment].ForeColor = Color.Gray;
-                TextArea.Styles[Style.Xml.Tag].ForeColor = Color.White;
-                TextArea.Styles[Style.Xml.Attribute].ForeColor = Color.Red;
-                TextArea.Styles[Style.Xml.DoubleString].ForeColor = Color.Yellow;
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void SetupScintillaPanel2()
-        {
-            try
-            {
-                // ** Initialise Scintilla Control Surface **
-                TextArea2 = new ScintillaNET.Scintilla();
-                panel2.Controls.Add(TextArea2);
-                TextArea2.Dock = System.Windows.Forms.DockStyle.Fill;
-                TextArea2.WrapMode = WrapMode.None;
-                TextArea2.IndentationGuides = IndentView.LookBoth;
-
-                // Configuring the default style with properties **
-                TextArea2.StyleResetDefault();
-                TextArea2.Styles[Style.Default].Font = "Consolas";
-                TextArea2.Styles[Style.Default].Size = 8;
-                TextArea2.Styles[Style.Default].BackColor = Color.Black;
-                TextArea2.Styles[Style.Default].ForeColor = Color.White;
-
-                // ** Number Margin **
-                TextArea2.Styles[Style.LineNumber].ForeColor = Color.White;
-                TextArea2.Styles[Style.LineNumber].BackColor = Color.Black;
-                TextArea2.Styles[Style.IndentGuide].ForeColor = Color.White;
-                TextArea2.Styles[Style.IndentGuide].BackColor = Color.Black;
-                var nums = TextArea2.Margins[NUMBER_MARGIN];
-                nums.Width = 30;
-                nums.Type = MarginType.Number;
-                nums.Sensitive = true;
-                nums.Mask = 0;
-
-                // ** Code Folding **
-                //TextArea2.SetFoldMarginColor(true, Color.Black);
-                //TextArea2.SetFoldMarginHighlightColor(true, Color.Black);
-                //TextArea2.SetProperty("fold", "1");
-                //TextArea2.SetProperty("fold.compact", "1");
-
-                //TextArea2.Margins[FOLDING_MARGIN].Type = MarginType.Symbol;
-                //TextArea2.Margins[FOLDING_MARGIN].Mask = Marker.MaskFolders;
-                //TextArea2.Margins[FOLDING_MARGIN].Sensitive = true;
-                //TextArea2.Margins[FOLDING_MARGIN].Width = 20;
-                //for (int i = 25; i <= 31; i++)
-                //{
-                //    TextArea2.Markers[i].SetForeColor(Color.Black);
-                //    TextArea2.Markers[i].SetBackColor(Color.White);
-                //}
-
-                //TextArea2.Markers[Marker.Folder].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CirclePlus : MarkerSymbol.BoxPlus;
-                //TextArea2.Markers[Marker.FolderOpen].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CircleMinus : MarkerSymbol.BoxMinus;
-                //TextArea2.Markers[Marker.FolderEnd].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CirclePlusConnected : MarkerSymbol.BoxPlusConnected;
-                //TextArea2.Markers[Marker.FolderMidTail].Symbol = MarkerSymbol.TCorner;
-                //TextArea2.Markers[Marker.FolderOpenMid].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CircleMinusConnected : MarkerSymbol.BoxMinusConnected;
-                //TextArea2.Markers[Marker.FolderSub].Symbol = MarkerSymbol.VLine;
-                //TextArea2.Markers[Marker.FolderTail].Symbol = MarkerSymbol.LCorner;
-
-                //TextArea2.AutomaticFold = (AutomaticFold.Show | AutomaticFold.Click | AutomaticFold.Change);
-
-
-
-                // ** UPDATE LEXER TO XML **
-                TextArea2.Lexer = Lexer.Xml;
-                TextArea2.StyleClearAll();
-
-                // ** Configure the CPP Lexer styles **
-                TextArea2.Styles[Style.Xml.Comment].ForeColor = Color.Gray;
-                TextArea2.Styles[Style.Xml.Tag].ForeColor = Color.White;
-                TextArea2.Styles[Style.Xml.Attribute].ForeColor = Color.Red;
-                TextArea2.Styles[Style.Xml.DoubleString].ForeColor = Color.Yellow;
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void SetupScintillapnlJSON()
-        {
-            try
-            {
-                // ** Initialise Scintilla Control Surface **
-                JSONTextArea = new ScintillaNET.Scintilla();
-                pnlJSON.Controls.Add(JSONTextArea);
-                JSONTextArea.Dock = System.Windows.Forms.DockStyle.Fill;
-                JSONTextArea.WrapMode = WrapMode.None;
-                JSONTextArea.IndentationGuides = IndentView.LookBoth;
-
-                // Configuring the default style with properties **
-                JSONTextArea.StyleResetDefault();
-                JSONTextArea.Styles[Style.Default].Font = "Consolas";
-                JSONTextArea.Styles[Style.Default].Size = 8;
-                JSONTextArea.Styles[Style.Default].BackColor = Color.Black;
-                JSONTextArea.Styles[Style.Default].ForeColor = Color.White;
-
-                // ** Number Margin **
-                JSONTextArea.Styles[Style.LineNumber].ForeColor = Color.White;
-                JSONTextArea.Styles[Style.LineNumber].BackColor = Color.Black;
-                JSONTextArea.Styles[Style.IndentGuide].ForeColor = Color.White;
-                JSONTextArea.Styles[Style.IndentGuide].BackColor = Color.Black;
-                var nums = TextArea2.Margins[NUMBER_MARGIN];
-                nums.Width = 30;
-                nums.Type = MarginType.Number;
-                nums.Sensitive = true;
-                nums.Mask = 0;
-
-                // ** Code Folding **
-                //TextArea2.SetFoldMarginColor(true, Color.Black);
-                //TextArea2.SetFoldMarginHighlightColor(true, Color.Black);
-                //TextArea2.SetProperty("fold", "1");
-                //TextArea2.SetProperty("fold.compact", "1");
-
-                //TextArea2.Margins[FOLDING_MARGIN].Type = MarginType.Symbol;
-                //TextArea2.Margins[FOLDING_MARGIN].Mask = Marker.MaskFolders;
-                //TextArea2.Margins[FOLDING_MARGIN].Sensitive = true;
-                //TextArea2.Margins[FOLDING_MARGIN].Width = 20;
-                //for (int i = 25; i <= 31; i++)
-                //{
-                //    TextArea2.Markers[i].SetForeColor(Color.Black);
-                //    TextArea2.Markers[i].SetBackColor(Color.White);
-                //}
-
-                //TextArea2.Markers[Marker.Folder].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CirclePlus : MarkerSymbol.BoxPlus;
-                //TextArea2.Markers[Marker.FolderOpen].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CircleMinus : MarkerSymbol.BoxMinus;
-                //TextArea2.Markers[Marker.FolderEnd].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CirclePlusConnected : MarkerSymbol.BoxPlusConnected;
-                //TextArea2.Markers[Marker.FolderMidTail].Symbol = MarkerSymbol.TCorner;
-                //TextArea2.Markers[Marker.FolderOpenMid].Symbol = CODEFOLDING_CURCULAR ? MarkerSymbol.CircleMinusConnected : MarkerSymbol.BoxMinusConnected;
-                //TextArea2.Markers[Marker.FolderSub].Symbol = MarkerSymbol.VLine;
-                //TextArea2.Markers[Marker.FolderTail].Symbol = MarkerSymbol.LCorner;
-
-                //TextArea2.AutomaticFold = (AutomaticFold.Show | AutomaticFold.Click | AutomaticFold.Change);
-
-
-
-                // ** UPDATE LEXER TO XML **
-                JSONTextArea.Lexer = Lexer.Xml;
-                JSONTextArea.StyleClearAll();
-
-                // ** Configure the CPP Lexer styles **
-                JSONTextArea.Styles[Style.Xml.Comment].ForeColor = Color.Gray;
-                JSONTextArea.Styles[Style.Xml.Tag].ForeColor = Color.White;
-                JSONTextArea.Styles[Style.Xml.Attribute].ForeColor = Color.Red;
-                JSONTextArea.Styles[Style.Xml.DoubleString].ForeColor = Color.Yellow;
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            // ** Configure the CPP Lexer styles **
+            TextArea.Styles[Style.Xml.Comment].ForeColor = Color.Gray;
+            TextArea.Styles[Style.Xml.Tag].ForeColor = Color.White;
+            TextArea.Styles[Style.Xml.Attribute].ForeColor = Color.Red;
+            TextArea.Styles[Style.Xml.DoubleString].ForeColor = Color.Yellow;
         }
 
         #endregion
@@ -541,10 +385,10 @@ namespace Generator
             ClearSet();
         }
 
-        private void btnConvertToLDR_Click(object sender, EventArgs e)
-        {
-            ConvertSetXMLToLDR();
-        }
+        //private void btnConvertToLDR_Click(object sender, EventArgs e)
+        //{
+        //    ConvertSetXMLToLDR();
+        //}
 
         private void btnAdjustModelStepNos_Click(object sender, EventArgs e)
         {
@@ -1239,8 +1083,9 @@ namespace Generator
 
                 // ** CLEAR FIELDS ** 
                 tvSetSummary.Nodes.Clear();
-                TextArea.Text = "";
-                TextArea2.Text = "";
+                SetXML.Text = "";
+                SetWithMFXML.Text = "";
+                LDRString.Text = "";
                 dgPartListSummary.DataSource = null;
                 lblPartListCount.Text = "";
                 dgPartListWithMFsSummary.DataSource = null;
@@ -1256,7 +1101,7 @@ namespace Generator
                 };
                 bw_RefreshScreen.DoWork += new DoWorkEventHandler(bw_RefreshScreen_DoWork);
                 bw_RefreshScreen.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RefreshScreen_RunWorkerCompleted);
-                //bw_RefreshScreen.ProgressChanged += new ProgressChangedEventHandler(bw_RefreshScreen_ProgressChanged);
+                bw_RefreshScreen.ProgressChanged += new ProgressChangedEventHandler(bw_RefreshScreen_ProgressChanged);
                 bw_RefreshScreen.RunWorkerAsync();                
             }
             catch (Exception ex)
@@ -1270,12 +1115,24 @@ namespace Generator
             }
         }
 
+        private void bw_RefreshScreen_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, e.ProgressPercentage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private void bw_RefreshScreen_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
                 //Delegates.ToolStripButton_SetTextAndForeColor(this, btnRefreshStaticData, "Refresh Static Data", Color.Black);
-                //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
                 EnableControls_RefreshScreen(true);
                 Delegates.ToolStripLabel_SetText(this, lblStatus, "");
 
@@ -1293,7 +1150,6 @@ namespace Generator
 
                 // Apply mode settings
                 ApplyModeSettings();
-
             }
             catch (Exception ex)
             {
@@ -1318,13 +1174,13 @@ namespace Generator
                     
                     // ** Populate Summary Treeview with data **
                     Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Generating Treeview...");
-                    string SetRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;                   
                     Delegates.TreeView_AddNodes(this, tvSetSummary, Set.GetSetTreeViewFromSetXML(currentSetXml, false, true, true, true));
 
-                    // ** Update Scintilla XML areas **
-                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Updating Scintilla XML areas...");
-                    Delegates.Scintilla_SetText(this, TextArea, XDocument.Parse(currentSetXml.OuterXml).ToString());
-                    Delegates.Scintilla_SetText(this, TextArea2, XDocument.Parse(fullSetXml.OuterXml).ToString());
+                    // ** Update Scintilla areas **
+                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Updating Scintilla areas...");
+                    Delegates.Scintilla_SetText(this, SetXML, XDocument.Parse(currentSetXml.OuterXml).ToString());
+                    Delegates.Scintilla_SetText(this, SetWithMFXML, XDocument.Parse(fullSetXml.OuterXml).ToString());
+                    string SetRef = currentSetXml.SelectSingleNode("//Set/@Ref").InnerXml;                   
                     string XMLString = "";
                     try
                     {
@@ -1336,10 +1192,16 @@ namespace Generator
                     {
                         XMLString = "Error: " + ex.Message;
                     }
-                    Delegates.Scintilla_SetText(this, JSONTextArea, XMLString);
+                    Delegates.Scintilla_SetText(this, LDRString, Set.ConvertSetXMLToLDRString(currentSetXml));
+                    Delegates.Scintilla_SetText(this, RebrickableXML, XMLString);
 
                     // ** Update Set Image **
                     pnlSetImage.BackgroundImage = ArfaImage.GetImage(ImageType.SET, new string[] { SetRef });
+
+
+
+
+
 
                     #region ** GET IMAGE DATA UPFRONT **
                     XmlNodeList allPartsNodeList = fullSetXml.SelectNodes("//PartListPart");
@@ -1349,8 +1211,8 @@ namespace Generator
                     int index = 0;                    
                     foreach (XmlNode partNode in allPartsNodeList)
                     {
-                        //bw_RefreshScreen.ReportProgress(index, "Working...");
-                        Delegates.ToolStripProgressBar_SetValue(this, pbStatus, index);
+                        bw_RefreshScreen.ReportProgress(index, "Working...");
+                        //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, index);
                         int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
                         string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
                         if (chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
@@ -1358,6 +1220,11 @@ namespace Generator
                     }
                     Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
                     #endregion
+
+
+
+
+
 
                     #region ** UPDATE PART LIST SUMMARIES - Current Set XML **
                     {
@@ -1643,7 +1510,7 @@ namespace Generator
             try
             {
                 // ** Clear all fields & disable groupboxes **
-                ClearAllFields();
+                //ClearAllFields();
                 gpSet.Enabled = false;
                 gpSubSet.Enabled = false;
                 gpSubModel.Enabled = false;
@@ -5105,202 +4972,7 @@ namespace Generator
 
         
 
-        #region ** CONVERT TO LDR FUNCTIONS  **
-
-        private void ConvertSetXMLToLDR()
-        {
-            try
-            {
-                // ** LOAD Set XML into Object - OLD **      
-                ////String setRef = "42078-1";
-                //string setRef = "TEST-1";
-                //string setfileLocation = Global_Variables.SetSaveLocation + "\\" + setRef + ".xml";
-                //if (File.Exists(setfileLocation) == false)
-                //{
-                //    throw new Exception("Set not found...");
-                //}    
-                //currentSetXml = new XmlDocument();
-                //currentSetXml.Load(setfileLocation);
-
-                // ** LOAD Set XML into Object - NEW **
-                //string setRef = "TEST-1";
-                ////CloudBlockBlob blob = blobClient.GetContainerReference("set-xmls").GetBlockBlobReference(setRef + ".xml");
-                //BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "set-xmls").GetBlobClient(setRef + ".xml");
-                //if (blob.Exists() == false)
-                //{
-                //    throw new Exception("Set not found...");
-                //}
-                ////string xmlString = Encoding.UTF8.GetString(HelperFunctions.DownloadAzureFile(blob));
-                //byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-                //using (var ms = new MemoryStream(fileContent))
-                //{
-                //    blob.DownloadTo(ms);
-                //}
-                //string xmlString = Encoding.UTF8.GetString(fileContent);
-                //currentSetXml = new XmlDocument();
-                //currentSetXml.LoadXml(xmlString);
-
-                // get all part nodes
-                String LDRString = "";
-                XmlNodeList allPartNodes = currentSetXml.SelectNodes("//SubSetList//Part[@IsSubPart='false']");
-                foreach (XmlNode partNode in allPartNodes)
-                {
-                    // ** Get variables **
-                    String LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                    String LDrawColourID = partNode.SelectSingleNode("@LDrawColourID").InnerXml;
-                    //String posX = partNode.SelectSingleNode("@PosX").InnerXml;
-                    //String posY = partNode.SelectSingleNode("@PosY").InnerXml;
-                    //String posZ = partNode.SelectSingleNode("@PosZ").InnerXml;
-                    double posX = double.Parse(partNode.SelectSingleNode("@PosX").InnerXml);
-                    double posY = double.Parse(partNode.SelectSingleNode("@PosY").InnerXml);
-                    double posZ = double.Parse(partNode.SelectSingleNode("@PosZ").InnerXml);
-                    String rotX = partNode.SelectSingleNode("@RotX").InnerXml;
-                    String rotY = partNode.SelectSingleNode("@RotY").InnerXml;
-                    String rotZ = partNode.SelectSingleNode("@RotZ").InnerXml;
-
-                    //  1 0 0 -24 0 1 0 0 0 1 0 0 0 1 62810.dat
-
-                    LDRString += "1" + " ";
-                    LDRString += LDrawColourID + " ";
-
-                    // ** x, y, z **                    
-                    double ldraw_posX = posZ / -0.04;
-                    double ldraw_posY = posY / -0.04;
-                    double ldraw_posZ = posX / -0.04;
-                    LDRString += ldraw_posX + " ";
-                    LDRString += ldraw_posY + " ";
-                    LDRString += ldraw_posZ + " ";
-                    //LDRString += "0 0" + " ";
-
-
-
-                    // ** Rotation **
-                    LDRString += "1 0 0 0 1 0 0 0 1" + " ";
-                    LDRString += LDrawRef + ".dat" + Environment.NewLine;
-                }
-
-                // ** Save Set to location **                
-                //string path = @"C:\LEGO STUFF - Documents\test.ldr";
-                //File.WriteAllText(path, LDRString);
-
-
-                // ** SHow confirmation **
-                //MessageBox.Show("Set converted successfully...");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-        
-        #endregion
-
-        //private void ConvertSetXML()    // #### NO LONGER USED ####
-        //{
-        //    try
-        //    {
-        //        // Load Set xml
-        //        String setRef = "42078-1";
-        //        //String setRef = "TEST";
-        //        String setfileLocation = Global_Variables.SetSaveLocation + "\\" + setRef + ".xml";
-        //        if (File.Exists(setfileLocation) == false)
-        //        {
-        //            throw new Exception("Set not found...");
-        //        }
-
-        //        // ** LOAD Set XML into Object **              
-        //        currentSetXml = new XmlDocument();
-        //        currentSetXml.Load(setfileLocation);
-
-        //        // get all part nodes
-        //        XmlNodeList allPartNodes = currentSetXml.SelectNodes("//SubSetList//Part[@IsSubPart='false']");
-        //        foreach (XmlNode partNode in allPartNodes)
-        //        {
-        //            // ** Get variables **
-        //            String LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-        //            String LDrawColourID = partNode.SelectSingleNode("@LDrawColourID").InnerXml;
-        //            String posX = partNode.SelectSingleNode("@PosX").InnerXml;
-        //            String posY = partNode.SelectSingleNode("@PosY").InnerXml;
-        //            String posZ = partNode.SelectSingleNode("@PosZ").InnerXml;
-        //            String rotX = partNode.SelectSingleNode("@RotX").InnerXml;
-        //            String rotY = partNode.SelectSingleNode("@RotY").InnerXml;
-        //            String rotZ = partNode.SelectSingleNode("@RotZ").InnerXml;
-
-        //            // ** GENERATE AMENDED PART **
-        //            Part newPart = new Part();
-        //            newPart.LDrawRef = LDrawRef;
-        //            newPart.LDrawColourID = int.Parse(LDrawColourID);
-        //            newPart.UnityRef = "";
-        //            newPart.state = Part.PartState.NOT_COMPLETED;
-        //            newPart.PosX = float.Parse(posX);
-        //            newPart.PosY = float.Parse(posY);
-        //            newPart.PosZ = float.Parse(posZ);
-        //            newPart.RotX = float.Parse(rotX);
-        //            newPart.RotY = float.Parse(rotY);
-        //            newPart.RotZ = float.Parse(rotZ);
-
-        //            // ** Add PlacementMovements to Part **
-        //            List<PlacementMovement> pmList = new List<PlacementMovement>();
-        //            PlacementMovement pm = new PlacementMovement();
-        //            pm.Axis = "Y";
-        //            pm.Value = -5;
-        //            pmList.Add(pm);
-        //            newPart.placementMovementList = pmList;
-
-        //            // ** ADD SUB PARTS TO PART **
-        //            XmlNodeList subPartNodeList = Global_Variables.CompositePartCollectionXML.SelectNodes("//CompositePart[@ParentLDrawRef='" + LDrawRef + "']");
-        //            foreach (XmlNode subPartNode in subPartNodeList)
-        //            {
-        //                // ** Get variables **
-        //                String subPart_LDrawRef = subPartNode.SelectSingleNode("@LDrawRef").InnerXml;
-        //                int subPart_LDrawColourID = int.Parse(subPartNode.SelectSingleNode("@LDrawColourID").InnerXml);
-        //                float subPart_PosX = float.Parse(subPartNode.SelectSingleNode("@PosX").InnerXml);
-        //                float subPart_PosY = float.Parse(subPartNode.SelectSingleNode("@PosY").InnerXml);
-        //                float subPart_PosZ = float.Parse(subPartNode.SelectSingleNode("@PosZ").InnerXml);
-        //                float subPart_RotX = float.Parse(subPartNode.SelectSingleNode("@RotX").InnerXml);
-        //                float subPart_RotY = float.Parse(subPartNode.SelectSingleNode("@RotY").InnerXml);
-        //                float subPart_RotZ = float.Parse(subPartNode.SelectSingleNode("@RotZ").InnerXml);
-
-        //                // ** Generate subPart and add to SubPartList **
-        //                Part subPart = new Part();
-        //                subPart.LDrawRef = subPart_LDrawRef;
-        //                subPart.LDrawColourID = subPart_LDrawColourID;
-        //                subPart.UnityRef = "";
-        //                subPart.state = Part.PartState.NOT_COMPLETED;
-        //                subPart.IsSubPart = true;
-        //                subPart.PosX = subPart_PosX;
-        //                subPart.PosY = subPart_PosY;
-        //                subPart.PosZ = subPart_PosZ;
-        //                subPart.RotX = subPart_RotX;
-        //                subPart.RotY = subPart_RotY;
-        //                subPart.RotZ = subPart_RotZ;
-        //                newPart.SubPartList.Add(subPart);
-        //            }
-
-        //            // ** REPLACE PART XML NODE ** 
-        //            String xmlNodeString = HelperFunctions.RemoveAllNamespaces(newPart.SerializeToString(true));
-        //            XmlDocument doc = new XmlDocument();
-        //            doc.LoadXml(xmlNodeString);
-        //            XmlNode oldNode = partNode;
-        //            XmlNode parentNode = oldNode.ParentNode;
-        //            XmlNode importNode = parentNode.OwnerDocument.ImportNode(doc.DocumentElement, true);
-        //            parentNode.ReplaceChild(importNode, oldNode);
-
-        //            //currentSetXml.Save(setfileLocation);
-        //        }
-
-        //        // ** Save Set to location **                
-        //        currentSetXml.Save(setfileLocation);
-
-        //        // ** SHow confirmation **
-        //        MessageBox.Show("Set converted successfully...");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
-                
+     
         private void ShowMiniFigSet()
         {
             try

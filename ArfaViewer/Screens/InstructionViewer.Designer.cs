@@ -240,12 +240,12 @@
             this.fldSetDescription = new System.Windows.Forms.ToolStripTextBox();
             this.btnSetSaveNode = new System.Windows.Forms.ToolStripButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnlSetXML = new System.Windows.Forms.Panel();
             this.toolStrip5 = new System.Windows.Forms.ToolStrip();
             this.btnOpenInNotePadPlus = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.pnlSetWithMFXML = new System.Windows.Forms.Panel();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -270,11 +270,13 @@
             this.toolStrip10 = new System.Windows.Forms.ToolStrip();
             this.btnCompareWithRebrickable = new System.Windows.Forms.ToolStripButton();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.pnlJSON = new System.Windows.Forms.Panel();
+            this.pnlRebrickableXML = new System.Windows.Forms.Panel();
             this.chkShowPages = new System.Windows.Forms.CheckBox();
             this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
             this.chkShowElementImages = new System.Windows.Forms.CheckBox();
             this.chkShowFBXDetails = new System.Windows.Forms.CheckBox();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.pnlLDRString = new System.Windows.Forms.Panel();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -331,6 +333,7 @@
             this.statusStrip3.SuspendLayout();
             this.toolStrip10.SuspendLayout();
             this.tabPage5.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -730,6 +733,7 @@
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 25);
             this.tabControl1.Name = "tabControl1";
@@ -2145,7 +2149,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.panel1);
+            this.tabPage2.Controls.Add(this.pnlSetXML);
             this.tabPage2.Controls.Add(this.toolStrip5);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -2155,13 +2159,13 @@
             this.tabPage2.Text = "XML";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // panel1
+            // pnlSetXML
             // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 28);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1479, 645);
-            this.panel1.TabIndex = 27;
+            this.pnlSetXML.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlSetXML.Location = new System.Drawing.Point(3, 28);
+            this.pnlSetXML.Name = "pnlSetXML";
+            this.pnlSetXML.Size = new System.Drawing.Size(1479, 645);
+            this.pnlSetXML.TabIndex = 27;
             // 
             // toolStrip5
             // 
@@ -2190,7 +2194,7 @@
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.panel2);
+            this.tabPage4.Controls.Add(this.pnlSetWithMFXML);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(1485, 676);
@@ -2198,13 +2202,13 @@
             this.tabPage4.Text = "XML (with MFs)";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // panel2
+            // pnlSetWithMFXML
             // 
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1485, 676);
-            this.panel2.TabIndex = 3;
+            this.pnlSetWithMFXML.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlSetWithMFXML.Location = new System.Drawing.Point(0, 0);
+            this.pnlSetWithMFXML.Name = "pnlSetWithMFXML";
+            this.pnlSetWithMFXML.Size = new System.Drawing.Size(1485, 676);
+            this.pnlSetWithMFXML.TabIndex = 3;
             // 
             // tabPage3
             // 
@@ -2450,7 +2454,7 @@
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.pnlJSON);
+            this.tabPage5.Controls.Add(this.pnlRebrickableXML);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Size = new System.Drawing.Size(1485, 676);
@@ -2458,13 +2462,13 @@
             this.tabPage5.Text = "Rebrickable XML";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // pnlJSON
+            // pnlRebrickableXML
             // 
-            this.pnlJSON.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlJSON.Location = new System.Drawing.Point(0, 0);
-            this.pnlJSON.Name = "pnlJSON";
-            this.pnlJSON.Size = new System.Drawing.Size(1485, 676);
-            this.pnlJSON.TabIndex = 28;
+            this.pnlRebrickableXML.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlRebrickableXML.Location = new System.Drawing.Point(0, 0);
+            this.pnlRebrickableXML.Name = "pnlRebrickableXML";
+            this.pnlRebrickableXML.Size = new System.Drawing.Size(1485, 676);
+            this.pnlRebrickableXML.TabIndex = 28;
             // 
             // chkShowPages
             // 
@@ -2510,6 +2514,24 @@
             this.chkShowFBXDetails.TabIndex = 112;
             this.chkShowFBXDetails.Text = "Show FBX Details";
             this.chkShowFBXDetails.UseVisualStyleBackColor = false;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.pnlLDRString);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(1485, 676);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "LDR";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // pnlLDRString
+            // 
+            this.pnlLDRString.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlLDRString.Location = new System.Drawing.Point(0, 0);
+            this.pnlLDRString.Name = "pnlLDRString";
+            this.pnlLDRString.Size = new System.Drawing.Size(1485, 676);
+            this.pnlLDRString.TabIndex = 29;
             // 
             // InstructionViewer
             // 
@@ -2617,6 +2639,7 @@
             this.toolStrip10.ResumeLayout(false);
             this.toolStrip10.PerformLayout();
             this.tabPage5.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2762,7 +2785,7 @@
         private System.Windows.Forms.ToolStripButton btnOpenSetURLs;
         private System.Windows.Forms.ToolStripButton btnOpenSetInstructions;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel pnlSetWithMFXML;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.StatusStrip statusStrip3;
@@ -2777,7 +2800,7 @@
         private System.Windows.Forms.ToolStripButton btnMoveDownBy5;
         private System.Windows.Forms.ToolStripMenuItem tsInsertSubModelBefore;
         private System.Windows.Forms.ToolStripTextBox fldBulkValue;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnlSetXML;
         private System.Windows.Forms.ToolStrip toolStrip5;
         private System.Windows.Forms.ToolStripButton btnOpenInNotePadPlus;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
@@ -2855,7 +2878,7 @@
         private System.Windows.Forms.CheckBox chkShowElementImages;
         private System.Windows.Forms.CheckBox chkShowFBXDetails;
         private System.Windows.Forms.TabPage tabPage5;
-        private System.Windows.Forms.Panel pnlJSON;
+        private System.Windows.Forms.Panel pnlRebrickableXML;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView dgPartListSummary;
@@ -2869,6 +2892,8 @@
         private System.Windows.Forms.ToolStripButton btnPartListMFCopyToClipboard;
         private System.Windows.Forms.StatusStrip statusStrip4;
         private System.Windows.Forms.ToolStripStatusLabel lblMiniFigsPartListCount;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Panel pnlLDRString;
     }
 }
 
