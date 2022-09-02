@@ -26,7 +26,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>https://lodgeaccount.blob.core.windows.net/click-once/ArfaViewer/</InstallUrl>
-    <ApplicationRevision>60</ApplicationRevision>
+    <ApplicationRevision>61</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -52,10 +52,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>7AB107460918F9D283015B472D6E3BD9D3F757A5</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>7AD13C7FA0DA68F83071F08E0E9D13A7BCF4DBF0</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Generator2_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>ArfaViewer_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -282,7 +282,7 @@
     <EmbeddedResource Include="Screens\StaticDataScreen.resx">
       <DependentUpon>StaticDataScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Generator2_1_TemporaryKey.pfx" />
+    <None Include="ArfaViewer_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

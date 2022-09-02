@@ -86,7 +86,7 @@ namespace Generator
                 //SetDetails sd = StaticData.GetSetDetails(setRef);
                 //StaticData.UpdateSetDetailsInstructions_UsingSetRef(setRef, sd.Instructions);
 
-                
+
                 //string JSONString = StaticData.GetRebrickableSetJSONString("7305-1");
                 //JSONString = JSONString.Replace("\\", "").TrimStart('\"').TrimEnd('\"');               
                 //byte[] buffer = Encoding.ASCII.GetBytes(JSONString);
@@ -95,6 +95,9 @@ namespace Generator
 
                 //XmlDocument doc1 = JsonConvert.DeserializeXmlNode(JSONString);
 
+                //string SetRef = "7305-1";
+                //string JSONString = StaticData.GetRebrickableSetJSONString(SetRef);
+                //DataTable targetTable = InstructionViewer.GeneratePartListTableFromRebrickable(JSONString);
 
             }
             catch (Exception ex)

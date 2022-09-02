@@ -24,8 +24,9 @@ using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Data.SqlTypes;
 using Newtonsoft.Json;
-using static ScintillaNET.Style;
-using Newtonsoft.Json.Linq;
+
+
+
 
 namespace Generator
 {
@@ -2088,7 +2089,6 @@ namespace Generator
                 string SetRef = fldCurrentSetRef.Text;
 
                 // ** GET SOURCE TABLE FROM FULL SET XML **
-                //XmlNodeList partListNodeList = fullSetXml.SelectNodes("//PartListPart");
                 XmlNodeList partListNodeList = currentSetXml.SelectNodes("//PartListPart");
                 DataTable sourceTable = GeneratePartListTable(partListNodeList);
                 sourceTable.DefaultView.Sort = "LDraw Colour ID, LDraw Ref";
@@ -2096,16 +2096,16 @@ namespace Generator
                 sourceTable.Columns.Add("Matched", typeof(string));
                 for (int a = 0; a < sourceTable.Rows.Count; a++) sourceTable.Rows[a]["Matched"] = "False";
 
-                // ** GET TARGET TABLE FROM REBRICKABLE **                
+                // ** GET TARGET TABLE FROM REBRICKABLE **
                 string JSONString = StaticData.GetRebrickableSetJSONString(SetRef);
-                DataTable targetTable = GeneratePartListTableFromRebrickable(JSONString);
-                targetTable.DefaultView.Sort = "LDraw Colour ID, LDraw Ref";
-                targetTable = targetTable.DefaultView.ToTable();
+                DataTable targetTable = GeneratePartListTable_FromRebrickableJSON(JSONString);
+                //targetTable.DefaultView.Sort = "LDraw Colour ID, LDraw Ref";
+                //targetTable = targetTable.DefaultView.ToTable();
                 targetTable.Columns.Add("Matched", typeof(string));
                 for (int a = 0; a < targetTable.Rows.Count; a++) targetTable.Rows[a]["Matched"] = "False";
 
                 #region ** RUN MATCHING PROCESS **
-                bool overallMatch = true;
+                //bool overallMatch = true;
                 for (int a = 0; a < sourceTable.Rows.Count; a++)
                 {
                     string Set_LDrawRef = sourceTable.Rows[a]["LDraw Ref"].ToString();
@@ -2115,7 +2115,8 @@ namespace Generator
                     // ** Find match **
                     var targetPart = (from r in targetTable.AsEnumerable()
                                       where r.Field<string>("Matched").Equals("False")
-                                      && r.Field<string>("LDraw Ref").Equals(Set_LDrawRef)
+                                      //&& r.Field<string>("LDraw Ref").Equals(Set_LDrawRef)
+                                      && r.Field<string>("LDraw Ref List").Contains(Set_LDrawRef + "|")                                      
                                       && r.Field<int>("LDraw Colour ID") == Set_LDrawColourID
                                       && r.Field<int>("Qty") == Set_Qty
                                       select r).FirstOrDefault();
@@ -2123,94 +2124,50 @@ namespace Generator
                     {
                         sourceTable.Rows[a]["Matched"] = true;
                         targetPart["Matched"] = true;
+                        targetPart["LDraw Ref"] = Set_LDrawRef;
+                        targetPart["LDraw Description"] = "Description";
                     }
                 }
-                int SourceUnmatchedCount = (from r in sourceTable.AsEnumerable()
-                                            where r.Field<string>("Matched").Equals("False")
-                                            select r).Count();
-                int TargetUnmatchedCount = (from r in targetTable.AsEnumerable()
-                                            where r.Field<string>("Matched").Equals("False")
-                                            select r).Count();
-                if (SourceUnmatchedCount > 0 || TargetUnmatchedCount > 0)
-                {
-                    overallMatch = false;
-                }
+                //int SourceUnmatchedCount = (from r in sourceTable.AsEnumerable()
+                //                            where r.Field<string>("Matched").Equals("False")
+                //                            select r).Count();
+                //int TargetUnmatchedCount = (from r in targetTable.AsEnumerable()
+                //                            where r.Field<string>("Matched").Equals("False")
+                //                            select r).Count();
+                //if (SourceUnmatchedCount > 0 || TargetUnmatchedCount > 0)
+                //{
+                //    overallMatch = false;
+                //}
                 #endregion
 
-                // ** IF OVERALL MATCH = FALSE, SHOW Matching Screen **
-                if (overallMatch == false)
-                {
-                    MatchingScreen form = new MatchingScreen() { sourceTable = sourceTable, sourceTableName = "Arfa Set", targetTable = targetTable, targetTableName = "Rebrickable" };                    
-                    form.Refresh_Screen();
-                    form.Visible = true;
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private DataTable GeneratePartListTableFromRebrickable(string JSONString)
-        {
-            DataTable partListTable = new DataTable("partListTable", "partListTable");
-            string LDrawRef_debug = "";
-            try
-            {
-                // ** Load JSON string to XML **                
-                XDocument xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(Encoding.ASCII.GetBytes(JSONString), new XmlDictionaryReaderQuotas()));
-                string XMLString = xml.ToString();
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(XMLString);
-                XmlNodeList partItemList = doc.SelectNodes("//item[@type='object' and is_spare='false']");
+                // ** Adjust target table sorting **
+                targetTable.DefaultView.Sort = "LDraw Colour ID, LDraw Ref";
+                targetTable = targetTable.DefaultView.ToTable();
 
                 #region ** GET DATA UPFRONT **
                 // Get a list of LDrawColourIDs & LDrawRefs
                 List<int> LDrawColourIDList = new List<int>();
                 List<string> LDrawRefList = new List<string>();
-                foreach (XmlNode partNode in partItemList)
+                foreach (DataRow row in targetTable.Rows)
                 {
-                    string LDrawRef = partNode.SelectSingleNode("part/part_num").InnerXml;
-                    if (partNode.SelectSingleNode("part/external_ids/LDraw") != null) LDrawRef = partNode.SelectSingleNode("part/external_ids/LDraw/item").InnerXml;                   
-                    if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);
-                    LDrawRef_debug = LDrawRef;
-                    //if(LDrawRef.Equals("64647"))
-                    //{
-                    //    string test = "";
-                    //}
-                    //int LDrawColourID = int.Parse(partNode.SelectSingleNode("color/id").InnerXml);
-                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("color/external_ids/LDraw/ext_ids/item[1]").InnerXml);
+                    string LDrawRef = row["LDraw Ref"].ToString();
+                    if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);                    
+                    int LDrawColourID = int.Parse(row["LDraw Colour ID"].ToString());
                     if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
-                    
+
                     // ** Get Element images **                
-                    if (chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });                    
+                    if (chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
                 }
                 PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
                 BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
                 #endregion
 
-                // ** GENERATE COLUMNS **
-                //DataTable partListTable = new DataTable("partListTable", "partListTable");
-                partListTable.Columns.Add("Part Image", typeof(Bitmap));
-                partListTable.Columns.Add("LDraw Ref", typeof(string));
-                partListTable.Columns.Add("LDraw Description", typeof(string));
-                partListTable.Columns.Add("LDraw Colour ID", typeof(int));
-                partListTable.Columns.Add("LDraw Colour Name", typeof(string));
-                partListTable.Columns.Add("Colour Image", typeof(Bitmap));
-                partListTable.Columns.Add("Qty", typeof(int));
-
-                // ** Cycle through nodes and generate table rows **               
-                foreach (XmlNode partNode in partItemList)
+                #region ** Enrich Target table with relevant details **
+                foreach (DataRow row in targetTable.Rows)
                 {
-                    // ** GET LDRAW VARIABLES **                    
-                    string LDrawRef = "";
-                    if(partNode.SelectSingleNode("part/part_num") != null) LDrawRef = partNode.SelectSingleNode("part/part_num").InnerXml;
-                    if (partNode.SelectSingleNode("part/external_ids/LDraw") != null) LDrawRef = partNode.SelectSingleNode("part/external_ids/LDraw/item").InnerXml;                    
-                    LDrawRef_debug = LDrawRef;
-                    // LDrawColourID = int.Parse(partNode.SelectSingleNode("color/id").InnerXml);
-                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("color/external_ids/LDraw/ext_ids/item[1]").InnerXml);
-                    int Qty = int.Parse(partNode.SelectSingleNode("quantity").InnerXml); 
+                    // ** Get LDraw variables **
+                    string LDrawRef = row["LDraw Ref"].ToString();
+                    int LDrawColourID = int.Parse(row["LDraw Colour ID"].ToString());
                     string LDrawColourName = (from r in PartColourCollection.PartColourList
                                               where r.LDrawColourID == LDrawColourID
                                               select r.LDrawColourName).FirstOrDefault();
@@ -2224,14 +2181,164 @@ namespace Generator
                     if (chkShowElementImages.Checked) elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
                     if (chkShowPartcolourImages.Checked) partColourImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
 
+                    // ** Update Target table **
+                    row["Part Image"] = elementImage;
+                    row["LDraw Description"] = LDrawDescription;
+                    row["LDraw Colour Name"] = LDrawColourName;
+                    row["Colour Image"] = partColourImage;  
+                }
+                #endregion
+
+                // ** Show Matching Screen **                
+                MatchingScreen form = new MatchingScreen() { sourceTable = sourceTable, sourceTableName = "Arfa Set", targetTable = targetTable, targetTableName = "Rebrickable" };                    
+                form.Refresh_Screen();
+                form.Visible = true;
+                return;                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        //private DataTable GeneratePartListTable_FromRebrickableJSON_old(string JSONString)
+        //{
+        //    DataTable partListTable = new DataTable("partListTable", "partListTable");
+        //    string LDrawRef_debug = "";
+        //    try
+        //    {
+        //        // ** GENERATE COLUMNS **
+        //        partListTable.Columns.Add("Part Image", typeof(Bitmap));
+        //        partListTable.Columns.Add("LDraw Ref", typeof(string));
+        //        partListTable.Columns.Add("LDraw Ref List", typeof(string));
+        //        partListTable.Columns.Add("LDraw Description", typeof(string));
+        //        partListTable.Columns.Add("LDraw Colour ID", typeof(int));
+        //        partListTable.Columns.Add("LDraw Colour Name", typeof(string));
+        //        partListTable.Columns.Add("Colour Image", typeof(Bitmap));
+        //        partListTable.Columns.Add("Qty", typeof(int));
+
+        //        // ** Load JSON string to XML **                
+        //        XDocument xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(Encoding.ASCII.GetBytes(JSONString), new XmlDictionaryReaderQuotas()));
+        //        string XMLString = xml.ToString();
+        //        XmlDocument doc = new XmlDocument();
+        //        doc.LoadXml(XMLString);
+        //        XmlNodeList partItemList = doc.SelectNodes("//item[@type='object' and is_spare='false']");
+
+        //        #region ** GET DATA UPFRONT **
+        //        //// Get a list of LDrawColourIDs & LDrawRefs
+        //        //List<int> LDrawColourIDList = new List<int>();
+        //        //List<string> LDrawRefList = new List<string>();
+        //        //foreach (XmlNode partNode in partItemList)
+        //        //{
+        //        //    string LDrawRef = partNode.SelectSingleNode("part/part_num").InnerXml;
+        //        //    if (partNode.SelectSingleNode("part/external_ids/LDraw") != null) LDrawRef = partNode.SelectSingleNode("part/external_ids/LDraw/item").InnerXml;                   
+        //        //    if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);
+        //        //    LDrawRef_debug = LDrawRef;                   
+        //        //    int LDrawColourID = int.Parse(partNode.SelectSingleNode("color/external_ids/LDraw/ext_ids/item[1]").InnerXml);
+        //        //    if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
+                    
+        //        //    // ** Get Element images **                
+        //        //    if (chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });                    
+        //        //}
+        //        //PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
+        //        //BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
+        //        #endregion
+
+        //        // ** Cycle through nodes and generate table rows **               
+        //        foreach (XmlNode partNode in partItemList)
+        //        {
+        //            // ** GET LDRAW VARIABLES **                    
+        //            string LDrawRef = "";
+        //            //if (partNode.SelectSingleNode("part/part_num") != null)
+        //            //{
+        //            //    LDrawRef = partNode.SelectSingleNode("part/part_num").InnerXml;
+        //            //}
+        //            //if (partNode.SelectSingleNode("part/external_ids/LDraw") != null)
+        //            //{
+        //            //    LDrawRef = partNode.SelectSingleNode("part/external_ids/LDraw/item").InnerXml;
+        //            //}                    
+        //            XmlNodeList nodeList = partNode.SelectNodes("part/external_ids/LDraw/item");
+        //            foreach(XmlNode node in nodeList)
+        //            {
+        //                LDrawRef += node.InnerText + "|";
+        //            }
+        //            LDrawRef_debug = LDrawRef;
+
+
+        //            // LDrawColourID = int.Parse(partNode.SelectSingleNode("color/id").InnerXml);
+        //            int LDrawColourID = int.Parse(partNode.SelectSingleNode("color/external_ids/LDraw/ext_ids/item[1]").InnerXml);
+        //            int Qty = int.Parse(partNode.SelectSingleNode("quantity").InnerXml); 
+        //            //string LDrawColourName = (from r in PartColourCollection.PartColourList
+        //            //                          where r.LDrawColourID == LDrawColourID
+        //            //                          select r.LDrawColourName).FirstOrDefault();
+        //            //string LDrawDescription = (from r in BasePartCollection.BasePartList
+        //            //                           where r.LDrawRef.Equals(LDrawRef)
+        //            //                           select r.LDrawDescription).FirstOrDefault();
+
+        //            // ** Get element & Partcolour images **
+        //            //Bitmap elementImage = null;
+        //            //Bitmap partColourImage = null;
+        //            //if (chkShowElementImages.Checked) elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+        //            //if (chkShowPartcolourImages.Checked) partColourImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
+
+        //            // ** Build row and add to table **                     
+        //            DataRow newRow = partListTable.NewRow();
+        //            //newRow["Part Image"] = elementImage;
+        //            //newRow["LDraw Ref"] = LDrawRef;
+        //            newRow["LDraw Ref List"] = LDrawRef;
+        //            //newRow["LDraw Description"] = LDrawDescription;
+        //            newRow["LDraw Colour ID"] = LDrawColourID;
+        //            //newRow["LDraw Colour Name"] = LDrawColourName;
+        //            //newRow["Colour Image"] = partColourImage;
+        //            newRow["Qty"] = Qty;
+        //            partListTable.Rows.Add(newRow);
+        //        }
+        //        return partListTable;
+        //    }
+        //    catch (Exception)
+        //    {                
+        //        return partListTable;
+        //    }
+        //}
+
+        private DataTable GeneratePartListTable_FromRebrickableJSON(string JSONString)
+        {
+            DataTable partListTable = new DataTable("partListTable", "partListTable");
+            //string LDrawRef_debug = "";
+            try
+            {
+                // ** GENERATE COLUMNS **
+                partListTable.Columns.Add("Part Image", typeof(Bitmap));
+                partListTable.Columns.Add("LDraw Ref", typeof(string));
+                partListTable.Columns.Add("LDraw Ref List", typeof(string));
+                partListTable.Columns.Add("LDraw Description", typeof(string));
+                partListTable.Columns.Add("LDraw Colour ID", typeof(int));
+                partListTable.Columns.Add("LDraw Colour Name", typeof(string));
+                partListTable.Columns.Add("Colour Image", typeof(Bitmap));
+                partListTable.Columns.Add("Qty", typeof(int));
+
+                // ** Load JSON string to XML **                
+                XDocument xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(Encoding.ASCII.GetBytes(JSONString), new XmlDictionaryReaderQuotas()));
+                string XMLString = xml.ToString();
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(XMLString);
+                XmlNodeList partItemList = doc.SelectNodes("//item[@type='object' and is_spare='false']");
+
+                // ** Cycle through nodes and generate table rows **               
+                foreach (XmlNode partNode in partItemList)
+                {
+                    // ** GET LDRAW VARIABLES **                    
+                    string LDrawRef = "";                      
+                    XmlNodeList nodeList = partNode.SelectNodes("part/external_ids/LDraw/item");
+                    foreach (XmlNode node in nodeList) LDrawRef += node.InnerText + "|";                    
+                    //LDrawRef_debug = LDrawRef;
+                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("color/external_ids/LDraw/ext_ids/item[1]").InnerXml);
+                    int Qty = int.Parse(partNode.SelectSingleNode("quantity").InnerXml);
+                    
                     // ** Build row and add to table **                     
-                    DataRow newRow = partListTable.NewRow();
-                    newRow["Part Image"] = elementImage;
-                    newRow["LDraw Ref"] = LDrawRef;
-                    newRow["LDraw Description"] = LDrawDescription;
+                    DataRow newRow = partListTable.NewRow();                   
+                    newRow["LDraw Ref List"] = LDrawRef;
                     newRow["LDraw Colour ID"] = LDrawColourID;
-                    newRow["LDraw Colour Name"] = LDrawColourName;
-                    newRow["Colour Image"] = partColourImage;
                     newRow["Qty"] = Qty;
                     partListTable.Rows.Add(newRow);
                 }
@@ -2239,9 +2346,6 @@ namespace Generator
             }
             catch (Exception)
             {
-                //MessageBox.Show(ex.Message);
-                //MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
-                //return null;
                 return partListTable;
             }
         }
@@ -5487,7 +5591,6 @@ namespace Generator
             this.Text = "Instruction Viewer";
             this.Text += " | " + "v" + versionArray[0] + "." + versionArray[1] + "." + versionArray[2];
         }
-
 
         private void ApplyModeSettings()
         {

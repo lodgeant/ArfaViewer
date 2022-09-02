@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
+
+
 
 namespace BaseClasses
 {
@@ -179,6 +183,60 @@ namespace BaseClasses
                 return null;
             }
         }
+
+
+
+        //public static DataTable GeneratePartListTable_FromRebrickableJSON(string JSONString)
+        //{
+        //    DataTable partListTable = new DataTable("partListTable", "partListTable");
+        //    //string LDrawRef_debug = "";
+        //    try
+        //    {
+        //        // ** GENERATE COLUMNS **
+        //        partListTable.Columns.Add("Part Image", typeof(Bitmap));
+        //        partListTable.Columns.Add("LDraw Ref", typeof(string));
+        //        partListTable.Columns.Add("LDraw Ref List", typeof(string));
+        //        partListTable.Columns.Add("LDraw Description", typeof(string));
+        //        partListTable.Columns.Add("LDraw Colour ID", typeof(int));
+        //        partListTable.Columns.Add("LDraw Colour Name", typeof(string));
+        //        partListTable.Columns.Add("Colour Image", typeof(Bitmap));
+        //        partListTable.Columns.Add("Qty", typeof(int));
+
+        //        // ** Load JSON string to XML **                
+        //        XDocument xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(Encoding.ASCII.GetBytes(JSONString), new XmlDictionaryReaderQuotas()));
+        //        string XMLString = xml.ToString();
+        //        XmlDocument doc = new XmlDocument();
+        //        doc.LoadXml(XMLString);
+        //        XmlNodeList partItemList = doc.SelectNodes("//item[@type='object' and is_spare='false']");
+
+        //        // ** Cycle through nodes and generate table rows **               
+        //        foreach (XmlNode partNode in partItemList)
+        //        {
+        //            // ** GET LDRAW VARIABLES **                    
+        //            string LDrawRef = "";
+        //            XmlNodeList nodeList = partNode.SelectNodes("part/external_ids/LDraw/item");
+        //            foreach (XmlNode node in nodeList)
+        //            {
+        //                LDrawRef += node.InnerText + "|";
+        //            }
+        //            //LDrawRef_debug = LDrawRef;
+        //            int LDrawColourID = int.Parse(partNode.SelectSingleNode("color/external_ids/LDraw/ext_ids/item[1]").InnerXml);
+        //            int Qty = int.Parse(partNode.SelectSingleNode("quantity").InnerXml);
+
+        //            // ** Build row and add to table **                     
+        //            DataRow newRow = partListTable.NewRow();
+        //            newRow["LDraw Ref List"] = LDrawRef;
+        //            newRow["LDraw Colour ID"] = LDrawColourID;
+        //            newRow["Qty"] = Qty;
+        //            partListTable.Rows.Add(newRow);
+        //        }
+        //        return partListTable;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return partListTable;
+        //    }
+        //}
 
 
 

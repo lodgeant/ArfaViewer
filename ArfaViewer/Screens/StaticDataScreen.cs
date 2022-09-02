@@ -18,8 +18,8 @@ namespace Generator
 {
     public partial class StaticDataScreen : Form
     {
-        private Scintilla LDrawDetailsData;
-        private Scintilla SubPartMappingData;
+        private Scintilla LDrawDetailsData = new ScintillaNET.Scintilla();
+        private Scintilla SubPartMappingData = new ScintillaNET.Scintilla();
 
 
         public StaticDataScreen()
@@ -101,9 +101,11 @@ namespace Generator
                 });
                 #endregion
 
-                // ** Set up Scintilla **
-                SetupScintilla_LDrawDetailsData();
-                SetupScintilla_SubPartMappingData();
+                // ** Set up Scintilla **               
+                pnlLDrawDetailsData.Controls.Add(LDrawDetailsData);
+                ApplyDefaultScintillaStyles(LDrawDetailsData);
+                pnlSubPartMappingData.Controls.Add(SubPartMappingData);
+                ApplyDefaultScintillaStyles(SubPartMappingData);
 
                 // ** Populate all PartType related dropdowns **
                 PopulatePartType_Dropdowns();
@@ -163,6 +165,21 @@ namespace Generator
             ShowPart(fldLDrawDetailsLDrawRef.Text, fldLDrawDetailsLDrawImage.Image);
         }
 
+        private void btnBasePartClear_Click(object sender, EventArgs e)
+        {
+            BasePart_Clear();
+        }
+
+        private void btnLDrawDetailsClear_Click(object sender, EventArgs e)
+        {
+            LDrawDetails_Clear();
+        }
+
+        private void btnSubPartMappingClear_Click(object sender, EventArgs e)
+        {
+            SubPartMapping_Clear();
+        }
+
         #endregion
 
         #region ** SCINTILLA FUNCTIONS **
@@ -171,94 +188,39 @@ namespace Generator
         private const int FOLDING_MARGIN = 3;
         private const bool CODEFOLDING_CURCULAR = false;
 
-        private void SetupScintilla_LDrawDetailsData()
+        private void ApplyDefaultScintillaStyles(Scintilla TextArea)
         {
-            try
-            {
-                // ** Initialise Scintilla Control Surface **
-                LDrawDetailsData = new ScintillaNET.Scintilla();
-                pnlLDrawDetailsData.Controls.Add(LDrawDetailsData);
-                LDrawDetailsData.Dock = System.Windows.Forms.DockStyle.Fill;
-                LDrawDetailsData.WrapMode = WrapMode.None;
-                LDrawDetailsData.IndentationGuides = IndentView.LookBoth;
+            TextArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            TextArea.WrapMode = WrapMode.None;
+            TextArea.IndentationGuides = IndentView.LookBoth;
 
-                // Configuring the default style with properties **
-                LDrawDetailsData.StyleResetDefault();
-                LDrawDetailsData.Styles[Style.Default].Font = "Consolas";
-                LDrawDetailsData.Styles[Style.Default].Size = 8;
-                LDrawDetailsData.Styles[Style.Default].BackColor = Color.Black;
-                LDrawDetailsData.Styles[Style.Default].ForeColor = Color.White;
+            // Configuring the default style with properties **
+            TextArea.StyleResetDefault();
+            TextArea.Styles[Style.Default].Font = "Consolas";
+            TextArea.Styles[Style.Default].Size = 8;
+            TextArea.Styles[Style.Default].BackColor = Color.Black;
+            TextArea.Styles[Style.Default].ForeColor = Color.White;
 
-                // ** Number Margin **
-                LDrawDetailsData.Styles[Style.LineNumber].ForeColor = Color.White;
-                LDrawDetailsData.Styles[Style.LineNumber].BackColor = Color.Black;
-                LDrawDetailsData.Styles[Style.IndentGuide].ForeColor = Color.White;
-                LDrawDetailsData.Styles[Style.IndentGuide].BackColor = Color.Black;
-                var nums = LDrawDetailsData.Margins[NUMBER_MARGIN];
-                nums.Width = 30;
-                nums.Type = MarginType.Number;
-                nums.Sensitive = true;
-                nums.Mask = 0;
+            // ** Number Margin **
+            TextArea.Styles[Style.LineNumber].ForeColor = Color.White;
+            TextArea.Styles[Style.LineNumber].BackColor = Color.Black;
+            TextArea.Styles[Style.IndentGuide].ForeColor = Color.White;
+            TextArea.Styles[Style.IndentGuide].BackColor = Color.Black;
+            var nums = TextArea.Margins[NUMBER_MARGIN];
+            nums.Width = 30;
+            nums.Type = MarginType.Number;
+            nums.Sensitive = true;
+            nums.Mask = 0;
 
-                // ** UPDATE LEXER TO XML **
-                LDrawDetailsData.Lexer = Lexer.Xml;
-                LDrawDetailsData.StyleClearAll();
+            // ** UPDATE LEXER TO XML **
+            TextArea.Lexer = Lexer.Xml;
+            TextArea.StyleClearAll();
 
-                // ** Configure the CPP Lexer styles **
-                LDrawDetailsData.Styles[Style.Xml.Comment].ForeColor = Color.Gray;
-                LDrawDetailsData.Styles[Style.Xml.Tag].ForeColor = Color.White;
-                LDrawDetailsData.Styles[Style.Xml.Attribute].ForeColor = Color.Red;
-                LDrawDetailsData.Styles[Style.Xml.DoubleString].ForeColor = Color.Yellow;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void SetupScintilla_SubPartMappingData()
-        {
-            try
-            {
-                // ** Initialise Scintilla Control Surface **
-                SubPartMappingData = new ScintillaNET.Scintilla();
-                pnlSubPartMappingData.Controls.Add(SubPartMappingData);
-                SubPartMappingData.Dock = System.Windows.Forms.DockStyle.Fill;
-                SubPartMappingData.WrapMode = WrapMode.None;
-                SubPartMappingData.IndentationGuides = IndentView.LookBoth;
-
-                // Configuring the default style with properties **
-                SubPartMappingData.StyleResetDefault();
-                SubPartMappingData.Styles[Style.Default].Font = "Consolas";
-                SubPartMappingData.Styles[Style.Default].Size = 8;
-                SubPartMappingData.Styles[Style.Default].BackColor = Color.Black;
-                SubPartMappingData.Styles[Style.Default].ForeColor = Color.White;
-
-                // ** Number Margin **
-                SubPartMappingData.Styles[Style.LineNumber].ForeColor = Color.White;
-                SubPartMappingData.Styles[Style.LineNumber].BackColor = Color.Black;
-                SubPartMappingData.Styles[Style.IndentGuide].ForeColor = Color.White;
-                SubPartMappingData.Styles[Style.IndentGuide].BackColor = Color.Black;
-                var nums = SubPartMappingData.Margins[NUMBER_MARGIN];
-                nums.Width = 30;
-                nums.Type = MarginType.Number;
-                nums.Sensitive = true;
-                nums.Mask = 0;
-
-                // ** UPDATE LEXER TO XML **
-                SubPartMappingData.Lexer = Lexer.Xml;
-                SubPartMappingData.StyleClearAll();
-
-                // ** Configure the CPP Lexer styles **
-                SubPartMappingData.Styles[Style.Xml.Comment].ForeColor = Color.Gray;
-                SubPartMappingData.Styles[Style.Xml.Tag].ForeColor = Color.White;
-                SubPartMappingData.Styles[Style.Xml.Attribute].ForeColor = Color.Red;
-                SubPartMappingData.Styles[Style.Xml.DoubleString].ForeColor = Color.Yellow;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            // ** Configure the CPP Lexer styles **
+            TextArea.Styles[Style.Xml.Comment].ForeColor = Color.Gray;
+            TextArea.Styles[Style.Xml.Tag].ForeColor = Color.White;
+            TextArea.Styles[Style.Xml.Attribute].ForeColor = Color.Red;
+            TextArea.Styles[Style.Xml.DoubleString].ForeColor = Color.Yellow;
         }
 
         #endregion
@@ -888,6 +850,52 @@ namespace Generator
         }
 
         #endregion
+
+
+        private void BasePart_Clear()
+        {
+            fldBasePartLDrawRef.Text = "";
+            fldBasePartLDrawImage.Image = null;
+            fldBasePartLDrawDescription.Text = "";
+            fldBasePartLDrawSize.Text = "";
+            fldBasePartPartType.Text = "";
+            fldBasePartLDrawPartType.Text = "";
+            chkBasePartIsSubPart.Checked = false;
+            chkBasePartIsSticker.Checked = false;
+            chkBasePartIsLargeModel.Checked = false;
+            fldBasePartOffsetX.Text = "";
+            fldBasePartOffsetY.Text = "";
+            fldBasePartOffsetZ.Text = "";
+        }
+
+        private void LDrawDetails_Clear()
+        {
+            fldLDrawDetailsLDrawRef.Text = "";
+            fldLDrawDetailsLDrawImage.Image = null;
+            fldLDrawDetailsLDrawDescription.Text = "";
+            fldLDrawDetailsPartType.Text = "";
+            fldLDrawDetailsLDrawPartType.Text = "";
+            fldLDrawDetailsSubPartCount.Text = "";
+            fldLDrawDetailsLDrawRefList.Text = "";
+            LDrawDetailsData.Text = "";
+        }
+
+        private void SubPartMapping_Clear()
+        {
+            fldSubPartMappingParentLDrawRef.Text = "";
+            fldSubPartMappingParentLDrawImage.Image = null;
+            fldSubPartMappingSubPartLDrawRef.Text = "";
+            fldSubPartMappingSubPartLDrawImage.Image = null;
+            fldSubPartMappingSubPartLDrawColourID.Text = "";
+            fldSubPartMappingPosX.Text = "";
+            fldSubPartMappingPosY.Text = "";
+            fldSubPartMappingPosZ.Text = "";
+            fldSubPartMappingRotX.Text = "";
+            fldSubPartMappingRotY.Text = "";
+            fldSubPartMappingRotZ.Text = "";
+            SubPartMappingData.Text = "";
+        }
+
 
 
     }

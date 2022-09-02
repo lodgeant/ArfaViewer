@@ -104,7 +104,7 @@
             this.lblLDrawDetailsLDrawRefList = new System.Windows.Forms.ToolStripLabel();
             this.fldLDrawDetailsLDrawRefList = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.btnLDrawDetailsClear = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
@@ -128,8 +128,10 @@
             this.toolStrip5 = new System.Windows.Forms.ToolStrip();
             this.lblSubPartMappingParentLDrawRef = new System.Windows.Forms.ToolStripLabel();
             this.fldSubPartMappingParentLDrawRef = new System.Windows.Forms.ToolStripTextBox();
+            this.fldSubPartMappingParentLDrawImage = new System.Windows.Forms.ToolStripButton();
             this.lblSubPartMappingSubPartLDrawRef = new System.Windows.Forms.ToolStripLabel();
             this.fldSubPartMappingSubPartLDrawRef = new System.Windows.Forms.ToolStripTextBox();
+            this.fldSubPartMappingSubPartLDrawImage = new System.Windows.Forms.ToolStripButton();
             this.lblSubPartMappingSubPartLDrawColourID = new System.Windows.Forms.ToolStripLabel();
             this.fldSubPartMappingSubPartLDrawColourID = new System.Windows.Forms.ToolStripTextBox();
             this.lblSubPartMappingPosX = new System.Windows.Forms.ToolStripLabel();
@@ -145,7 +147,7 @@
             this.lblSubPartMappingRotZ = new System.Windows.Forms.ToolStripLabel();
             this.fldSubPartMappingRotZ = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
+            this.btnSubPartMappingClear = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton12 = new System.Windows.Forms.ToolStripButton();
@@ -160,8 +162,6 @@
             this.pnlSubPartMappingData = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.chkShowPartImages = new System.Windows.Forms.CheckBox();
-            this.fldSubPartMappingParentLDrawImage = new System.Windows.Forms.ToolStripButton();
-            this.fldSubPartMappingSubPartLDrawImage = new System.Windows.Forms.ToolStripButton();
             this.tsHeader.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -543,12 +543,12 @@
             // 
             // btnBasePartClear
             // 
-            this.btnBasePartClear.BackColor = System.Drawing.Color.Pink;
             this.btnBasePartClear.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartClear.Image")));
             this.btnBasePartClear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnBasePartClear.Name = "btnBasePartClear";
             this.btnBasePartClear.Size = new System.Drawing.Size(54, 22);
             this.btnBasePartClear.Text = "Clear";
+            this.btnBasePartClear.Click += new System.EventHandler(this.btnBasePartClear_Click);
             // 
             // toolStripSeparator3
             // 
@@ -761,7 +761,7 @@
             this.lblLDrawDetailsLDrawRefList,
             this.fldLDrawDetailsLDrawRefList,
             this.toolStripSeparator6,
-            this.toolStripButton4,
+            this.btnLDrawDetailsClear,
             this.toolStripSeparator8,
             this.toolStripButton6,
             this.toolStripButton7});
@@ -863,14 +863,14 @@
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton4
+            // btnLDrawDetailsClear
             // 
-            this.toolStripButton4.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(54, 22);
-            this.toolStripButton4.Text = "Clear";
+            this.btnLDrawDetailsClear.Image = ((System.Drawing.Image)(resources.GetObject("btnLDrawDetailsClear.Image")));
+            this.btnLDrawDetailsClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLDrawDetailsClear.Name = "btnLDrawDetailsClear";
+            this.btnLDrawDetailsClear.Size = new System.Drawing.Size(54, 22);
+            this.btnLDrawDetailsClear.Text = "Clear";
+            this.btnLDrawDetailsClear.Click += new System.EventHandler(this.btnLDrawDetailsClear_Click);
             // 
             // toolStripSeparator8
             // 
@@ -1076,7 +1076,7 @@
             this.lblSubPartMappingRotZ,
             this.fldSubPartMappingRotZ,
             this.toolStripSeparator11,
-            this.toolStripButton10,
+            this.btnSubPartMappingClear,
             this.toolStripSeparator12,
             this.toolStripButton11,
             this.toolStripButton12});
@@ -1099,6 +1099,13 @@
             this.fldSubPartMappingParentLDrawRef.Name = "fldSubPartMappingParentLDrawRef";
             this.fldSubPartMappingParentLDrawRef.Size = new System.Drawing.Size(100, 25);
             // 
+            // fldSubPartMappingParentLDrawImage
+            // 
+            this.fldSubPartMappingParentLDrawImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fldSubPartMappingParentLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fldSubPartMappingParentLDrawImage.Name = "fldSubPartMappingParentLDrawImage";
+            this.fldSubPartMappingParentLDrawImage.Size = new System.Drawing.Size(23, 22);
+            // 
             // lblSubPartMappingSubPartLDrawRef
             // 
             this.lblSubPartMappingSubPartLDrawRef.Name = "lblSubPartMappingSubPartLDrawRef";
@@ -1111,6 +1118,13 @@
             this.fldSubPartMappingSubPartLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingSubPartLDrawRef.Name = "fldSubPartMappingSubPartLDrawRef";
             this.fldSubPartMappingSubPartLDrawRef.Size = new System.Drawing.Size(100, 25);
+            // 
+            // fldSubPartMappingSubPartLDrawImage
+            // 
+            this.fldSubPartMappingSubPartLDrawImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fldSubPartMappingSubPartLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fldSubPartMappingSubPartLDrawImage.Name = "fldSubPartMappingSubPartLDrawImage";
+            this.fldSubPartMappingSubPartLDrawImage.Size = new System.Drawing.Size(23, 22);
             // 
             // lblSubPartMappingSubPartLDrawColourID
             // 
@@ -1214,14 +1228,14 @@
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton10
+            // btnSubPartMappingClear
             // 
-            this.toolStripButton10.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton10.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton10.Image")));
-            this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton10.Name = "toolStripButton10";
-            this.toolStripButton10.Size = new System.Drawing.Size(54, 22);
-            this.toolStripButton10.Text = "Clear";
+            this.btnSubPartMappingClear.Image = ((System.Drawing.Image)(resources.GetObject("btnSubPartMappingClear.Image")));
+            this.btnSubPartMappingClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSubPartMappingClear.Name = "btnSubPartMappingClear";
+            this.btnSubPartMappingClear.Size = new System.Drawing.Size(54, 22);
+            this.btnSubPartMappingClear.Text = "Clear";
+            this.btnSubPartMappingClear.Click += new System.EventHandler(this.btnSubPartMappingClear_Click);
             // 
             // toolStripSeparator12
             // 
@@ -1340,20 +1354,6 @@
             this.chkShowPartImages.TabIndex = 111;
             this.chkShowPartImages.Text = "Show Part Images";
             this.chkShowPartImages.UseVisualStyleBackColor = false;
-            // 
-            // fldSubPartMappingParentLDrawImage
-            // 
-            this.fldSubPartMappingParentLDrawImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.fldSubPartMappingParentLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.fldSubPartMappingParentLDrawImage.Name = "fldSubPartMappingParentLDrawImage";
-            this.fldSubPartMappingParentLDrawImage.Size = new System.Drawing.Size(23, 22);
-            // 
-            // fldSubPartMappingSubPartLDrawImage
-            // 
-            this.fldSubPartMappingSubPartLDrawImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.fldSubPartMappingSubPartLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.fldSubPartMappingSubPartLDrawImage.Name = "fldSubPartMappingSubPartLDrawImage";
-            this.fldSubPartMappingSubPartLDrawImage.Size = new System.Drawing.Size(23, 22);
             // 
             // StaticDataScreen
             // 
@@ -1489,7 +1489,7 @@
         private System.Windows.Forms.ToolStripLabel lblLDrawDetailsSubPartCount;
         private System.Windows.Forms.ToolStripTextBox fldLDrawDetailsSubPartCount;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripButton btnLDrawDetailsClear;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripButton toolStripButton6;
         private System.Windows.Forms.ToolStripButton toolStripButton7;
@@ -1529,7 +1529,7 @@
         private System.Windows.Forms.ToolStripLabel lblSubPartMappingRotZ;
         private System.Windows.Forms.ToolStripTextBox fldSubPartMappingRotZ;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
-        private System.Windows.Forms.ToolStripButton toolStripButton10;
+        private System.Windows.Forms.ToolStripButton btnSubPartMappingClear;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.ToolStripButton toolStripButton11;
         private System.Windows.Forms.ToolStripButton toolStripButton12;
