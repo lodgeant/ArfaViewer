@@ -271,12 +271,14 @@
             this.btnCompareWithRebrickable = new System.Windows.Forms.ToolStripButton();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.pnlRebrickableXML = new System.Windows.Forms.Panel();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.pnlLDRString = new System.Windows.Forms.Panel();
             this.chkShowPages = new System.Windows.Forms.CheckBox();
             this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
             this.chkShowElementImages = new System.Windows.Forms.CheckBox();
             this.chkShowFBXDetails = new System.Windows.Forms.CheckBox();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.pnlLDRString = new System.Windows.Forms.Panel();
+            this.btnPartListRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -2180,6 +2182,7 @@
             // 
             // btnOpenInNotePadPlus
             // 
+            this.btnOpenInNotePadPlus.BackColor = System.Drawing.Color.Pink;
             this.btnOpenInNotePadPlus.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenInNotePadPlus.Image")));
             this.btnOpenInNotePadPlus.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOpenInNotePadPlus.Name = "btnOpenInNotePadPlus";
@@ -2436,6 +2439,8 @@
             // toolStrip10
             // 
             this.toolStrip10.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnPartListRefresh,
+            this.toolStripSeparator4,
             this.btnCompareWithRebrickable});
             this.toolStrip10.Location = new System.Drawing.Point(0, 0);
             this.toolStrip10.Name = "toolStrip10";
@@ -2469,6 +2474,24 @@
             this.pnlRebrickableXML.Name = "pnlRebrickableXML";
             this.pnlRebrickableXML.Size = new System.Drawing.Size(1485, 676);
             this.pnlRebrickableXML.TabIndex = 28;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.pnlLDRString);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(1485, 676);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "LDR";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // pnlLDRString
+            // 
+            this.pnlLDRString.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlLDRString.Location = new System.Drawing.Point(0, 0);
+            this.pnlLDRString.Name = "pnlLDRString";
+            this.pnlLDRString.Size = new System.Drawing.Size(1485, 676);
+            this.pnlLDRString.TabIndex = 29;
             // 
             // chkShowPages
             // 
@@ -2515,23 +2538,19 @@
             this.chkShowFBXDetails.Text = "Show FBX Details";
             this.chkShowFBXDetails.UseVisualStyleBackColor = false;
             // 
-            // tabPage6
+            // btnPartListRefresh
             // 
-            this.tabPage6.Controls.Add(this.pnlLDRString);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1485, 676);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "LDR";
-            this.tabPage6.UseVisualStyleBackColor = true;
+            this.btnPartListRefresh.BackColor = System.Drawing.Color.Pink;
+            this.btnPartListRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnPartListRefresh.Image")));
+            this.btnPartListRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPartListRefresh.Name = "btnPartListRefresh";
+            this.btnPartListRefresh.Size = new System.Drawing.Size(66, 22);
+            this.btnPartListRefresh.Text = "Refresh";
             // 
-            // pnlLDRString
+            // toolStripSeparator4
             // 
-            this.pnlLDRString.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlLDRString.Location = new System.Drawing.Point(0, 0);
-            this.pnlLDRString.Name = "pnlLDRString";
-            this.pnlLDRString.Size = new System.Drawing.Size(1485, 676);
-            this.pnlLDRString.TabIndex = 29;
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // InstructionViewer
             // 
@@ -2894,6 +2913,8 @@
         private System.Windows.Forms.ToolStripStatusLabel lblMiniFigsPartListCount;
         private System.Windows.Forms.TabPage tabPage6;
         private System.Windows.Forms.Panel pnlLDRString;
+        private System.Windows.Forms.ToolStripButton btnPartListRefresh;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     }
 }
 
