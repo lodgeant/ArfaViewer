@@ -33,6 +33,7 @@ namespace Generator
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private TreeNode lastSelectedNode;
         private string lastSelectedNodeFullPath = "";
+        private DataTable dgSetDetailsSummaryTable_Orig;
 
 
         public SetDetailsScreen()
@@ -70,6 +71,26 @@ namespace Generator
                 fldStatus.SelectedIndex = 0;
                 lblTreeviewStatus.Text = "";
                 lblSetDetailsStatus.Text = "";
+                lblSetDetailsSummaryItemFilteredCount.Text = "";
+
+                #region ** ADD SET DETAILS HEADER TOOLSTRIP ITEMS **
+                tsSetDetailsHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+                {
+                    btnSetDetailsRefresh,
+                    toolStripSeparator4,
+                    btnSetDetailsSummaryCopyToClipboard,
+                    toolStripSeparator7,
+                    lblRefAc,
+                    new ToolStripControlHost(chkRefAcEquals),
+                    fldRefAc,
+                    lblDescriptionAc,
+                    new ToolStripControlHost(chkDescriptionAcEquals),
+                    fldDescriptionAc,
+                    lblStatusAc,
+                    new ToolStripControlHost(chkStatusAcEquals),
+                    fldStatusAc
+                });
+                #endregion
 
                 // ** Refresh Screen **
                 RefreshThemeTreeview();
@@ -148,6 +169,21 @@ namespace Generator
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void fldRefAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessSetDetailsSummaryFilter();
+        }
+
+        private void fldDescriptionAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessSetDetailsSummaryFilter();
+        }
+
+        private void fldStatusAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessSetDetailsSummaryFilter();
         }
 
         #endregion
@@ -452,7 +488,13 @@ namespace Generator
                 //lblPartListWithMFsCount.Text = "";
                 dgSetDetailsSummary.DataSource = null;
                 lblSetDetailsCount.Text = "";
-
+                lblSetDetailsSummaryItemFilteredCount.Text = "";
+                fldRefAc.Text = "";
+                chkRefAcEquals.Checked = false;
+                fldDescriptionAc.Text = "";
+                chkDescriptionAcEquals.Checked = false;
+                fldStatusAc.Text = "";
+                chkStatusAcEquals.Checked = false;
 
                 // ** Run background to process functions **
                 bw_RefreshSetDetailsSummary = new BackgroundWorker
@@ -522,6 +564,7 @@ namespace Generator
                     DataTable setDetailsTable = GenerateSetDetailsTable(coll);
                     setDetailsTable.DefaultView.Sort = "Theme, Sub Theme, Ref";
                     setDetailsTable = setDetailsTable.DefaultView.ToTable();
+                    dgSetDetailsSummaryTable_Orig = setDetailsTable;
                     Delegates.DataGridView_SetDataSource(this, dgSetDetailsSummary, setDetailsTable);
                     AdjustSetDetailsSummaryRowFormatting(dgSetDetailsSummary);
 
@@ -1149,16 +1192,118 @@ namespace Generator
 
 
 
+
+
+
+
+
+
+
+
         #endregion
 
+        #region ** ACCELERATOR FUNCTIONS **
+
+        private void ProcessSetDetailsSummaryFilter()
+        {
+            try
+            {
+                if (dgSetDetailsSummaryTable_Orig.Rows.Count > 0)
+                {
+                    // ** Reset summaey screen **
+                    lblSetDetailsSummaryItemFilteredCount.Text = "";
+                    Delegates.DataGridView_SetDataSource(this, dgSetDetailsSummary, dgSetDetailsSummaryTable_Orig);
+                    AdjustSetDetailsSummaryRowFormatting(dgSetDetailsSummary);
+
+                    // ** Determine what filters have been applied **
+                    if (fldRefAc.Text != "" || fldDescriptionAc.Text != "" || fldStatusAc.Text != "")
+                    //if (fldLDrawRefAc.Text != "" || fldLDrawColourNameAc.Text != "" || chkFBXMissingAc.Checked == true)
+                    {
+                        List<DataRow> filteredRows = dgSetDetailsSummaryTable_Orig.AsEnumerable().CopyToDataTable().AsEnumerable().ToList();
+
+                        #region ** Apply filtering for Ref **
+                        if (filteredRows.Count > 0)
+                        {
+                            if (chkRefAcEquals.Checked)
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("Ref").ToUpper().Equals(fldRefAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                            else
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("Ref").ToUpper().Contains(fldRefAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                        }
+                        #endregion
+
+                        #region ** Apply filtering for Description **
+                        if (filteredRows.Count > 0)
+                        {
+                            if (chkDescriptionAcEquals.Checked)
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("Description").ToUpper().Equals(fldDescriptionAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                            else
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("Description").ToUpper().Contains(fldDescriptionAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                        }
+                        #endregion
+
+                        #region ** Apply filtering for Status **
+                        if (filteredRows.Count > 0)
+                        {
+                            if (chkStatusAcEquals.Checked)
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("Status").ToUpper().Equals(fldStatusAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                            else
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("Status").ToUpper().Contains(fldStatusAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                        }
+                        #endregion
 
 
+                        #region ** Apply filtering for FBX **
+                        //if (chkFBXMissingAc.Checked)
+                        //{
+                        //    filteredRows = filteredRows.CopyToDataTable().AsEnumerable().Where(row => row.Field<bool>("Unity FBX") == false).ToList();
+                        //}
+                        #endregion
+
+                        #region ** Apply filters **
+                        Delegates.DataGridView_SetDataSource(this, dgSetDetailsSummary, null);
+                        if (filteredRows.Count > 0)
+                        {
+                            Delegates.DataGridView_SetDataSource(this, dgSetDetailsSummary, filteredRows.CopyToDataTable());
+                            AdjustSetDetailsSummaryRowFormatting(dgSetDetailsSummary);
+                        }
+                        lblSetDetailsSummaryItemFilteredCount.Text = filteredRows.Count + " filtered Set(s)";
+                        #endregion
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
 
         
-
-
-
-
     }
 }
 

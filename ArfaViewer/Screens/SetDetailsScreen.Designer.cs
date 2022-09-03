@@ -86,22 +86,26 @@
             this.gpThemeSummary = new System.Windows.Forms.GroupBox();
             this.dgSetDetailsSummary = new System.Windows.Forms.DataGridView();
             this.c = new System.Windows.Forms.StatusStrip();
-            this.lblSetDetailsCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsPartSummary = new System.Windows.Forms.ToolStrip();
-            this.btnSetDetailsRefresh = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnPartSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel8 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.lblLDrawRefAc = new System.Windows.Forms.ToolStripLabel();
-            this.fldLDrawRefAc = new System.Windows.Forms.ToolStripTextBox();
-            this.lblLDrawColourNameAc = new System.Windows.Forms.ToolStripLabel();
-            this.fldLDrawColourNameAc = new System.Windows.Forms.ToolStripTextBox();
-            this.ilThemeTemplate = new System.Windows.Forms.ImageList(this.components);
-            this.chkShowSetImages = new System.Windows.Forms.CheckBox();
             this.pbSetDetails = new System.Windows.Forms.ToolStripProgressBar();
             this.lblSetDetailsStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblSetDetailsCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsSetDetailsHeader = new System.Windows.Forms.ToolStrip();
+            this.btnSetDetailsRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnSetDetailsSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.lblDescriptionAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldDescriptionAc = new System.Windows.Forms.ToolStripTextBox();
+            this.lblStatusAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldStatusAc = new System.Windows.Forms.ToolStripTextBox();
+            this.ilThemeTemplate = new System.Windows.Forms.ImageList(this.components);
+            this.chkShowSetImages = new System.Windows.Forms.CheckBox();
+            this.lblRefAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldRefAc = new System.Windows.Forms.ToolStripTextBox();
+            this.lblSetDetailsSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.chkRefAcEquals = new System.Windows.Forms.CheckBox();
+            this.chkDescriptionAcEquals = new System.Windows.Forms.CheckBox();
+            this.chkStatusAcEquals = new System.Windows.Forms.CheckBox();
             this.toolStrip1.SuspendLayout();
             this.gpSetDetails.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -117,7 +121,7 @@
             this.gpThemeSummary.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSetDetailsSummary)).BeginInit();
             this.c.SuspendLayout();
-            this.tsPartSummary.SuspendLayout();
+            this.tsSetDetailsHeader.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -583,9 +587,12 @@
             // 
             // gpThemeSummary
             // 
+            this.gpThemeSummary.Controls.Add(this.chkStatusAcEquals);
+            this.gpThemeSummary.Controls.Add(this.chkDescriptionAcEquals);
+            this.gpThemeSummary.Controls.Add(this.chkRefAcEquals);
             this.gpThemeSummary.Controls.Add(this.dgSetDetailsSummary);
             this.gpThemeSummary.Controls.Add(this.c);
-            this.gpThemeSummary.Controls.Add(this.tsPartSummary);
+            this.gpThemeSummary.Controls.Add(this.tsSetDetailsHeader);
             this.gpThemeSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpThemeSummary.Location = new System.Drawing.Point(0, 0);
             this.gpThemeSummary.Name = "gpThemeSummary";
@@ -610,12 +617,25 @@
             this.c.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pbSetDetails,
             this.lblSetDetailsStatus,
-            this.lblSetDetailsCount});
+            this.lblSetDetailsCount,
+            this.lblSetDetailsSummaryItemFilteredCount});
             this.c.Location = new System.Drawing.Point(3, 505);
             this.c.Name = "c";
             this.c.Size = new System.Drawing.Size(1517, 22);
             this.c.TabIndex = 68;
             this.c.Text = "statusStrip2";
+            // 
+            // pbSetDetails
+            // 
+            this.pbSetDetails.ForeColor = System.Drawing.Color.Lime;
+            this.pbSetDetails.Name = "pbSetDetails";
+            this.pbSetDetails.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblSetDetailsStatus
+            // 
+            this.lblSetDetailsStatus.Name = "lblSetDetailsStatus";
+            this.lblSetDetailsStatus.Size = new System.Drawing.Size(103, 17);
+            this.lblSetDetailsStatus.Text = "lblSetDetailsStatus";
             // 
             // lblSetDetailsCount
             // 
@@ -623,24 +643,24 @@
             this.lblSetDetailsCount.Size = new System.Drawing.Size(104, 17);
             this.lblSetDetailsCount.Text = "lblSetDetailsCount";
             // 
-            // tsPartSummary
+            // tsSetDetailsHeader
             // 
-            this.tsPartSummary.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsSetDetailsHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnSetDetailsRefresh,
             this.toolStripSeparator4,
-            this.btnPartSummaryCopyToClipboard,
+            this.btnSetDetailsSummaryCopyToClipboard,
             this.toolStripSeparator7,
-            this.toolStripLabel8,
-            this.toolStripTextBox1,
-            this.lblLDrawRefAc,
-            this.fldLDrawRefAc,
-            this.lblLDrawColourNameAc,
-            this.fldLDrawColourNameAc});
-            this.tsPartSummary.Location = new System.Drawing.Point(3, 16);
-            this.tsPartSummary.Name = "tsPartSummary";
-            this.tsPartSummary.Size = new System.Drawing.Size(1517, 25);
-            this.tsPartSummary.TabIndex = 27;
-            this.tsPartSummary.Text = "toolStrip4";
+            this.lblRefAc,
+            this.fldRefAc,
+            this.lblDescriptionAc,
+            this.fldDescriptionAc,
+            this.lblStatusAc,
+            this.fldStatusAc});
+            this.tsSetDetailsHeader.Location = new System.Drawing.Point(3, 16);
+            this.tsSetDetailsHeader.Name = "tsSetDetailsHeader";
+            this.tsSetDetailsHeader.Size = new System.Drawing.Size(1517, 25);
+            this.tsSetDetailsHeader.TabIndex = 27;
+            this.tsSetDetailsHeader.Text = "toolStrip4";
             // 
             // btnSetDetailsRefresh
             // 
@@ -656,59 +676,47 @@
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
-            // btnPartSummaryCopyToClipboard
+            // btnSetDetailsSummaryCopyToClipboard
             // 
-            this.btnPartSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
-            this.btnPartSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnPartSummaryCopyToClipboard.Image")));
-            this.btnPartSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPartSummaryCopyToClipboard.Name = "btnPartSummaryCopyToClipboard";
-            this.btnPartSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
-            this.btnPartSummaryCopyToClipboard.Text = "Copy to Clipboard";
+            this.btnSetDetailsSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
+            this.btnSetDetailsSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnSetDetailsSummaryCopyToClipboard.Image")));
+            this.btnSetDetailsSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSetDetailsSummaryCopyToClipboard.Name = "btnSetDetailsSummaryCopyToClipboard";
+            this.btnSetDetailsSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
+            this.btnSetDetailsSummaryCopyToClipboard.Text = "Copy to Clipboard";
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripLabel8
+            // lblDescriptionAc
             // 
-            this.toolStripLabel8.Name = "toolStripLabel8";
-            this.toolStripLabel8.Size = new System.Drawing.Size(70, 22);
-            this.toolStripLabel8.Text = "Description:";
+            this.lblDescriptionAc.Name = "lblDescriptionAc";
+            this.lblDescriptionAc.Size = new System.Drawing.Size(70, 22);
+            this.lblDescriptionAc.Text = "Description:";
             // 
-            // toolStripTextBox1
+            // fldDescriptionAc
             // 
-            this.toolStripTextBox1.BackColor = System.Drawing.Color.Wheat;
-            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 25);
+            this.fldDescriptionAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldDescriptionAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldDescriptionAc.Name = "fldDescriptionAc";
+            this.fldDescriptionAc.Size = new System.Drawing.Size(100, 25);
+            this.fldDescriptionAc.TextChanged += new System.EventHandler(this.fldDescriptionAc_TextChanged);
             // 
-            // lblLDrawRefAc
+            // lblStatusAc
             // 
-            this.lblLDrawRefAc.Name = "lblLDrawRefAc";
-            this.lblLDrawRefAc.Size = new System.Drawing.Size(42, 22);
-            this.lblLDrawRefAc.Text = "Status:";
+            this.lblStatusAc.Name = "lblStatusAc";
+            this.lblStatusAc.Size = new System.Drawing.Size(42, 22);
+            this.lblStatusAc.Text = "Status:";
             // 
-            // fldLDrawRefAc
+            // fldStatusAc
             // 
-            this.fldLDrawRefAc.BackColor = System.Drawing.Color.Wheat;
-            this.fldLDrawRefAc.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldLDrawRefAc.Name = "fldLDrawRefAc";
-            this.fldLDrawRefAc.Size = new System.Drawing.Size(100, 25);
-            // 
-            // lblLDrawColourNameAc
-            // 
-            this.lblLDrawColourNameAc.BackColor = System.Drawing.Color.Pink;
-            this.lblLDrawColourNameAc.Name = "lblLDrawColourNameAc";
-            this.lblLDrawColourNameAc.Size = new System.Drawing.Size(73, 22);
-            this.lblLDrawColourNameAc.Text = "Assigned To:";
-            // 
-            // fldLDrawColourNameAc
-            // 
-            this.fldLDrawColourNameAc.BackColor = System.Drawing.Color.Wheat;
-            this.fldLDrawColourNameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldLDrawColourNameAc.Name = "fldLDrawColourNameAc";
-            this.fldLDrawColourNameAc.Size = new System.Drawing.Size(125, 25);
+            this.fldStatusAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldStatusAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldStatusAc.Name = "fldStatusAc";
+            this.fldStatusAc.Size = new System.Drawing.Size(100, 25);
+            this.fldStatusAc.TextChanged += new System.EventHandler(this.fldStatusAc_TextChanged);
             // 
             // ilThemeTemplate
             // 
@@ -728,17 +736,57 @@
             this.chkShowSetImages.Text = "Show Set Images";
             this.chkShowSetImages.UseVisualStyleBackColor = false;
             // 
-            // pbSetDetails
+            // lblRefAc
             // 
-            this.pbSetDetails.ForeColor = System.Drawing.Color.Lime;
-            this.pbSetDetails.Name = "pbSetDetails";
-            this.pbSetDetails.Size = new System.Drawing.Size(100, 16);
+            this.lblRefAc.Name = "lblRefAc";
+            this.lblRefAc.Size = new System.Drawing.Size(27, 22);
+            this.lblRefAc.Text = "Ref:";
             // 
-            // lblSetDetailsStatus
+            // fldRefAc
             // 
-            this.lblSetDetailsStatus.Name = "lblSetDetailsStatus";
-            this.lblSetDetailsStatus.Size = new System.Drawing.Size(103, 17);
-            this.lblSetDetailsStatus.Text = "lblSetDetailsStatus";
+            this.fldRefAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldRefAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldRefAc.Name = "fldRefAc";
+            this.fldRefAc.Size = new System.Drawing.Size(100, 25);
+            this.fldRefAc.TextChanged += new System.EventHandler(this.fldRefAc_TextChanged);
+            // 
+            // lblSetDetailsSummaryItemFilteredCount
+            // 
+            this.lblSetDetailsSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblSetDetailsSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
+            this.lblSetDetailsSummaryItemFilteredCount.Name = "lblSetDetailsSummaryItemFilteredCount";
+            this.lblSetDetailsSummaryItemFilteredCount.Size = new System.Drawing.Size(233, 17);
+            this.lblSetDetailsSummaryItemFilteredCount.Text = "lblSetDetailsSummaryItemFilteredCount";
+            // 
+            // chkRefAcEquals
+            // 
+            this.chkRefAcEquals.AutoSize = true;
+            this.chkRefAcEquals.Location = new System.Drawing.Point(677, 16);
+            this.chkRefAcEquals.Name = "chkRefAcEquals";
+            this.chkRefAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkRefAcEquals.TabIndex = 85;
+            this.chkRefAcEquals.Text = "=";
+            this.chkRefAcEquals.UseVisualStyleBackColor = true;
+            // 
+            // chkDescriptionAcEquals
+            // 
+            this.chkDescriptionAcEquals.AutoSize = true;
+            this.chkDescriptionAcEquals.Location = new System.Drawing.Point(715, 16);
+            this.chkDescriptionAcEquals.Name = "chkDescriptionAcEquals";
+            this.chkDescriptionAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkDescriptionAcEquals.TabIndex = 86;
+            this.chkDescriptionAcEquals.Text = "=";
+            this.chkDescriptionAcEquals.UseVisualStyleBackColor = true;
+            // 
+            // chkStatusAcEquals
+            // 
+            this.chkStatusAcEquals.AutoSize = true;
+            this.chkStatusAcEquals.Location = new System.Drawing.Point(753, 16);
+            this.chkStatusAcEquals.Name = "chkStatusAcEquals";
+            this.chkStatusAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkStatusAcEquals.TabIndex = 87;
+            this.chkStatusAcEquals.Text = "=";
+            this.chkStatusAcEquals.UseVisualStyleBackColor = true;
             // 
             // SetDetailsScreen
             // 
@@ -776,8 +824,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgSetDetailsSummary)).EndInit();
             this.c.ResumeLayout(false);
             this.c.PerformLayout();
-            this.tsPartSummary.ResumeLayout(false);
-            this.tsPartSummary.PerformLayout();
+            this.tsSetDetailsHeader.ResumeLayout(false);
+            this.tsSetDetailsHeader.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -822,19 +870,17 @@
         private System.Windows.Forms.DataGridView dgSetDetailsSummary;
         private System.Windows.Forms.StatusStrip c;
         private System.Windows.Forms.ToolStripStatusLabel lblSetDetailsCount;
-        private System.Windows.Forms.ToolStrip tsPartSummary;
-        private System.Windows.Forms.ToolStripButton btnPartSummaryCopyToClipboard;
+        private System.Windows.Forms.ToolStrip tsSetDetailsHeader;
+        private System.Windows.Forms.ToolStripButton btnSetDetailsSummaryCopyToClipboard;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton btnOpenInViewer;
         private System.Windows.Forms.ToolStripButton btnSetDetailsRefresh;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripLabel lblLDrawRefAc;
-        private System.Windows.Forms.ToolStripTextBox fldLDrawRefAc;
-        private System.Windows.Forms.ToolStripLabel lblLDrawColourNameAc;
-        private System.Windows.Forms.ToolStripTextBox fldLDrawColourNameAc;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel8;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripLabel lblStatusAc;
+        private System.Windows.Forms.ToolStripTextBox fldStatusAc;
+        private System.Windows.Forms.ToolStripLabel lblDescriptionAc;
+        private System.Windows.Forms.ToolStripTextBox fldDescriptionAc;
         private System.Windows.Forms.ToolStripLabel toolStripLabel9;
         private System.Windows.Forms.ToolStripTextBox fldInstructionRefs;
         private System.Windows.Forms.ToolStrip toolStrip3;
@@ -857,5 +903,11 @@
         private System.Windows.Forms.ToolStripStatusLabel lblTreeviewStatus;
         private System.Windows.Forms.ToolStripProgressBar pbSetDetails;
         private System.Windows.Forms.ToolStripStatusLabel lblSetDetailsStatus;
+        private System.Windows.Forms.ToolStripLabel lblRefAc;
+        private System.Windows.Forms.ToolStripTextBox fldRefAc;
+        private System.Windows.Forms.ToolStripStatusLabel lblSetDetailsSummaryItemFilteredCount;
+        private System.Windows.Forms.CheckBox chkRefAcEquals;
+        private System.Windows.Forms.CheckBox chkStatusAcEquals;
+        private System.Windows.Forms.CheckBox chkDescriptionAcEquals;
     }
 }
