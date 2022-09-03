@@ -409,6 +409,20 @@ namespace Generator
             PostJSONRequestFromURL(url, json);
         }
 
+        public static void UpdateBasePart(BasePart bp)
+        {
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(bp);
+            string url = Global_Variables.APIUrl2 + "BasePart/UpdateBasePart";
+            PostJSONRequestFromURL(url, json);
+        }
+
+        public static void DeleteBasePart(string LDrawRef)
+        {
+            string url = Global_Variables.APIUrl2 + "BasePart/DeleteBasePart?LDrawRef=" + LDrawRef;
+            PostRequestFromURL(url);
+        }
+
+
 
         // ** SubPartMapping functions **
 

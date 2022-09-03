@@ -20,6 +20,9 @@ namespace Generator
     {
         private Scintilla LDrawDetailsData = new ScintillaNET.Scintilla();
         private Scintilla SubPartMappingData = new ScintillaNET.Scintilla();
+        private DataTable dgBasePartSummaryTable_Orig;
+        private DataTable dgLDrawDetailsSummaryTable_Orig;
+        private DataTable dgSubPartMappingSummaryTable_Orig;
 
 
         public StaticDataScreen()
@@ -70,6 +73,24 @@ namespace Generator
                 });
                 #endregion
 
+                #region ** ADD BASEPART HEADER TOOLSTRIP ITEMS **
+                tsBasePartHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+                {
+                    btnBasePartRefresh,
+                    toolStripSeparator1,
+                    btnBasePartSummaryCopyToClipboard,
+                    toolStripSeparator7,
+                    lblBasePartLDrawRefAc,
+                    new ToolStripControlHost(chkBasePartLDrawRefAcEquals),
+                    fldBasePartLDrawRefAc,
+                    new ToolStripControlHost(chkLockLDrawRef),
+                    lblBasePartLDrawDescriptionAc,
+                    new ToolStripControlHost(chkBasePartLDrawDescriptionAcEquals),
+                    fldBasePartLDrawDescriptionAc,
+                    //new ToolStripControlHost(chkLockLDrawRef),                    
+                });
+                #endregion
+
                 #region ** ADD BASEPART SUMMARY TOOLSTRIP ITEMS **
                 tsBasePartDetails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] 
                 {
@@ -100,6 +121,37 @@ namespace Generator
                     btnBasePartDelete
                 });
                 #endregion
+
+                #region ** ADD LDRAWDETAILS HEADER TOOLSTRIP ITEMS **
+                tsLDrawDetailsHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+                {
+                    btnLDrawDetailsRefresh,
+                    toolStripSeparator4,
+                    btnLDrawDetailsSummaryCopyToClipboard,
+                    toolStripSeparator7,
+                    lblLDrawDetailsLDrawRefAc,
+                    new ToolStripControlHost(chkLDrawDetailsLDrawRefAcEquals),
+                    fldLDrawDetailsLDrawRefAc,
+                    lblLDrawDetailsLDrawDescriptionAc,
+                    new ToolStripControlHost(chkLDrawDetailsLDrawDescriptionAcEquals),
+                    fldLDrawDetailsLDrawDescriptionAc,                    
+                });
+                #endregion
+
+                #region ** ADD SUB PART MAPPING HEADER TOOLSTRIP ITEMS **
+                tsSubPartMappingHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+                {
+                    btnSubPartMappingRefresh,
+                    toolStripSeparator9,
+                    btnSubPartMappingSummaryCopyToClipboard,
+                    toolStripSeparator10,
+                    lblSubPartMappingParentLDrawRefAc,                    
+                    new ToolStripControlHost(chkSubPartMappingParentLDrawRefAcEquals),
+                    fldSubPartMappingParentLDrawRefAc
+                });
+                #endregion
+
+
 
                 // ** Set up Scintilla **               
                 pnlLDrawDetailsData.Controls.Add(LDrawDetailsData);
@@ -179,6 +231,56 @@ namespace Generator
         {
             SubPartMapping_Clear();
         }
+
+        private void btnBasePartSave_Click(object sender, EventArgs e)
+        {
+            BasePart_Save();
+        }
+
+        private void btnBasePartDelete_Click(object sender, EventArgs e)
+        {
+            DeleteBasePart();
+        }
+
+        private void chkLockLDrawRef_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkLockLDrawRef.Checked)
+            {
+                fldLDrawDetailsLDrawRefAc.Text = fldBasePartLDrawRefAc.Text;
+                fldSubPartMappingParentLDrawRefAc.Text = fldBasePartLDrawRefAc.Text;
+            }
+        }
+
+        private void fldBasePartLDrawRefAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessBasePartSummaryFilter();
+            if (chkLockLDrawRef.Checked)
+            {
+                fldLDrawDetailsLDrawRefAc.Text = fldBasePartLDrawRefAc.Text;
+                fldSubPartMappingParentLDrawRefAc.Text = fldBasePartLDrawRefAc.Text;
+            }
+        }
+
+        private void fldBasePartLDrawDescriptionAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessBasePartSummaryFilter();
+        }
+
+        private void fldLDrawDetailsLDrawRefAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessLDrawDetailsSummaryFilter();
+        }
+
+        private void fldLDrawDetailsLDrawDescriptionAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessLDrawDetailsSummaryFilter();
+        }
+
+        private void fldSubPartMappingParentLDrawRefAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessSubPartMappingSummaryFilter();
+        }
+
 
         #endregion
 
@@ -285,6 +387,9 @@ namespace Generator
                 dgBasePartSummary.DataSource = null;                
                 lblBasePartCount.Text = "";
                 lblBasePartSummaryItemFilteredCount.Text = "";
+                BasePart_Clear();
+                fldBasePartLDrawRefAc.Text = "";
+                fldBasePartLDrawDescriptionAc.Text = "";
 
                 // ** Run background to process functions **
                 bw_RefreshBasePart = new BackgroundWorker
@@ -343,7 +448,7 @@ namespace Generator
                 Delegates.ToolStripLabel_SetText(this, lblBasePartStatus, "Refreshing - Getting BasePart data...");
                 BasePartCollection bpc = StaticData.GetBasePartData_All();
                 DataTable table = BasePartCollection.GetDatatableFromBasePartCollection(bpc);
-
+                
                 // ** Enrich images onto data **
                 Delegates.ToolStripLabel_SetText(this, lblBasePartStatus, "Refreshing - Enriching Part images...");
                 Delegates.ToolStripProgressBar_SetMax(this, pbBasePartStatus, bpc.BasePartList.Count);
@@ -362,6 +467,7 @@ namespace Generator
                         imageIndex += 1;
                     }
                 }
+                dgBasePartSummaryTable_Orig = table;
                 Delegates.ToolStripProgressBar_SetValue(this, pbBasePartStatus, 0);
 
                 // ** Posting data to summary **
@@ -437,6 +543,9 @@ namespace Generator
                 lblLDrawDetailsCount.Text = "";
                 lblLDrawDetailsSummaryItemFilteredCount.Text = "";
                 LDrawDetailsData.Text = "";
+                LDrawDetails_Clear();
+                fldLDrawDetailsLDrawRefAc.Text = "";
+                fldLDrawDetailsLDrawDescriptionAc.Text = "";
 
                 // ** Run background to process functions **
                 bw_RefreshLDrawDetails = new BackgroundWorker
@@ -514,6 +623,7 @@ namespace Generator
                         imageIndex += 1;
                     }
                 }
+                dgLDrawDetailsSummaryTable_Orig = table;
                 Delegates.ToolStripProgressBar_SetValue(this, pbLDrawDetailsStatus, 0);
 
                 // ** Posting data to summary **
@@ -523,7 +633,7 @@ namespace Generator
 
                 // ** Format summary **
                 Delegates.ToolStripLabel_SetText(this, lblLDrawDetailsStatus, "Refreshing - Formatting summary data...");
-                AdjustBaseLDrawDetailsSummaryRowFormatting(dgLDrawDetailsSummary);
+                AdjustLDrawDetailsSummaryRowFormatting(dgLDrawDetailsSummary);
                 Delegates.ToolStripLabel_SetText(this, lblLDrawDetailsStatus, "");
             }
             catch (Exception ex)
@@ -532,11 +642,11 @@ namespace Generator
             }
         }
 
-        private void AdjustBaseLDrawDetailsSummaryRowFormatting(DataGridView dg)
+        private void AdjustLDrawDetailsSummaryRowFormatting(DataGridView dg)
         {
             if (this.InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(() => AdjustBaseLDrawDetailsSummaryRowFormatting(dg)));
+                this.BeginInvoke(new MethodInvoker(() => AdjustLDrawDetailsSummaryRowFormatting(dg)));
             }
             else
             {
@@ -672,6 +782,7 @@ namespace Generator
                         imageIndex += 1;
                     }
                 }
+                dgSubPartMappingSummaryTable_Orig = table;
                 Delegates.ToolStripProgressBar_SetValue(this, pbSubPartMappingStatus, 0);
 
                 // ** Posting data to summary **
@@ -716,9 +827,6 @@ namespace Generator
                 //}
             }
         }
-
-
-
 
         #endregion
 
@@ -851,6 +959,330 @@ namespace Generator
 
         #endregion
 
+        #region ** ACCELERATOR FUNCTIONS **
+
+        private void ProcessBasePartSummaryFilter()
+        {
+            try
+            {
+                if (dgBasePartSummaryTable_Orig.Rows.Count > 0)
+                {
+                    // ** Reset summaey screen **
+                    lblBasePartSummaryItemFilteredCount.Text = "";
+                    Delegates.DataGridView_SetDataSource(this, dgBasePartSummary, dgBasePartSummaryTable_Orig);
+                    AdjustBasePartSummaryRowFormatting(dgBasePartSummary);
+
+                    // ** Determine what filters have been applied **
+                    if (fldBasePartLDrawRefAc.Text != "" || fldBasePartLDrawDescriptionAc.Text != "")
+                    //if (fldLDrawRefAc.Text != "" || fldLDrawColourNameAc.Text != "" || chkFBXMissingAc.Checked == true)
+                    {
+                        List<DataRow> filteredRows = dgBasePartSummaryTable_Orig.AsEnumerable().CopyToDataTable().AsEnumerable().ToList();
+
+                        #region ** Apply filtering for LDraw Ref **
+                        if (filteredRows.Count > 0)
+                        {
+                            if (chkBasePartLDrawRefAcEquals.Checked)
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("LDraw Ref").ToUpper().Equals(fldBasePartLDrawRefAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                            else
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("LDraw Ref").ToUpper().Contains(fldBasePartLDrawRefAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                        }
+                        #endregion
+
+                        #region ** Apply filtering for LDraw Description **
+                        if (filteredRows.Count > 0)
+                        {
+                            if (chkBasePartLDrawDescriptionAcEquals.Checked)
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("LDraw Description").ToUpper().Equals(fldBasePartLDrawDescriptionAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                            else
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("LDraw Description").ToUpper().Contains(fldBasePartLDrawDescriptionAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                        }
+                        #endregion
+
+                        #region ** Apply filtering for FBX **
+                        //if (chkFBXMissingAc.Checked)
+                        //{
+                        //    filteredRows = filteredRows.CopyToDataTable().AsEnumerable().Where(row => row.Field<bool>("Unity FBX") == false).ToList();
+                        //}
+                        #endregion
+
+                        #region ** Apply filters **
+                        Delegates.DataGridView_SetDataSource(this, dgBasePartSummary, null);
+                        if (filteredRows.Count > 0)
+                        {
+                            Delegates.DataGridView_SetDataSource(this, dgBasePartSummary, filteredRows.CopyToDataTable());
+                            AdjustBasePartSummaryRowFormatting(dgBasePartSummary);
+                        }
+                        lblBasePartSummaryItemFilteredCount.Text = filteredRows.Count + " filtered part(s)";
+                        #endregion
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ProcessLDrawDetailsSummaryFilter()
+        {
+            try
+            {
+                if (dgLDrawDetailsSummaryTable_Orig.Rows.Count > 0)
+                {
+                    // ** Reset summaey screen **
+                    lblLDrawDetailsSummaryItemFilteredCount.Text = "";
+                    Delegates.DataGridView_SetDataSource(this, dgLDrawDetailsSummary, dgLDrawDetailsSummaryTable_Orig);
+                    AdjustLDrawDetailsSummaryRowFormatting(dgLDrawDetailsSummary);
+
+                    // ** Determine what filters have been applied **
+                    if (fldLDrawDetailsLDrawRefAc.Text != "" || fldLDrawDetailsLDrawDescriptionAc.Text != "")
+                    //if (fldLDrawRefAc.Text != "" || fldLDrawColourNameAc.Text != "" || chkFBXMissingAc.Checked == true)
+                    {
+                        List<DataRow> filteredRows = dgLDrawDetailsSummaryTable_Orig.AsEnumerable().CopyToDataTable().AsEnumerable().ToList();
+
+                        #region ** Apply filtering for LDraw Ref **
+                        if (filteredRows.Count > 0)
+                        {
+                            if (chkLDrawDetailsLDrawRefAcEquals.Checked)
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("LDraw Ref").ToUpper().Equals(fldLDrawDetailsLDrawRefAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                            else
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("LDraw Ref").ToUpper().Contains(fldLDrawDetailsLDrawRefAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                        }
+                        #endregion
+
+                        #region ** Apply filtering for LDraw Description **
+                        if (filteredRows.Count > 0)
+                        {
+                            if (chkLDrawDetailsLDrawDescriptionAcEquals.Checked)
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("LDraw Description").ToUpper().Equals(fldLDrawDetailsLDrawDescriptionAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                            else
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("LDraw Description").ToUpper().Contains(fldLDrawDetailsLDrawDescriptionAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                        }
+                        #endregion
+
+                        #region ** Apply filtering for FBX **
+                        //if (chkFBXMissingAc.Checked)
+                        //{
+                        //    filteredRows = filteredRows.CopyToDataTable().AsEnumerable().Where(row => row.Field<bool>("Unity FBX") == false).ToList();
+                        //}
+                        #endregion
+
+                        #region ** Apply filters **
+                        Delegates.DataGridView_SetDataSource(this, dgLDrawDetailsSummary, null);
+                        if (filteredRows.Count > 0)
+                        {
+                            Delegates.DataGridView_SetDataSource(this, dgLDrawDetailsSummary, filteredRows.CopyToDataTable());
+                            AdjustLDrawDetailsSummaryRowFormatting(dgLDrawDetailsSummary);
+                        }
+                        lblLDrawDetailsSummaryItemFilteredCount.Text = filteredRows.Count + " filtered part(s)";
+                        #endregion
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ProcessSubPartMappingSummaryFilter()
+        {
+            try
+            {
+                if (dgSubPartMappingSummaryTable_Orig.Rows.Count > 0)
+                {
+                    // ** Reset summaey screen **
+                    lblSubPartMappingSummaryItemFilteredCount.Text = "";
+                    Delegates.DataGridView_SetDataSource(this, dgSubPartMappingSummary, dgSubPartMappingSummaryTable_Orig);
+                    AdjustSubPartMappingSummaryRowFormatting(dgSubPartMappingSummary);
+
+                    // ** Determine what filters have been applied **
+                    if (fldSubPartMappingParentLDrawRefAc.Text != "")
+                    //if (fldLDrawRefAc.Text != "" || fldLDrawColourNameAc.Text != "" || chkFBXMissingAc.Checked == true)
+                    {
+                        List<DataRow> filteredRows = dgSubPartMappingSummaryTable_Orig.AsEnumerable().CopyToDataTable().AsEnumerable().ToList();
+
+                        #region ** Apply filtering for Parent LDraw Ref **
+                        if (filteredRows.Count > 0)
+                        {
+                            if (chkSubPartMappingParentLDrawRefAcEquals.Checked)
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("Parent LDraw Ref").ToUpper().Equals(fldSubPartMappingParentLDrawRefAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                            else
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("Parent LDraw Ref").ToUpper().Contains(fldSubPartMappingParentLDrawRefAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                        }
+                        #endregion
+
+                        #region ** Apply filtering for LDraw Description **
+                        //if (filteredRows.Count > 0)
+                        //{
+                        //    if (chkLDrawDetailsLDrawDescriptionAcEquals.Checked)
+                        //    {
+                        //        filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                        //                                    .Where(row => row.Field<string>("LDraw Description").ToUpper().Equals(fldLDrawDetailsLDrawDescriptionAc.Text.ToUpper()))
+                        //                                    .ToList();
+                        //    }
+                        //    else
+                        //    {
+                        //        filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                        //                                    .Where(row => row.Field<string>("LDraw Description").ToUpper().Contains(fldLDrawDetailsLDrawDescriptionAc.Text.ToUpper()))
+                        //                                    .ToList();
+                        //    }
+                        //}
+                        #endregion
+
+                        #region ** Apply filtering for FBX **
+                        //if (chkFBXMissingAc.Checked)
+                        //{
+                        //    filteredRows = filteredRows.CopyToDataTable().AsEnumerable().Where(row => row.Field<bool>("Unity FBX") == false).ToList();
+                        //}
+                        #endregion
+
+                        #region ** Apply filters **
+                        Delegates.DataGridView_SetDataSource(this, dgSubPartMappingSummary, null);
+                        if (filteredRows.Count > 0)
+                        {
+                            Delegates.DataGridView_SetDataSource(this, dgSubPartMappingSummary, filteredRows.CopyToDataTable());
+                            AdjustSubPartMappingSummaryRowFormatting(dgSubPartMappingSummary);
+                        }
+                        lblSubPartMappingSummaryItemFilteredCount.Text = filteredRows.Count + " filtered part(s)";
+                        #endregion
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region ** BASEPART FUNCTIONS **
+
+        private void BasePart_Save()
+        {
+            try
+            {
+                // ** Validation Checks **               
+                if (fldBasePartLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");
+                string LDrawRef = fldBasePartLDrawRef.Text;
+                if (fldBasePartLDrawDescription.Text.Equals("")) throw new Exception("No LDraw Description entered...");
+                if (fldBasePartPartType.Text.Equals("")) throw new Exception("No Part Type entered...");
+                if (fldBasePartLDrawPartType.Text.Equals("")) throw new Exception("No LDraw Part Type entered...");
+
+                // Check if BasePart already exists - if so update it, if not, add it.
+                string action = "UPDATE";
+                BasePart bp = StaticData.GetBasePart(LDrawRef);
+                if (bp == null)
+                {
+                    action = "ADD";
+                    bp = new BasePart();                    
+                }
+                bp.LDrawRef = LDrawRef;
+                bp.LDrawDescription = fldBasePartLDrawDescription.Text;
+                int LDrawSize = 0; ;
+                int.TryParse(fldBasePartLDrawSize.Text, out LDrawSize);
+                bp.LDrawSize = LDrawSize;
+                bp.partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), fldBasePartPartType.Text, true);
+                bp.lDrawPartType = (BasePart.LDrawPartType)Enum.Parse(typeof(BasePart.LDrawPartType), fldBasePartLDrawPartType.Text, true);
+                bp.IsSubPart = chkBasePartIsSubPart.Checked;
+                bp.IsSticker = chkBasePartIsSticker.Checked;
+                bp.IsLargeModel = chkBasePartIsLargeModel.Checked;
+                int OffsetX = 0; ;
+                int.TryParse(fldBasePartOffsetX.Text, out OffsetX);
+                bp.OffsetX = OffsetX;
+                int OffsetY = 0; ;
+                int.TryParse(fldBasePartOffsetY.Text, out OffsetY);
+                bp.OffsetY = OffsetY;
+                int OffsetZ = 0; ;
+                int.TryParse(fldBasePartOffsetZ.Text, out OffsetZ);
+                bp.OffsetZ = OffsetZ;
+
+                // ** Determine what action to take **
+                if (action.Equals("ADD"))
+                {
+                    StaticData.AddBasePart(bp);
+                }
+                else if (action.Equals("UPDATE"))
+                {
+                    StaticData.UpdateBasePart(bp);
+                }
+
+                // ** Tidy Up **
+                //ClearAllSetDetailsFields();
+                RefreshBasePart();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void DeleteBasePart()
+        {
+            try
+            {
+                // ** Validations **
+                if (fldBasePartLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");
+                string LDrawRef = fldBasePartLDrawRef.Text;
+
+                // ** Check if LDrawRef exists **
+                bool exists = StaticData.CheckIfBasePartExists(LDrawRef);
+                if (exists == false) throw new Exception("LDraw Ref doesn't exist for " + LDrawRef);
+
+                // ** Delete BasePart **
+                StaticData.DeleteBasePart(LDrawRef);
+                
+                // ** Tidy Up **
+                BasePart_Clear();
+                RefreshBasePart();
+                MessageBox.Show("BasePart " + LDrawRef + " deleted successfully...");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         private void BasePart_Clear()
         {
@@ -867,6 +1299,11 @@ namespace Generator
             fldBasePartOffsetY.Text = "";
             fldBasePartOffsetZ.Text = "";
         }
+
+        #endregion
+
+
+
 
         private void LDrawDetails_Clear()
         {
@@ -895,6 +1332,15 @@ namespace Generator
             fldSubPartMappingRotZ.Text = "";
             SubPartMappingData.Text = "";
         }
+
+
+
+
+
+
+
+       
+
 
 
 
