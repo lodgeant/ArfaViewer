@@ -239,46 +239,53 @@
             this.toolStripLabel9 = new System.Windows.Forms.ToolStripLabel();
             this.fldSetDescription = new System.Windows.Forms.ToolStripTextBox();
             this.btnSetSaveNode = new System.Windows.Forms.ToolStripButton();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.pnlSetXML = new System.Windows.Forms.Panel();
-            this.toolStrip5 = new System.Windows.Forms.ToolStrip();
-            this.btnOpenInNotePadPlus = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.toolStrip13 = new System.Windows.Forms.ToolStrip();
+            this.btnShowBaseXMLInNotePadPlus = new System.Windows.Forms.ToolStripButton();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.pnlSetWithMFXML = new System.Windows.Forms.Panel();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.toolStrip14 = new System.Windows.Forms.ToolStrip();
+            this.btnShowWithMFXMLInNotePadPlus = new System.Windows.Forms.ToolStripButton();
+            this.tpPartList = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gpPartListBasic = new System.Windows.Forms.GroupBox();
             this.dgPartListSummary = new System.Windows.Forms.DataGridView();
             this.toolStrip11 = new System.Windows.Forms.ToolStrip();
             this.btnPartListBasicCopyToClipboard = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblPartListCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gpPartListMiniFigs = new System.Windows.Forms.GroupBox();
             this.dgMiniFigsPartListSummary = new System.Windows.Forms.DataGridView();
             this.toolStrip4 = new System.Windows.Forms.ToolStrip();
             this.btnPartListMFCopyToClipboard = new System.Windows.Forms.ToolStripButton();
             this.statusStrip4 = new System.Windows.Forms.StatusStrip();
             this.lblMiniFigsPartListCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.gpPartListWithMF = new System.Windows.Forms.GroupBox();
             this.dgPartListWithMFsSummary = new System.Windows.Forms.DataGridView();
             this.toolStrip12 = new System.Windows.Forms.ToolStrip();
             this.btnPartListWithMFCopyToClipboard = new System.Windows.Forms.ToolStripButton();
             this.statusStrip3 = new System.Windows.Forms.StatusStrip();
             this.lblPartListWithMFsCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStrip10 = new System.Windows.Forms.ToolStrip();
+            this.tsPartListHeader = new System.Windows.Forms.ToolStrip();
+            this.btnPartListRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.btnCompareWithRebrickable = new System.Windows.Forms.ToolStripButton();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.pnlRebrickableXML = new System.Windows.Forms.Panel();
+            this.toolStrip5 = new System.Windows.Forms.ToolStrip();
+            this.btnShowRebrickableXMLInNotePadPlus = new System.Windows.Forms.ToolStripButton();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.pnlLDRString = new System.Windows.Forms.Panel();
             this.chkShowPages = new System.Windows.Forms.CheckBox();
             this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
             this.chkShowElementImages = new System.Windows.Forms.CheckBox();
             this.chkShowFBXDetails = new System.Windows.Forms.CheckBox();
-            this.btnPartListRefresh = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.pbPartlist = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblPartListStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -309,10 +316,16 @@
             this.toolStrip3.SuspendLayout();
             this.gpSet.SuspendLayout();
             this.toolStrip6.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.toolStrip5.SuspendLayout();
-            this.tabPage4.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.tabPage7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.toolStrip13.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.toolStrip14.SuspendLayout();
+            this.tpPartList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -321,20 +334,21 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.gpPartListBasic.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPartListSummary)).BeginInit();
             this.toolStrip11.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.gpPartListMiniFigs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgMiniFigsPartListSummary)).BeginInit();
             this.toolStrip4.SuspendLayout();
             this.statusStrip4.SuspendLayout();
-            this.groupBox4.SuspendLayout();
+            this.gpPartListWithMF.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPartListWithMFsSummary)).BeginInit();
             this.toolStrip12.SuspendLayout();
             this.statusStrip3.SuspendLayout();
-            this.toolStrip10.SuspendLayout();
+            this.tsPartListHeader.SuspendLayout();
             this.tabPage5.SuspendLayout();
+            this.toolStrip5.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -731,11 +745,10 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tpPartList);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 25);
             this.tabControl1.Name = "tabControl1";
@@ -2149,80 +2162,121 @@
             this.btnSetSaveNode.Text = "Save";
             this.btnSetSaveNode.Click += new System.EventHandler(this.btnSetSaveNode_Click);
             // 
-            // tabPage2
+            // tabPage7
             // 
-            this.tabPage2.Controls.Add(this.pnlSetXML);
-            this.tabPage2.Controls.Add(this.toolStrip5);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1485, 676);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "XML";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage7.Controls.Add(this.splitContainer4);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(1485, 676);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "Set XMLs";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.groupBox5);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.groupBox6);
+            this.splitContainer4.Size = new System.Drawing.Size(1485, 676);
+            this.splitContainer4.SplitterDistance = 801;
+            this.splitContainer4.TabIndex = 1;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.pnlSetXML);
+            this.groupBox5.Controls.Add(this.toolStrip13);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox5.Location = new System.Drawing.Point(0, 0);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(801, 676);
+            this.groupBox5.TabIndex = 1;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Base";
             // 
             // pnlSetXML
             // 
             this.pnlSetXML.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlSetXML.Location = new System.Drawing.Point(3, 28);
+            this.pnlSetXML.Location = new System.Drawing.Point(3, 41);
             this.pnlSetXML.Name = "pnlSetXML";
-            this.pnlSetXML.Size = new System.Drawing.Size(1479, 645);
-            this.pnlSetXML.TabIndex = 27;
+            this.pnlSetXML.Size = new System.Drawing.Size(795, 632);
+            this.pnlSetXML.TabIndex = 28;
             // 
-            // toolStrip5
+            // toolStrip13
             // 
-            this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnOpenInNotePadPlus,
-            this.toolStripSeparator18});
-            this.toolStrip5.Location = new System.Drawing.Point(3, 3);
-            this.toolStrip5.Name = "toolStrip5";
-            this.toolStrip5.Size = new System.Drawing.Size(1479, 25);
-            this.toolStrip5.TabIndex = 26;
-            this.toolStrip5.Text = "toolStrip5";
+            this.toolStrip13.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnShowBaseXMLInNotePadPlus});
+            this.toolStrip13.Location = new System.Drawing.Point(3, 16);
+            this.toolStrip13.Name = "toolStrip13";
+            this.toolStrip13.Size = new System.Drawing.Size(795, 25);
+            this.toolStrip13.TabIndex = 27;
+            this.toolStrip13.Text = "toolStrip13";
             // 
-            // btnOpenInNotePadPlus
+            // btnShowBaseXMLInNotePadPlus
             // 
-            this.btnOpenInNotePadPlus.BackColor = System.Drawing.Color.Pink;
-            this.btnOpenInNotePadPlus.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenInNotePadPlus.Image")));
-            this.btnOpenInNotePadPlus.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnOpenInNotePadPlus.Name = "btnOpenInNotePadPlus";
-            this.btnOpenInNotePadPlus.Size = new System.Drawing.Size(180, 22);
-            this.btnOpenInNotePadPlus.Text = "Open Set XML in Notepad++";
-            this.btnOpenInNotePadPlus.Click += new System.EventHandler(this.btnOpenInNotePadPlus_Click);
+            this.btnShowBaseXMLInNotePadPlus.Image = ((System.Drawing.Image)(resources.GetObject("btnShowBaseXMLInNotePadPlus.Image")));
+            this.btnShowBaseXMLInNotePadPlus.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnShowBaseXMLInNotePadPlus.Name = "btnShowBaseXMLInNotePadPlus";
+            this.btnShowBaseXMLInNotePadPlus.Size = new System.Drawing.Size(134, 22);
+            this.btnShowBaseXMLInNotePadPlus.Text = "Open in Notepad++";
+            this.btnShowBaseXMLInNotePadPlus.Click += new System.EventHandler(this.btnShowBaseXMLInNotePadPlus_Click);
             // 
-            // toolStripSeparator18
+            // groupBox6
             // 
-            this.toolStripSeparator18.Name = "toolStripSeparator18";
-            this.toolStripSeparator18.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.pnlSetWithMFXML);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1485, 676);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "XML (with MFs)";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.groupBox6.Controls.Add(this.pnlSetWithMFXML);
+            this.groupBox6.Controls.Add(this.toolStrip14);
+            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox6.Location = new System.Drawing.Point(0, 0);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(680, 676);
+            this.groupBox6.TabIndex = 2;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "With MiniFigs";
             // 
             // pnlSetWithMFXML
             // 
             this.pnlSetWithMFXML.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlSetWithMFXML.Location = new System.Drawing.Point(0, 0);
+            this.pnlSetWithMFXML.Location = new System.Drawing.Point(3, 41);
             this.pnlSetWithMFXML.Name = "pnlSetWithMFXML";
-            this.pnlSetWithMFXML.Size = new System.Drawing.Size(1485, 676);
-            this.pnlSetWithMFXML.TabIndex = 3;
+            this.pnlSetWithMFXML.Size = new System.Drawing.Size(674, 632);
+            this.pnlSetWithMFXML.TabIndex = 29;
             // 
-            // tabPage3
+            // toolStrip14
             // 
-            this.tabPage3.Controls.Add(this.splitContainer2);
-            this.tabPage3.Controls.Add(this.toolStrip10);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1485, 676);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Part List";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.toolStrip14.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnShowWithMFXMLInNotePadPlus});
+            this.toolStrip14.Location = new System.Drawing.Point(3, 16);
+            this.toolStrip14.Name = "toolStrip14";
+            this.toolStrip14.Size = new System.Drawing.Size(674, 25);
+            this.toolStrip14.TabIndex = 28;
+            this.toolStrip14.Text = "toolStrip14";
+            // 
+            // btnShowWithMFXMLInNotePadPlus
+            // 
+            this.btnShowWithMFXMLInNotePadPlus.Image = ((System.Drawing.Image)(resources.GetObject("btnShowWithMFXMLInNotePadPlus.Image")));
+            this.btnShowWithMFXMLInNotePadPlus.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnShowWithMFXMLInNotePadPlus.Name = "btnShowWithMFXMLInNotePadPlus";
+            this.btnShowWithMFXMLInNotePadPlus.Size = new System.Drawing.Size(134, 22);
+            this.btnShowWithMFXMLInNotePadPlus.Text = "Open in Notepad++";
+            this.btnShowWithMFXMLInNotePadPlus.Click += new System.EventHandler(this.btnShowWithMFXMLInNotePadPlus_Click);
+            // 
+            // tpPartList
+            // 
+            this.tpPartList.Controls.Add(this.splitContainer2);
+            this.tpPartList.Controls.Add(this.tsPartListHeader);
+            this.tpPartList.Location = new System.Drawing.Point(4, 22);
+            this.tpPartList.Name = "tpPartList";
+            this.tpPartList.Size = new System.Drawing.Size(1485, 676);
+            this.tpPartList.TabIndex = 2;
+            this.tpPartList.Text = "Part List";
+            this.tpPartList.UseVisualStyleBackColor = true;
             // 
             // splitContainer2
             // 
@@ -2236,7 +2290,7 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.groupBox4);
+            this.splitContainer2.Panel2.Controls.Add(this.gpPartListWithMF);
             this.splitContainer2.Size = new System.Drawing.Size(1485, 651);
             this.splitContainer2.SplitterDistance = 720;
             this.splitContainer2.TabIndex = 105;
@@ -2250,27 +2304,27 @@
             // 
             // splitContainer3.Panel1
             // 
-            this.splitContainer3.Panel1.Controls.Add(this.groupBox2);
+            this.splitContainer3.Panel1.Controls.Add(this.gpPartListBasic);
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.groupBox1);
+            this.splitContainer3.Panel2.Controls.Add(this.gpPartListMiniFigs);
             this.splitContainer3.Size = new System.Drawing.Size(720, 651);
             this.splitContainer3.SplitterDistance = 419;
             this.splitContainer3.TabIndex = 1;
             // 
-            // groupBox2
+            // gpPartListBasic
             // 
-            this.groupBox2.Controls.Add(this.dgPartListSummary);
-            this.groupBox2.Controls.Add(this.toolStrip11);
-            this.groupBox2.Controls.Add(this.statusStrip1);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(720, 419);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Basic";
+            this.gpPartListBasic.Controls.Add(this.dgPartListSummary);
+            this.gpPartListBasic.Controls.Add(this.toolStrip11);
+            this.gpPartListBasic.Controls.Add(this.statusStrip1);
+            this.gpPartListBasic.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpPartListBasic.Location = new System.Drawing.Point(0, 0);
+            this.gpPartListBasic.Name = "gpPartListBasic";
+            this.gpPartListBasic.Size = new System.Drawing.Size(720, 419);
+            this.gpPartListBasic.TabIndex = 2;
+            this.gpPartListBasic.TabStop = false;
+            this.gpPartListBasic.Text = "Basic";
             // 
             // dgPartListSummary
             // 
@@ -2318,18 +2372,18 @@
             this.lblPartListCount.Size = new System.Drawing.Size(92, 17);
             this.lblPartListCount.Text = "lblPartListCount";
             // 
-            // groupBox1
+            // gpPartListMiniFigs
             // 
-            this.groupBox1.Controls.Add(this.dgMiniFigsPartListSummary);
-            this.groupBox1.Controls.Add(this.toolStrip4);
-            this.groupBox1.Controls.Add(this.statusStrip4);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(720, 228);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "MiniFig(s)";
+            this.gpPartListMiniFigs.Controls.Add(this.dgMiniFigsPartListSummary);
+            this.gpPartListMiniFigs.Controls.Add(this.toolStrip4);
+            this.gpPartListMiniFigs.Controls.Add(this.statusStrip4);
+            this.gpPartListMiniFigs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpPartListMiniFigs.Location = new System.Drawing.Point(0, 0);
+            this.gpPartListMiniFigs.Name = "gpPartListMiniFigs";
+            this.gpPartListMiniFigs.Size = new System.Drawing.Size(720, 228);
+            this.gpPartListMiniFigs.TabIndex = 3;
+            this.gpPartListMiniFigs.TabStop = false;
+            this.gpPartListMiniFigs.Text = "MiniFig(s)";
             // 
             // dgMiniFigsPartListSummary
             // 
@@ -2364,6 +2418,8 @@
             // statusStrip4
             // 
             this.statusStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pbPartlist,
+            this.lblPartListStatus,
             this.lblMiniFigsPartListCount});
             this.statusStrip4.Location = new System.Drawing.Point(3, 203);
             this.statusStrip4.Name = "statusStrip4";
@@ -2377,18 +2433,18 @@
             this.lblMiniFigsPartListCount.Size = new System.Drawing.Size(137, 17);
             this.lblMiniFigsPartListCount.Text = "lblMiniFigsPartListCount";
             // 
-            // groupBox4
+            // gpPartListWithMF
             // 
-            this.groupBox4.Controls.Add(this.dgPartListWithMFsSummary);
-            this.groupBox4.Controls.Add(this.toolStrip12);
-            this.groupBox4.Controls.Add(this.statusStrip3);
-            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox4.Location = new System.Drawing.Point(0, 0);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(761, 651);
-            this.groupBox4.TabIndex = 1;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "With MFs";
+            this.gpPartListWithMF.Controls.Add(this.dgPartListWithMFsSummary);
+            this.gpPartListWithMF.Controls.Add(this.toolStrip12);
+            this.gpPartListWithMF.Controls.Add(this.statusStrip3);
+            this.gpPartListWithMF.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpPartListWithMF.Location = new System.Drawing.Point(0, 0);
+            this.gpPartListWithMF.Name = "gpPartListWithMF";
+            this.gpPartListWithMF.Size = new System.Drawing.Size(761, 651);
+            this.gpPartListWithMF.TabIndex = 1;
+            this.gpPartListWithMF.TabStop = false;
+            this.gpPartListWithMF.Text = "With MFs";
             // 
             // dgPartListWithMFsSummary
             // 
@@ -2436,17 +2492,32 @@
             this.lblPartListWithMFsCount.Size = new System.Drawing.Size(139, 17);
             this.lblPartListWithMFsCount.Text = "lblPartListWithMFsCount";
             // 
-            // toolStrip10
+            // tsPartListHeader
             // 
-            this.toolStrip10.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsPartListHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnPartListRefresh,
             this.toolStripSeparator4,
             this.btnCompareWithRebrickable});
-            this.toolStrip10.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip10.Name = "toolStrip10";
-            this.toolStrip10.Size = new System.Drawing.Size(1485, 25);
-            this.toolStrip10.TabIndex = 102;
-            this.toolStrip10.Text = "toolStrip10";
+            this.tsPartListHeader.Location = new System.Drawing.Point(0, 0);
+            this.tsPartListHeader.Name = "tsPartListHeader";
+            this.tsPartListHeader.Size = new System.Drawing.Size(1485, 25);
+            this.tsPartListHeader.TabIndex = 102;
+            this.tsPartListHeader.Text = "toolStrip10";
+            // 
+            // btnPartListRefresh
+            // 
+            this.btnPartListRefresh.BackColor = System.Drawing.Color.Yellow;
+            this.btnPartListRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnPartListRefresh.Image")));
+            this.btnPartListRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPartListRefresh.Name = "btnPartListRefresh";
+            this.btnPartListRefresh.Size = new System.Drawing.Size(66, 22);
+            this.btnPartListRefresh.Text = "Refresh";
+            this.btnPartListRefresh.Click += new System.EventHandler(this.btnPartListRefresh_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // btnCompareWithRebrickable
             // 
@@ -2460,6 +2531,7 @@
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.pnlRebrickableXML);
+            this.tabPage5.Controls.Add(this.toolStrip5);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Size = new System.Drawing.Size(1485, 676);
@@ -2470,10 +2542,29 @@
             // pnlRebrickableXML
             // 
             this.pnlRebrickableXML.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlRebrickableXML.Location = new System.Drawing.Point(0, 0);
+            this.pnlRebrickableXML.Location = new System.Drawing.Point(0, 25);
             this.pnlRebrickableXML.Name = "pnlRebrickableXML";
-            this.pnlRebrickableXML.Size = new System.Drawing.Size(1485, 676);
-            this.pnlRebrickableXML.TabIndex = 28;
+            this.pnlRebrickableXML.Size = new System.Drawing.Size(1485, 651);
+            this.pnlRebrickableXML.TabIndex = 30;
+            // 
+            // toolStrip5
+            // 
+            this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnShowRebrickableXMLInNotePadPlus});
+            this.toolStrip5.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip5.Name = "toolStrip5";
+            this.toolStrip5.Size = new System.Drawing.Size(1485, 25);
+            this.toolStrip5.TabIndex = 29;
+            this.toolStrip5.Text = "toolStrip5";
+            // 
+            // btnShowRebrickableXMLInNotePadPlus
+            // 
+            this.btnShowRebrickableXMLInNotePadPlus.Image = ((System.Drawing.Image)(resources.GetObject("btnShowRebrickableXMLInNotePadPlus.Image")));
+            this.btnShowRebrickableXMLInNotePadPlus.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnShowRebrickableXMLInNotePadPlus.Name = "btnShowRebrickableXMLInNotePadPlus";
+            this.btnShowRebrickableXMLInNotePadPlus.Size = new System.Drawing.Size(134, 22);
+            this.btnShowRebrickableXMLInNotePadPlus.Text = "Open in Notepad++";
+            this.btnShowRebrickableXMLInNotePadPlus.Click += new System.EventHandler(this.btnShowRebrickableXMLInNotePadPlus_Click);
             // 
             // tabPage6
             // 
@@ -2538,19 +2629,17 @@
             this.chkShowFBXDetails.Text = "Show FBX Details";
             this.chkShowFBXDetails.UseVisualStyleBackColor = false;
             // 
-            // btnPartListRefresh
+            // pbPartlist
             // 
-            this.btnPartListRefresh.BackColor = System.Drawing.Color.Pink;
-            this.btnPartListRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnPartListRefresh.Image")));
-            this.btnPartListRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPartListRefresh.Name = "btnPartListRefresh";
-            this.btnPartListRefresh.Size = new System.Drawing.Size(66, 22);
-            this.btnPartListRefresh.Text = "Refresh";
+            this.pbPartlist.ForeColor = System.Drawing.Color.Lime;
+            this.pbPartlist.Name = "pbPartlist";
+            this.pbPartlist.Size = new System.Drawing.Size(100, 16);
             // 
-            // toolStripSeparator4
+            // lblPartListStatus
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            this.lblPartListStatus.Name = "lblPartListStatus";
+            this.lblPartListStatus.Size = new System.Drawing.Size(91, 17);
+            this.lblPartListStatus.Text = "lblPartListStatus";
             // 
             // InstructionViewer
             // 
@@ -2619,13 +2708,21 @@
             this.gpSet.PerformLayout();
             this.toolStrip6.ResumeLayout(false);
             this.toolStrip6.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
-            this.toolStrip5.ResumeLayout(false);
-            this.toolStrip5.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
+            this.tabPage7.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.toolStrip13.ResumeLayout(false);
+            this.toolStrip13.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.toolStrip14.ResumeLayout(false);
+            this.toolStrip14.PerformLayout();
+            this.tpPartList.ResumeLayout(false);
+            this.tpPartList.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -2634,30 +2731,33 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.gpPartListBasic.ResumeLayout(false);
+            this.gpPartListBasic.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPartListSummary)).EndInit();
             this.toolStrip11.ResumeLayout(false);
             this.toolStrip11.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gpPartListMiniFigs.ResumeLayout(false);
+            this.gpPartListMiniFigs.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgMiniFigsPartListSummary)).EndInit();
             this.toolStrip4.ResumeLayout(false);
             this.toolStrip4.PerformLayout();
             this.statusStrip4.ResumeLayout(false);
             this.statusStrip4.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
+            this.gpPartListWithMF.ResumeLayout(false);
+            this.gpPartListWithMF.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPartListWithMFsSummary)).EndInit();
             this.toolStrip12.ResumeLayout(false);
             this.toolStrip12.PerformLayout();
             this.statusStrip3.ResumeLayout(false);
             this.statusStrip3.PerformLayout();
-            this.toolStrip10.ResumeLayout(false);
-            this.toolStrip10.PerformLayout();
+            this.tsPartListHeader.ResumeLayout(false);
+            this.tsPartListHeader.PerformLayout();
             this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
+            this.toolStrip5.ResumeLayout(false);
+            this.toolStrip5.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -2774,8 +2874,7 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel9;
         private System.Windows.Forms.ToolStripTextBox fldSetDescription;
         private System.Windows.Forms.ToolStripButton btnSetSaveNode;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tpPartList;
         private System.Windows.Forms.CheckBox chkBasePartCollection;
         private System.Windows.Forms.ToolStripButton btnAddPartToBasePartCollection;
         private System.Windows.Forms.ToolStripLabel lblQty;
@@ -2803,10 +2902,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripButton btnOpenSetURLs;
         private System.Windows.Forms.ToolStripButton btnOpenSetInstructions;
-        private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.Panel pnlSetWithMFXML;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox gpPartListWithMF;
         private System.Windows.Forms.StatusStrip statusStrip3;
         private System.Windows.Forms.ToolStripStatusLabel lblPartListWithMFsCount;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
@@ -2819,10 +2916,6 @@
         private System.Windows.Forms.ToolStripButton btnMoveDownBy5;
         private System.Windows.Forms.ToolStripMenuItem tsInsertSubModelBefore;
         private System.Windows.Forms.ToolStripTextBox fldBulkValue;
-        private System.Windows.Forms.Panel pnlSetXML;
-        private System.Windows.Forms.ToolStrip toolStrip5;
-        private System.Windows.Forms.ToolStripButton btnOpenInNotePadPlus;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
         private System.Windows.Forms.ToolStrip tsPartPosDetails;
         private System.Windows.Forms.ToolStripLabel toolStripLabel31;
         private System.Windows.Forms.ToolStripTextBox fldPartPosX;
@@ -2876,7 +2969,7 @@
         private System.Windows.Forms.DataGridView dgPartListWithMFsSummary;
         private System.Windows.Forms.ToolStrip toolStrip12;
         private System.Windows.Forms.ToolStripButton btnPartListWithMFCopyToClipboard;
-        private System.Windows.Forms.ToolStrip toolStrip10;
+        private System.Windows.Forms.ToolStrip tsPartListHeader;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripLabel lblLDrawRefAc;
         private System.Windows.Forms.ToolStripTextBox fldLDrawRefAc;
@@ -2897,15 +2990,14 @@
         private System.Windows.Forms.CheckBox chkShowElementImages;
         private System.Windows.Forms.CheckBox chkShowFBXDetails;
         private System.Windows.Forms.TabPage tabPage5;
-        private System.Windows.Forms.Panel pnlRebrickableXML;
         private System.Windows.Forms.SplitContainer splitContainer3;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gpPartListBasic;
         private System.Windows.Forms.DataGridView dgPartListSummary;
         private System.Windows.Forms.ToolStrip toolStrip11;
         private System.Windows.Forms.ToolStripButton btnPartListBasicCopyToClipboard;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lblPartListCount;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gpPartListMiniFigs;
         private System.Windows.Forms.DataGridView dgMiniFigsPartListSummary;
         private System.Windows.Forms.ToolStrip toolStrip4;
         private System.Windows.Forms.ToolStripButton btnPartListMFCopyToClipboard;
@@ -2915,6 +3007,21 @@
         private System.Windows.Forms.Panel pnlLDRString;
         private System.Windows.Forms.ToolStripButton btnPartListRefresh;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Panel pnlSetXML;
+        private System.Windows.Forms.ToolStrip toolStrip13;
+        private System.Windows.Forms.ToolStripButton btnShowBaseXMLInNotePadPlus;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Panel pnlSetWithMFXML;
+        private System.Windows.Forms.ToolStrip toolStrip14;
+        private System.Windows.Forms.ToolStripButton btnShowWithMFXMLInNotePadPlus;
+        private System.Windows.Forms.Panel pnlRebrickableXML;
+        private System.Windows.Forms.ToolStrip toolStrip5;
+        private System.Windows.Forms.ToolStripButton btnShowRebrickableXMLInNotePadPlus;
+        private System.Windows.Forms.ToolStripProgressBar pbPartlist;
+        private System.Windows.Forms.ToolStripStatusLabel lblPartListStatus;
     }
 }
 

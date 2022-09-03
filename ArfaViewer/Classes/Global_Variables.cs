@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BaseClasses;
+using System.Collections.Generic;
 using System.Drawing;
 
 
@@ -11,9 +12,9 @@ namespace Generator
         public static string currentUser = "LODGEANT";
 
 
-        public static Dictionary<string, string> RebrickableXMLDict = new Dictionary<string, string>();    
+        public static Dictionary<string, string> RebrickableXMLDict = new Dictionary<string, string>();
 
-
+        public static PartColourCollection PartColourCollection = new PartColourCollection();
 
     }
 

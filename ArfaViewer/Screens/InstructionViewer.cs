@@ -451,27 +451,57 @@ namespace Generator
         {
             ShowMiniFigSet();
         }
-
-        private void btnOpenInNotePadPlus_Click(object sender, EventArgs e)
+                
+        private void btnShowBaseXMLInNotePadPlus_Click(object sender, EventArgs e)
         {
             try
             {
                 // ** Validation Checks **
-                if (fldCurrentSetRef.Text.Equals(""))
-                {
-                    throw new Exception("No Set Ref entered...");
-                }
+                if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
+                string SetRef = fldCurrentSetRef.Text;
 
-                // ** OLD **
-                //string setfileLocation = Global_Variables.SetSaveLocation + "\\" + fldCurrentSetRef.Text + ".xml";
-                //if (File.Exists(setfileLocation) == false)
-                //{
-                //    throw new Exception("Set not found...");
-                //}
-                //Process.Start("notepad++.exe", "\"" + setfileLocation + "\"");
+                // ** Save file to temp location then open In Notepadd ++ **
+                string tempfileLocation = Path.GetTempPath() + SetRef + "_Base.xml";
+                File.WriteAllText(tempfileLocation, SetXML.Text);
+                Process.Start("notepad++.exe", "\"" + tempfileLocation + "\"");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
-                // ** NEW **
-                throw new Exception("Function needs updating...");
+        private void btnShowWithMFXMLInNotePadPlus_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // ** Validation Checks **
+                if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
+                string SetRef = fldCurrentSetRef.Text;
+
+                // ** Save file to temp location then open In Notepadd ++ **
+                string tempfileLocation = Path.GetTempPath() + SetRef + "_WithMF.xml";
+                File.WriteAllText(tempfileLocation, SetWithMFXML.Text);
+                Process.Start("notepad++.exe", "\"" + tempfileLocation + "\"");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnShowRebrickableXMLInNotePadPlus_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // ** Validation Checks **
+                if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
+                string SetRef = fldCurrentSetRef.Text;
+
+                // ** Save file to temp location then open In Notepadd ++ **
+                string tempfileLocation = Path.GetTempPath() + SetRef + "_Rebrickable.xml";
+                File.WriteAllText(tempfileLocation, RebrickableXML.Text);
+                Process.Start("notepad++.exe", "\"" + tempfileLocation + "\"");
             }
             catch (Exception ex)
             {
@@ -686,9 +716,6 @@ namespace Generator
             CopyToClipboard(dgMiniFigsPartListSummary);
         }
 
-
-
-
         private void tsRecalulateSubSetRefs_Click(object sender, EventArgs e)
         {
             try
@@ -733,10 +760,10 @@ namespace Generator
             DuplicateStep("AFTER");
         }
 
-        //private void btnUploadInstructionsFromWeb_Click(object sender, EventArgs e)
-        //{
-        //    UploadInstructionsFromWeb();
-        //}
+        private void btnPartListRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshPartList();
+        }
 
         #endregion
 
@@ -1198,115 +1225,8 @@ namespace Generator
                     ApplyModeSettings();
                     watch.Stop(); perfLog += "Apply mode settings:\t\t\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
 
-
-
-
-                    #region ** GET DATA UPFRONT **
-                    watch.Reset(); watch.Start();
-                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Getting part data (up front)...");
-                    XmlNodeList allPartsNodeList = fullSetXml.SelectNodes("//PartListPart");                    
-                    Delegates.ToolStripProgressBar_SetMax(this, pbStatus, allPartsNodeList.Count);
-                    Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
-                    int index = 0;
-                    List<int> LDrawColourIDList = new List<int>();
-                    List<string> LDrawRefList = new List<string>();
-                    foreach (XmlNode partNode in allPartsNodeList)
-                    {                        
-                        Delegates.ToolStripProgressBar_SetValue(this, pbStatus, index);
-                        int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
-                        string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-
-                        if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
-                        if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);
-
-                        if (chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
-                        index += 1;
-                    }
-                    PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
-                    BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
-                    Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
-                    watch.Stop(); perfLog += "Get upfront part data:\t\t\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
-                    #endregion
-
-                    #region ** UPDATE PART LIST SUMMARIES - Current Set XML **
-                    {
-                        watch.Reset(); watch.Start();
-                        Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Updating Part List: Basic...");
-                        XmlNodeList partListNodeList = currentSetXml.SelectNodes("//PartListPart");
-                        DataTable partListTable = GeneratePartListTable(partListNodeList, PartColourCollection, BasePartCollection);
-                        partListTable.DefaultView.Sort = "LDraw Colour Name";
-                        Delegates.DataGridView_SetDataSource(this, dgPartListSummary, partListTable.DefaultView.ToTable());
-                        AdjustPartListSummaryRowFormatting(dgPartListSummary);
-
-                        // ** UPDATE SUMMARY LABEL **
-                        int elementCount = partListTable.Rows.Count;
-                        int partCount = (from r in partListTable.AsEnumerable()
-                                         select r.Field<int>("Qty")).ToList().Sum();
-                        int colourCount = (from r in partListTable.AsEnumerable()
-                                           group r by r.Field<string>("LDraw Colour Name") into g
-                                           select new { ColourName = g.Key }).Count();
-                        int lDrawPartCount = (from r in partListTable.AsEnumerable()
-                                              group r by r.Field<string>("LDraw Ref") into g
-                                              select new { ColourName = g.Key }).Count();
-                        Delegates.ToolStripLabel_SetText(this, lblPartListCount, partCount.ToString("#,##0") + " Part(s), " + elementCount.ToString("#,##0") + " Element(s), " + lDrawPartCount.ToString("#,##0") + " LDraw Part(s), " + colourCount.ToString("#,##0") + " Colour(s)");
-                        watch.Stop(); perfLog += "Update Part Summary - Current Set:\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
-                    }
-                    #endregion
-
-                    #region ** UPDATE PART LIST SUMMARIES - MINIFIGS **
-                    {
-                        watch.Reset(); watch.Start();
-                        Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Updating Part List: MiniFigs(s)...");
-                        PartList pl = PartList.GetPartList_FromSetInstructionsCollection(siColl);
-                        XmlDocument doc = new XmlDocument();
-                        doc.LoadXml(pl.SerializeToString(true));
-                        XmlNodeList partListNodeList = doc.SelectNodes("//PartListPart");                        
-                        DataTable partListTable = GeneratePartListTable(partListNodeList, PartColourCollection, BasePartCollection);
-                        partListTable.DefaultView.Sort = "LDraw Colour Name";                       
-                        Delegates.DataGridView_SetDataSource(this, dgMiniFigsPartListSummary, partListTable.DefaultView.ToTable());
-                        AdjustPartListSummaryRowFormatting(dgMiniFigsPartListSummary);
-
-                        // ** UPDATE SUMMARY LABEL **
-                        int elementCount = partListTable.Rows.Count;
-                        int partCount = (from r in partListTable.AsEnumerable()
-                                         select r.Field<int>("Qty")).ToList().Sum();
-                        int colourCount = (from r in partListTable.AsEnumerable()
-                                           group r by r.Field<string>("LDraw Colour Name") into g
-                                           select new { ColourName = g.Key }).Count();
-                        int lDrawPartCount = (from r in partListTable.AsEnumerable()
-                                              group r by r.Field<string>("LDraw Ref") into g
-                                              select new { ColourName = g.Key }).Count();
-                        Delegates.ToolStripLabel_SetText(this, lblMiniFigsPartListCount, partCount.ToString("#,##0") + " Part(s), " + elementCount.ToString("#,##0") + " Element(s), " + lDrawPartCount.ToString("#,##0") + " LDraw Part(s), " + colourCount.ToString("#,##0") + " Colour(s)");
-                        watch.Stop(); perfLog += "Update Part Summary - MiniFigs:\t\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
-                    }
-                    #endregion
-
-                    #region ** UPDATE PART LIST SUMMARIES - Full Set XML **
-                    watch.Reset(); watch.Start();
-                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Updating Part List: Full...");
-                    if (fullSetXml != null)
-                    {
-                        XmlNodeList partListNodeList = fullSetXml.SelectNodes("//PartListPart");
-                        DataTable partListTable = GeneratePartListTable(partListNodeList, PartColourCollection, BasePartCollection);
-                        partListTable.DefaultView.Sort = "LDraw Colour Name";
-                        Delegates.DataGridView_SetDataSource(this, dgPartListWithMFsSummary, partListTable.DefaultView.ToTable());
-                        AdjustPartListSummaryRowFormatting(dgPartListWithMFsSummary);
-
-                        // ** UPDATE SUMMARY LABEL **
-                        int elementCount = partListTable.Rows.Count;
-                        int partCount = (from r in partListTable.AsEnumerable()
-                                         select r.Field<int>("Qty")).ToList().Sum();
-                        int colourCount = (from r in partListTable.AsEnumerable()
-                                           group r by r.Field<string>("LDraw Colour Name") into g
-                                           select new { ColourName = g.Key }).Count();
-                        int lDrawPartCount = (from r in partListTable.AsEnumerable()
-                                              group r by r.Field<string>("LDraw Ref") into g
-                                              select new { ColourName = g.Key }).Count();
-                        Delegates.ToolStripLabel_SetText(this, lblPartListWithMFsCount, partCount.ToString("#,##0") + " Part(s), " + elementCount.ToString("#,##0") + " Element(s), " + lDrawPartCount.ToString("#,##0") + " LDraw Part(s), " + colourCount.ToString("#,##0") + " Colour(s)");
-                        watch.Stop(); perfLog += "Update Part Summary - Full Set:\t\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
-                    }
-                    #endregion
-
+                    // ** Trigger Partlist refresh **
+                    RefreshPartList();
 
                     // ** Tidy up **
                     Delegates.ToolStripLabel_SetText(this, lblStatus, "");
@@ -1398,8 +1318,8 @@ namespace Generator
         //        return null;
         //    }
         //}
-                
-        private DataTable GeneratePartListTable(XmlNodeList partListNodeList, PartColourCollection PartColourCollection, BasePartCollection BasePartCollection)
+        
+        private DataTable GeneratePartListTable(XmlNodeList partListNodeList, BasePartCollection BasePartCollection)
         {
             try
             {               
@@ -1420,7 +1340,7 @@ namespace Generator
                     string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
                     int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
                     int Qty = int.Parse(partNode.SelectSingleNode("@Qty").InnerXml);
-                    string LDrawColourName = (from r in PartColourCollection.PartColourList
+                    string LDrawColourName = (from r in Global_Variables.PartColourCollection.PartColourList
                                               where r.LDrawColourID == LDrawColourID
                                               select r.LDrawColourName).FirstOrDefault();
                     string LDrawDescription = (from r in BasePartCollection.BasePartList
@@ -1493,26 +1413,32 @@ namespace Generator
         }
 
         private string GetRebrickableXML(string SetRef)
-        {
-            // [1] Check if string is already in local cache.
-            string XMLString = "";
-            if (Global_Variables.RebrickableXMLDict.Keys.Count > 0 && Global_Variables.RebrickableXMLDict.ContainsKey(SetRef))
+        {           
+            try
             {
-                XMLString = Global_Variables.RebrickableXMLDict[SetRef];
+                // [1] Check if string is already in local cache.
+                string XMLString = "";
+                if (Global_Variables.RebrickableXMLDict.Keys.Count > 0 && Global_Variables.RebrickableXMLDict.ContainsKey(SetRef))
+                {
+                    XMLString = Global_Variables.RebrickableXMLDict[SetRef];
+                }
+                else
+                {
+                    string JSONString = StaticData.GetRebrickableSetJSONString(SetRef);
+                    XDocument xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(Encoding.ASCII.GetBytes(JSONString), new XmlDictionaryReaderQuotas()));
+                    XMLString = xml.ToString();
+                    Global_Variables.RebrickableXMLDict.Add(SetRef, XMLString);
+                }
+                return XMLString;
             }
-            else
-            {
-                string JSONString = StaticData.GetRebrickableSetJSONString(SetRef);
-                XDocument xml = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(Encoding.ASCII.GetBytes(JSONString), new XmlDictionaryReaderQuotas()));
-                XMLString = xml.ToString();
-                Global_Variables.RebrickableXMLDict.Add(SetRef, XMLString);
+            catch(Exception ex)
+            {               
+                return ex.Message;
             }
-            return XMLString;
         }
 
         #endregion
-
-
+                
         private void ClearAllFields()
         {
             try
@@ -1604,10 +1530,212 @@ namespace Generator
             }
         }
 
+        #region ** REFRESH PARTLIST FUNCTIONS **
+
+        private BackgroundWorker bw_RefreshPartList;
+
+        private void EnableControls_RefreshPartList(bool value)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => EnableControls_RefreshPartList(value)));
+            }
+            else
+            {
+                tsPartListHeader.Enabled = value;
+                gpPartListBasic.Enabled = value;
+                gpPartListMiniFigs.Enabled = value;
+                gpPartListWithMF.Enabled = value;
+                //btnOpenSetInstructions.Enabled = value;
+                //btnOpenSetURLs.Enabled = value;
+                //chkShowSubParts.Enabled = value;
+                //chkShowPages.Enabled = value;
+                //tabControl1.Enabled = value;
+                //chkShowPartcolourImages.Enabled = value;
+                //chkShowElementImages.Enabled = value;
+                //chkShowFBXDetails.Enabled = value;
+            }
+        }
+
+        private void bw_RefreshPartList_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //string perfLog = "";
+            //Stopwatch watch = new Stopwatch();
+            try
+            {
+                //tpPartList.Text = "Part List";
+                Delegates.TabPage_SetText(this, tpPartList, "Part List");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void RefreshPartList()
+        {
+            string perfLog = "";
+            Stopwatch watch = new Stopwatch();
+            try
+            {   
+                Delegates.TabPage_SetText(this, tpPartList, "Part List (refreshing...)");
+
+                // ** CLEAR FIELDS **                
+                dgPartListSummary.DataSource = null;
+                lblPartListCount.Text = "";
+                dgPartListWithMFsSummary.DataSource = null;
+                lblPartListWithMFsCount.Text = "";
+                dgMiniFigsPartListSummary.DataSource = null;
+                lblMiniFigsPartListCount.Text = "";
+
+                // ** Run background to process functions **
+                bw_RefreshPartList = new BackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                };
+                bw_RefreshPartList.DoWork += new DoWorkEventHandler(bw_RefreshPartList_DoWork);
+                bw_RefreshPartList.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RefreshPartList_RunWorkerCompleted);
+                bw_RefreshPartList.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
+                EnableControls_RefreshPartList(true);
+                Delegates.ToolStripLabel_SetText(this, lblStatus, "");
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshPartList_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string perfLog = "";
+            Stopwatch watch = new Stopwatch();
+            try
+            {
+                // ** Process refresh only if a SET has been loaded **
+                if (currentSetXml != null)
+                {
+                    #region ** GET DATA UPFRONT **
+                    watch.Reset(); watch.Start();
+                    Delegates.ToolStripLabel_SetText(this, lblPartListStatus, "Refreshing - Getting part data (up front)...");
+                    XmlNodeList allPartsNodeList = fullSetXml.SelectNodes("//PartListPart");
+                    Delegates.ToolStripProgressBar_SetMax(this, pbPartlist, allPartsNodeList.Count);
+                    Delegates.ToolStripProgressBar_SetValue(this, pbPartlist, 0);
+                    int index = 0;
+                    //List<int> LDrawColourIDList = new List<int>();
+                    List<string> LDrawRefList = new List<string>();
+                    foreach (XmlNode partNode in allPartsNodeList)
+                    {
+                        Delegates.ToolStripProgressBar_SetValue(this, pbPartlist, index);
+                        int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
+                        string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
+                        //if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
+                        if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);
+                        if (chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+                        index += 1;
+                    }
+                    //artColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
+                    BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
+                    Delegates.ToolStripProgressBar_SetValue(this, pbPartlist, 0);
+                    watch.Stop(); perfLog += "Get upfront part data:\t\t\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
+                    #endregion
+
+                    #region ** UPDATE PART LIST SUMMARIES - Current Set XML **
+                    {
+                        watch.Reset(); watch.Start();
+                        Delegates.ToolStripLabel_SetText(this, lblPartListStatus, "Refreshing - Updating Part List: Basic...");
+                        XmlNodeList partListNodeList = currentSetXml.SelectNodes("//PartListPart");
+                        DataTable partListTable = GeneratePartListTable(partListNodeList, BasePartCollection);
+                        partListTable.DefaultView.Sort = "LDraw Colour Name";
+                        Delegates.DataGridView_SetDataSource(this, dgPartListSummary, partListTable.DefaultView.ToTable());
+                        AdjustPartListSummaryRowFormatting(dgPartListSummary);
+
+                        // ** UPDATE SUMMARY LABEL **
+                        int elementCount = partListTable.Rows.Count;
+                        int partCount = (from r in partListTable.AsEnumerable()
+                                         select r.Field<int>("Qty")).ToList().Sum();
+                        int colourCount = (from r in partListTable.AsEnumerable()
+                                           group r by r.Field<string>("LDraw Colour Name") into g
+                                           select new { ColourName = g.Key }).Count();
+                        int lDrawPartCount = (from r in partListTable.AsEnumerable()
+                                              group r by r.Field<string>("LDraw Ref") into g
+                                              select new { ColourName = g.Key }).Count();
+                        Delegates.ToolStripLabel_SetText(this, lblPartListCount, partCount.ToString("#,##0") + " Part(s), " + elementCount.ToString("#,##0") + " Element(s), " + lDrawPartCount.ToString("#,##0") + " LDraw Part(s), " + colourCount.ToString("#,##0") + " Colour(s)");
+                        watch.Stop(); perfLog += "Update Part Summary - Current Set:\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
+                    }
+                    #endregion
+
+                    #region ** UPDATE PART LIST SUMMARIES - MINIFIGS **
+                    {
+                        watch.Reset(); watch.Start();
+
+                        List<string> MiniFigSetList = Set.GetMinFigSetRefsFromSetXML(currentSetXml);
+                        SetInstructionsCollection siColl = StaticData.GetSetInstructionsData_UsingSetRefList(MiniFigSetList);
+
+                        Delegates.ToolStripLabel_SetText(this, lblPartListStatus, "Refreshing - Updating Part List: MiniFigs(s)...");
+                        PartList pl = PartList.GetPartList_FromSetInstructionsCollection(siColl);
+                        XmlDocument doc = new XmlDocument();
+                        doc.LoadXml(pl.SerializeToString(true));
+                        XmlNodeList partListNodeList = doc.SelectNodes("//PartListPart");
+                        DataTable partListTable = GeneratePartListTable(partListNodeList, BasePartCollection);
+                        partListTable.DefaultView.Sort = "LDraw Colour Name";
+                        Delegates.DataGridView_SetDataSource(this, dgMiniFigsPartListSummary, partListTable.DefaultView.ToTable());
+                        AdjustPartListSummaryRowFormatting(dgMiniFigsPartListSummary);
+
+                        // ** UPDATE SUMMARY LABEL **
+                        int elementCount = partListTable.Rows.Count;
+                        int partCount = (from r in partListTable.AsEnumerable()
+                                         select r.Field<int>("Qty")).ToList().Sum();
+                        int colourCount = (from r in partListTable.AsEnumerable()
+                                           group r by r.Field<string>("LDraw Colour Name") into g
+                                           select new { ColourName = g.Key }).Count();
+                        int lDrawPartCount = (from r in partListTable.AsEnumerable()
+                                              group r by r.Field<string>("LDraw Ref") into g
+                                              select new { ColourName = g.Key }).Count();
+                        Delegates.ToolStripLabel_SetText(this, lblMiniFigsPartListCount, partCount.ToString("#,##0") + " Part(s), " + elementCount.ToString("#,##0") + " Element(s), " + lDrawPartCount.ToString("#,##0") + " LDraw Part(s), " + colourCount.ToString("#,##0") + " Colour(s)");
+                        watch.Stop(); perfLog += "Update Part Summary - MiniFigs:\t\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
+                    }
+                    #endregion
+
+                    #region ** UPDATE PART LIST SUMMARIES - Full Set XML **
+                    watch.Reset(); watch.Start();
+                    Delegates.ToolStripLabel_SetText(this, lblPartListStatus, "Refreshing - Updating Part List: Full...");
+                    if (fullSetXml != null)
+                    {
+                        XmlNodeList partListNodeList = fullSetXml.SelectNodes("//PartListPart");
+                        DataTable partListTable = GeneratePartListTable(partListNodeList, BasePartCollection);
+                        partListTable.DefaultView.Sort = "LDraw Colour Name";
+                        Delegates.DataGridView_SetDataSource(this, dgPartListWithMFsSummary, partListTable.DefaultView.ToTable());
+                        AdjustPartListSummaryRowFormatting(dgPartListWithMFsSummary);
+
+                        // ** UPDATE SUMMARY LABEL **
+                        int elementCount = partListTable.Rows.Count;
+                        int partCount = (from r in partListTable.AsEnumerable()
+                                         select r.Field<int>("Qty")).ToList().Sum();
+                        int colourCount = (from r in partListTable.AsEnumerable()
+                                           group r by r.Field<string>("LDraw Colour Name") into g
+                                           select new { ColourName = g.Key }).Count();
+                        int lDrawPartCount = (from r in partListTable.AsEnumerable()
+                                              group r by r.Field<string>("LDraw Ref") into g
+                                              select new { ColourName = g.Key }).Count();
+                        Delegates.ToolStripLabel_SetText(this, lblPartListWithMFsCount, partCount.ToString("#,##0") + " Part(s), " + elementCount.ToString("#,##0") + " Element(s), " + lDrawPartCount.ToString("#,##0") + " LDraw Part(s), " + colourCount.ToString("#,##0") + " Colour(s)");
+                        watch.Stop(); perfLog += "Update Part Summary - Full Set:\t\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
+                    }
+                    #endregion
 
 
+                    // ** Tidy up **
+                    Delegates.ToolStripLabel_SetText(this, lblPartListStatus, "");                    
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
-
+        #endregion
 
         #region ** TREENODE FUNCTIONS **
 
@@ -1811,7 +1939,7 @@ namespace Generator
                 //Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Set Detail Summary - Getting upfront data...");
                 //Delegates.ToolStripProgressBar_SetMax(this, pbStatus, partNodeList.Count);
                 //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
-                List<int> LDrawColourIDList = new List<int>();
+                //List<int> LDrawColourIDList = new List<int>();
                 List<string> LDrawRefList = new List<string>();
                 int index = 0;
                 foreach (XmlNode partNode in partNodeList)
@@ -1819,7 +1947,7 @@ namespace Generator
                     //bw_RefreshSetDetailsSummary.ReportProgress(index, "Working...");
 
                     int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
-                    if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
+                    //if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
                     string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
                     if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);
                     if(chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
@@ -1827,7 +1955,7 @@ namespace Generator
                     index += 1;
                 }
                 // ** Get a Collections for this data **
-                PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
+                //PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
                 BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
                 LDrawDetailsCollection LDrawDetailsCollection = StaticData.GetLDrawDetailsData_UsingLDrawRefList(LDrawRefList);
                 FBXDetailsCollection FBXDetailsCollection = new FBXDetailsCollection();
@@ -1876,7 +2004,7 @@ namespace Generator
                     string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
                     bool IsSubPart = bool.Parse(partNode.SelectSingleNode("@IsSubPart").InnerXml);
                     int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);  
-                    string LDrawColourName = (from r in PartColourCollection.PartColourList
+                    string LDrawColourName = (from r in Global_Variables.PartColourCollection.PartColourList
                                               where r.LDrawColourID == LDrawColourID
                                               select r.LDrawColourName).FirstOrDefault();
                     string partType = (from r in BasePartCollection.BasePartList
@@ -2070,19 +2198,19 @@ namespace Generator
                 //Delegates.ToolStripProgressBar_SetMax(this, pbStatus, allPartsNodeList.Count);
                 //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
                 int index = 0;
-                List<int> LDrawColourIDList = new List<int>();
+                //List<int> LDrawColourIDList = new List<int>();
                 List<string> LDrawRefList = new List<string>();
                 foreach (XmlNode partNode in allPartsNodeList)
                 {
                     //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, index);
                     int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
                     string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                    if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
+                    //if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
                     if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);
                     if (chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
                     index += 1;
                 }
-                PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
+                //PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
                 BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
                 //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
                 //watch.Stop(); perfLog += "Get upfront part data:\t\t\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
@@ -2093,7 +2221,7 @@ namespace Generator
                 // ** GET SOURCE TABLE FROM FULL SET XML **
                 XmlNodeList partListNodeList = currentSetXml.SelectNodes("//PartListPart");
                 //DataTable sourceTable = GeneratePartListTable(partListNodeList);
-                DataTable sourceTable = GeneratePartListTable(partListNodeList, PartColourCollection, BasePartCollection);
+                DataTable sourceTable = GeneratePartListTable(partListNodeList, BasePartCollection);
                 sourceTable.DefaultView.Sort = "LDraw Colour ID, LDraw Ref";
                 sourceTable = sourceTable.DefaultView.ToTable();
                 sourceTable.Columns.Add("Matched", typeof(string));
@@ -2147,19 +2275,19 @@ namespace Generator
 
                 #region ** GET DATA UPFRONT **
                 // Get a list of LDrawColourIDs & LDrawRefs
-                LDrawColourIDList = new List<int>();
+                //LDrawColourIDList = new List<int>();
                 LDrawRefList = new List<string>();
                 foreach (DataRow row in targetTable.Rows)
                 {
                     string LDrawRef = row["LDraw Ref"].ToString();
                     if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);                    
                     int LDrawColourID = int.Parse(row["LDraw Colour ID"].ToString());
-                    if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
+                    //if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
 
                     // ** Get Element images **                
                     if (chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
                 }
-                PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
+                //PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
                 BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
                 #endregion
 
@@ -2169,7 +2297,7 @@ namespace Generator
                     // ** Get LDraw variables **
                     string LDrawRef = row["LDraw Ref"].ToString();
                     int LDrawColourID = int.Parse(row["LDraw Colour ID"].ToString());
-                    string LDrawColourName = (from r in PartColourCollection.PartColourList
+                    string LDrawColourName = (from r in Global_Variables.PartColourCollection.PartColourList
                                               where r.LDrawColourID == LDrawColourID
                                               select r.LDrawColourName).FirstOrDefault();
                     string LDrawDescription = (from r in BasePartCollection.BasePartList
@@ -2352,6 +2480,11 @@ namespace Generator
         }
 
         #endregion
+
+
+
+
+
 
         #region ** SUBSET FUNCTIONS **
 
@@ -5398,11 +5531,6 @@ namespace Generator
             this.Text += " | " + "v" + versionArray[0] + "." + versionArray[1] + "." + versionArray[2];
         }
 
-
-
-
-
-
         private void ApplyModeSettings()
         {  
             if (this.InvokeRequired)
@@ -5447,494 +5575,12 @@ namespace Generator
             }
         }
 
-
-    
+       
     }
 
 
 
 
 
-
-    // Class to allow for easy async upload and download functions with progress change notifications
-    // Requires references to Microsoft.WindowsAzure.Storage.dll (Storage client 2.0) and Microsoft.WindowsAzure.StorageClient.dll (Storage client 1.7).
-    // See comments on UploadBlobAsync and DownloadBlobAsync functions for information on removing the 1.7 client library dependency
-    //class BlobTransfer
-    //    {
-    //        // Public async events
-    //        public event AsyncCompletedEventHandler TransferCompleted;
-    //        public event EventHandler<BlobTransferProgressChangedEventArgs> TransferProgressChanged;
-
-    //        // Public BlobTransfer properties
-    //        public TransferTypeEnum TransferType;
-
-    //        // Private variables
-    //        private ICancellableAsyncResult asyncresult;
-    //        private bool Working = false;
-    //        private object WorkingLock = new object();
-    //        private AsyncOperation asyncOp;
-
-    //        // Used to calculate download speeds
-    //        private Queue<long> timeQueue = new Queue<long>(200);
-    //        private Queue<long> bytesQueue = new Queue<long>(200);
-    //        private DateTime updateTime = System.DateTime.Now;
-
-    //        // Private BlobTransfer properties
-    //        private string m_FileName;
-    //        private ICloudBlob m_Blob;
-
-    //        // Helper function to allow Storage Client 1.7 (Microsoft.WindowsAzure.StorageClient) to utilize this class.
-    //        // Remove this function if only using Storage Client 2.0 (Microsoft.WindowsAzure.Storage).
-    //        //public void UploadBlobAsync(Microsoft.WindowsAzure.StorageClient.CloudBlob blob, string LocalFile)
-    //        //{
-    //        //    Microsoft.WindowsAzure.StorageCredentialsAccountAndKey account = blob.ServiceClient.Credentials as Microsoft.WindowsAzure.StorageCredentialsAccountAndKey;
-    //        //    ICloudBlob blob2 = new CloudBlockBlob(blob.Attributes.Uri, new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(blob.ServiceClient.Credentials.AccountName, account.Credentials.ExportBase64EncodedKey()));
-    //        //    UploadBlobAsync(blob2, LocalFile);
-    //        //}
-
-    //        // Helper function to allow Storage Client 1.7 (Microsoft.WindowsAzure.StorageClient) to utilize this class.
-    //        // Remove this function if only using Storage Client 2.0 (Microsoft.WindowsAzure.Storage).
-    //        //public void DownloadBlobAsync(Microsoft.WindowsAzure.StorageClient.CloudBlob blob, string LocalFile)
-    //        //{
-    //        //    Microsoft.WindowsAzure.StorageCredentialsAccountAndKey account = blob.ServiceClient.Credentials as Microsoft.WindowsAzure.StorageCredentialsAccountAndKey;
-    //        //    ICloudBlob blob2 = new CloudBlockBlob(blob.Attributes.Uri, new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(blob.ServiceClient.Credentials.AccountName, account.Credentials.ExportBase64EncodedKey()));
-    //        //    DownloadBlobAsync(blob2, LocalFile);
-    //        //}
-
-    //        public void UploadBlobAsync(ICloudBlob blob, string LocalFile)
-    //        {
-    //            // The class currently stores state in class level variables so calling UploadBlobAsync or DownloadBlobAsync a second time will cause problems.
-    //            // A better long term solution would be to better encapsulate the state, but the current solution works for the needs of my primary client.
-    //            // Throw an exception if UploadBlobAsync or DownloadBlobAsync has already been called.
-    //            lock (WorkingLock)
-    //            {
-    //                if (!Working)
-    //                    Working = true;
-    //                else
-    //                    throw new Exception("BlobTransfer already initiated. Create new BlobTransfer object to initiate a new file transfer.");
-    //            }
-
-    //            // Attempt to open the file first so that we throw an exception before getting into the async work
-    //            using (FileStream fstemp = new FileStream(LocalFile, FileMode.Open, FileAccess.Read)) { }
-
-    //            // Create an async op in order to raise the events back to the client on the correct thread.
-    //            asyncOp = AsyncOperationManager.CreateOperation(blob);
-
-    //            TransferType = TransferTypeEnum.Upload;
-    //            m_Blob = blob;
-    //            m_FileName = LocalFile;
-
-    //            var file = new FileInfo(m_FileName);
-    //            long fileSize = file.Length;
-
-    //            FileStream fs = new FileStream(m_FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-    //            ProgressStream pstream = new ProgressStream(fs);
-    //            pstream.ProgressChanged += pstream_ProgressChanged;
-    //            pstream.SetLength(fileSize);
-    //            m_Blob.ServiceClient.ParallelOperationThreadCount = 10;
-    //            asyncresult = m_Blob.BeginUploadFromStream(pstream, BlobTransferCompletedCallback, new BlobTransferAsyncState(m_Blob, pstream));
-    //        }
-
-    //        public void DownloadBlobAsync(ICloudBlob blob, string LocalFile)
-    //        {
-    //            // The class currently stores state in class level variables so calling UploadBlobAsync or DownloadBlobAsync a second time will cause problems.
-    //            // A better long term solution would be to better encapsulate the state, but the current solution works for the needs of my primary client.
-    //            // Throw an exception if UploadBlobAsync or DownloadBlobAsync has already been called.
-    //            lock (WorkingLock)
-    //            {
-    //                if (!Working)
-    //                    Working = true;
-    //                else
-    //                    throw new Exception("BlobTransfer already initiated. Create new BlobTransfer object to initiate a new file transfer.");
-    //            }
-
-    //            // Create an async op in order to raise the events back to the client on the correct thread.
-    //            asyncOp = AsyncOperationManager.CreateOperation(blob);
-
-    //            TransferType = TransferTypeEnum.Download;
-    //            m_Blob = blob;
-    //            m_FileName = LocalFile;
-
-    //            m_Blob.FetchAttributes();
-
-    //            FileStream fs = new FileStream(m_FileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
-    //            ProgressStream pstream = new ProgressStream(fs);
-    //            pstream.ProgressChanged += pstream_ProgressChanged;
-    //            pstream.SetLength(m_Blob.Properties.Length);
-    //            m_Blob.ServiceClient.ParallelOperationThreadCount = 10;
-    //            asyncresult = m_Blob.BeginDownloadToStream(pstream, BlobTransferCompletedCallback, new BlobTransferAsyncState(m_Blob, pstream));
-    //        }
-
-    //        private void pstream_ProgressChanged(object sender, ProgressChangedEventArgs e)
-    //        {
-    //            BlobTransferProgressChangedEventArgs eArgs = null;
-    //            int progress = (int)((double)e.BytesRead / e.TotalLength * 100);
-
-    //            // raise the progress changed event on the asyncop thread
-    //            eArgs = new BlobTransferProgressChangedEventArgs(e.BytesRead, e.TotalLength, progress, CalculateSpeed(e.BytesRead), null);
-    //            asyncOp.Post(delegate (object e2) { OnTaskProgressChanged((BlobTransferProgressChangedEventArgs)e2); }, eArgs);
-    //        }
-
-    //        private void BlobTransferCompletedCallback(IAsyncResult result)
-    //        {
-    //            BlobTransferAsyncState state = (BlobTransferAsyncState)result.AsyncState;
-    //            ICloudBlob blob = state.Blob;
-    //            ProgressStream stream = (ProgressStream)state.Stream;
-
-    //            try
-    //            {
-    //                stream.Close();
-
-    //                // End the operation.
-    //                if (TransferType == TransferTypeEnum.Download)
-    //                    blob.EndDownloadToStream(result);
-    //                else if (TransferType == TransferTypeEnum.Upload)
-    //                    blob.EndUploadFromStream(result);
-
-    //                // Operation completed normally, raise the completed event
-    //                AsyncCompletedEventArgs completedArgs = new AsyncCompletedEventArgs(null, false, null);
-    //                asyncOp.PostOperationCompleted(delegate (object e) { OnTaskCompleted((AsyncCompletedEventArgs)e); }, completedArgs);
-    //            }
-    //            catch (StorageException ex)
-    //            {
-    //                if (!state.Cancelled)
-    //                {
-    //                    throw (ex);
-    //                }
-
-    //                // Operation was cancelled, raise the event with the cancelled flag = true
-    //                AsyncCompletedEventArgs completedArgs = new AsyncCompletedEventArgs(null, true, null);
-    //                asyncOp.PostOperationCompleted(delegate (object e) { OnTaskCompleted((AsyncCompletedEventArgs)e); }, completedArgs);
-    //            }
-    //        }
-
-    //        // Cancel the async download
-    //        public void CancelAsync()
-    //        {
-    //            ((BlobTransferAsyncState)asyncresult.AsyncState).Cancelled = true;
-    //            asyncresult.Cancel();
-    //        }
-
-    //        // Helper function to only raise the event if the client has subscribed to it.
-    //        protected virtual void OnTaskCompleted(AsyncCompletedEventArgs e)
-    //        {
-    //            if (TransferCompleted != null)
-    //                TransferCompleted(this, e);
-    //        }
-
-    //        // Helper function to only raise the event if the client has subscribed to it.
-    //        protected virtual void OnTaskProgressChanged(BlobTransferProgressChangedEventArgs e)
-    //        {
-    //            if (TransferProgressChanged != null)
-    //                TransferProgressChanged(this, e);
-    //        }
-
-    //        // Keep the last 200 progress change notifications and use them to calculate the average speed over that duration. 
-    //        private double CalculateSpeed(long BytesSent)
-    //        {
-    //            double speed = 0;
-
-    //            if (timeQueue.Count >= 200)
-    //            {
-    //                timeQueue.Dequeue();
-    //                bytesQueue.Dequeue();
-    //            }
-
-    //            timeQueue.Enqueue(System.DateTime.Now.Ticks);
-    //            bytesQueue.Enqueue(BytesSent);
-
-    //            if (timeQueue.Count > 2)
-    //            {
-    //                updateTime = System.DateTime.Now;
-    //                speed = (bytesQueue.Max() - bytesQueue.Min()) / TimeSpan.FromTicks(timeQueue.Max() - timeQueue.Min()).TotalSeconds;
-    //            }
-
-    //            return speed;
-    //        }
-
-    //        // A modified version of the ProgressStream from https://blogs.msdn.com/b/paolos/archive/2010/05/25/large-message-transfer-with-wcf-adapters-part-1.aspx
-    //        // This class allows progress changed events to be raised from the blob upload/download.
-    //        private class ProgressStream : Stream
-    //        {
-    //            #region Private Fields
-    //            private Stream stream;
-    //            private long bytesTransferred;
-    //            private long totalLength;
-    //            #endregion
-
-    //            #region Public Handler
-    //            public event EventHandler<ProgressChangedEventArgs> ProgressChanged;
-    //            #endregion
-
-    //            #region Public Constructor
-    //            public ProgressStream(Stream file)
-    //            {
-    //                this.stream = file;
-    //                this.totalLength = file.Length;
-    //                this.bytesTransferred = 0;
-    //            }
-    //            #endregion
-
-    //            #region Public Properties
-    //            public override bool CanRead
-    //            {
-    //                get
-    //                {
-    //                    return this.stream.CanRead;
-    //                }
-    //            }
-
-    //            public override bool CanSeek
-    //            {
-    //                get
-    //                {
-    //                    return this.stream.CanSeek;
-    //                }
-    //            }
-
-    //            public override bool CanWrite
-    //            {
-    //                get
-    //                {
-    //                    return this.stream.CanWrite;
-    //                }
-    //            }
-
-    //            public override void Flush()
-    //            {
-    //                this.stream.Flush();
-    //            }
-
-    //            public override void Close()
-    //            {
-    //                this.stream.Close();
-    //            }
-
-    //            public override long Length
-    //            {
-    //                get
-    //                {
-    //                    return this.stream.Length;
-    //                }
-    //            }
-
-    //            public override long Position
-    //            {
-    //                get
-    //                {
-    //                    return this.stream.Position;
-    //                }
-    //                set
-    //                {
-    //                    this.stream.Position = value;
-    //                }
-    //            }
-    //            #endregion
-
-    //            #region Public Methods
-    //            public override int Read(byte[] buffer, int offset, int count)
-    //            {
-    //                int result = stream.Read(buffer, offset, count);
-    //                bytesTransferred += result;
-    //                if (ProgressChanged != null)
-    //                {
-    //                    try
-    //                    {
-    //                        OnProgressChanged(new ProgressChangedEventArgs(bytesTransferred, totalLength));
-    //                        //ProgressChanged(this, new ProgressChangedEventArgs(bytesTransferred, totalLength));
-    //                    }
-    //                    catch (Exception)
-    //                    {
-    //                        ProgressChanged = null;
-    //                    }
-    //                }
-    //                return result;
-    //            }
-
-    //            protected virtual void OnProgressChanged(ProgressChangedEventArgs e)
-    //            {
-    //                if (ProgressChanged != null)
-    //                    ProgressChanged(this, e);
-    //            }
-
-    //            public override long Seek(long offset, SeekOrigin origin)
-    //            {
-    //                return this.stream.Seek(offset, origin);
-    //            }
-
-    //            public override void SetLength(long value)
-    //            {
-    //                totalLength = value;
-    //                //this.stream.SetLength(value);
-    //            }
-
-    //            public override void Write(byte[] buffer, int offset, int count)
-    //            {
-    //                this.stream.Write(buffer, offset, count);
-    //                bytesTransferred += count;
-    //                {
-    //                    try
-    //                    {
-    //                        OnProgressChanged(new ProgressChangedEventArgs(bytesTransferred, totalLength));
-    //                        //ProgressChanged(this, new ProgressChangedEventArgs(bytesTransferred, totalLength));
-    //                    }
-    //                    catch (Exception)
-    //                    {
-    //                        ProgressChanged = null;
-    //                    }
-    //                }
-    //            }
-
-    //            protected override void Dispose(bool disposing)
-    //            {
-    //                stream.Dispose();
-    //                base.Dispose(disposing);
-    //            }
-
-    //            #endregion
-    //        }
-
-    //        private class BlobTransferAsyncState
-    //        {
-    //            public ICloudBlob Blob;
-    //            public Stream Stream;
-    //            public DateTime Started;
-    //            public bool Cancelled;
-
-    //            public BlobTransferAsyncState(ICloudBlob blob, Stream stream)
-    //                : this(blob, stream, DateTime.Now)
-    //            { }
-
-    //            public BlobTransferAsyncState(ICloudBlob blob, Stream stream, DateTime started)
-    //            {
-    //                Blob = blob;
-    //                Stream = stream;
-    //                Started = started;
-    //                Cancelled = false;
-    //            }
-    //        }
-
-    //        private class ProgressChangedEventArgs : EventArgs
-    //        {
-    //            #region Private Fields
-    //            private long bytesRead;
-    //            private long totalLength;
-    //            #endregion
-
-    //            #region Public Constructor
-    //            public ProgressChangedEventArgs(long bytesRead, long totalLength)
-    //            {
-    //                this.bytesRead = bytesRead;
-    //                this.totalLength = totalLength;
-    //            }
-    //            #endregion
-
-    //            #region Public properties
-
-    //            public long BytesRead
-    //            {
-    //                get
-    //                {
-    //                    return this.bytesRead;
-    //                }
-    //                set
-    //                {
-    //                    this.bytesRead = value;
-    //                }
-    //            }
-
-    //            public long TotalLength
-    //            {
-    //                get
-    //                {
-    //                    return this.totalLength;
-    //                }
-    //                set
-    //                {
-    //                    this.totalLength = value;
-    //                }
-    //            }
-    //            #endregion
-    //        }
-
-    //        public enum TransferTypeEnum
-    //        {
-    //            Download,
-    //            Upload
-    //        }
-
-    //        public class BlobTransferProgressChangedEventArgs : System.ComponentModel.ProgressChangedEventArgs
-    //        {
-    //            private long m_BytesSent = 0;
-    //            private long m_TotalBytesToSend = 0;
-    //            private double m_Speed = 0;
-
-    //            public long BytesSent
-    //            {
-    //                get { return m_BytesSent; }
-    //            }
-
-    //            public long TotalBytesToSend
-    //            {
-    //                get { return m_TotalBytesToSend; }
-    //            }
-
-    //            public double Speed
-    //            {
-    //                get { return m_Speed; }
-    //            }
-
-    //            public TimeSpan TimeRemaining
-    //            {
-    //                get
-    //                {
-    //                    TimeSpan time = new TimeSpan(0, 0, (int)((TotalBytesToSend - m_BytesSent) / (m_Speed == 0 ? 1 : m_Speed)));
-    //                    return time;
-    //                }
-    //            }
-
-    //            public BlobTransferProgressChangedEventArgs(long BytesSent, long TotalBytesToSend, int progressPercentage, double Speed, object userState)
-    //                : base(progressPercentage, userState)
-    //            {
-    //                m_BytesSent = BytesSent;
-    //                m_TotalBytesToSend = TotalBytesToSend;
-    //                m_Speed = Speed;
-    //            }
-    //        }
-    //    }
-
-
-    //public static class TreeViewExtensions
-    //{
-    //    public static List<string> GetExpansionState(this TreeNodeCollection nodes)
-    //    {
-    //        return nodes.Descendants()
-    //                    .Where(n => n.IsExpanded)
-    //                    .Select(n => n.FullPath)
-    //                    .ToList();
-    //    }
-
-    //    public static void SetExpansionState(this TreeNodeCollection nodes, List<string> savedExpansionState)
-    //    {
-    //        foreach (var node in nodes.Descendants()
-    //                                  .Where(n => savedExpansionState.Contains(n.FullPath)))
-    //        {
-    //            node.Expand();
-    //        }
-    //    }
-
-    //    public static IEnumerable<TreeNode> Descendants(this TreeNodeCollection c)
-    //    {
-    //        foreach (var node in c.OfType<TreeNode>())
-    //        {
-    //            yield return node;
-
-    //            foreach (var child in node.Nodes.Descendants())
-    //            {
-    //                yield return child;
-    //            }
-    //        }
-    //    }
-    //}
 
 }

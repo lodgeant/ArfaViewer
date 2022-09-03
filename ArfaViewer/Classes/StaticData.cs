@@ -52,6 +52,14 @@ namespace Generator
             return coll;
         }
 
+        public static PartColourCollection GetPartColourData_All()
+        {
+            string url = Global_Variables.APIUrl2 + "PartColour/GetPartColourData_All";
+            string JSONString = GetJSONResponseFromURL(url);
+            PartColourCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<PartColourCollection>(JSONString);
+            return coll;
+        }
+
         public static string GetLDrawColourID(string LDrawColourName)
         {            
             string url = Global_Variables.APIUrl2 + "PartColour/GetLDrawColourID_UsingLDrawColourName?LDrawColourName=" + LDrawColourName;

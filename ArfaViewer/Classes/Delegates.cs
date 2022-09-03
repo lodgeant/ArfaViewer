@@ -236,5 +236,20 @@ namespace Generator
 
 
 
+
+        public static void TabPage_SetText(Form obj, TabPage tp, string text)
+        {
+            if (obj.InvokeRequired)
+            {
+                obj.BeginInvoke(new MethodInvoker(() => TabPage_SetText(obj, tp, text)));
+            }
+            else
+            {
+               tp.Text = text;                
+            }
+        }
+
+
+
     }
 }

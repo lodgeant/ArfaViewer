@@ -43,7 +43,7 @@ namespace Generator
 
                 // ** Generate Proxy API **
                 //Global_Variables.APIProxy = new zzz_APIProxy();
-
+                Global_Variables.PartColourCollection = StaticData.GetPartColourData_All();
 
                 // ** Refresh static data **                
                 //StaticData.RefreshStaticData_All();
