@@ -114,6 +114,8 @@ namespace Generator
                     fldBasePartOffsetY,
                     lblBasePartOffsetZ,
                     fldBasePartOffsetZ,
+                    lblBasePartSubPartCount,
+                    fldBasePartSubPartCount,
                     toolStripSeparator15,                    
                     btnBasePartClear,
                     toolStripSeparator3,                    
@@ -150,8 +152,6 @@ namespace Generator
                     fldSubPartMappingParentLDrawRefAc
                 });
                 #endregion
-
-
 
                 // ** Set up Scintilla **               
                 pnlLDrawDetailsData.Controls.Add(LDrawDetailsData);
@@ -788,7 +788,7 @@ namespace Generator
                 // ** Posting data to summary **
                 Delegates.ToolStripLabel_SetText(this, lblSubPartMappingStatus, "Refreshing - Posting data to summary...");
                 Delegates.DataGridView_SetDataSource(this, dgSubPartMappingSummary, table);
-                Delegates.ToolStripLabel_SetText(this, lblSubPartMappingCount, table.Rows.Count.ToString("#,##0") + " Part(s)");
+                Delegates.ToolStripLabel_SetText(this, lblSubPartMappingCount, table.Rows.Count.ToString("#,##0") + " Mapping(s)");
 
                 // ** Format summary **
                 Delegates.ToolStripLabel_SetText(this, lblSubPartMappingStatus, "Refreshing - Formatting summary data...");
@@ -867,6 +867,7 @@ namespace Generator
                     fldBasePartOffsetX.Text = bp.OffsetX.ToString();
                     fldBasePartOffsetY.Text = bp.OffsetY.ToString();
                     fldBasePartOffsetZ.Text = bp.OffsetZ.ToString();
+                    fldBasePartSubPartCount.Text = bp.SubPartCount.ToString();
                 }
             }
             catch (Exception ex)
@@ -1184,7 +1185,7 @@ namespace Generator
                             Delegates.DataGridView_SetDataSource(this, dgSubPartMappingSummary, filteredRows.CopyToDataTable());
                             AdjustSubPartMappingSummaryRowFormatting(dgSubPartMappingSummary);
                         }
-                        lblSubPartMappingSummaryItemFilteredCount.Text = filteredRows.Count + " filtered part(s)";
+                        lblSubPartMappingSummaryItemFilteredCount.Text = filteredRows.Count + " filtered Mapping(s)";
                         #endregion
                     }
                 }
@@ -1237,17 +1238,14 @@ namespace Generator
                 int OffsetZ = 0; ;
                 int.TryParse(fldBasePartOffsetZ.Text, out OffsetZ);
                 bp.OffsetZ = OffsetZ;
+                int SubPartCount = 0; ;
+                int.TryParse(fldBasePartSubPartCount.Text, out SubPartCount);
+                bp.SubPartCount = SubPartCount;
 
                 // ** Determine what action to take **
-                if (action.Equals("ADD"))
-                {
-                    StaticData.AddBasePart(bp);
-                }
-                else if (action.Equals("UPDATE"))
-                {
-                    StaticData.UpdateBasePart(bp);
-                }
-
+                if (action.Equals("ADD")) StaticData.AddBasePart(bp);                
+                else if (action.Equals("UPDATE")) StaticData.UpdateBasePart(bp);
+                
                 // ** Tidy Up **
                 //ClearAllSetDetailsFields();
                 RefreshBasePart();
@@ -1298,6 +1296,7 @@ namespace Generator
             fldBasePartOffsetX.Text = "";
             fldBasePartOffsetY.Text = "";
             fldBasePartOffsetZ.Text = "";
+            fldBasePartSubPartCount.Text = "";
         }
 
         #endregion

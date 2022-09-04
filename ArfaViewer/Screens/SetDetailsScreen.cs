@@ -478,14 +478,7 @@ namespace Generator
             {
                 EnableControls_RefreshSetDetailsSummary(false);
 
-                // ** CLEAR FIELDS ** 
-                //tvSetSummary.Nodes.Clear();
-                //TextArea.Text = "";
-                //TextArea2.Text = "";
-                //dgPartListSummary.DataSource = null;
-                //lblPartListCount.Text = "";
-                //dgPartListWithMFsSummary.DataSource = null;
-                //lblPartListWithMFsCount.Text = "";
+                // ** CLEAR FIELDS **                 
                 dgSetDetailsSummary.DataSource = null;
                 lblSetDetailsCount.Text = "";
                 lblSetDetailsSummaryItemFilteredCount.Text = "";

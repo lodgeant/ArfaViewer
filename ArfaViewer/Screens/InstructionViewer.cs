@@ -1071,10 +1071,6 @@ namespace Generator
 
         #endregion
 
-
-
-
-
         #region ** REFRESH FUNCTIONS **
 
         List<string> savedExpansionState = new List<string>();
@@ -1574,7 +1570,7 @@ namespace Generator
 
         private void RefreshPartList()
         {
-            string perfLog = "";
+            //string perfLog = "";
             Stopwatch watch = new Stopwatch();
             try
             {   
@@ -4241,7 +4237,7 @@ namespace Generator
 
                     #region ** ADD SUB PARTS TO NEW PART **
                     //CompositePartCollection coll = StaticData.GetCompositePartData_UsingParentLDrawRefList(LDrawRef);
-                    SubPartMappingCollection coll = StaticData.GetSubPartMappingData_UsingParentLDrawRefList(LDrawRef);
+                    SubPartMappingCollection coll = StaticData.GetSubPartMappingData_UsingParentLDrawRef(LDrawRef);
                     foreach (SubPartMapping compPart in coll.SubPartMappingList)
                     //foreach (CompositePart compPart in coll.CompositePartList)
                     {
@@ -4370,7 +4366,7 @@ namespace Generator
                 #region ** ADD SUB PARTS TO NEW PART **
                 //CompositePartCollection coll = StaticData.GetCompositePartData_UsingParentLDrawRefList(LDrawRef);
                 //foreach (CompositePart compPart in coll.CompositePartList)
-                SubPartMappingCollection coll = StaticData.GetSubPartMappingData_UsingParentLDrawRefList(LDrawRef);
+                SubPartMappingCollection coll = StaticData.GetSubPartMappingData_UsingParentLDrawRef(LDrawRef);
                 foreach (SubPartMapping compPart in coll.SubPartMappingList)
                 {
                     // ** Generate subPart and add to SubPartList **
@@ -4995,138 +4991,11 @@ namespace Generator
 
         #endregion
 
-        #region ** SYNC FBX FUNCTIONS **
 
-        //private void SyncFBXFiles_OLD()
-        //{
-        //    try
-        //    {
-        //        #region ** OLD CODE **
-        //        // ** Get all FBX files in Unity Resources directory **
-        //        //string unityPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";
-        //        //List<string> FileListFull_Unity = Directory.GetFiles(unityPath).Where(s => Path.GetExtension(s).Equals(".fbx")).ToList();
-        //        //List<string> FileList_Unity = Directory.GetFiles(unityPath)
-        //        //                                .Where(s => Path.GetExtension(s).Equals(".fbx"))
-        //        //                                .Select(Path.GetFileName).ToList();
-        //        //int index = 0;
-        //        //Dictionary<string, string> FileList_Map_Unity = new Dictionary<string, string>();
-        //        //foreach (string filename in FileList_Unity)
-        //        //{
-        //        //    string fullPath = FileListFull_Unity.ToArray()[index];
-        //        //    FileList_Map_Unity.Add(filename, fullPath);
-        //        //    index += 1;
-        //        //}
 
-        //        // ** Get all FBX files in files-fbx location on Share **
-        //        //string fsPath = @"Z:\static-data\files-fbx";                
-        //        //List<string> FileListFull_FS = Directory.GetFiles(fsPath).ToList();
-        //        //List<string> FileList_FS = Directory.GetFiles(fsPath).Select(Path.GetFileName).ToList();
-        //        //List<string> FileListFull_FS = Directory.GetFiles(fsPath).Where(s => Path.GetExtension(s).Equals(".fbx")).ToList();
-        //        //List<string> FileList_FS = Directory.GetFiles(fsPath)
-        //        //                                .Where(s => Path.GetExtension(s).Equals(".fbx"))
-        //        //                                .Select(Path.GetFileName).ToList();
-        //        //index = 0;
-        //        //Dictionary<string, string> FileList_Map_FS = new Dictionary<string, string>();
-        //        //foreach (string filename in FileList_FS)
-        //        //{
-        //        //    string fullPath = FileListFull_FS.ToArray()[index];
-        //        //    FileList_Map_FS.Add(filename, fullPath);
-        //        //    index += 1;
-        //        //}
-        //        #endregion
 
-        //        // ** GET ALL FBX FILES IN "static-data\files-fbx" ON AZURE SHARE **
-        //        //string fsPath = @"Z:\static-data\files-fbx";
-        //        //List<string> FileList_FS = Directory.GetFiles(fsPath)
-        //        //                                .Where(s => Path.GetExtension(s).Equals(".fbx"))
-        //        //                                .Select(Path.GetFileName).ToList();
-        //        List<Azure.Storage.Files.Shares.Models.ShareFileItem> FSFileList = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFilesAndDirectories().ToList();
-        //        List<string> FileList_FS = FSFileList.Select(x => x.Name).ToList();
 
-        //        // ** GET ALL FBX FILES IN UNITY "Resources\Lego Part Models" DIRECTORY **
-        //        string unityPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";                
-        //        List<string> FileList_Unity = Directory.GetFiles(unityPath)
-        //                                        .Where(s => Path.GetExtension(s).Equals(".fbx"))
-        //                                        .Select(Path.GetFileName).ToList();
 
-        //        // ** COPY NEW FBX TO UNITY LOCATION **
-        //        List<string> difList = FileList_FS.Except(FileList_Unity).ToList();
-        //        if (difList.Count == 0)
-        //        {
-        //            throw new Exception("No FBX files need uploading...");
-        //        }
-        //        foreach (string filename in difList)
-        //        {
-        //            string source = @"Z:\static-data\files-fbx\" + filename;
-        //            string target = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models\" + filename;
-        //            File.Copy(source, target);
-        //        }
-        //        MessageBox.Show(difList.Count + " FBX file(s) uploaded to Azure FS...");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
-
-        public static void SyncFBXFiles()
-        {            
-            //try
-            //{
-            //    // ** GET ALL FBX FILES IN "static-data\files-fbx" ON AZURE SHARE **                
-            //    List<Azure.Storage.Files.Shares.Models.ShareFileItem> FSFileList = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFilesAndDirectories().ToList();
-            //    List<string> FileList_FS = FSFileList.Select(x => x.Name).ToList();
-
-            //    // ** COPY FILES ACROSS THAT ARE NEW OR NEWER **
-            //    List<string> updatedFileList = new List<string>();
-            //    foreach (string filename in FileList_FS)
-            //    {
-            //        ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(filename);
-            //        DateTime lastModified_TS = share.GetProperties().Value.LastModified.UtcDateTime;
-            //        DateTime lastModified_Unity;
-            //        bool CopyFile = false;
-            //        if (File.Exists(Path.Combine(Global_Variables.UnityLegoPartPath, filename)) == false)
-            //        {
-            //            CopyFile = true;
-            //        }
-            //        else
-            //        {
-            //            lastModified_Unity = new FileInfo(Path.Combine(Global_Variables.UnityLegoPartPath, filename)).LastWriteTimeUtc;
-            //            if (lastModified_Unity < lastModified_TS)
-            //            {
-            //                CopyFile = true;
-            //            }
-            //        }
-            //        if (CopyFile)
-            //        {
-            //            // ** Download file from Azure and save into Unity Resources\Lego Part Model directory **                        
-            //            string target = Path.Combine(Global_Variables.UnityLegoPartPath, filename);
-            //            byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
-            //            Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
-            //            using (var fs = new FileStream(target, FileMode.Create, FileAccess.Write))
-            //            {
-            //                download.Content.CopyTo(fs);
-            //            }
-            //            File.SetLastWriteTimeUtc(target, lastModified_TS);
-            //            updatedFileList.Add(filename);
-            //        }
-            //    }
-
-            //    // ** SHOW CONFIRMATION **
-            //    string confirmation = updatedFileList.Count + " file(s) added/updated in Unity Resource directory" + Environment.NewLine;
-            //    foreach (string filename in updatedFileList)
-            //    {
-            //        confirmation += filename + Environment.NewLine;
-            //    }
-            //    MessageBox.Show(confirmation, "Syncing FBX file(s)...");
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-        }
-
-        #endregion
 
         #region ** PART SUMMARY ACCELERATOR FUNCTIONS **
 
@@ -5575,7 +5444,146 @@ namespace Generator
             }
         }
 
-       
+
+
+
+
+        #region ** SYNC FBX FUNCTIONS **
+
+        //private void SyncFBXFiles_OLD()
+        //{
+        //    try
+        //    {
+        //        #region ** OLD CODE **
+        //        // ** Get all FBX files in Unity Resources directory **
+        //        //string unityPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";
+        //        //List<string> FileListFull_Unity = Directory.GetFiles(unityPath).Where(s => Path.GetExtension(s).Equals(".fbx")).ToList();
+        //        //List<string> FileList_Unity = Directory.GetFiles(unityPath)
+        //        //                                .Where(s => Path.GetExtension(s).Equals(".fbx"))
+        //        //                                .Select(Path.GetFileName).ToList();
+        //        //int index = 0;
+        //        //Dictionary<string, string> FileList_Map_Unity = new Dictionary<string, string>();
+        //        //foreach (string filename in FileList_Unity)
+        //        //{
+        //        //    string fullPath = FileListFull_Unity.ToArray()[index];
+        //        //    FileList_Map_Unity.Add(filename, fullPath);
+        //        //    index += 1;
+        //        //}
+
+        //        // ** Get all FBX files in files-fbx location on Share **
+        //        //string fsPath = @"Z:\static-data\files-fbx";                
+        //        //List<string> FileListFull_FS = Directory.GetFiles(fsPath).ToList();
+        //        //List<string> FileList_FS = Directory.GetFiles(fsPath).Select(Path.GetFileName).ToList();
+        //        //List<string> FileListFull_FS = Directory.GetFiles(fsPath).Where(s => Path.GetExtension(s).Equals(".fbx")).ToList();
+        //        //List<string> FileList_FS = Directory.GetFiles(fsPath)
+        //        //                                .Where(s => Path.GetExtension(s).Equals(".fbx"))
+        //        //                                .Select(Path.GetFileName).ToList();
+        //        //index = 0;
+        //        //Dictionary<string, string> FileList_Map_FS = new Dictionary<string, string>();
+        //        //foreach (string filename in FileList_FS)
+        //        //{
+        //        //    string fullPath = FileListFull_FS.ToArray()[index];
+        //        //    FileList_Map_FS.Add(filename, fullPath);
+        //        //    index += 1;
+        //        //}
+        //        #endregion
+
+        //        // ** GET ALL FBX FILES IN "static-data\files-fbx" ON AZURE SHARE **
+        //        //string fsPath = @"Z:\static-data\files-fbx";
+        //        //List<string> FileList_FS = Directory.GetFiles(fsPath)
+        //        //                                .Where(s => Path.GetExtension(s).Equals(".fbx"))
+        //        //                                .Select(Path.GetFileName).ToList();
+        //        List<Azure.Storage.Files.Shares.Models.ShareFileItem> FSFileList = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFilesAndDirectories().ToList();
+        //        List<string> FileList_FS = FSFileList.Select(x => x.Name).ToList();
+
+        //        // ** GET ALL FBX FILES IN UNITY "Resources\Lego Part Models" DIRECTORY **
+        //        string unityPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";                
+        //        List<string> FileList_Unity = Directory.GetFiles(unityPath)
+        //                                        .Where(s => Path.GetExtension(s).Equals(".fbx"))
+        //                                        .Select(Path.GetFileName).ToList();
+
+        //        // ** COPY NEW FBX TO UNITY LOCATION **
+        //        List<string> difList = FileList_FS.Except(FileList_Unity).ToList();
+        //        if (difList.Count == 0)
+        //        {
+        //            throw new Exception("No FBX files need uploading...");
+        //        }
+        //        foreach (string filename in difList)
+        //        {
+        //            string source = @"Z:\static-data\files-fbx\" + filename;
+        //            string target = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models\" + filename;
+        //            File.Copy(source, target);
+        //        }
+        //        MessageBox.Show(difList.Count + " FBX file(s) uploaded to Azure FS...");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
+
+        public static void SyncFBXFiles()
+        {
+            string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
+            string UnityLegoPartPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";
+            try
+            {
+                // ** GET ALL FBX FILES IN "static-data\files-fbx" ON AZURE SHARE **                
+                List<Azure.Storage.Files.Shares.Models.ShareFileItem> FSFileList = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFilesAndDirectories().ToList();
+                List<string> FileList_FS = FSFileList.Select(x => x.Name).ToList();
+
+                // ** COPY FILES ACROSS THAT ARE NEW OR NEWER **
+                List<string> updatedFileList = new List<string>();
+                foreach (string filename in FileList_FS)
+                {
+                    ShareFileClient share = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(filename);
+                    DateTime lastModified_TS = share.GetProperties().Value.LastModified.UtcDateTime;
+                    DateTime lastModified_Unity;
+                    bool CopyFile = false;
+                    if (File.Exists(Path.Combine(UnityLegoPartPath, filename)) == false)
+                    {
+                        CopyFile = true;
+                    }
+                    else
+                    {
+                        lastModified_Unity = new FileInfo(Path.Combine(UnityLegoPartPath, filename)).LastWriteTimeUtc;
+                        if (lastModified_Unity < lastModified_TS)
+                        {
+                            CopyFile = true;
+                        }
+                    }
+                    if (CopyFile)
+                    {
+                        // ** Download file from Azure and save into Unity Resources\Lego Part Model directory **                        
+                        string target = Path.Combine(UnityLegoPartPath, filename);
+                        byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
+                        Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
+                        using (var fs = new FileStream(target, FileMode.Create, FileAccess.Write))
+                        {
+                            download.Content.CopyTo(fs);
+                        }
+                        File.SetLastWriteTimeUtc(target, lastModified_TS);
+                        updatedFileList.Add(filename);
+                    }
+                }
+
+                // ** SHOW CONFIRMATION **
+                string confirmation = updatedFileList.Count + " file(s) added/updated in Unity Resource directory" + Environment.NewLine;
+                foreach (string filename in updatedFileList) confirmation += filename + Environment.NewLine;               
+                MessageBox.Show(confirmation, "Syncing FBX file(s)...");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
+
+
+
+
     }
 
 

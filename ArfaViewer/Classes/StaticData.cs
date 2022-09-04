@@ -38,9 +38,6 @@ namespace Generator
         }
 
 
-
-
-
         // ** PartColour functions **
 
         public static PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)
@@ -423,14 +420,23 @@ namespace Generator
         }
 
 
-
         // ** SubPartMapping functions **
 
-        public static SubPartMappingCollection GetSubPartMappingData_UsingParentLDrawRefList(string ParentLDrawRef)
+        public static SubPartMappingCollection GetSubPartMappingData_UsingParentLDrawRefList(List<string> IDList)
         {
-            string url = Global_Variables.APIUrl2 + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRefList?ParentLDrawRef=" + ParentLDrawRef;
+            string url = Global_Variables.APIUrl2 + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRefList?";
+            foreach (string id in IDList) url += "IDList=" + id + "&";
             string JSONString = GetJSONResponseFromURL(url);
             SubPartMappingCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SubPartMappingCollection>(JSONString);
+            return coll;
+        }
+
+        public static SubPartMappingCollection GetSubPartMappingData_UsingParentLDrawRef(string ParentLDrawRef)
+        {
+            //string url = Global_Variables.APIUrl2 + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRef?ParentLDrawRef=" + ParentLDrawRef;
+            //string JSONString = GetJSONResponseFromURL(url);
+            //SubPartMappingCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SubPartMappingCollection>(JSONString);
+            SubPartMappingCollection coll = GetSubPartMappingData_UsingParentLDrawRefList(new List<string>() { ParentLDrawRef });            
             return coll;
         }
 
@@ -442,7 +448,6 @@ namespace Generator
             return coll;
         }
 
-
         public static SubPartMapping GetSubPartMapping(string ParentLDrawRef, string SubPartLDrawRef)
         {
             SubPartMapping item = null;
@@ -452,10 +457,6 @@ namespace Generator
             if (coll.SubPartMappingList.Count > 0) item = coll.SubPartMappingList[0];
             return item;
         }
-
-
-
-
 
         public static bool CheckIfSubPartMappingPartsExist(string LDrawRef)
         {
@@ -470,33 +471,6 @@ namespace Generator
             string url = Global_Variables.APIUrl2 + "SubPartMapping/AddSubPartMapping";
             PostJSONRequestFromURL(url, json);
         }
-
-       
-
-
-
-
-
-
-
-        // ** CompositePart functions - DEMISED **
-
-        //public static CompositePartCollection GetAllCompositeSubParts_FromLDrawDetails(string LDrawRef)
-        //{
-        //    string url = Global_Variables.APIUrl2 + "LDrawDetails/GetAllCompositeSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
-        //    string JSONString = GetJSONResponseFromURL(url);
-        //    CompositePartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<CompositePartCollection>(JSONString);
-        //    return coll;
-        //}
-
-        
-
-
-
-
-
-
-
 
 
 

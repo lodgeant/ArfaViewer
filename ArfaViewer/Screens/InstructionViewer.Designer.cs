@@ -249,6 +249,12 @@
             this.pnlSetWithMFXML = new System.Windows.Forms.Panel();
             this.toolStrip14 = new System.Windows.Forms.ToolStrip();
             this.btnShowWithMFXMLInNotePadPlus = new System.Windows.Forms.ToolStripButton();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.pnlRebrickableXML = new System.Windows.Forms.Panel();
+            this.toolStrip5 = new System.Windows.Forms.ToolStrip();
+            this.btnShowRebrickableXMLInNotePadPlus = new System.Windows.Forms.ToolStripButton();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.pnlLDRString = new System.Windows.Forms.Panel();
             this.tpPartList = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -263,6 +269,8 @@
             this.toolStrip4 = new System.Windows.Forms.ToolStrip();
             this.btnPartListMFCopyToClipboard = new System.Windows.Forms.ToolStripButton();
             this.statusStrip4 = new System.Windows.Forms.StatusStrip();
+            this.pbPartlist = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblPartListStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblMiniFigsPartListCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.gpPartListWithMF = new System.Windows.Forms.GroupBox();
             this.dgPartListWithMFsSummary = new System.Windows.Forms.DataGridView();
@@ -274,18 +282,10 @@
             this.btnPartListRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.btnCompareWithRebrickable = new System.Windows.Forms.ToolStripButton();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.pnlRebrickableXML = new System.Windows.Forms.Panel();
-            this.toolStrip5 = new System.Windows.Forms.ToolStrip();
-            this.btnShowRebrickableXMLInNotePadPlus = new System.Windows.Forms.ToolStripButton();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.pnlLDRString = new System.Windows.Forms.Panel();
             this.chkShowPages = new System.Windows.Forms.CheckBox();
             this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
             this.chkShowElementImages = new System.Windows.Forms.CheckBox();
             this.chkShowFBXDetails = new System.Windows.Forms.CheckBox();
-            this.pbPartlist = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblPartListStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -325,6 +325,9 @@
             this.toolStrip13.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.toolStrip14.SuspendLayout();
+            this.tabPage5.SuspendLayout();
+            this.toolStrip5.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.tpPartList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -347,9 +350,6 @@
             this.toolStrip12.SuspendLayout();
             this.statusStrip3.SuspendLayout();
             this.tsPartListHeader.SuspendLayout();
-            this.tabPage5.SuspendLayout();
-            this.toolStrip5.SuspendLayout();
-            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -2267,6 +2267,62 @@
             this.btnShowWithMFXMLInNotePadPlus.Text = "Open in Notepad++";
             this.btnShowWithMFXMLInNotePadPlus.Click += new System.EventHandler(this.btnShowWithMFXMLInNotePadPlus_Click);
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.pnlRebrickableXML);
+            this.tabPage5.Controls.Add(this.toolStrip5);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(1485, 676);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Rebrickable XML";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // pnlRebrickableXML
+            // 
+            this.pnlRebrickableXML.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlRebrickableXML.Location = new System.Drawing.Point(0, 25);
+            this.pnlRebrickableXML.Name = "pnlRebrickableXML";
+            this.pnlRebrickableXML.Size = new System.Drawing.Size(1485, 651);
+            this.pnlRebrickableXML.TabIndex = 30;
+            // 
+            // toolStrip5
+            // 
+            this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnShowRebrickableXMLInNotePadPlus});
+            this.toolStrip5.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip5.Name = "toolStrip5";
+            this.toolStrip5.Size = new System.Drawing.Size(1485, 25);
+            this.toolStrip5.TabIndex = 29;
+            this.toolStrip5.Text = "toolStrip5";
+            // 
+            // btnShowRebrickableXMLInNotePadPlus
+            // 
+            this.btnShowRebrickableXMLInNotePadPlus.Image = ((System.Drawing.Image)(resources.GetObject("btnShowRebrickableXMLInNotePadPlus.Image")));
+            this.btnShowRebrickableXMLInNotePadPlus.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnShowRebrickableXMLInNotePadPlus.Name = "btnShowRebrickableXMLInNotePadPlus";
+            this.btnShowRebrickableXMLInNotePadPlus.Size = new System.Drawing.Size(134, 22);
+            this.btnShowRebrickableXMLInNotePadPlus.Text = "Open in Notepad++";
+            this.btnShowRebrickableXMLInNotePadPlus.Click += new System.EventHandler(this.btnShowRebrickableXMLInNotePadPlus_Click);
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.pnlLDRString);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(1485, 676);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "LDR";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // pnlLDRString
+            // 
+            this.pnlLDRString.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlLDRString.Location = new System.Drawing.Point(0, 0);
+            this.pnlLDRString.Name = "pnlLDRString";
+            this.pnlLDRString.Size = new System.Drawing.Size(1485, 676);
+            this.pnlLDRString.TabIndex = 29;
+            // 
             // tpPartList
             // 
             this.tpPartList.Controls.Add(this.splitContainer2);
@@ -2427,6 +2483,18 @@
             this.statusStrip4.TabIndex = 106;
             this.statusStrip4.Text = "statusStrip2";
             // 
+            // pbPartlist
+            // 
+            this.pbPartlist.ForeColor = System.Drawing.Color.Lime;
+            this.pbPartlist.Name = "pbPartlist";
+            this.pbPartlist.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblPartListStatus
+            // 
+            this.lblPartListStatus.Name = "lblPartListStatus";
+            this.lblPartListStatus.Size = new System.Drawing.Size(91, 17);
+            this.lblPartListStatus.Text = "lblPartListStatus";
+            // 
             // lblMiniFigsPartListCount
             // 
             this.lblMiniFigsPartListCount.Name = "lblMiniFigsPartListCount";
@@ -2506,7 +2574,6 @@
             // 
             // btnPartListRefresh
             // 
-            this.btnPartListRefresh.BackColor = System.Drawing.Color.Yellow;
             this.btnPartListRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnPartListRefresh.Image")));
             this.btnPartListRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPartListRefresh.Name = "btnPartListRefresh";
@@ -2527,62 +2594,6 @@
             this.btnCompareWithRebrickable.Size = new System.Drawing.Size(166, 22);
             this.btnCompareWithRebrickable.Text = "Compare with Rebrickable";
             this.btnCompareWithRebrickable.Click += new System.EventHandler(this.btnCompareWithRebrickable_Click);
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.Controls.Add(this.pnlRebrickableXML);
-            this.tabPage5.Controls.Add(this.toolStrip5);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1485, 676);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "Rebrickable XML";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // pnlRebrickableXML
-            // 
-            this.pnlRebrickableXML.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlRebrickableXML.Location = new System.Drawing.Point(0, 25);
-            this.pnlRebrickableXML.Name = "pnlRebrickableXML";
-            this.pnlRebrickableXML.Size = new System.Drawing.Size(1485, 651);
-            this.pnlRebrickableXML.TabIndex = 30;
-            // 
-            // toolStrip5
-            // 
-            this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnShowRebrickableXMLInNotePadPlus});
-            this.toolStrip5.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip5.Name = "toolStrip5";
-            this.toolStrip5.Size = new System.Drawing.Size(1485, 25);
-            this.toolStrip5.TabIndex = 29;
-            this.toolStrip5.Text = "toolStrip5";
-            // 
-            // btnShowRebrickableXMLInNotePadPlus
-            // 
-            this.btnShowRebrickableXMLInNotePadPlus.Image = ((System.Drawing.Image)(resources.GetObject("btnShowRebrickableXMLInNotePadPlus.Image")));
-            this.btnShowRebrickableXMLInNotePadPlus.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnShowRebrickableXMLInNotePadPlus.Name = "btnShowRebrickableXMLInNotePadPlus";
-            this.btnShowRebrickableXMLInNotePadPlus.Size = new System.Drawing.Size(134, 22);
-            this.btnShowRebrickableXMLInNotePadPlus.Text = "Open in Notepad++";
-            this.btnShowRebrickableXMLInNotePadPlus.Click += new System.EventHandler(this.btnShowRebrickableXMLInNotePadPlus_Click);
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.Controls.Add(this.pnlLDRString);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1485, 676);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "LDR";
-            this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // pnlLDRString
-            // 
-            this.pnlLDRString.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlLDRString.Location = new System.Drawing.Point(0, 0);
-            this.pnlLDRString.Name = "pnlLDRString";
-            this.pnlLDRString.Size = new System.Drawing.Size(1485, 676);
-            this.pnlLDRString.TabIndex = 29;
             // 
             // chkShowPages
             // 
@@ -2628,18 +2639,6 @@
             this.chkShowFBXDetails.TabIndex = 112;
             this.chkShowFBXDetails.Text = "Show FBX Details";
             this.chkShowFBXDetails.UseVisualStyleBackColor = false;
-            // 
-            // pbPartlist
-            // 
-            this.pbPartlist.ForeColor = System.Drawing.Color.Lime;
-            this.pbPartlist.Name = "pbPartlist";
-            this.pbPartlist.Size = new System.Drawing.Size(100, 16);
-            // 
-            // lblPartListStatus
-            // 
-            this.lblPartListStatus.Name = "lblPartListStatus";
-            this.lblPartListStatus.Size = new System.Drawing.Size(91, 17);
-            this.lblPartListStatus.Text = "lblPartListStatus";
             // 
             // InstructionViewer
             // 
@@ -2721,6 +2720,11 @@
             this.groupBox6.PerformLayout();
             this.toolStrip14.ResumeLayout(false);
             this.toolStrip14.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
+            this.toolStrip5.ResumeLayout(false);
+            this.toolStrip5.PerformLayout();
+            this.tabPage6.ResumeLayout(false);
             this.tpPartList.ResumeLayout(false);
             this.tpPartList.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -2754,11 +2758,6 @@
             this.statusStrip3.PerformLayout();
             this.tsPartListHeader.ResumeLayout(false);
             this.tsPartListHeader.PerformLayout();
-            this.tabPage5.ResumeLayout(false);
-            this.tabPage5.PerformLayout();
-            this.toolStrip5.ResumeLayout(false);
-            this.toolStrip5.PerformLayout();
-            this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

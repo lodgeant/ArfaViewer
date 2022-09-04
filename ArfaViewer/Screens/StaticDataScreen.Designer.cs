@@ -38,6 +38,8 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.gpBasePart = new System.Windows.Forms.GroupBox();
+            this.chkBasePartLDrawDescriptionAcEquals = new System.Windows.Forms.CheckBox();
+            this.chkBasePartLDrawRefAcEquals = new System.Windows.Forms.CheckBox();
             this.chkBasePartIsLargeModel = new System.Windows.Forms.CheckBox();
             this.chkLockLDrawRef = new System.Windows.Forms.CheckBox();
             this.chkBasePartIsSticker = new System.Windows.Forms.CheckBox();
@@ -83,6 +85,8 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.gpLDrawDetails = new System.Windows.Forms.GroupBox();
+            this.chkLDrawDetailsLDrawDescriptionAcEquals = new System.Windows.Forms.CheckBox();
+            this.chkLDrawDetailsLDrawRefAcEquals = new System.Windows.Forms.CheckBox();
             this.dgLDrawDetailsSummary = new System.Windows.Forms.DataGridView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.pbLDrawDetailsStatus = new System.Windows.Forms.ToolStripProgressBar();
@@ -115,10 +119,13 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.lblLDrawDetailsLDrawRefAc = new System.Windows.Forms.ToolStripLabel();
             this.fldLDrawDetailsLDrawRefAc = new System.Windows.Forms.ToolStripTextBox();
+            this.lblLDrawDetailsLDrawDescriptionAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldLDrawDetailsLDrawDescriptionAc = new System.Windows.Forms.ToolStripTextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.pnlLDrawDetailsData = new System.Windows.Forms.Panel();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.gpSubPartMapping = new System.Windows.Forms.GroupBox();
+            this.chkSubPartMappingParentLDrawRefAcEquals = new System.Windows.Forms.CheckBox();
             this.dgSubPartMappingSummary = new System.Windows.Forms.DataGridView();
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
             this.pbSubPartMappingStatus = new System.Windows.Forms.ToolStripProgressBar();
@@ -162,13 +169,8 @@
             this.pnlSubPartMappingData = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.chkShowPartImages = new System.Windows.Forms.CheckBox();
-            this.chkBasePartLDrawRefAcEquals = new System.Windows.Forms.CheckBox();
-            this.chkBasePartLDrawDescriptionAcEquals = new System.Windows.Forms.CheckBox();
-            this.chkLDrawDetailsLDrawRefAcEquals = new System.Windows.Forms.CheckBox();
-            this.lblLDrawDetailsLDrawDescriptionAc = new System.Windows.Forms.ToolStripLabel();
-            this.fldLDrawDetailsLDrawDescriptionAc = new System.Windows.Forms.ToolStripTextBox();
-            this.chkLDrawDetailsLDrawDescriptionAcEquals = new System.Windows.Forms.CheckBox();
-            this.chkSubPartMappingParentLDrawRefAcEquals = new System.Windows.Forms.CheckBox();
+            this.lblBasePartSubPartCount = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartSubPartCount = new System.Windows.Forms.ToolStripTextBox();
             this.tsHeader.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -308,6 +310,26 @@
             this.gpBasePart.TabStop = false;
             this.gpBasePart.Text = "Base Part";
             // 
+            // chkBasePartLDrawDescriptionAcEquals
+            // 
+            this.chkBasePartLDrawDescriptionAcEquals.AutoSize = true;
+            this.chkBasePartLDrawDescriptionAcEquals.Location = new System.Drawing.Point(858, 16);
+            this.chkBasePartLDrawDescriptionAcEquals.Name = "chkBasePartLDrawDescriptionAcEquals";
+            this.chkBasePartLDrawDescriptionAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkBasePartLDrawDescriptionAcEquals.TabIndex = 85;
+            this.chkBasePartLDrawDescriptionAcEquals.Text = "=";
+            this.chkBasePartLDrawDescriptionAcEquals.UseVisualStyleBackColor = true;
+            // 
+            // chkBasePartLDrawRefAcEquals
+            // 
+            this.chkBasePartLDrawRefAcEquals.AutoSize = true;
+            this.chkBasePartLDrawRefAcEquals.Location = new System.Drawing.Point(820, 18);
+            this.chkBasePartLDrawRefAcEquals.Name = "chkBasePartLDrawRefAcEquals";
+            this.chkBasePartLDrawRefAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkBasePartLDrawRefAcEquals.TabIndex = 84;
+            this.chkBasePartLDrawRefAcEquals.Text = "=";
+            this.chkBasePartLDrawRefAcEquals.UseVisualStyleBackColor = true;
+            // 
             // chkBasePartIsLargeModel
             // 
             this.chkBasePartIsLargeModel.AutoSize = true;
@@ -420,6 +442,8 @@
             this.fldBasePartOffsetY,
             this.lblBasePartOffsetZ,
             this.fldBasePartOffsetZ,
+            this.lblBasePartSubPartCount,
+            this.fldBasePartSubPartCount,
             this.toolStripSeparator15,
             this.btnBasePartClear,
             this.toolStripSeparator3,
@@ -706,6 +730,26 @@
             this.gpLDrawDetails.TabStop = false;
             this.gpLDrawDetails.Text = "LDraw Details";
             // 
+            // chkLDrawDetailsLDrawDescriptionAcEquals
+            // 
+            this.chkLDrawDetailsLDrawDescriptionAcEquals.AutoSize = true;
+            this.chkLDrawDetailsLDrawDescriptionAcEquals.Location = new System.Drawing.Point(903, 16);
+            this.chkLDrawDetailsLDrawDescriptionAcEquals.Name = "chkLDrawDetailsLDrawDescriptionAcEquals";
+            this.chkLDrawDetailsLDrawDescriptionAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkLDrawDetailsLDrawDescriptionAcEquals.TabIndex = 87;
+            this.chkLDrawDetailsLDrawDescriptionAcEquals.Text = "=";
+            this.chkLDrawDetailsLDrawDescriptionAcEquals.UseVisualStyleBackColor = true;
+            // 
+            // chkLDrawDetailsLDrawRefAcEquals
+            // 
+            this.chkLDrawDetailsLDrawRefAcEquals.AutoSize = true;
+            this.chkLDrawDetailsLDrawRefAcEquals.Location = new System.Drawing.Point(858, 16);
+            this.chkLDrawDetailsLDrawRefAcEquals.Name = "chkLDrawDetailsLDrawRefAcEquals";
+            this.chkLDrawDetailsLDrawRefAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkLDrawDetailsLDrawRefAcEquals.TabIndex = 86;
+            this.chkLDrawDetailsLDrawRefAcEquals.Text = "=";
+            this.chkLDrawDetailsLDrawRefAcEquals.UseVisualStyleBackColor = true;
+            // 
             // dgLDrawDetailsSummary
             // 
             this.dgLDrawDetailsSummary.BackgroundColor = System.Drawing.Color.White;
@@ -967,6 +1011,20 @@
             this.fldLDrawDetailsLDrawRefAc.Size = new System.Drawing.Size(100, 25);
             this.fldLDrawDetailsLDrawRefAc.TextChanged += new System.EventHandler(this.fldLDrawDetailsLDrawRefAc_TextChanged);
             // 
+            // lblLDrawDetailsLDrawDescriptionAc
+            // 
+            this.lblLDrawDetailsLDrawDescriptionAc.Name = "lblLDrawDetailsLDrawDescriptionAc";
+            this.lblLDrawDetailsLDrawDescriptionAc.Size = new System.Drawing.Size(106, 22);
+            this.lblLDrawDetailsLDrawDescriptionAc.Text = "LDraw Description:";
+            // 
+            // fldLDrawDetailsLDrawDescriptionAc
+            // 
+            this.fldLDrawDetailsLDrawDescriptionAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldLDrawDetailsLDrawDescriptionAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldLDrawDetailsLDrawDescriptionAc.Name = "fldLDrawDetailsLDrawDescriptionAc";
+            this.fldLDrawDetailsLDrawDescriptionAc.Size = new System.Drawing.Size(300, 25);
+            this.fldLDrawDetailsLDrawDescriptionAc.TextChanged += new System.EventHandler(this.fldLDrawDetailsLDrawDescriptionAc_TextChanged);
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.pnlLDrawDetailsData);
@@ -1017,6 +1075,16 @@
             this.gpSubPartMapping.TabIndex = 2;
             this.gpSubPartMapping.TabStop = false;
             this.gpSubPartMapping.Text = "Sub Part Mapping";
+            // 
+            // chkSubPartMappingParentLDrawRefAcEquals
+            // 
+            this.chkSubPartMappingParentLDrawRefAcEquals.AutoSize = true;
+            this.chkSubPartMappingParentLDrawRefAcEquals.Location = new System.Drawing.Point(434, 19);
+            this.chkSubPartMappingParentLDrawRefAcEquals.Name = "chkSubPartMappingParentLDrawRefAcEquals";
+            this.chkSubPartMappingParentLDrawRefAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkSubPartMappingParentLDrawRefAcEquals.TabIndex = 87;
+            this.chkSubPartMappingParentLDrawRefAcEquals.Text = "=";
+            this.chkSubPartMappingParentLDrawRefAcEquals.UseVisualStyleBackColor = true;
             // 
             // dgSubPartMappingSummary
             // 
@@ -1373,69 +1441,19 @@
             this.chkShowPartImages.Text = "Show Part Images";
             this.chkShowPartImages.UseVisualStyleBackColor = false;
             // 
-            // chkBasePartLDrawRefAcEquals
+            // lblBasePartSubPartCount
             // 
-            this.chkBasePartLDrawRefAcEquals.AutoSize = true;
-            this.chkBasePartLDrawRefAcEquals.Location = new System.Drawing.Point(820, 18);
-            this.chkBasePartLDrawRefAcEquals.Name = "chkBasePartLDrawRefAcEquals";
-            this.chkBasePartLDrawRefAcEquals.Size = new System.Drawing.Size(32, 17);
-            this.chkBasePartLDrawRefAcEquals.TabIndex = 84;
-            this.chkBasePartLDrawRefAcEquals.Text = "=";
-            this.chkBasePartLDrawRefAcEquals.UseVisualStyleBackColor = true;
+            this.lblBasePartSubPartCount.BackColor = System.Drawing.Color.Yellow;
+            this.lblBasePartSubPartCount.Name = "lblBasePartSubPartCount";
+            this.lblBasePartSubPartCount.Size = new System.Drawing.Size(87, 22);
+            this.lblBasePartSubPartCount.Text = "Sub Part Count";
             // 
-            // chkBasePartLDrawDescriptionAcEquals
+            // fldBasePartSubPartCount
             // 
-            this.chkBasePartLDrawDescriptionAcEquals.AutoSize = true;
-            this.chkBasePartLDrawDescriptionAcEquals.Location = new System.Drawing.Point(858, 16);
-            this.chkBasePartLDrawDescriptionAcEquals.Name = "chkBasePartLDrawDescriptionAcEquals";
-            this.chkBasePartLDrawDescriptionAcEquals.Size = new System.Drawing.Size(32, 17);
-            this.chkBasePartLDrawDescriptionAcEquals.TabIndex = 85;
-            this.chkBasePartLDrawDescriptionAcEquals.Text = "=";
-            this.chkBasePartLDrawDescriptionAcEquals.UseVisualStyleBackColor = true;
-            // 
-            // chkLDrawDetailsLDrawRefAcEquals
-            // 
-            this.chkLDrawDetailsLDrawRefAcEquals.AutoSize = true;
-            this.chkLDrawDetailsLDrawRefAcEquals.Location = new System.Drawing.Point(858, 16);
-            this.chkLDrawDetailsLDrawRefAcEquals.Name = "chkLDrawDetailsLDrawRefAcEquals";
-            this.chkLDrawDetailsLDrawRefAcEquals.Size = new System.Drawing.Size(32, 17);
-            this.chkLDrawDetailsLDrawRefAcEquals.TabIndex = 86;
-            this.chkLDrawDetailsLDrawRefAcEquals.Text = "=";
-            this.chkLDrawDetailsLDrawRefAcEquals.UseVisualStyleBackColor = true;
-            // 
-            // lblLDrawDetailsLDrawDescriptionAc
-            // 
-            this.lblLDrawDetailsLDrawDescriptionAc.Name = "lblLDrawDetailsLDrawDescriptionAc";
-            this.lblLDrawDetailsLDrawDescriptionAc.Size = new System.Drawing.Size(106, 22);
-            this.lblLDrawDetailsLDrawDescriptionAc.Text = "LDraw Description:";
-            // 
-            // fldLDrawDetailsLDrawDescriptionAc
-            // 
-            this.fldLDrawDetailsLDrawDescriptionAc.BackColor = System.Drawing.Color.Wheat;
-            this.fldLDrawDetailsLDrawDescriptionAc.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldLDrawDetailsLDrawDescriptionAc.Name = "fldLDrawDetailsLDrawDescriptionAc";
-            this.fldLDrawDetailsLDrawDescriptionAc.Size = new System.Drawing.Size(300, 25);
-            this.fldLDrawDetailsLDrawDescriptionAc.TextChanged += new System.EventHandler(this.fldLDrawDetailsLDrawDescriptionAc_TextChanged);
-            // 
-            // chkLDrawDetailsLDrawDescriptionAcEquals
-            // 
-            this.chkLDrawDetailsLDrawDescriptionAcEquals.AutoSize = true;
-            this.chkLDrawDetailsLDrawDescriptionAcEquals.Location = new System.Drawing.Point(903, 16);
-            this.chkLDrawDetailsLDrawDescriptionAcEquals.Name = "chkLDrawDetailsLDrawDescriptionAcEquals";
-            this.chkLDrawDetailsLDrawDescriptionAcEquals.Size = new System.Drawing.Size(32, 17);
-            this.chkLDrawDetailsLDrawDescriptionAcEquals.TabIndex = 87;
-            this.chkLDrawDetailsLDrawDescriptionAcEquals.Text = "=";
-            this.chkLDrawDetailsLDrawDescriptionAcEquals.UseVisualStyleBackColor = true;
-            // 
-            // chkSubPartMappingParentLDrawRefAcEquals
-            // 
-            this.chkSubPartMappingParentLDrawRefAcEquals.AutoSize = true;
-            this.chkSubPartMappingParentLDrawRefAcEquals.Location = new System.Drawing.Point(434, 19);
-            this.chkSubPartMappingParentLDrawRefAcEquals.Name = "chkSubPartMappingParentLDrawRefAcEquals";
-            this.chkSubPartMappingParentLDrawRefAcEquals.Size = new System.Drawing.Size(32, 17);
-            this.chkSubPartMappingParentLDrawRefAcEquals.TabIndex = 87;
-            this.chkSubPartMappingParentLDrawRefAcEquals.Text = "=";
-            this.chkSubPartMappingParentLDrawRefAcEquals.UseVisualStyleBackColor = true;
+            this.fldBasePartSubPartCount.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartSubPartCount.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartSubPartCount.Name = "fldBasePartSubPartCount";
+            this.fldBasePartSubPartCount.Size = new System.Drawing.Size(25, 25);
             // 
             // StaticDataScreen
             // 
@@ -1643,5 +1661,7 @@
         private System.Windows.Forms.ToolStripLabel lblLDrawDetailsLDrawDescriptionAc;
         private System.Windows.Forms.ToolStripTextBox fldLDrawDetailsLDrawDescriptionAc;
         private System.Windows.Forms.CheckBox chkSubPartMappingParentLDrawRefAcEquals;
+        private System.Windows.Forms.ToolStripLabel lblBasePartSubPartCount;
+        private System.Windows.Forms.ToolStripTextBox fldBasePartSubPartCount;
     }
 }
