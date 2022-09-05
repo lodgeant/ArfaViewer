@@ -1463,11 +1463,10 @@
             // 
             // btnGenerateDatFile
             // 
-            this.btnGenerateDatFile.BackColor = System.Drawing.Color.Pink;
             this.btnGenerateDatFile.Image = ((System.Drawing.Image)(resources.GetObject("btnGenerateDatFile.Image")));
             this.btnGenerateDatFile.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnGenerateDatFile.Name = "btnGenerateDatFile";
-            this.btnGenerateDatFile.Size = new System.Drawing.Size(120, 22);
+            this.btnGenerateDatFile.Size = new System.Drawing.Size(120, 20);
             this.btnGenerateDatFile.Text = "Generate .DAT file";
             this.btnGenerateDatFile.Click += new System.EventHandler(this.btnGenerateDatFile_Click);
             // 

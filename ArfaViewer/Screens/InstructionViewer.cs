@@ -4486,32 +4486,7 @@ namespace Generator
             }
         }
 
-        //private void AddToPartDAT()
-        //{
-        //    try
-        //    {
-        //        // ** Validation checks **
-        //        if (fldLDrawRef.Text.Equals(""))
-        //        {
-        //            throw new Exception("No LDraw Ref entered...");
-        //        }
-
-        //        // ** Update part.dat file **
-        //        string line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + fldLDrawRef.Text + ".dat" + Environment.NewLine;                
-        //        byte[] bytes = Encoding.UTF8.GetBytes(line);
-        //        ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient("static-data").GetFileClient("part.dat");
-        //        share.Create(bytes.Length);
-        //        using (MemoryStream ms = new MemoryStream(bytes))
-        //        {
-        //            share.Upload(ms);                    
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
-
+       
         private void AddPartToBasePartCollection()
         {            
             try
@@ -4897,97 +4872,7 @@ namespace Generator
         //    }
         //}
 
-        private void GenerateDATFile()
-        {
-            try
-            {
-                #region ** VALIDATION **                
-                if (fldLDrawRef.Text.Equals(""))
-                {
-                    throw new Exception("No LDraw Ref entered...");
-                }
-                if (fldPartType.Text.Equals(""))
-                {
-                    throw new Exception("No Part Type selected...");
-                }
-                string LDrawRef = fldLDrawRef.Text;
-                BasePart.PartType partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), fldPartType.Text, true);
-                #endregion
-
-                #region ** GENERATE COMPOSITE PART DETAILS **
-                List<string> SubPartList = new List<string>();
-                if (partType == BasePart.PartType.BASIC)
-                {
-                    // ** BASIC **
-
-                    // ** GENERATE MAIN PART **
-                    //string line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + LDrawRef + ".dat" + Environment.NewLine;
-                    //byte[] bytes = Encoding.UTF8.GetBytes(line);
-                    //ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + LDrawRef + ".dat");
-                    //share.Create(bytes.Length);
-                    //using (MemoryStream ms = new MemoryStream(bytes))
-                    //{
-                    //    share.Upload(ms);
-                    //}  
-                }
-                else if (partType == BasePart.PartType.COMPOSITE)
-                {
-                    // ** COMPOSITE **
-
-                    #region ** GENERATE PARENT COMPOSITE PART .DAT FILES (JUST CONTAINS DAT'S OF SUB PARTS) **
-                    //string LDrawFileText = StaticData.GetLDrawFileDetails(LDrawRef);
-                    //string[] lines = LDrawFileText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                    //string DAT_String = "";
-                    //foreach (string fileLine in lines)
-                    //{
-                    //    if (fileLine.StartsWith("1"))
-                    //    {
-                    //        DAT_String += fileLine.Replace("1 16 ", "1 450 ") + Environment.NewLine;
-                    //    }
-                    //}
-                    //byte[] bytes = Encoding.UTF8.GetBytes(DAT_String);
-                    //ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + LDrawRef + ".dat");
-                    //share.Create(bytes.Length);
-                    //using (var ms = new MemoryStream(bytes))
-                    //{
-                    //    share.Upload(ms);
-                    //}
-                    #endregion
-
-                    #region ** GENERATE ALL SUB PART .DAT FILES **                    
-                    ////SubPartList = GetAllSubPartsForLDrawRef(LDrawRef, -1);                    
-                    //SubPartList = StaticData.GetAllSubPartLDrawRefs_FromLDrawFile(LDrawRef);
-                    //foreach (string SubPart in SubPartList)
-                    //{
-                    //    string SubPart_LDrawRef = SubPart.Split('|')[0];
-                    //    string line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + SubPart_LDrawRef + ".dat" + Environment.NewLine;
-                    //    bytes = Encoding.UTF8.GetBytes(line);
-                    //    share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-dat").GetFileClient("p_" + SubPart_LDrawRef + ".dat");
-                    //    share.Create(bytes.Length);
-                    //    using (MemoryStream ms = new MemoryStream(bytes))
-                    //    {
-                    //        share.Upload(ms);
-                    //    }
-                    //}
-                    #endregion
-
-                }
-                #endregion
-
-                // ** SHOW CONFIRMATION **
-                string confirmation = "Created the following .DAT file(s):" + Environment.NewLine;
-                confirmation += LDrawRef + Environment.NewLine;
-                foreach (string subPart_LDrawRef in SubPartList)
-                {
-                    confirmation += subPart_LDrawRef.Split('|')[0] + Environment.NewLine;
-                }
-                MessageBox.Show(confirmation);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        
 
         #endregion
 
@@ -5581,6 +5466,56 @@ namespace Generator
         #endregion
 
 
+
+        //private void AddToPartDAT()
+        //{
+        //    try
+        //    {
+        //        // ** Validation checks **
+        //        if (fldLDrawRef.Text.Equals(""))
+        //        {
+        //            throw new Exception("No LDraw Ref entered...");
+        //        }
+
+        //        // ** Update part.dat file **
+        //        string line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + fldLDrawRef.Text + ".dat" + Environment.NewLine;                
+        //        byte[] bytes = Encoding.UTF8.GetBytes(line);
+        //        ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient("static-data").GetFileClient("part.dat");
+        //        share.Create(bytes.Length);
+        //        using (MemoryStream ms = new MemoryStream(bytes))
+        //        {
+        //            share.Upload(ms);                    
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
+
+
+
+        private void GenerateDATFile()
+        {
+            try
+            {
+                // ** Validation **                
+                if (fldLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");
+                string LDrawRef = fldLDrawRef.Text;
+                
+                // ** Generate .DAT files using API **
+                List<string> LDrawRefList = StaticData.GenerateDATFiles_ForLDrawDetails(LDrawRef);
+
+                // ** SHOW CONFIRMATION **
+                string confirmation = "Created the following .DAT file(s) for " + LDrawRef + ":" + Environment.NewLine;                
+                foreach (string Ref in LDrawRefList) confirmation += Ref + Environment.NewLine;                
+                MessageBox.Show(confirmation);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
 
 

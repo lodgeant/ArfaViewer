@@ -24,13 +24,13 @@ namespace Generator
 
         public static void UploadImageToBLOB_UsingURL(string SourceURL, string ImageType, string ImageName)
         {
-            string url = Global_Variables.APIUrl2 + "Image/UploadImageToBLOB_UsingURL?SourceURL=" + SourceURL + "&ImageType=" + ImageType + "&ImageName=" + ImageName;
+            string url = Global_Variables.APIUrl + "Image/UploadImageToBLOB_UsingURL?SourceURL=" + SourceURL + "&ImageType=" + ImageType + "&ImageName=" + ImageName;
             PostRequestFromURL(url);
         }
 
         public static byte[] DownloadDataFromBLOB(string Container, string BlobName)
         {
-            string url = Global_Variables.APIUrl2 + "Image/DownloadDataFromBLOB?Container=" + Container + "&BlobName=" + BlobName;
+            string url = Global_Variables.APIUrl + "Image/DownloadDataFromBLOB?Container=" + Container + "&BlobName=" + BlobName;
             string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
             //byte[] data = new UTF8Encoding().GetBytes(JSONString);
             byte[] data = Encoding.ASCII.GetBytes(JSONString);
@@ -42,7 +42,7 @@ namespace Generator
 
         public static PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)
         {
-            string url = Global_Variables.APIUrl2 + "PartColour/GetPartColourData_UsingLDrawColourIDList?";
+            string url = Global_Variables.APIUrl + "PartColour/GetPartColourData_UsingLDrawColourIDList?";
             foreach (int id in IDList) url += "IDList=" + id + "&";
             string JSONString = GetJSONResponseFromURL(url);
             PartColourCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<PartColourCollection>(JSONString);
@@ -51,7 +51,7 @@ namespace Generator
 
         public static PartColourCollection GetPartColourData_All()
         {
-            string url = Global_Variables.APIUrl2 + "PartColour/GetPartColourData_All";
+            string url = Global_Variables.APIUrl + "PartColour/GetPartColourData_All";
             string JSONString = GetJSONResponseFromURL(url);
             PartColourCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<PartColourCollection>(JSONString);
             return coll;
@@ -59,21 +59,21 @@ namespace Generator
 
         public static string GetLDrawColourID(string LDrawColourName)
         {            
-            string url = Global_Variables.APIUrl2 + "PartColour/GetLDrawColourID_UsingLDrawColourName?LDrawColourName=" + LDrawColourName;
+            string url = Global_Variables.APIUrl + "PartColour/GetLDrawColourID_UsingLDrawColourName?LDrawColourName=" + LDrawColourName;
             string JSONString = GetJSONResponseFromURL(url);
             return JSONString;
         }
 
         public static string GetLDrawColourName(string LDrawColourID)
         {
-            string url = Global_Variables.APIUrl2 + "PartColour/GetLDrawColourName_UsingLDrawColourID?LDrawColourID=" + LDrawColourID;
+            string url = Global_Variables.APIUrl + "PartColour/GetLDrawColourName_UsingLDrawColourID?LDrawColourID=" + LDrawColourID;
             string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
             return JSONString;
         }
 
         public static List<string> GetAllLDrawColourNames()
         {
-            string url = Global_Variables.APIUrl2 + "PartColour/GetAllLDrawColourNames";
+            string url = Global_Variables.APIUrl + "PartColour/GetAllLDrawColourNames";
             string JSONString = GetJSONResponseFromURL(url);
             List<string> partColourNameList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(JSONString);
             return partColourNameList;
@@ -84,7 +84,7 @@ namespace Generator
 
         public static SetDetailsCollection GetSetDetailsData_UsingSetRefList(List<string> IDList)
         {
-            string url = Global_Variables.APIUrl2 + "SetDetails/GetSetDetailsData_UsingSetRefList?";
+            string url = Global_Variables.APIUrl + "SetDetails/GetSetDetailsData_UsingSetRefList?";
             foreach (string id in IDList) url += "IDList=" + id + "&";
             string JSONString = GetJSONResponseFromURL(url);
             SetDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetDetailsCollection>(JSONString);
@@ -93,7 +93,7 @@ namespace Generator
 
         public static SetDetailsCollection GetSetDetailsData_UsingThemeAndSubTheme(string Theme, string SubTheme)
         {
-            string url = Global_Variables.APIUrl2 + "SetDetails/GetSetDetailsData_UsingThemeAndSubTheme?Theme=" + Theme;
+            string url = Global_Variables.APIUrl + "SetDetails/GetSetDetailsData_UsingThemeAndSubTheme?Theme=" + Theme;
             if (SubTheme != "") url += "&SubTheme=" + SubTheme;
             string JSONString = GetJSONResponseFromURL(url);
             SetDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetDetailsCollection>(JSONString);
@@ -103,7 +103,7 @@ namespace Generator
         public static SetDetails GetSetDetails(string SetRef)
         {
             SetDetails sd = null;
-            string url = Global_Variables.APIUrl2 + "SetDetails/GetSetDetailsData_UsingSetRefList?IDList=" + SetRef;
+            string url = Global_Variables.APIUrl + "SetDetails/GetSetDetailsData_UsingSetRefList?IDList=" + SetRef;
             string JSONString = GetJSONResponseFromURL(url);
             SetDetailsCollection sdc = Newtonsoft.Json.JsonConvert.DeserializeObject<SetDetailsCollection>(JSONString);
             if (sdc.SetDetailsList.Count > 0) sd = sdc.SetDetailsList[0];
@@ -112,41 +112,41 @@ namespace Generator
 
         public static bool CheckIfPDFInstructionsExistForSet(string SetRef)
         {
-            string url = Global_Variables.APIUrl2 + "SetDetails/CheckIfPDFInstructionsExistForSet?SetRef=" + SetRef;
+            string url = Global_Variables.APIUrl + "SetDetails/CheckIfPDFInstructionsExistForSet?SetRef=" + SetRef;
             string JSONString = GetJSONResponseFromURL(url);
             return bool.Parse(JSONString);
         }
 
         public static bool CheckIfSetDetailExists(string SetRef)
         {
-            string url = Global_Variables.APIUrl2 + "SetDetails/CheckIfSetDetailExists?SetRef=" + SetRef;
+            string url = Global_Variables.APIUrl + "SetDetails/CheckIfSetDetailExists?SetRef=" + SetRef;
             string JSONString = GetJSONResponseFromURL(url);
             return bool.Parse(JSONString);
         }
 
         public static void UpdateSetDetailsCounts_UsingSetRef(string SetRef, int PartCount, int SubSetCount, int ModelCount, int MiniFigCount)
         {
-            string url = Global_Variables.APIUrl2 + "SetDetails/UpdateSetDetailsCounts_UsingSetRef?SetRef=" + SetRef + "&PartCount=" + PartCount + "&SubSetCount=" + SubSetCount + "&ModelCount=" + ModelCount + "&MiniFigCount=" + MiniFigCount;
+            string url = Global_Variables.APIUrl + "SetDetails/UpdateSetDetailsCounts_UsingSetRef?SetRef=" + SetRef + "&PartCount=" + PartCount + "&SubSetCount=" + SubSetCount + "&ModelCount=" + ModelCount + "&MiniFigCount=" + MiniFigCount;
             PostRequestFromURL(url);
         }
 
         public static void AddSetDetails(SetDetails sd)
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(sd);
-            string url = Global_Variables.APIUrl2 + "SetDetails/AddSetDetails";
+            string url = Global_Variables.APIUrl + "SetDetails/AddSetDetails";
             PostJSONRequestFromURL(url, json);
         }
 
         public static void UpdateSetDetails(SetDetails sd)
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(sd);
-            string url = Global_Variables.APIUrl2 + "SetDetails/UpdateSetDetails";
+            string url = Global_Variables.APIUrl + "SetDetails/UpdateSetDetails";
             PostJSONRequestFromURL(url, json);
         }
 
         public static void DeleteSetDetails(string SetRef)
         {
-            string url = Global_Variables.APIUrl2 + "SetDetails/DeleteSetDetails?setRef=" + SetRef;
+            string url = Global_Variables.APIUrl + "SetDetails/DeleteSetDetails?setRef=" + SetRef;
             PostRequestFromURL(url);
         }
 
@@ -155,7 +155,7 @@ namespace Generator
 
         public static SetInstructionsCollection GetSetInstructionsData_UsingSetRefList(List<string> IDList)
         {
-            string url = Global_Variables.APIUrl2 + "SetInstructions/GetSetInstructionsData_UsingSetRefList?";
+            string url = Global_Variables.APIUrl + "SetInstructions/GetSetInstructionsData_UsingSetRefList?";
             foreach (string id in IDList) url += "IDList=" + id + "&";
             string JSONString = GetJSONResponseFromURL(url);
             SetInstructionsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetInstructionsCollection>(JSONString);
@@ -165,7 +165,7 @@ namespace Generator
         public static SetInstructions GetSetInstructions(string SetRef)
         {
             SetInstructions si = null;
-            string url = Global_Variables.APIUrl2 + "SetInstructions/GetSetInstructionsData_UsingSetRefList?IDList=" + SetRef;
+            string url = Global_Variables.APIUrl + "SetInstructions/GetSetInstructionsData_UsingSetRefList?IDList=" + SetRef;
             string JSONString = GetJSONResponseFromURL(url);
             SetInstructionsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetInstructionsCollection>(JSONString);
             if (coll.SetInstructionsList.Count > 0) si = coll.SetInstructionsList[0];
@@ -175,20 +175,20 @@ namespace Generator
         public static void UpdateSetInstructions(SetInstructions si)
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(si);
-            string url = Global_Variables.APIUrl2 + "SetInstructions/UpdateSetInstructions";
+            string url = Global_Variables.APIUrl + "SetInstructions/UpdateSetInstructions";
             PostJSONRequestFromURL(url, json);
         }
 
         public static void DeleteSetInstructions(string SetRef)
         {
-            string url = Global_Variables.APIUrl2 + "SetInstructions/DeleteSetInstructions?setRef=" + SetRef;
+            string url = Global_Variables.APIUrl + "SetInstructions/DeleteSetInstructions?setRef=" + SetRef;
             PostRequestFromURL(url);
         }
 
         public static void AddSetInstructions(SetInstructions si)
         {           
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(si);
-            string url = Global_Variables.APIUrl2 + "SetInstructions/AddSetInstructions";
+            string url = Global_Variables.APIUrl + "SetInstructions/AddSetInstructions";
             PostJSONRequestFromURL(url, json);
         }
 
@@ -197,7 +197,7 @@ namespace Generator
 
         public static LDrawDetailsCollection GetLDrawDetailsData_UsingLDrawRefList(List<string> IDList)
         {
-            string url = Global_Variables.APIUrl2 + "LDrawDetails/GetLDrawDetailsData_UsingLDrawRefList?";
+            string url = Global_Variables.APIUrl + "LDrawDetails/GetLDrawDetailsData_UsingLDrawRefList?";
             foreach (string id in IDList) url += "IDList=" + id + "&";
             string JSONString = GetJSONResponseFromURL(url);
             LDrawDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<LDrawDetailsCollection>(JSONString);
@@ -214,7 +214,7 @@ namespace Generator
 
         public static LDrawDetailsCollection GetLDrawDetailsData_All()
         {
-            string url = Global_Variables.APIUrl2 + "LDrawDetails/GetLDrawDetailsData_All";
+            string url = Global_Variables.APIUrl + "LDrawDetails/GetLDrawDetailsData_All";
             string JSONString = GetJSONResponseFromURL(url);
             LDrawDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<LDrawDetailsCollection>(JSONString);
             return coll;
@@ -223,16 +223,24 @@ namespace Generator
         public static void AddLDrawDetails(LDrawDetails ldd)
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(ldd);
-            string url = Global_Variables.APIUrl2 + "LDrawDetails/AddLDrawDetails";
+            string url = Global_Variables.APIUrl + "LDrawDetails/AddLDrawDetails";
             PostJSONRequestFromURL(url, json);
         }
 
         public static PartListPartCollection GetAllSubParts_FromLDrawDetails(string LDrawRef)
         {
-            string url = Global_Variables.APIUrl2 + "LDrawDetails/GetAllSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
+            string url = Global_Variables.APIUrl + "LDrawDetails/GetAllSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
             string JSONString = GetJSONResponseFromURL(url);
             PartListPartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<PartListPartCollection>(JSONString);
             return coll;
+        }
+
+        public static List<string> GenerateDATFiles_ForLDrawDetails(string LDrawRef)
+        {           
+            string url = Global_Variables.APIUrl + "LDrawDetails/GenerateDATFiles_ForLDrawDetails?LDrawRef=" + LDrawRef;
+            string JSONString = GetJSONResponseFromURL(url);
+            List<string> LDrawRefList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(JSONString);
+            return LDrawRefList;
         }
 
 
@@ -240,7 +248,7 @@ namespace Generator
 
         public static FBXDetailsCollection GetFBXDetailsData_UsingLDrawRefList(List<string> IDList)
         {
-            string url = Global_Variables.APIUrl2 + "FBXDetails/GetFBXDetailsData_UsingLDrawRefList?";
+            string url = Global_Variables.APIUrl + "FBXDetails/GetFBXDetailsData_UsingLDrawRefList?";
             foreach (string id in IDList) url += "IDList=" + id + "&";
             string JSONString = GetJSONResponseFromURL(url);
             FBXDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<FBXDetailsCollection>(JSONString);
@@ -260,7 +268,7 @@ namespace Generator
 
         public static ThemeDetailsCollection GetThemeDetailsData_UsingThemeList(List<string> IDList)
         {            
-            string url = Global_Variables.APIUrl2 + "ThemeDetails/GetThemeDetailsData_UsingThemeList?";
+            string url = Global_Variables.APIUrl + "ThemeDetails/GetThemeDetailsData_UsingThemeList?";
             foreach (string id in IDList) url += "IDList=" + id + "&";
             string JSONString = GetJSONResponseFromURL(url);
             ThemeDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<ThemeDetailsCollection>(JSONString);
@@ -269,7 +277,7 @@ namespace Generator
 
         public static ThemeDetailsCollection GetAllThemeDetails()
         {
-            string url = Global_Variables.APIUrl2 + "ThemeDetails/GetAllThemeDetails";
+            string url = Global_Variables.APIUrl + "ThemeDetails/GetAllThemeDetails";
             string JSONString = GetJSONResponseFromURL(url);
             ThemeDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<ThemeDetailsCollection>(JSONString);
             return coll;
@@ -285,7 +293,7 @@ namespace Generator
 
         public static int GetSetCountForThemeAndSubTheme(string Theme, string SubTheme)
         {
-            string url = Global_Variables.APIUrl2 + "ThemeDetails/GetSetCountForThemeAndSubTheme?Theme=" + Theme;
+            string url = Global_Variables.APIUrl + "ThemeDetails/GetSetCountForThemeAndSubTheme?Theme=" + Theme;
             if (SubTheme != "") url += "&SubTheme=" + SubTheme;
             string JSONString = GetJSONResponseFromURL(url);            
             return int.Parse(JSONString);
@@ -296,7 +304,7 @@ namespace Generator
 
         public static TickBackCollection GetTickBackData_UsingTickBackNameList(List<string> IDList)
         {
-            string url = Global_Variables.APIUrl2 + "TickBack/GetTickBackData_UsingTickBackNameList?";
+            string url = Global_Variables.APIUrl + "TickBack/GetTickBackData_UsingTickBackNameList?";
             foreach (string id in IDList) url += "IDList=" + id + "&";
             string JSONString = GetJSONResponseFromURL(url);
             TickBackCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<TickBackCollection>(JSONString);
@@ -314,20 +322,20 @@ namespace Generator
         public static void AddTickBack(TickBack tb)
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(tb);
-            string url = Global_Variables.APIUrl2 + "TickBack/AddTickBack";
+            string url = Global_Variables.APIUrl + "TickBack/AddTickBack";
             PostJSONRequestFromURL(url, json);
         }
 
         public static void UpdateTickBack(TickBack tb)
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(tb);
-            string url = Global_Variables.APIUrl2 + "TickBack/UpdateTickBack";
+            string url = Global_Variables.APIUrl + "TickBack/UpdateTickBack";
             PostJSONRequestFromURL(url, json);
         }
 
         public static void DeleteTickBack(string TickBackName)
         {
-            string url = Global_Variables.APIUrl2 + "TickBack/DeleteTickBack?TickBackName=" + TickBackName;
+            string url = Global_Variables.APIUrl + "TickBack/DeleteTickBack?TickBackName=" + TickBackName;
             PostRequestFromURL(url);
         }
 
@@ -336,7 +344,7 @@ namespace Generator
 
         public static string GetRebrickableSetJSONString(string SetRef)
         {
-            string url = Global_Variables.APIUrl2 + "Rebrickable/GetRebrickableSetJSONString?SetRef=" + SetRef;
+            string url = Global_Variables.APIUrl + "Rebrickable/GetRebrickableSetJSONString?SetRef=" + SetRef;
             string JSONString = GetJSONResponseFromURL(url);
             JSONString = JSONString.Replace("\\", "").TrimStart('\"').TrimEnd('\"');
             return JSONString;
@@ -347,7 +355,7 @@ namespace Generator
 
         public static BasePartCollection GetBasePartData_UsingLDrawRefList(List<string> IDList)
         {
-            string url = Global_Variables.APIUrl2 + "BasePart/GetBasePartData_UsingLDrawRefList?";
+            string url = Global_Variables.APIUrl + "BasePart/GetBasePartData_UsingLDrawRefList?";
             foreach (string id in IDList) url += "IDList=" + id + "&";
             string JSONString = GetJSONResponseFromURL(url);
             BasePartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<BasePartCollection>(JSONString);
@@ -356,7 +364,7 @@ namespace Generator
 
         public static BasePartCollection GetBasePartData_All()
         {
-            string url = Global_Variables.APIUrl2 + "BasePart/GetBasePartData_All";
+            string url = Global_Variables.APIUrl + "BasePart/GetBasePartData_All";
             string JSONString = GetJSONResponseFromURL(url);
             BasePartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<BasePartCollection>(JSONString);
             return coll;
@@ -372,28 +380,28 @@ namespace Generator
 
         public static string GetLDrawDescription(string LDrawRef)
         {
-            string url = Global_Variables.APIUrl2 + "BasePart/GetLDrawDescription_UsingLDrawRef?LDrawRef=" + LDrawRef;
+            string url = Global_Variables.APIUrl + "BasePart/GetLDrawDescription_UsingLDrawRef?LDrawRef=" + LDrawRef;
             string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
             return JSONString;
         }
 
         public static int GetLDrawSize(string LDrawRef)
         {
-            string url = Global_Variables.APIUrl2 + "BasePart/GetLDrawSize_UsingLDrawRef?LDrawRef=" + LDrawRef;
+            string url = Global_Variables.APIUrl + "BasePart/GetLDrawSize_UsingLDrawRef?LDrawRef=" + LDrawRef;
             string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
             return int.Parse(JSONString);
         }
 
         public static string GetPartType(string LDrawRef)
         {
-            string url = Global_Variables.APIUrl2 + "BasePart/GetPartType_UsingLDrawRef?LDrawRef=" + LDrawRef;
+            string url = Global_Variables.APIUrl + "BasePart/GetPartType_UsingLDrawRef?LDrawRef=" + LDrawRef;
             string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
             return JSONString;
         }
 
         public static bool CheckIfBasePartExists(string LDrawRef)
         {
-            string url = Global_Variables.APIUrl2 + "BasePart/CheckIfBasePartExists?LDrawRef=" + LDrawRef;
+            string url = Global_Variables.APIUrl + "BasePart/CheckIfBasePartExists?LDrawRef=" + LDrawRef;
             string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
             return bool.Parse(JSONString);
 
@@ -402,20 +410,20 @@ namespace Generator
         public static void AddBasePart(BasePart bp)
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(bp);
-            string url = Global_Variables.APIUrl2 + "BasePart/AddBasePart";
+            string url = Global_Variables.APIUrl + "BasePart/AddBasePart";
             PostJSONRequestFromURL(url, json);
         }
 
         public static void UpdateBasePart(BasePart bp)
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(bp);
-            string url = Global_Variables.APIUrl2 + "BasePart/UpdateBasePart";
+            string url = Global_Variables.APIUrl + "BasePart/UpdateBasePart";
             PostJSONRequestFromURL(url, json);
         }
 
         public static void DeleteBasePart(string LDrawRef)
         {
-            string url = Global_Variables.APIUrl2 + "BasePart/DeleteBasePart?LDrawRef=" + LDrawRef;
+            string url = Global_Variables.APIUrl + "BasePart/DeleteBasePart?LDrawRef=" + LDrawRef;
             PostRequestFromURL(url);
         }
 
@@ -424,7 +432,7 @@ namespace Generator
 
         public static SubPartMappingCollection GetSubPartMappingData_UsingParentLDrawRefList(List<string> IDList)
         {
-            string url = Global_Variables.APIUrl2 + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRefList?";
+            string url = Global_Variables.APIUrl + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRefList?";
             foreach (string id in IDList) url += "IDList=" + id + "&";
             string JSONString = GetJSONResponseFromURL(url);
             SubPartMappingCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SubPartMappingCollection>(JSONString);
@@ -433,7 +441,7 @@ namespace Generator
 
         public static SubPartMappingCollection GetSubPartMappingData_UsingParentLDrawRef(string ParentLDrawRef)
         {
-            //string url = Global_Variables.APIUrl2 + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRef?ParentLDrawRef=" + ParentLDrawRef;
+            //string url = Global_Variables.APIUrl + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRef?ParentLDrawRef=" + ParentLDrawRef;
             //string JSONString = GetJSONResponseFromURL(url);
             //SubPartMappingCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SubPartMappingCollection>(JSONString);
             SubPartMappingCollection coll = GetSubPartMappingData_UsingParentLDrawRefList(new List<string>() { ParentLDrawRef });            
@@ -442,7 +450,7 @@ namespace Generator
 
         public static SubPartMappingCollection GetSubPartMappingData_All()
         {
-            string url = Global_Variables.APIUrl2 + "SubPartMapping/GetSubPartMappingData_All";
+            string url = Global_Variables.APIUrl + "SubPartMapping/GetSubPartMappingData_All";
             string JSONString = GetJSONResponseFromURL(url);
             SubPartMappingCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SubPartMappingCollection>(JSONString);
             return coll;
@@ -451,7 +459,7 @@ namespace Generator
         public static SubPartMapping GetSubPartMapping(string ParentLDrawRef, string SubPartLDrawRef)
         {
             SubPartMapping item = null;
-            string url = Global_Variables.APIUrl2 + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRefAndSubPartLDrawRef?ParentLDrawRef=" + ParentLDrawRef + "&SubPartLDrawRef=" + SubPartLDrawRef;
+            string url = Global_Variables.APIUrl + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRefAndSubPartLDrawRef?ParentLDrawRef=" + ParentLDrawRef + "&SubPartLDrawRef=" + SubPartLDrawRef;
             string JSONString = GetJSONResponseFromURL(url);
             SubPartMappingCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SubPartMappingCollection>(JSONString);
             if (coll.SubPartMappingList.Count > 0) item = coll.SubPartMappingList[0];
@@ -460,7 +468,7 @@ namespace Generator
 
         public static bool CheckIfSubPartMappingPartsExist(string LDrawRef)
         {
-            string url = Global_Variables.APIUrl2 + "SubPartMapping/CheckIfSubPartMappingPartsExist?ParentLDrawRef=" + LDrawRef;
+            string url = Global_Variables.APIUrl + "SubPartMapping/CheckIfSubPartMappingPartsExist?ParentLDrawRef=" + LDrawRef;
             string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
             return bool.Parse(JSONString);
         }
@@ -468,7 +476,7 @@ namespace Generator
         public static void AddSubPartMapping(SubPartMapping spm)
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(spm);
-            string url = Global_Variables.APIUrl2 + "SubPartMapping/AddSubPartMapping";
+            string url = Global_Variables.APIUrl + "SubPartMapping/AddSubPartMapping";
             PostJSONRequestFromURL(url, json);
         }
 
