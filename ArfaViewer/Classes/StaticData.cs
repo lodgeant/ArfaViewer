@@ -12,7 +12,7 @@ using System.Drawing;
 using BaseClasses;
 using System.Runtime.Serialization.Json;
 using System.Net.Http;
-
+using System.IO;
 
 
 
@@ -479,6 +479,46 @@ namespace Generator
             string url = Global_Variables.APIUrl + "SubPartMapping/AddSubPartMapping";
             PostJSONRequestFromURL(url, json);
         }
+
+
+
+        // ** FileDetails functions **
+
+        public static FileDetailsCollection GetFileDetailsData_FromContainer(string Container)
+        {
+            string url = Global_Variables.APIUrl + "FileDetails/GetFileDetailsData_FromContainer?Container=" + Container;
+            string JSONString = GetJSONResponseFromURL(url);
+            FileDetailsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<FileDetailsCollection>(JSONString);
+            return coll;
+        }
+
+        public static FileDetailsCollection GetFileDetailsData_FromLocalLocation(string Location)
+        {            
+            try
+            {
+                FileDetailsCollection coll = new FileDetailsCollection();
+                List<string> FilePathList = Directory.GetFiles(Location, "*.fbx").ToList();
+                foreach (string filePath in FilePathList)
+                {
+                    FileInfo fi = new FileInfo(filePath);
+                    FileDetails fd = new FileDetails()
+                    {
+                        Name = fi.Name,
+                        Size = fi.Length,
+                        CreatedTS = fi.CreationTime,
+                        LastUpdatedTS = fi.LastWriteTime
+                    };
+                    coll.FileDetailsList.Add(fd);
+                }
+                return coll;
+            }
+            catch (Exception)
+            {
+                return new FileDetailsCollection();
+            }            
+        }
+
+
 
 
 
