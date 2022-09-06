@@ -69,19 +69,19 @@
             this.lblFilesFbxFilenameAc = new System.Windows.Forms.ToolStripLabel();
             this.fldFilesFbxFilenameAc = new System.Windows.Forms.ToolStripTextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.dgFilesUnityFbx = new System.Windows.Forms.DataGridView();
+            this.dgFilesUnityFbxSummary = new System.Windows.Forms.DataGridView();
             this.statusStrip5 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar3 = new System.Windows.Forms.ToolStripProgressBar();
             this.lblFilesUnityFbxStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFilesUnityFbxCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFilesUnityFbxSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStrip4 = new System.Windows.Forms.ToolStrip();
+            this.tsFilesUnityFbxHeader = new System.Windows.Forms.ToolStrip();
             this.btnFilesUnityFbxRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.btnFilesUnityFbxSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox3 = new System.Windows.Forms.ToolStripTextBox();
+            this.lblFilesUnityFbxFilenameAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldFilesUnityFbxFilenameAc = new System.Windows.Forms.ToolStripTextBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btnFBXRefreshAll = new System.Windows.Forms.ToolStripButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -220,6 +220,7 @@
             this.pnlSubPartMappingData = new System.Windows.Forms.Panel();
             this.chkShowPartImages = new System.Windows.Forms.CheckBox();
             this.chkFilesFbxFilenameAcEquals = new System.Windows.Forms.CheckBox();
+            this.chkFilesUnityFbxFilenameAcEquals = new System.Windows.Forms.CheckBox();
             this.tsHeader.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -240,9 +241,9 @@
             this.statusStrip4.SuspendLayout();
             this.tsFilesFbxHeader.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgFilesUnityFbx)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgFilesUnityFbxSummary)).BeginInit();
             this.statusStrip5.SuspendLayout();
-            this.toolStrip4.SuspendLayout();
+            this.tsFilesUnityFbxHeader.SuspendLayout();
             this.toolStrip2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -384,6 +385,7 @@
             this.chkFilesDatLock.TabIndex = 86;
             this.chkFilesDatLock.Text = "Lock ";
             this.chkFilesDatLock.UseVisualStyleBackColor = false;
+            this.chkFilesDatLock.CheckedChanged += new System.EventHandler(this.chkFilesDatLock_CheckedChanged);
             // 
             // chkFilesDatFilenameAcEquals
             // 
@@ -640,9 +642,10 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.dgFilesUnityFbx);
+            this.groupBox3.Controls.Add(this.chkFilesUnityFbxFilenameAcEquals);
+            this.groupBox3.Controls.Add(this.dgFilesUnityFbxSummary);
             this.groupBox3.Controls.Add(this.statusStrip5);
-            this.groupBox3.Controls.Add(this.toolStrip4);
+            this.groupBox3.Controls.Add(this.tsFilesUnityFbxHeader);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
@@ -651,15 +654,15 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Unity Resources FBX";
             // 
-            // dgFilesUnityFbx
+            // dgFilesUnityFbxSummary
             // 
-            this.dgFilesUnityFbx.BackgroundColor = System.Drawing.Color.White;
-            this.dgFilesUnityFbx.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgFilesUnityFbx.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgFilesUnityFbx.Location = new System.Drawing.Point(3, 41);
-            this.dgFilesUnityFbx.Name = "dgFilesUnityFbx";
-            this.dgFilesUnityFbx.Size = new System.Drawing.Size(658, 682);
-            this.dgFilesUnityFbx.TabIndex = 80;
+            this.dgFilesUnityFbxSummary.BackgroundColor = System.Drawing.Color.White;
+            this.dgFilesUnityFbxSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgFilesUnityFbxSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgFilesUnityFbxSummary.Location = new System.Drawing.Point(3, 41);
+            this.dgFilesUnityFbxSummary.Name = "dgFilesUnityFbxSummary";
+            this.dgFilesUnityFbxSummary.Size = new System.Drawing.Size(658, 682);
+            this.dgFilesUnityFbxSummary.TabIndex = 80;
             // 
             // statusStrip5
             // 
@@ -700,20 +703,20 @@
             this.lblFilesUnityFbxSummaryItemFilteredCount.Size = new System.Drawing.Size(250, 17);
             this.lblFilesUnityFbxSummaryItemFilteredCount.Text = "lblFilesUnityFbxSummaryItemFilteredCount";
             // 
-            // toolStrip4
+            // tsFilesUnityFbxHeader
             // 
-            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsFilesUnityFbxHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnFilesUnityFbxRefresh,
             this.toolStripSeparator19,
-            this.toolStripButton5,
+            this.btnFilesUnityFbxSummaryCopyToClipboard,
             this.toolStripSeparator20,
-            this.toolStripLabel3,
-            this.toolStripTextBox3});
-            this.toolStrip4.Location = new System.Drawing.Point(3, 16);
-            this.toolStrip4.Name = "toolStrip4";
-            this.toolStrip4.Size = new System.Drawing.Size(658, 25);
-            this.toolStrip4.TabIndex = 29;
-            this.toolStrip4.Text = "toolStrip4";
+            this.lblFilesUnityFbxFilenameAc,
+            this.fldFilesUnityFbxFilenameAc});
+            this.tsFilesUnityFbxHeader.Location = new System.Drawing.Point(3, 16);
+            this.tsFilesUnityFbxHeader.Name = "tsFilesUnityFbxHeader";
+            this.tsFilesUnityFbxHeader.Size = new System.Drawing.Size(658, 25);
+            this.tsFilesUnityFbxHeader.TabIndex = 29;
+            this.tsFilesUnityFbxHeader.Text = "toolStrip4";
             // 
             // btnFilesUnityFbxRefresh
             // 
@@ -729,32 +732,33 @@
             this.toolStripSeparator19.Name = "toolStripSeparator19";
             this.toolStripSeparator19.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton5
+            // btnFilesUnityFbxSummaryCopyToClipboard
             // 
-            this.toolStripButton5.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(124, 22);
-            this.toolStripButton5.Text = "Copy to Clipboard";
+            this.btnFilesUnityFbxSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
+            this.btnFilesUnityFbxSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesUnityFbxSummaryCopyToClipboard.Image")));
+            this.btnFilesUnityFbxSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFilesUnityFbxSummaryCopyToClipboard.Name = "btnFilesUnityFbxSummaryCopyToClipboard";
+            this.btnFilesUnityFbxSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
+            this.btnFilesUnityFbxSummaryCopyToClipboard.Text = "Copy to Clipboard";
             // 
             // toolStripSeparator20
             // 
             this.toolStripSeparator20.Name = "toolStripSeparator20";
             this.toolStripSeparator20.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripLabel3
+            // lblFilesUnityFbxFilenameAc
             // 
-            this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(58, 22);
-            this.toolStripLabel3.Text = "Filename:";
+            this.lblFilesUnityFbxFilenameAc.Name = "lblFilesUnityFbxFilenameAc";
+            this.lblFilesUnityFbxFilenameAc.Size = new System.Drawing.Size(58, 22);
+            this.lblFilesUnityFbxFilenameAc.Text = "Filename:";
             // 
-            // toolStripTextBox3
+            // fldFilesUnityFbxFilenameAc
             // 
-            this.toolStripTextBox3.BackColor = System.Drawing.Color.Wheat;
-            this.toolStripTextBox3.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox3.Name = "toolStripTextBox3";
-            this.toolStripTextBox3.Size = new System.Drawing.Size(200, 25);
+            this.fldFilesUnityFbxFilenameAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldFilesUnityFbxFilenameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldFilesUnityFbxFilenameAc.Name = "fldFilesUnityFbxFilenameAc";
+            this.fldFilesUnityFbxFilenameAc.Size = new System.Drawing.Size(200, 25);
+            this.fldFilesUnityFbxFilenameAc.TextChanged += new System.EventHandler(this.fldFilesUnityFbxFilenameAc_TextChanged);
             // 
             // toolStrip2
             // 
@@ -1969,6 +1973,16 @@
             this.chkFilesFbxFilenameAcEquals.Text = "=";
             this.chkFilesFbxFilenameAcEquals.UseVisualStyleBackColor = true;
             // 
+            // chkFilesUnityFbxFilenameAcEquals
+            // 
+            this.chkFilesUnityFbxFilenameAcEquals.AutoSize = true;
+            this.chkFilesUnityFbxFilenameAcEquals.Location = new System.Drawing.Point(409, 72);
+            this.chkFilesUnityFbxFilenameAcEquals.Name = "chkFilesUnityFbxFilenameAcEquals";
+            this.chkFilesUnityFbxFilenameAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkFilesUnityFbxFilenameAcEquals.TabIndex = 87;
+            this.chkFilesUnityFbxFilenameAcEquals.Text = "=";
+            this.chkFilesUnityFbxFilenameAcEquals.UseVisualStyleBackColor = true;
+            // 
             // StaticDataScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2008,11 +2022,11 @@
             this.tsFilesFbxHeader.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgFilesUnityFbx)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgFilesUnityFbxSummary)).EndInit();
             this.statusStrip5.ResumeLayout(false);
             this.statusStrip5.PerformLayout();
-            this.toolStrip4.ResumeLayout(false);
-            this.toolStrip4.PerformLayout();
+            this.tsFilesUnityFbxHeader.ResumeLayout(false);
+            this.tsFilesUnityFbxHeader.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
@@ -2243,21 +2257,22 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
         private System.Windows.Forms.ToolStripLabel lblFilesFbxFilenameAc;
         private System.Windows.Forms.ToolStripTextBox fldFilesFbxFilenameAc;
-        private System.Windows.Forms.DataGridView dgFilesUnityFbx;
+        private System.Windows.Forms.DataGridView dgFilesUnityFbxSummary;
         private System.Windows.Forms.StatusStrip statusStrip5;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar3;
         private System.Windows.Forms.ToolStripStatusLabel lblFilesUnityFbxStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblFilesUnityFbxCount;
         private System.Windows.Forms.ToolStripStatusLabel lblFilesUnityFbxSummaryItemFilteredCount;
-        private System.Windows.Forms.ToolStrip toolStrip4;
+        private System.Windows.Forms.ToolStrip tsFilesUnityFbxHeader;
         private System.Windows.Forms.ToolStripButton btnFilesUnityFbxRefresh;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.ToolStripButton btnFilesUnityFbxSummaryCopyToClipboard;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox3;
+        private System.Windows.Forms.ToolStripLabel lblFilesUnityFbxFilenameAc;
+        private System.Windows.Forms.ToolStripTextBox fldFilesUnityFbxFilenameAc;
         private System.Windows.Forms.CheckBox chkFilesDatLock;
         private System.Windows.Forms.CheckBox chkFilesDatFilenameAcEquals;
         private System.Windows.Forms.CheckBox chkFilesFbxFilenameAcEquals;
+        private System.Windows.Forms.CheckBox chkFilesUnityFbxFilenameAcEquals;
     }
 }

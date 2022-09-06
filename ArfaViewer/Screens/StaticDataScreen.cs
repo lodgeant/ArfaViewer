@@ -44,7 +44,7 @@ namespace Generator
                 this.Text += " | " + "v" + versionArray[0] + "." + versionArray[1] + "." + versionArray[2];
 
                 #region ** FORMAT SUMMARIES **
-                String[] DGnames = new string[] { "dgBasePartSummary", "dgLDrawDetailsSummary", "dgSubPartMappingSummary", "dgFilesDatSummary", "dgFilesFbxSummary", "dgFilesUnityFbx" };
+                String[] DGnames = new string[] { "dgBasePartSummary", "dgLDrawDetailsSummary", "dgSubPartMappingSummary", "dgFilesDatSummary", "dgFilesFbxSummary", "dgFilesUnityFbxSummary" };
                 foreach (String dgName in DGnames)
                 {
                     DataGridView dgv = (DataGridView)(this.Controls.Find(dgName, true)[0]);
@@ -68,17 +68,12 @@ namespace Generator
                 lblSubPartMappingStatus.Text = "";
                 lblSubPartMappingCount.Text = "";
                 lblSubPartMappingSummaryItemFilteredCount.Text = "";
-
                 lblFilesDatStatus.Text = "";
                 lblFilesDatCount.Text = "";
                 lblFilesDatSummaryItemFilteredCount.Text = "";
-
-
                 lblFilesFbxStatus.Text = "";
                 lblFilesFbxCount.Text = "";
                 lblFilesFbxSummaryItemFilteredCount.Text = "";
-
-
                 lblFilesUnityFbxStatus.Text = "";
                 lblFilesUnityFbxCount.Text = "";
                 lblFilesUnityFbxSummaryItemFilteredCount.Text = "";
@@ -175,8 +170,6 @@ namespace Generator
                 });
                 #endregion
 
-
-
                 #region ** ADD FILES DAT HEADER TOOLSTRIP ITEMS **
                 tsFilesDatHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
                 {
@@ -191,8 +184,6 @@ namespace Generator
                 });
                 #endregion
 
-
-
                 #region ** ADD FILES FBX HEADER TOOLSTRIP ITEMS **
                 tsFilesFbxHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
                 {
@@ -206,8 +197,18 @@ namespace Generator
                 });
                 #endregion
 
-
-
+                #region ** ADD FILES FBX HEADER TOOLSTRIP ITEMS **
+                tsFilesUnityFbxHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+                {
+                    btnFilesUnityFbxRefresh,
+                    toolStripSeparator19,
+                    btnFilesUnityFbxSummaryCopyToClipboard,
+                    toolStripSeparator20,
+                    lblFilesUnityFbxFilenameAc,
+                    new ToolStripControlHost(chkFilesUnityFbxFilenameAcEquals),
+                    fldFilesUnityFbxFilenameAc,
+                });
+                #endregion
 
                 // ** Set up Scintilla **               
                 pnlLDrawDetailsData.Controls.Add(LDrawDetailsData);
@@ -357,6 +358,35 @@ namespace Generator
         private void btnFilesUnityFbxRefresh_Click(object sender, EventArgs e)
         {
             RefreshFilesUnityFbx();
+        }
+
+        private void fldFilesDatFilenameAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessFilesDatSummaryFilter();
+            if (chkFilesDatLock.Checked)
+            {
+                fldFilesFbxFilenameAc.Text = fldFilesDatFilenameAc.Text;
+                fldFilesUnityFbxFilenameAc.Text = fldFilesDatFilenameAc.Text;
+            }
+        }
+
+        private void fldFilesFbxFilenameAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessFilesFbxSummaryFilter();
+        }
+
+        private void chkFilesDatLock_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkFilesDatLock.Checked)
+            {
+                fldFilesFbxFilenameAc.Text = fldFilesDatFilenameAc.Text;
+                fldFilesUnityFbxFilenameAc.Text = fldFilesDatFilenameAc.Text;
+            }
+        }
+
+        private void fldFilesUnityFbxFilenameAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessFilesUnityFbxSummaryFilter();
         }
 
         #endregion
@@ -1403,7 +1433,57 @@ namespace Generator
             }
         }
 
+        private void ProcessFilesUnityFbxSummaryFilter()
+        {
+            try
+            {
+                if (dgFilesUnityFbxSummaryTable_Orig.Rows.Count > 0)
+                {
+                    // ** Reset summaey screen **
+                    lblFilesUnityFbxSummaryItemFilteredCount.Text = "";
+                    Delegates.DataGridView_SetDataSource(this, dgFilesUnityFbxSummary, dgFilesUnityFbxSummaryTable_Orig);
+                    AdjustFBXSummaryRowFormatting(dgFilesUnityFbxSummary);
 
+                    // ** Determine what filters have been applied **
+                    if (fldFilesUnityFbxFilenameAc.Text != "")
+                    {
+                        List<DataRow> filteredRows = dgFilesUnityFbxSummaryTable_Orig.AsEnumerable().CopyToDataTable().AsEnumerable().ToList();
+
+                        #region ** Apply filtering for LDraw Ref **
+                        if (filteredRows.Count > 0)
+                        {
+                            if (chkFilesUnityFbxFilenameAcEquals.Checked)
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("Name").ToUpper().Equals(fldFilesUnityFbxFilenameAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                            else
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("Name").ToUpper().Contains(fldFilesUnityFbxFilenameAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                        }
+                        #endregion
+
+                        #region ** Apply filters **
+                        Delegates.DataGridView_SetDataSource(this, dgFilesUnityFbxSummary, null);
+                        if (filteredRows.Count > 0)
+                        {
+                            Delegates.DataGridView_SetDataSource(this, dgFilesUnityFbxSummary, filteredRows.CopyToDataTable());
+                            AdjustFBXSummaryRowFormatting(dgFilesUnityFbxSummary);
+                        }
+                        lblFilesUnityFbxSummaryItemFilteredCount.Text = filteredRows.Count + " filtered file(s)";
+                        #endregion
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         #endregion
 
@@ -1607,7 +1687,7 @@ namespace Generator
 
                 // ** Build table **
                 dgFilesUnityFbxSummaryTable_Orig = FileDetailsCollection.GetDatatableFromFileDetailsCollection(fdc);
-                dgFilesUnityFbx.DataSource = dgFilesUnityFbxSummaryTable_Orig;
+                dgFilesUnityFbxSummary.DataSource = dgFilesUnityFbxSummaryTable_Orig;
 
                 // ** Update counts **
                 lblFilesUnityFbxCount.Text = fdc.FileDetailsList.Count + " file(s)";
@@ -1616,7 +1696,7 @@ namespace Generator
                 //dgFilesUnityFbx.Columns["Created TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
                 //dgFilesUnityFbx.Columns["Last Updated TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
                 //dgFilesUnityFbx.AutoResizeColumns();
-                AdjustFBXSummaryRowFormatting(dgFilesUnityFbx);
+                AdjustFBXSummaryRowFormatting(dgFilesUnityFbxSummary);
             }
             catch (Exception ex)
             {
@@ -1642,14 +1722,9 @@ namespace Generator
 
 
 
-        private void fldFilesDatFilenameAc_TextChanged(object sender, EventArgs e)
-        {
-            ProcessFilesDatSummaryFilter();
-        }
+        
 
-        private void fldFilesFbxFilenameAc_TextChanged(object sender, EventArgs e)
-        {
-            ProcessFilesFbxSummaryFilter();
-        }
+
+
     }
 }
