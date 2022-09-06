@@ -1719,11 +1719,107 @@ namespace Generator
             }
         }
 
+        private void fldLDrawRef_Leave(object sender, EventArgs e)
+        {
+            ProcessLDrawRef_Leave();
+        }
+
+        private void ProcessLDrawRef_Leave()
+        {
+            try
+            {
+                // ** GET VARIABLES **
+                string LDrawRef = fldLDrawRef.Text;
+
+                // ** GET LDRAW IMAGE **                
+                fldLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { LDrawRef });
+
+                // ** POST LDRAW DETAILS **
+                gbPartDetails.Text = "Part Details | ???";
+                BasePartCollection coll = StaticData.GetBasePartData_UsingLDrawRefList(new List<string>() { LDrawRef });
+                if (coll.BasePartList.Count > 0)
+                {
+                    // ** Post data **
+                    string description = coll.BasePartList[0].LDrawDescription;
+                    if (description != "") gbPartDetails.Text = "Part Details | " + description;
+                    //fldPartType.Text = coll.BasePartList[0].partType.ToString();
+                    //fldLDrawSize.Text = "";
+                    //if (coll.BasePartList[0].LDrawSize > 0) fldLDrawSize.Text = coll.BasePartList[0].LDrawSize.ToString();
+                    //chkIsSubPart.Checked = coll.BasePartList[0].IsSubPart;
+                    //chkIsSticker.Checked = coll.BasePartList[0].IsSticker;
+                    //chkIsLargeModel.Checked = coll.BasePartList[0].IsLargeModel;
+                }
+                else
+                {
+                    // check if LDrawDetails exist, if yes, use the value, if not save the ldrawdetails                    
+                    LDrawDetailsCollection ldd_coll = StaticData.GetLDrawDetailsData_UsingLDrawRefList(new List<string>() { LDrawRef });
+                    if (ldd_coll.LDrawDetailsList.Count > 0)
+                    {
+                        //fldPartType.Text = ldd_coll.LDrawDetailsList[0].PartType;
+                        gbPartDetails.Text = "Part Details | " + ldd_coll.LDrawDetailsList[0].LDrawDescription;
+                        //fldPartType.Text = ldd_coll.LDrawDetailsList[0].PartType.ToString();
+                    }
+                }
+
+                // ** UPDATE BASE PART COLLECTION BOOLEAN - CHECK IF PART IS IN BASE PART COLLECTION **
+                if (coll.BasePartList.Count > 0)
+                {
+                    //chkBasePartCollection.Checked = true;
+                    btnAddPartToBasePartCollection.Enabled = false;
+                    btnAddPartToBasePartCollection.BackColor = Color.Transparent;
+                    //tsBasePartCollection.Enabled = false;
+                }
+                else
+                {
+                    //chkBasePartCollection.Checked = false;
+                    btnAddPartToBasePartCollection.Enabled = true;
+                    btnAddPartToBasePartCollection.BackColor = Color.Red;
+                    //tsBasePartCollection.Enabled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnGenerateDatFile_Click(object sender, EventArgs e)
+        {
+            GenerateDATFile();
+        }
+
+        private void GenerateDATFile()
+        {
+            try
+            {
+                // ** Validation **                
+                if (fldLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");
+                string LDrawRef = fldLDrawRef.Text;
+
+                // ** Generate .DAT files using API **
+                List<string> LDrawRefList = StaticData.GenerateDATFiles_ForLDrawDetails(LDrawRef);
+
+                // ** Refresh DAT Summary **
+                RefreshFilesDat();
+
+                // ** SHOW CONFIRMATION **
+                string confirmation = "Created the following .DAT file(s) for " + LDrawRef + ":" + Environment.NewLine;
+                foreach (string Ref in LDrawRefList) confirmation += Ref + Environment.NewLine;
+                MessageBox.Show(confirmation);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
 
 
-        
 
+        private void btnAddPartToBasePartCollection_Click(object sender, EventArgs e)
+        {
+
+        }
 
 
     }
