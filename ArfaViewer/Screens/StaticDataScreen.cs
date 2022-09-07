@@ -1846,71 +1846,10 @@ namespace Generator
             }
         }
 
-
-
-
-
-
-
-
-        public static void SyncFBXFiles_old()
-        {
-            string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
-            string UnityLegoPartPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";
-            try
-            {
-                // ** GET ALL FBX FILES IN "static-data\files-fbx" ON AZURE SHARE **                
-                List<Azure.Storage.Files.Shares.Models.ShareFileItem> FSFileList = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFilesAndDirectories().ToList();
-                List<string> FileList_FS = FSFileList.Select(x => x.Name).ToList();
-
-                // ** COPY FILES ACROSS THAT ARE NEW OR NEWER **
-                List<string> updatedFileList = new List<string>();
-                foreach (string filename in FileList_FS)
-                {
-                    ShareFileClient share = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(filename);
-                    DateTime lastModified_TS = share.GetProperties().Value.LastModified.UtcDateTime;
-                    DateTime lastModified_Unity;
-                    bool CopyFile = false;
-                    if (File.Exists(Path.Combine(UnityLegoPartPath, filename)) == false)
-                    {
-                        CopyFile = true;
-                    }
-                    else
-                    {
-                        lastModified_Unity = new FileInfo(Path.Combine(UnityLegoPartPath, filename)).LastWriteTimeUtc;
-                        if (lastModified_Unity < lastModified_TS)
-                        {
-                            CopyFile = true;
-                        }
-                    }
-                    if (CopyFile)
-                    {
-                        // ** Download file from Azure and save into Unity Resources\Lego Part Model directory **                        
-                        string target = Path.Combine(UnityLegoPartPath, filename);
-                        byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
-                        Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
-                        using (var fs = new FileStream(target, FileMode.Create, FileAccess.Write))
-                        {
-                            download.Content.CopyTo(fs);
-                        }
-                        File.SetLastWriteTimeUtc(target, lastModified_TS);
-                        updatedFileList.Add(filename);
-                    }
-                }
-
-                // ** SHOW CONFIRMATION **
-                string confirmation = updatedFileList.Count + " file(s) added/updated in Unity Resource directory" + Environment.NewLine;
-                foreach (string filename in updatedFileList) confirmation += filename + Environment.NewLine;
-                MessageBox.Show(confirmation, "Syncing FBX file(s)...");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
         public static void SyncFBXFiles()
         {
+            //TODO_H: Need to remove this key from the client App
+            string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
             try
             {
                 // ** GET ALL FBX FILES IN "static-data\files-fbx" ON AZURE SHARE **                
@@ -1920,40 +1859,29 @@ namespace Generator
 
                 // ** COPY FILES ACROSS THAT ARE NEW OR NEWER **
                 List<string> updatedFileList = new List<string>();
-                //foreach (string filename in FileList_FS
                 foreach (FileDetails fd in fdc.FileDetailsList)
                 {
-                    //ShareFileClient share = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(filename);
-                    //DateTime lastModified_TS = share.GetProperties().Value.LastModified.UtcDateTime;
-                    DateTime lastModified_TS = fd.LastUpdatedTS;
                     DateTime lastModified_Unity;
                     bool CopyFile = false;
-                    if (File.Exists(Path.Combine(Global_Variables.UnityFBXLocation, fd.Name)) == false)
-                    {
-                        CopyFile = true;
-                    }
+                    if (File.Exists(Path.Combine(Global_Variables.UnityFBXLocation, fd.Name)) == false) CopyFile = true;                    
                     else
                     {
                         lastModified_Unity = new FileInfo(Path.Combine(Global_Variables.UnityFBXLocation, fd.Name)).LastWriteTimeUtc;
-                        if (lastModified_Unity < lastModified_TS) CopyFile = true;                        
+                        if (lastModified_Unity < fd.LastUpdatedTS) CopyFile = true;                        
                     }
-
-
-
                     if (CopyFile)
                     {
                         // ** Download file from Azure and save into Unity Resources\Lego Part Model directory **                        
-                        //string target = Path.Combine(UnityLegoPartPath, fd.Name);
-                        //byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
-                        //Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
-                        //using (var fs = new FileStream(target, FileMode.Create, FileAccess.Write)) download.Content.CopyTo(fs);                       
-                        //File.SetLastWriteTimeUtc(target, lastModified_TS);
+                        string targetPath = Path.Combine(Global_Variables.UnityFBXLocation, fd.Name);
+                        byte[] fileContent = new byte[fd.Size];
+                        //TODO_H: Need to get this from API instead.
+                        ShareFileClient share = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(fd.Name);
+                        ShareFileDownloadInfo download = share.Download();
+                        using (var fs = new FileStream(targetPath, FileMode.Create, FileAccess.Write)) download.Content.CopyTo(fs);                       
+                        File.SetLastWriteTimeUtc(targetPath, fd.LastUpdatedTS);
                         updatedFileList.Add(fd.Name);
                     }
                 }
-
-
-
 
                 // ** SHOW CONFIRMATION **
                 string confirmation = updatedFileList.Count + " file(s) added/updated in Unity Resource directory" + Environment.NewLine;

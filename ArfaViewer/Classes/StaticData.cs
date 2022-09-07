@@ -606,7 +606,7 @@ namespace Generator
                         Name = fi.Name,
                         Size = fi.Length,
                         CreatedTS = fi.CreationTime,
-                        LastUpdatedTS = fi.LastWriteTime
+                        LastUpdatedTS = fi.LastWriteTimeUtc
                     };
                     coll.FileDetailsList.Add(fd);
                 }

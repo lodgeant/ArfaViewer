@@ -331,8 +331,8 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 25);
             this.tabControl1.Name = "tabControl1";
@@ -963,7 +963,6 @@
             // 
             // btnSyncFBSFiles
             // 
-            this.btnSyncFBSFiles.BackColor = System.Drawing.Color.Yellow;
             this.btnSyncFBSFiles.Image = ((System.Drawing.Image)(resources.GetObject("btnSyncFBSFiles.Image")));
             this.btnSyncFBSFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSyncFBSFiles.Name = "btnSyncFBSFiles";
