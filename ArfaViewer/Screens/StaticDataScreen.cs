@@ -27,7 +27,6 @@ namespace Generator
         private DataTable dgBasePartSummaryTable_Orig;
         private DataTable dgLDrawDetailsSummaryTable_Orig;
         private DataTable dgSubPartMappingSummaryTable_Orig;
-
         private DataTable dgFilesDatSummaryTable_Orig;
         private DataTable dgFilesFbxSummaryTable_Orig;
         private DataTable dgFilesUnityFbxSummaryTable_Orig;
@@ -419,6 +418,11 @@ namespace Generator
         private void btnAddPartToBasePartCollection_Click(object sender, EventArgs e)
         {
             AddPartToBasePartCollection();
+        }
+
+        private void btnPartClear_Click(object sender, EventArgs e)
+        {
+            PartDetailsClear();
         }
 
         #endregion
@@ -1732,7 +1736,6 @@ namespace Generator
 
         #endregion
 
-
         private void ProcessLDrawRef_Leave()
         {
             try
@@ -1894,13 +1897,15 @@ namespace Generator
             }
         }
 
+       
 
-
-
-
-
-
-
+        private void PartDetailsClear()
+        {
+            fldLDrawRef.Text = "";
+            fldLDrawImage.Image = null;
+            fldPartType.Text = "";
+            fldLDrawSize.Text = "";
+        }
 
 
     }

@@ -462,9 +462,8 @@ namespace Generator
                     IsLargeModel = IsLargeModel,
                     SubPartCount = lDrawDetails.SubPartCount
                 };
-                if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;
+                if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;                
                 newBasePart.LDrawSize = LDrawSize;
-                //StaticData.AddBasePart(newBasePart);
                 BasePartList.Add(newBasePart);
                 #endregion
 
@@ -496,8 +495,7 @@ namespace Generator
                             };
                             //if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;
                             subBP.LDrawSize = 0;
-                            //StaticData.AddBasePart(subBP);
-                            BasePartList.Add(subBP);
+                            BasePartList.Add(subBP);                            
                         }
 
                         // ** Add SubPartMapping **
@@ -508,14 +506,17 @@ namespace Generator
                             LDrawColourID = cp.LDrawColourID,
                             PosX = -1
                         };
-                        //StaticData.AddSubPartMapping(spm);
                         SubPartMappingList.Add(spm);
                     }
                 }
                 #endregion
 
                 // ** Create all items **
-                foreach (BasePart bp in BasePartList) StaticData.AddBasePart(bp);
+                foreach (BasePart bp in BasePartList)
+                {
+                    StaticData.AddBasePart(bp);
+                    StaticData.GenerateDATFiles_ForLDrawDetails(bp.LDrawRef);
+                }
                 foreach (SubPartMapping spm in SubPartMappingList) StaticData.AddSubPartMapping(spm);
 
                 return string.Empty;

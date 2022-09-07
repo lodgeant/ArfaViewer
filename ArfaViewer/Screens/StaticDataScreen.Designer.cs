@@ -33,77 +33,59 @@
             this.btnExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chkIsLargeModel = new System.Windows.Forms.CheckBox();
-            this.chkIsSticker = new System.Windows.Forms.CheckBox();
-            this.chkIsSubPart = new System.Windows.Forms.CheckBox();
-            this.dgFilesDatSummary = new System.Windows.Forms.DataGridView();
-            this.statusStrip3 = new System.Windows.Forms.StatusStrip();
-            this.pbFilesDat = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblFilesDatStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblFilesDatCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblFilesDatSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.gbPartDetails = new System.Windows.Forms.GroupBox();
-            this.tsPartDetails1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.fldLDrawRef = new System.Windows.Forms.ToolStripTextBox();
-            this.fldLDrawImage = new System.Windows.Forms.ToolStripButton();
-            this.btnAddPartToBasePartCollection = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnGenerateDatFile = new System.Windows.Forms.ToolStripButton();
-            this.tsPartDetails2 = new System.Windows.Forms.ToolStrip();
-            this.lblPartType = new System.Windows.Forms.ToolStripLabel();
-            this.fldPartType = new System.Windows.Forms.ToolStripComboBox();
-            this.lblLDrawSize = new System.Windows.Forms.ToolStripLabel();
-            this.fldLDrawSize = new System.Windows.Forms.ToolStripTextBox();
-            this.chkFilesDatLock = new System.Windows.Forms.CheckBox();
-            this.chkFilesDatFilenameAcEquals = new System.Windows.Forms.CheckBox();
-            this.tsFilesDatHeader = new System.Windows.Forms.ToolStrip();
-            this.btnFilesDatRefresh = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnFilesDatSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
-            this.lblFilesDatFilenameAc = new System.Windows.Forms.ToolStripLabel();
-            this.fldFilesDatFilenameAc = new System.Windows.Forms.ToolStripTextBox();
-            this.splitContainer6 = new System.Windows.Forms.SplitContainer();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.chkFilesFbxFilenameAcEquals = new System.Windows.Forms.CheckBox();
-            this.dgFilesFbxSummary = new System.Windows.Forms.DataGridView();
-            this.statusStrip4 = new System.Windows.Forms.StatusStrip();
-            this.pbFilesFbx = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblFilesFbxStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblFilesFbxCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblFilesFbxSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsFilesFbxHeader = new System.Windows.Forms.ToolStrip();
-            this.btnFilesFbxRefresh = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnFilesFbxSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
-            this.lblFilesFbxFilenameAc = new System.Windows.Forms.ToolStripLabel();
-            this.fldFilesFbxFilenameAc = new System.Windows.Forms.ToolStripTextBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.chkFilesUnityFbxFilenameAcEquals = new System.Windows.Forms.CheckBox();
-            this.dgFilesUnityFbxSummary = new System.Windows.Forms.DataGridView();
-            this.statusStrip5 = new System.Windows.Forms.StatusStrip();
-            this.toolStripProgressBar3 = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblFilesUnityFbxStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblFilesUnityFbxCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblFilesUnityFbxSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsFilesUnityFbxHeader = new System.Windows.Forms.ToolStrip();
-            this.btnFilesUnityFbxRefresh = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnFilesUnityFbxSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
-            this.lblFilesUnityFbxFilenameAc = new System.Windows.Forms.ToolStripLabel();
-            this.fldFilesUnityFbxFilenameAc = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.btnFBXRefreshAll = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnSyncFBSFiles = new System.Windows.Forms.ToolStripButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.gpBasePart = new System.Windows.Forms.GroupBox();
+            this.chkBasePartLDrawDescriptionAcEquals = new System.Windows.Forms.CheckBox();
+            this.chkBasePartLDrawRefAcEquals = new System.Windows.Forms.CheckBox();
+            this.chkBasePartIsLargeModel = new System.Windows.Forms.CheckBox();
+            this.chkLockLDrawRef = new System.Windows.Forms.CheckBox();
+            this.chkBasePartIsSticker = new System.Windows.Forms.CheckBox();
+            this.chkBasePartIsSubPart = new System.Windows.Forms.CheckBox();
+            this.dgBasePartSummary = new System.Windows.Forms.DataGridView();
+            this.c = new System.Windows.Forms.StatusStrip();
+            this.pbBasePartStatus = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblBasePartStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblBasePartCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblBasePartSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsBasePartDetails = new System.Windows.Forms.ToolStrip();
+            this.lblBasePartLDrawRef = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartLDrawRef = new System.Windows.Forms.ToolStripTextBox();
+            this.fldBasePartLDrawImage = new System.Windows.Forms.ToolStripButton();
+            this.lblBasePartLDrawDescription = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartLDrawDescription = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartLDrawSize = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartLDrawSize = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartPartType = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartPartType = new System.Windows.Forms.ToolStripComboBox();
+            this.lblBasePartLDrawPartType = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartLDrawPartType = new System.Windows.Forms.ToolStripComboBox();
+            this.lblBasePartOffsetX = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartOffsetX = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartOffsetY = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartOffsetY = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartOffsetZ = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartOffsetZ = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartSubPartCount = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartSubPartCount = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnBasePartClear = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnBasePartSave = new System.Windows.Forms.ToolStripButton();
+            this.btnBasePartDelete = new System.Windows.Forms.ToolStripButton();
+            this.tsBasePartHeader = new System.Windows.Forms.ToolStrip();
+            this.btnBasePartRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnBasePartSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.lblBasePartLDrawRefAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartLDrawRefAc = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartLDrawDescriptionAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartLDrawDescriptionAc = new System.Windows.Forms.ToolStripTextBox();
+            this.chkShowPartImages = new System.Windows.Forms.CheckBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.btnRefreshAll = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.gpLDrawDetails = new System.Windows.Forms.GroupBox();
@@ -189,59 +171,113 @@
             this.fldSubPartMappingParentLDrawRefAc = new System.Windows.Forms.ToolStripTextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.pnlSubPartMappingData = new System.Windows.Forms.Panel();
-            this.chkShowPartImages = new System.Windows.Forms.CheckBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.btnRefreshAll = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
-            this.gpBasePart = new System.Windows.Forms.GroupBox();
-            this.chkBasePartLDrawDescriptionAcEquals = new System.Windows.Forms.CheckBox();
-            this.chkBasePartLDrawRefAcEquals = new System.Windows.Forms.CheckBox();
-            this.chkBasePartIsLargeModel = new System.Windows.Forms.CheckBox();
-            this.chkLockLDrawRef = new System.Windows.Forms.CheckBox();
-            this.chkBasePartIsSticker = new System.Windows.Forms.CheckBox();
-            this.chkBasePartIsSubPart = new System.Windows.Forms.CheckBox();
-            this.dgBasePartSummary = new System.Windows.Forms.DataGridView();
-            this.c = new System.Windows.Forms.StatusStrip();
-            this.pbBasePartStatus = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblBasePartStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblBasePartCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblBasePartSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsBasePartDetails = new System.Windows.Forms.ToolStrip();
-            this.lblBasePartLDrawRef = new System.Windows.Forms.ToolStripLabel();
-            this.fldBasePartLDrawRef = new System.Windows.Forms.ToolStripTextBox();
-            this.fldBasePartLDrawImage = new System.Windows.Forms.ToolStripButton();
-            this.lblBasePartLDrawDescription = new System.Windows.Forms.ToolStripLabel();
-            this.fldBasePartLDrawDescription = new System.Windows.Forms.ToolStripTextBox();
-            this.lblBasePartLDrawSize = new System.Windows.Forms.ToolStripLabel();
-            this.fldBasePartLDrawSize = new System.Windows.Forms.ToolStripTextBox();
-            this.lblBasePartPartType = new System.Windows.Forms.ToolStripLabel();
-            this.fldBasePartPartType = new System.Windows.Forms.ToolStripComboBox();
-            this.lblBasePartLDrawPartType = new System.Windows.Forms.ToolStripLabel();
-            this.fldBasePartLDrawPartType = new System.Windows.Forms.ToolStripComboBox();
-            this.lblBasePartOffsetX = new System.Windows.Forms.ToolStripLabel();
-            this.fldBasePartOffsetX = new System.Windows.Forms.ToolStripTextBox();
-            this.lblBasePartOffsetY = new System.Windows.Forms.ToolStripLabel();
-            this.fldBasePartOffsetY = new System.Windows.Forms.ToolStripTextBox();
-            this.lblBasePartOffsetZ = new System.Windows.Forms.ToolStripLabel();
-            this.fldBasePartOffsetZ = new System.Windows.Forms.ToolStripTextBox();
-            this.lblBasePartSubPartCount = new System.Windows.Forms.ToolStripLabel();
-            this.fldBasePartSubPartCount = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnBasePartClear = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnBasePartSave = new System.Windows.Forms.ToolStripButton();
-            this.btnBasePartDelete = new System.Windows.Forms.ToolStripButton();
-            this.tsBasePartHeader = new System.Windows.Forms.ToolStrip();
-            this.btnBasePartRefresh = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnBasePartSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.lblBasePartLDrawRefAc = new System.Windows.Forms.ToolStripLabel();
-            this.fldBasePartLDrawRefAc = new System.Windows.Forms.ToolStripTextBox();
-            this.lblBasePartLDrawDescriptionAc = new System.Windows.Forms.ToolStripLabel();
-            this.fldBasePartLDrawDescriptionAc = new System.Windows.Forms.ToolStripTextBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkIsLargeModel = new System.Windows.Forms.CheckBox();
+            this.chkIsSticker = new System.Windows.Forms.CheckBox();
+            this.chkIsSubPart = new System.Windows.Forms.CheckBox();
+            this.dgFilesDatSummary = new System.Windows.Forms.DataGridView();
+            this.statusStrip3 = new System.Windows.Forms.StatusStrip();
+            this.pbFilesDat = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblFilesDatStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblFilesDatCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblFilesDatSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.gbPartDetails = new System.Windows.Forms.GroupBox();
+            this.tsPartDetails1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.fldLDrawRef = new System.Windows.Forms.ToolStripTextBox();
+            this.fldLDrawImage = new System.Windows.Forms.ToolStripButton();
+            this.btnAddPartToBasePartCollection = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnGenerateDatFile = new System.Windows.Forms.ToolStripButton();
+            this.tsPartDetails2 = new System.Windows.Forms.ToolStrip();
+            this.lblPartType = new System.Windows.Forms.ToolStripLabel();
+            this.fldPartType = new System.Windows.Forms.ToolStripComboBox();
+            this.lblLDrawSize = new System.Windows.Forms.ToolStripLabel();
+            this.fldLDrawSize = new System.Windows.Forms.ToolStripTextBox();
+            this.chkFilesDatLock = new System.Windows.Forms.CheckBox();
+            this.chkFilesDatFilenameAcEquals = new System.Windows.Forms.CheckBox();
+            this.tsFilesDatHeader = new System.Windows.Forms.ToolStrip();
+            this.btnFilesDatRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnFilesDatSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
+            this.lblFilesDatFilenameAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldFilesDatFilenameAc = new System.Windows.Forms.ToolStripTextBox();
+            this.splitContainer6 = new System.Windows.Forms.SplitContainer();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkFilesFbxFilenameAcEquals = new System.Windows.Forms.CheckBox();
+            this.dgFilesFbxSummary = new System.Windows.Forms.DataGridView();
+            this.statusStrip4 = new System.Windows.Forms.StatusStrip();
+            this.pbFilesFbx = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblFilesFbxStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblFilesFbxCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblFilesFbxSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsFilesFbxHeader = new System.Windows.Forms.ToolStrip();
+            this.btnFilesFbxRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnFilesFbxSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.lblFilesFbxFilenameAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldFilesFbxFilenameAc = new System.Windows.Forms.ToolStripTextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.chkFilesUnityFbxFilenameAcEquals = new System.Windows.Forms.CheckBox();
+            this.dgFilesUnityFbxSummary = new System.Windows.Forms.DataGridView();
+            this.statusStrip5 = new System.Windows.Forms.StatusStrip();
+            this.toolStripProgressBar3 = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblFilesUnityFbxStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblFilesUnityFbxCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblFilesUnityFbxSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsFilesUnityFbxHeader = new System.Windows.Forms.ToolStrip();
+            this.btnFilesUnityFbxRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnFilesUnityFbxSummaryCopyToClipboard = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
+            this.lblFilesUnityFbxFilenameAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldFilesUnityFbxFilenameAc = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.btnFBXRefreshAll = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnSyncFBSFiles = new System.Windows.Forms.ToolStripButton();
+            this.btnPartClear = new System.Windows.Forms.ToolStripButton();
             this.tsHeader.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.gpBasePart.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgBasePartSummary)).BeginInit();
+            this.c.SuspendLayout();
+            this.tsBasePartDetails.SuspendLayout();
+            this.tsBasePartHeader.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            this.gpLDrawDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgLDrawDetailsSummary)).BeginInit();
+            this.statusStrip1.SuspendLayout();
+            this.tsLDrawDetailsDetails.SuspendLayout();
+            this.tsLDrawDetailsHeader.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
+            this.gpSubPartMapping.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgSubPartMappingSummary)).BeginInit();
+            this.statusStrip2.SuspendLayout();
+            this.toolStrip5.SuspendLayout();
+            this.tsSubPartMappingHeader.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
             this.splitContainer5.Panel1.SuspendLayout();
@@ -267,41 +303,6 @@
             this.statusStrip5.SuspendLayout();
             this.tsFilesUnityFbxHeader.SuspendLayout();
             this.toolStrip2.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
-            this.splitContainer3.Panel1.SuspendLayout();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
-            this.gpLDrawDetails.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgLDrawDetailsSummary)).BeginInit();
-            this.statusStrip1.SuspendLayout();
-            this.tsLDrawDetailsDetails.SuspendLayout();
-            this.tsLDrawDetailsHeader.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
-            this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
-            this.gpSubPartMapping.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgSubPartMappingSummary)).BeginInit();
-            this.statusStrip2.SuspendLayout();
-            this.toolStrip5.SuspendLayout();
-            this.tsSubPartMappingHeader.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
-            this.gpBasePart.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgBasePartSummary)).BeginInit();
-            this.c.SuspendLayout();
-            this.tsBasePartDetails.SuspendLayout();
-            this.tsBasePartHeader.SuspendLayout();
             this.SuspendLayout();
             // 
             // tsHeader
@@ -340,636 +341,6 @@
             this.tabControl1.Size = new System.Drawing.Size(1762, 799);
             this.tabControl1.TabIndex = 27;
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.splitContainer5);
-            this.tabPage3.Controls.Add(this.toolStrip2);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1754, 773);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "FBX";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer5
-            // 
-            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer5.Location = new System.Drawing.Point(0, 25);
-            this.splitContainer5.Name = "splitContainer5";
-            // 
-            // splitContainer5.Panel1
-            // 
-            this.splitContainer5.Panel1.Controls.Add(this.groupBox1);
-            // 
-            // splitContainer5.Panel2
-            // 
-            this.splitContainer5.Panel2.Controls.Add(this.splitContainer6);
-            this.splitContainer5.Size = new System.Drawing.Size(1754, 748);
-            this.splitContainer5.SplitterDistance = 605;
-            this.splitContainer5.TabIndex = 30;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.chkIsLargeModel);
-            this.groupBox1.Controls.Add(this.chkIsSticker);
-            this.groupBox1.Controls.Add(this.chkIsSubPart);
-            this.groupBox1.Controls.Add(this.dgFilesDatSummary);
-            this.groupBox1.Controls.Add(this.statusStrip3);
-            this.groupBox1.Controls.Add(this.gbPartDetails);
-            this.groupBox1.Controls.Add(this.chkFilesDatLock);
-            this.groupBox1.Controls.Add(this.chkFilesDatFilenameAcEquals);
-            this.groupBox1.Controls.Add(this.tsFilesDatHeader);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(605, 748);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "files-dat";
-            // 
-            // chkIsLargeModel
-            // 
-            this.chkIsLargeModel.AutoSize = true;
-            this.chkIsLargeModel.Location = new System.Drawing.Point(168, 548);
-            this.chkIsLargeModel.Name = "chkIsLargeModel";
-            this.chkIsLargeModel.Size = new System.Drawing.Size(96, 17);
-            this.chkIsLargeModel.TabIndex = 115;
-            this.chkIsLargeModel.Text = "Is Large Model";
-            this.chkIsLargeModel.UseVisualStyleBackColor = false;
-            // 
-            // chkIsSticker
-            // 
-            this.chkIsSticker.AutoSize = true;
-            this.chkIsSticker.Location = new System.Drawing.Point(268, 516);
-            this.chkIsSticker.Name = "chkIsSticker";
-            this.chkIsSticker.Size = new System.Drawing.Size(70, 17);
-            this.chkIsSticker.TabIndex = 114;
-            this.chkIsSticker.Text = "Is Sticker";
-            this.chkIsSticker.UseVisualStyleBackColor = false;
-            // 
-            // chkIsSubPart
-            // 
-            this.chkIsSubPart.AutoSize = true;
-            this.chkIsSubPart.Location = new System.Drawing.Point(152, 516);
-            this.chkIsSubPart.Name = "chkIsSubPart";
-            this.chkIsSubPart.Size = new System.Drawing.Size(78, 17);
-            this.chkIsSubPart.TabIndex = 113;
-            this.chkIsSubPart.Text = "Is Sub Part";
-            this.chkIsSubPart.UseVisualStyleBackColor = false;
-            // 
-            // dgFilesDatSummary
-            // 
-            this.dgFilesDatSummary.BackgroundColor = System.Drawing.Color.White;
-            this.dgFilesDatSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgFilesDatSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgFilesDatSummary.Location = new System.Drawing.Point(3, 41);
-            this.dgFilesDatSummary.Name = "dgFilesDatSummary";
-            this.dgFilesDatSummary.Size = new System.Drawing.Size(599, 614);
-            this.dgFilesDatSummary.TabIndex = 92;
-            // 
-            // statusStrip3
-            // 
-            this.statusStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pbFilesDat,
-            this.lblFilesDatStatus,
-            this.lblFilesDatCount,
-            this.lblFilesDatSummaryItemFilteredCount});
-            this.statusStrip3.Location = new System.Drawing.Point(3, 655);
-            this.statusStrip3.Name = "statusStrip3";
-            this.statusStrip3.Size = new System.Drawing.Size(599, 22);
-            this.statusStrip3.TabIndex = 91;
-            this.statusStrip3.Text = "statusStrip2";
-            // 
-            // pbFilesDat
-            // 
-            this.pbFilesDat.ForeColor = System.Drawing.Color.Lime;
-            this.pbFilesDat.Name = "pbFilesDat";
-            this.pbFilesDat.Size = new System.Drawing.Size(100, 16);
-            // 
-            // lblFilesDatStatus
-            // 
-            this.lblFilesDatStatus.Name = "lblFilesDatStatus";
-            this.lblFilesDatStatus.Size = new System.Drawing.Size(93, 17);
-            this.lblFilesDatStatus.Text = "lblFilesDatStatus";
-            // 
-            // lblFilesDatCount
-            // 
-            this.lblFilesDatCount.Name = "lblFilesDatCount";
-            this.lblFilesDatCount.Size = new System.Drawing.Size(94, 17);
-            this.lblFilesDatCount.Text = "lblFilesDatCount";
-            // 
-            // lblFilesDatSummaryItemFilteredCount
-            // 
-            this.lblFilesDatSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblFilesDatSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
-            this.lblFilesDatSummaryItemFilteredCount.Name = "lblFilesDatSummaryItemFilteredCount";
-            this.lblFilesDatSummaryItemFilteredCount.Size = new System.Drawing.Size(220, 17);
-            this.lblFilesDatSummaryItemFilteredCount.Text = "lblFilesDatSummaryItemFilteredCount";
-            // 
-            // gbPartDetails
-            // 
-            this.gbPartDetails.Controls.Add(this.tsPartDetails1);
-            this.gbPartDetails.Controls.Add(this.tsPartDetails2);
-            this.gbPartDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gbPartDetails.Location = new System.Drawing.Point(3, 677);
-            this.gbPartDetails.Name = "gbPartDetails";
-            this.gbPartDetails.Size = new System.Drawing.Size(599, 68);
-            this.gbPartDetails.TabIndex = 90;
-            this.gbPartDetails.TabStop = false;
-            this.gbPartDetails.Text = "Part Details";
-            // 
-            // tsPartDetails1
-            // 
-            this.tsPartDetails1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tsPartDetails1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1,
-            this.fldLDrawRef,
-            this.fldLDrawImage,
-            this.btnAddPartToBasePartCollection,
-            this.toolStripSeparator24,
-            this.btnGenerateDatFile});
-            this.tsPartDetails1.Location = new System.Drawing.Point(3, 15);
-            this.tsPartDetails1.Name = "tsPartDetails1";
-            this.tsPartDetails1.Size = new System.Drawing.Size(593, 25);
-            this.tsPartDetails1.TabIndex = 90;
-            this.tsPartDetails1.Text = "toolStrip5";
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(27, 22);
-            this.toolStripLabel1.Text = "Ref:";
-            // 
-            // fldLDrawRef
-            // 
-            this.fldLDrawRef.BackColor = System.Drawing.Color.LightGray;
-            this.fldLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldLDrawRef.Name = "fldLDrawRef";
-            this.fldLDrawRef.Size = new System.Drawing.Size(100, 25);
-            this.fldLDrawRef.Leave += new System.EventHandler(this.fldLDrawRef_Leave);
-            // 
-            // fldLDrawImage
-            // 
-            this.fldLDrawImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.fldLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.fldLDrawImage.Name = "fldLDrawImage";
-            this.fldLDrawImage.Size = new System.Drawing.Size(23, 22);
-            // 
-            // btnAddPartToBasePartCollection
-            // 
-            this.btnAddPartToBasePartCollection.Enabled = false;
-            this.btnAddPartToBasePartCollection.Image = ((System.Drawing.Image)(resources.GetObject("btnAddPartToBasePartCollection.Image")));
-            this.btnAddPartToBasePartCollection.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddPartToBasePartCollection.Name = "btnAddPartToBasePartCollection";
-            this.btnAddPartToBasePartCollection.Size = new System.Drawing.Size(23, 22);
-            this.btnAddPartToBasePartCollection.Click += new System.EventHandler(this.btnAddPartToBasePartCollection_Click);
-            // 
-            // toolStripSeparator24
-            // 
-            this.toolStripSeparator24.Name = "toolStripSeparator24";
-            this.toolStripSeparator24.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnGenerateDatFile
-            // 
-            this.btnGenerateDatFile.Image = ((System.Drawing.Image)(resources.GetObject("btnGenerateDatFile.Image")));
-            this.btnGenerateDatFile.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnGenerateDatFile.Name = "btnGenerateDatFile";
-            this.btnGenerateDatFile.Size = new System.Drawing.Size(120, 22);
-            this.btnGenerateDatFile.Text = "Generate .DAT file";
-            this.btnGenerateDatFile.Click += new System.EventHandler(this.btnGenerateDatFile_Click);
-            // 
-            // tsPartDetails2
-            // 
-            this.tsPartDetails2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tsPartDetails2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblPartType,
-            this.fldPartType,
-            this.lblLDrawSize,
-            this.fldLDrawSize});
-            this.tsPartDetails2.Location = new System.Drawing.Point(3, 40);
-            this.tsPartDetails2.Name = "tsPartDetails2";
-            this.tsPartDetails2.Size = new System.Drawing.Size(593, 25);
-            this.tsPartDetails2.TabIndex = 89;
-            this.tsPartDetails2.Text = "toolStrip10";
-            // 
-            // lblPartType
-            // 
-            this.lblPartType.Name = "lblPartType";
-            this.lblPartType.Size = new System.Drawing.Size(55, 22);
-            this.lblPartType.Text = "Part Type";
-            // 
-            // fldPartType
-            // 
-            this.fldPartType.Items.AddRange(new object[] {
-            "BASIC",
-            "COMPOSITE"});
-            this.fldPartType.Name = "fldPartType";
-            this.fldPartType.Size = new System.Drawing.Size(100, 25);
-            this.fldPartType.Text = "BASIC";
-            // 
-            // lblLDrawSize
-            // 
-            this.lblLDrawSize.Name = "lblLDrawSize";
-            this.lblLDrawSize.Size = new System.Drawing.Size(63, 22);
-            this.lblLDrawSize.Text = "LDraw Size";
-            // 
-            // fldLDrawSize
-            // 
-            this.fldLDrawSize.BackColor = System.Drawing.Color.LightGray;
-            this.fldLDrawSize.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldLDrawSize.Name = "fldLDrawSize";
-            this.fldLDrawSize.Size = new System.Drawing.Size(25, 25);
-            // 
-            // chkFilesDatLock
-            // 
-            this.chkFilesDatLock.AutoSize = true;
-            this.chkFilesDatLock.Location = new System.Drawing.Point(268, 98);
-            this.chkFilesDatLock.Name = "chkFilesDatLock";
-            this.chkFilesDatLock.Size = new System.Drawing.Size(53, 17);
-            this.chkFilesDatLock.TabIndex = 86;
-            this.chkFilesDatLock.Text = "Lock ";
-            this.chkFilesDatLock.UseVisualStyleBackColor = false;
-            this.chkFilesDatLock.CheckedChanged += new System.EventHandler(this.chkFilesDatLock_CheckedChanged);
-            // 
-            // chkFilesDatFilenameAcEquals
-            // 
-            this.chkFilesDatFilenameAcEquals.AutoSize = true;
-            this.chkFilesDatFilenameAcEquals.Location = new System.Drawing.Point(486, 18);
-            this.chkFilesDatFilenameAcEquals.Name = "chkFilesDatFilenameAcEquals";
-            this.chkFilesDatFilenameAcEquals.Size = new System.Drawing.Size(32, 17);
-            this.chkFilesDatFilenameAcEquals.TabIndex = 85;
-            this.chkFilesDatFilenameAcEquals.Text = "=";
-            this.chkFilesDatFilenameAcEquals.UseVisualStyleBackColor = true;
-            // 
-            // tsFilesDatHeader
-            // 
-            this.tsFilesDatHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnFilesDatRefresh,
-            this.toolStripSeparator14,
-            this.btnFilesDatSummaryCopyToClipboard,
-            this.toolStripSeparator16,
-            this.lblFilesDatFilenameAc,
-            this.fldFilesDatFilenameAc});
-            this.tsFilesDatHeader.Location = new System.Drawing.Point(3, 16);
-            this.tsFilesDatHeader.Name = "tsFilesDatHeader";
-            this.tsFilesDatHeader.Size = new System.Drawing.Size(599, 25);
-            this.tsFilesDatHeader.TabIndex = 28;
-            this.tsFilesDatHeader.Text = "toolStrip4";
-            // 
-            // btnFilesDatRefresh
-            // 
-            this.btnFilesDatRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesDatRefresh.Image")));
-            this.btnFilesDatRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnFilesDatRefresh.Name = "btnFilesDatRefresh";
-            this.btnFilesDatRefresh.Size = new System.Drawing.Size(66, 22);
-            this.btnFilesDatRefresh.Text = "Refresh";
-            this.btnFilesDatRefresh.Click += new System.EventHandler(this.btnFilesDatRefresh_Click);
-            // 
-            // toolStripSeparator14
-            // 
-            this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnFilesDatSummaryCopyToClipboard
-            // 
-            this.btnFilesDatSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
-            this.btnFilesDatSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesDatSummaryCopyToClipboard.Image")));
-            this.btnFilesDatSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnFilesDatSummaryCopyToClipboard.Name = "btnFilesDatSummaryCopyToClipboard";
-            this.btnFilesDatSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
-            this.btnFilesDatSummaryCopyToClipboard.Text = "Copy to Clipboard";
-            // 
-            // toolStripSeparator16
-            // 
-            this.toolStripSeparator16.Name = "toolStripSeparator16";
-            this.toolStripSeparator16.Size = new System.Drawing.Size(6, 25);
-            // 
-            // lblFilesDatFilenameAc
-            // 
-            this.lblFilesDatFilenameAc.Name = "lblFilesDatFilenameAc";
-            this.lblFilesDatFilenameAc.Size = new System.Drawing.Size(58, 22);
-            this.lblFilesDatFilenameAc.Text = "Filename:";
-            // 
-            // fldFilesDatFilenameAc
-            // 
-            this.fldFilesDatFilenameAc.BackColor = System.Drawing.Color.Wheat;
-            this.fldFilesDatFilenameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldFilesDatFilenameAc.Name = "fldFilesDatFilenameAc";
-            this.fldFilesDatFilenameAc.Size = new System.Drawing.Size(200, 25);
-            this.fldFilesDatFilenameAc.TextChanged += new System.EventHandler(this.fldFilesDatFilenameAc_TextChanged);
-            // 
-            // splitContainer6
-            // 
-            this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer6.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer6.Name = "splitContainer6";
-            // 
-            // splitContainer6.Panel1
-            // 
-            this.splitContainer6.Panel1.Controls.Add(this.groupBox2);
-            // 
-            // splitContainer6.Panel2
-            // 
-            this.splitContainer6.Panel2.Controls.Add(this.groupBox3);
-            this.splitContainer6.Size = new System.Drawing.Size(1145, 748);
-            this.splitContainer6.SplitterDistance = 489;
-            this.splitContainer6.TabIndex = 0;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.chkFilesFbxFilenameAcEquals);
-            this.groupBox2.Controls.Add(this.dgFilesFbxSummary);
-            this.groupBox2.Controls.Add(this.statusStrip4);
-            this.groupBox2.Controls.Add(this.tsFilesFbxHeader);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(489, 748);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "files-fbx";
-            // 
-            // chkFilesFbxFilenameAcEquals
-            // 
-            this.chkFilesFbxFilenameAcEquals.AutoSize = true;
-            this.chkFilesFbxFilenameAcEquals.Location = new System.Drawing.Point(309, 72);
-            this.chkFilesFbxFilenameAcEquals.Name = "chkFilesFbxFilenameAcEquals";
-            this.chkFilesFbxFilenameAcEquals.Size = new System.Drawing.Size(32, 17);
-            this.chkFilesFbxFilenameAcEquals.TabIndex = 86;
-            this.chkFilesFbxFilenameAcEquals.Text = "=";
-            this.chkFilesFbxFilenameAcEquals.UseVisualStyleBackColor = true;
-            // 
-            // dgFilesFbxSummary
-            // 
-            this.dgFilesFbxSummary.BackgroundColor = System.Drawing.Color.White;
-            this.dgFilesFbxSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgFilesFbxSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgFilesFbxSummary.Location = new System.Drawing.Point(3, 41);
-            this.dgFilesFbxSummary.Name = "dgFilesFbxSummary";
-            this.dgFilesFbxSummary.Size = new System.Drawing.Size(483, 682);
-            this.dgFilesFbxSummary.TabIndex = 80;
-            // 
-            // statusStrip4
-            // 
-            this.statusStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pbFilesFbx,
-            this.lblFilesFbxStatus,
-            this.lblFilesFbxCount,
-            this.lblFilesFbxSummaryItemFilteredCount});
-            this.statusStrip4.Location = new System.Drawing.Point(3, 723);
-            this.statusStrip4.Name = "statusStrip4";
-            this.statusStrip4.Size = new System.Drawing.Size(483, 22);
-            this.statusStrip4.TabIndex = 79;
-            this.statusStrip4.Text = "statusStrip2";
-            // 
-            // pbFilesFbx
-            // 
-            this.pbFilesFbx.ForeColor = System.Drawing.Color.Lime;
-            this.pbFilesFbx.Name = "pbFilesFbx";
-            this.pbFilesFbx.Size = new System.Drawing.Size(100, 16);
-            // 
-            // lblFilesFbxStatus
-            // 
-            this.lblFilesFbxStatus.Name = "lblFilesFbxStatus";
-            this.lblFilesFbxStatus.Size = new System.Drawing.Size(94, 17);
-            this.lblFilesFbxStatus.Text = "lblFilesFbxStatus";
-            // 
-            // lblFilesFbxCount
-            // 
-            this.lblFilesFbxCount.Name = "lblFilesFbxCount";
-            this.lblFilesFbxCount.Size = new System.Drawing.Size(95, 17);
-            this.lblFilesFbxCount.Text = "lblFilesFbxCount";
-            // 
-            // lblFilesFbxSummaryItemFilteredCount
-            // 
-            this.lblFilesFbxSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblFilesFbxSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
-            this.lblFilesFbxSummaryItemFilteredCount.Name = "lblFilesFbxSummaryItemFilteredCount";
-            this.lblFilesFbxSummaryItemFilteredCount.Size = new System.Drawing.Size(220, 15);
-            this.lblFilesFbxSummaryItemFilteredCount.Text = "lblFilesFbxSummaryItemFilteredCount";
-            // 
-            // tsFilesFbxHeader
-            // 
-            this.tsFilesFbxHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnFilesFbxRefresh,
-            this.toolStripSeparator17,
-            this.btnFilesFbxSummaryCopyToClipboard,
-            this.toolStripSeparator18,
-            this.lblFilesFbxFilenameAc,
-            this.fldFilesFbxFilenameAc});
-            this.tsFilesFbxHeader.Location = new System.Drawing.Point(3, 16);
-            this.tsFilesFbxHeader.Name = "tsFilesFbxHeader";
-            this.tsFilesFbxHeader.Size = new System.Drawing.Size(483, 25);
-            this.tsFilesFbxHeader.TabIndex = 29;
-            this.tsFilesFbxHeader.Text = "toolStrip4";
-            // 
-            // btnFilesFbxRefresh
-            // 
-            this.btnFilesFbxRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesFbxRefresh.Image")));
-            this.btnFilesFbxRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnFilesFbxRefresh.Name = "btnFilesFbxRefresh";
-            this.btnFilesFbxRefresh.Size = new System.Drawing.Size(66, 22);
-            this.btnFilesFbxRefresh.Text = "Refresh";
-            this.btnFilesFbxRefresh.Click += new System.EventHandler(this.btnFilesFbxRefresh_Click);
-            // 
-            // toolStripSeparator17
-            // 
-            this.toolStripSeparator17.Name = "toolStripSeparator17";
-            this.toolStripSeparator17.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnFilesFbxSummaryCopyToClipboard
-            // 
-            this.btnFilesFbxSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
-            this.btnFilesFbxSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesFbxSummaryCopyToClipboard.Image")));
-            this.btnFilesFbxSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnFilesFbxSummaryCopyToClipboard.Name = "btnFilesFbxSummaryCopyToClipboard";
-            this.btnFilesFbxSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
-            this.btnFilesFbxSummaryCopyToClipboard.Text = "Copy to Clipboard";
-            // 
-            // toolStripSeparator18
-            // 
-            this.toolStripSeparator18.Name = "toolStripSeparator18";
-            this.toolStripSeparator18.Size = new System.Drawing.Size(6, 25);
-            // 
-            // lblFilesFbxFilenameAc
-            // 
-            this.lblFilesFbxFilenameAc.Name = "lblFilesFbxFilenameAc";
-            this.lblFilesFbxFilenameAc.Size = new System.Drawing.Size(58, 22);
-            this.lblFilesFbxFilenameAc.Text = "Filename:";
-            // 
-            // fldFilesFbxFilenameAc
-            // 
-            this.fldFilesFbxFilenameAc.BackColor = System.Drawing.Color.Wheat;
-            this.fldFilesFbxFilenameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldFilesFbxFilenameAc.Name = "fldFilesFbxFilenameAc";
-            this.fldFilesFbxFilenameAc.Size = new System.Drawing.Size(200, 25);
-            this.fldFilesFbxFilenameAc.TextChanged += new System.EventHandler(this.fldFilesFbxFilenameAc_TextChanged);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.chkFilesUnityFbxFilenameAcEquals);
-            this.groupBox3.Controls.Add(this.dgFilesUnityFbxSummary);
-            this.groupBox3.Controls.Add(this.statusStrip5);
-            this.groupBox3.Controls.Add(this.tsFilesUnityFbxHeader);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(0, 0);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(652, 748);
-            this.groupBox3.TabIndex = 3;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Unity Resources FBX";
-            // 
-            // chkFilesUnityFbxFilenameAcEquals
-            // 
-            this.chkFilesUnityFbxFilenameAcEquals.AutoSize = true;
-            this.chkFilesUnityFbxFilenameAcEquals.Location = new System.Drawing.Point(409, 72);
-            this.chkFilesUnityFbxFilenameAcEquals.Name = "chkFilesUnityFbxFilenameAcEquals";
-            this.chkFilesUnityFbxFilenameAcEquals.Size = new System.Drawing.Size(32, 17);
-            this.chkFilesUnityFbxFilenameAcEquals.TabIndex = 87;
-            this.chkFilesUnityFbxFilenameAcEquals.Text = "=";
-            this.chkFilesUnityFbxFilenameAcEquals.UseVisualStyleBackColor = true;
-            // 
-            // dgFilesUnityFbxSummary
-            // 
-            this.dgFilesUnityFbxSummary.BackgroundColor = System.Drawing.Color.White;
-            this.dgFilesUnityFbxSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgFilesUnityFbxSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgFilesUnityFbxSummary.Location = new System.Drawing.Point(3, 41);
-            this.dgFilesUnityFbxSummary.Name = "dgFilesUnityFbxSummary";
-            this.dgFilesUnityFbxSummary.Size = new System.Drawing.Size(646, 682);
-            this.dgFilesUnityFbxSummary.TabIndex = 80;
-            // 
-            // statusStrip5
-            // 
-            this.statusStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBar3,
-            this.lblFilesUnityFbxStatus,
-            this.lblFilesUnityFbxCount,
-            this.lblFilesUnityFbxSummaryItemFilteredCount});
-            this.statusStrip5.Location = new System.Drawing.Point(3, 723);
-            this.statusStrip5.Name = "statusStrip5";
-            this.statusStrip5.Size = new System.Drawing.Size(646, 22);
-            this.statusStrip5.TabIndex = 79;
-            this.statusStrip5.Text = "statusStrip2";
-            // 
-            // toolStripProgressBar3
-            // 
-            this.toolStripProgressBar3.ForeColor = System.Drawing.Color.Lime;
-            this.toolStripProgressBar3.Name = "toolStripProgressBar3";
-            this.toolStripProgressBar3.Size = new System.Drawing.Size(100, 16);
-            // 
-            // lblFilesUnityFbxStatus
-            // 
-            this.lblFilesUnityFbxStatus.Name = "lblFilesUnityFbxStatus";
-            this.lblFilesUnityFbxStatus.Size = new System.Drawing.Size(122, 17);
-            this.lblFilesUnityFbxStatus.Text = "lblFilesUnityFbxStatus";
-            // 
-            // lblFilesUnityFbxCount
-            // 
-            this.lblFilesUnityFbxCount.Name = "lblFilesUnityFbxCount";
-            this.lblFilesUnityFbxCount.Size = new System.Drawing.Size(123, 17);
-            this.lblFilesUnityFbxCount.Text = "lblFilesUnityFbxCount";
-            // 
-            // lblFilesUnityFbxSummaryItemFilteredCount
-            // 
-            this.lblFilesUnityFbxSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblFilesUnityFbxSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
-            this.lblFilesUnityFbxSummaryItemFilteredCount.Name = "lblFilesUnityFbxSummaryItemFilteredCount";
-            this.lblFilesUnityFbxSummaryItemFilteredCount.Size = new System.Drawing.Size(250, 17);
-            this.lblFilesUnityFbxSummaryItemFilteredCount.Text = "lblFilesUnityFbxSummaryItemFilteredCount";
-            // 
-            // tsFilesUnityFbxHeader
-            // 
-            this.tsFilesUnityFbxHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnFilesUnityFbxRefresh,
-            this.toolStripSeparator19,
-            this.btnFilesUnityFbxSummaryCopyToClipboard,
-            this.toolStripSeparator20,
-            this.lblFilesUnityFbxFilenameAc,
-            this.fldFilesUnityFbxFilenameAc});
-            this.tsFilesUnityFbxHeader.Location = new System.Drawing.Point(3, 16);
-            this.tsFilesUnityFbxHeader.Name = "tsFilesUnityFbxHeader";
-            this.tsFilesUnityFbxHeader.Size = new System.Drawing.Size(646, 25);
-            this.tsFilesUnityFbxHeader.TabIndex = 29;
-            this.tsFilesUnityFbxHeader.Text = "toolStrip4";
-            // 
-            // btnFilesUnityFbxRefresh
-            // 
-            this.btnFilesUnityFbxRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesUnityFbxRefresh.Image")));
-            this.btnFilesUnityFbxRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnFilesUnityFbxRefresh.Name = "btnFilesUnityFbxRefresh";
-            this.btnFilesUnityFbxRefresh.Size = new System.Drawing.Size(66, 22);
-            this.btnFilesUnityFbxRefresh.Text = "Refresh";
-            this.btnFilesUnityFbxRefresh.Click += new System.EventHandler(this.btnFilesUnityFbxRefresh_Click);
-            // 
-            // toolStripSeparator19
-            // 
-            this.toolStripSeparator19.Name = "toolStripSeparator19";
-            this.toolStripSeparator19.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnFilesUnityFbxSummaryCopyToClipboard
-            // 
-            this.btnFilesUnityFbxSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
-            this.btnFilesUnityFbxSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesUnityFbxSummaryCopyToClipboard.Image")));
-            this.btnFilesUnityFbxSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnFilesUnityFbxSummaryCopyToClipboard.Name = "btnFilesUnityFbxSummaryCopyToClipboard";
-            this.btnFilesUnityFbxSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
-            this.btnFilesUnityFbxSummaryCopyToClipboard.Text = "Copy to Clipboard";
-            // 
-            // toolStripSeparator20
-            // 
-            this.toolStripSeparator20.Name = "toolStripSeparator20";
-            this.toolStripSeparator20.Size = new System.Drawing.Size(6, 25);
-            // 
-            // lblFilesUnityFbxFilenameAc
-            // 
-            this.lblFilesUnityFbxFilenameAc.Name = "lblFilesUnityFbxFilenameAc";
-            this.lblFilesUnityFbxFilenameAc.Size = new System.Drawing.Size(58, 22);
-            this.lblFilesUnityFbxFilenameAc.Text = "Filename:";
-            // 
-            // fldFilesUnityFbxFilenameAc
-            // 
-            this.fldFilesUnityFbxFilenameAc.BackColor = System.Drawing.Color.Wheat;
-            this.fldFilesUnityFbxFilenameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldFilesUnityFbxFilenameAc.Name = "fldFilesUnityFbxFilenameAc";
-            this.fldFilesUnityFbxFilenameAc.Size = new System.Drawing.Size(200, 25);
-            this.fldFilesUnityFbxFilenameAc.TextChanged += new System.EventHandler(this.fldFilesUnityFbxFilenameAc_TextChanged);
-            // 
-            // toolStrip2
-            // 
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnFBXRefreshAll,
-            this.toolStripSeparator21,
-            this.btnSyncFBSFiles});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(1754, 25);
-            this.toolStrip2.TabIndex = 29;
-            this.toolStrip2.Text = "toolStrip4";
-            // 
-            // btnFBXRefreshAll
-            // 
-            this.btnFBXRefreshAll.Image = ((System.Drawing.Image)(resources.GetObject("btnFBXRefreshAll.Image")));
-            this.btnFBXRefreshAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnFBXRefreshAll.Name = "btnFBXRefreshAll";
-            this.btnFBXRefreshAll.Size = new System.Drawing.Size(83, 22);
-            this.btnFBXRefreshAll.Text = "Refresh All";
-            this.btnFBXRefreshAll.Click += new System.EventHandler(this.btnFBXRefreshAll_Click);
-            // 
-            // toolStripSeparator21
-            // 
-            this.toolStripSeparator21.Name = "toolStripSeparator21";
-            this.toolStripSeparator21.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnSyncFBSFiles
-            // 
-            this.btnSyncFBSFiles.Image = ((System.Drawing.Image)(resources.GetObject("btnSyncFBSFiles.Image")));
-            this.btnSyncFBSFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSyncFBSFiles.Name = "btnSyncFBSFiles";
-            this.btnSyncFBSFiles.Size = new System.Drawing.Size(101, 22);
-            this.btnSyncFBSFiles.Text = "Sync FBX Files";
-            this.btnSyncFBSFiles.Click += new System.EventHandler(this.btnSyncFBXFiles_Click);
-            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.splitContainer1);
@@ -1000,6 +371,444 @@
             this.splitContainer1.Size = new System.Drawing.Size(1748, 767);
             this.splitContainer1.SplitterDistance = 387;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // gpBasePart
+            // 
+            this.gpBasePart.Controls.Add(this.chkBasePartLDrawDescriptionAcEquals);
+            this.gpBasePart.Controls.Add(this.chkBasePartLDrawRefAcEquals);
+            this.gpBasePart.Controls.Add(this.chkBasePartIsLargeModel);
+            this.gpBasePart.Controls.Add(this.chkLockLDrawRef);
+            this.gpBasePart.Controls.Add(this.chkBasePartIsSticker);
+            this.gpBasePart.Controls.Add(this.chkBasePartIsSubPart);
+            this.gpBasePart.Controls.Add(this.dgBasePartSummary);
+            this.gpBasePart.Controls.Add(this.c);
+            this.gpBasePart.Controls.Add(this.tsBasePartDetails);
+            this.gpBasePart.Controls.Add(this.tsBasePartHeader);
+            this.gpBasePart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpBasePart.Location = new System.Drawing.Point(0, 25);
+            this.gpBasePart.Name = "gpBasePart";
+            this.gpBasePart.Size = new System.Drawing.Size(1748, 362);
+            this.gpBasePart.TabIndex = 112;
+            this.gpBasePart.TabStop = false;
+            this.gpBasePart.Text = "Base Part";
+            // 
+            // chkBasePartLDrawDescriptionAcEquals
+            // 
+            this.chkBasePartLDrawDescriptionAcEquals.AutoSize = true;
+            this.chkBasePartLDrawDescriptionAcEquals.Location = new System.Drawing.Point(858, 16);
+            this.chkBasePartLDrawDescriptionAcEquals.Name = "chkBasePartLDrawDescriptionAcEquals";
+            this.chkBasePartLDrawDescriptionAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkBasePartLDrawDescriptionAcEquals.TabIndex = 85;
+            this.chkBasePartLDrawDescriptionAcEquals.Text = "=";
+            this.chkBasePartLDrawDescriptionAcEquals.UseVisualStyleBackColor = true;
+            // 
+            // chkBasePartLDrawRefAcEquals
+            // 
+            this.chkBasePartLDrawRefAcEquals.AutoSize = true;
+            this.chkBasePartLDrawRefAcEquals.Location = new System.Drawing.Point(820, 18);
+            this.chkBasePartLDrawRefAcEquals.Name = "chkBasePartLDrawRefAcEquals";
+            this.chkBasePartLDrawRefAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkBasePartLDrawRefAcEquals.TabIndex = 84;
+            this.chkBasePartLDrawRefAcEquals.Text = "=";
+            this.chkBasePartLDrawRefAcEquals.UseVisualStyleBackColor = true;
+            // 
+            // chkBasePartIsLargeModel
+            // 
+            this.chkBasePartIsLargeModel.AutoSize = true;
+            this.chkBasePartIsLargeModel.Location = new System.Drawing.Point(839, 218);
+            this.chkBasePartIsLargeModel.Name = "chkBasePartIsLargeModel";
+            this.chkBasePartIsLargeModel.Size = new System.Drawing.Size(96, 17);
+            this.chkBasePartIsLargeModel.TabIndex = 83;
+            this.chkBasePartIsLargeModel.Text = "Is Large Model";
+            this.chkBasePartIsLargeModel.UseVisualStyleBackColor = true;
+            // 
+            // chkLockLDrawRef
+            // 
+            this.chkLockLDrawRef.AutoSize = true;
+            this.chkLockLDrawRef.Location = new System.Drawing.Point(909, 18);
+            this.chkLockLDrawRef.Name = "chkLockLDrawRef";
+            this.chkLockLDrawRef.Size = new System.Drawing.Size(104, 17);
+            this.chkLockLDrawRef.TabIndex = 82;
+            this.chkLockLDrawRef.Text = "Lock LDraw Ref";
+            this.chkLockLDrawRef.UseVisualStyleBackColor = false;
+            this.chkLockLDrawRef.CheckedChanged += new System.EventHandler(this.chkLockLDrawRef_CheckedChanged);
+            // 
+            // chkBasePartIsSticker
+            // 
+            this.chkBasePartIsSticker.AutoSize = true;
+            this.chkBasePartIsSticker.Location = new System.Drawing.Point(632, 116);
+            this.chkBasePartIsSticker.Name = "chkBasePartIsSticker";
+            this.chkBasePartIsSticker.Size = new System.Drawing.Size(70, 17);
+            this.chkBasePartIsSticker.TabIndex = 81;
+            this.chkBasePartIsSticker.Text = "Is Sticker";
+            this.chkBasePartIsSticker.UseVisualStyleBackColor = true;
+            // 
+            // chkBasePartIsSubPart
+            // 
+            this.chkBasePartIsSubPart.AutoSize = true;
+            this.chkBasePartIsSubPart.Location = new System.Drawing.Point(978, 138);
+            this.chkBasePartIsSubPart.Name = "chkBasePartIsSubPart";
+            this.chkBasePartIsSubPart.Size = new System.Drawing.Size(78, 17);
+            this.chkBasePartIsSubPart.TabIndex = 80;
+            this.chkBasePartIsSubPart.Text = "Is Sub Part";
+            this.chkBasePartIsSubPart.UseVisualStyleBackColor = true;
+            // 
+            // dgBasePartSummary
+            // 
+            this.dgBasePartSummary.BackgroundColor = System.Drawing.Color.White;
+            this.dgBasePartSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgBasePartSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgBasePartSummary.Location = new System.Drawing.Point(3, 41);
+            this.dgBasePartSummary.Name = "dgBasePartSummary";
+            this.dgBasePartSummary.Size = new System.Drawing.Size(1742, 271);
+            this.dgBasePartSummary.TabIndex = 78;
+            this.dgBasePartSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgBasePartSummary_CellClick);
+            // 
+            // c
+            // 
+            this.c.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pbBasePartStatus,
+            this.lblBasePartStatus,
+            this.lblBasePartCount,
+            this.lblBasePartSummaryItemFilteredCount});
+            this.c.Location = new System.Drawing.Point(3, 312);
+            this.c.Name = "c";
+            this.c.Size = new System.Drawing.Size(1742, 22);
+            this.c.TabIndex = 77;
+            this.c.Text = "statusStrip2";
+            // 
+            // pbBasePartStatus
+            // 
+            this.pbBasePartStatus.ForeColor = System.Drawing.Color.Lime;
+            this.pbBasePartStatus.Name = "pbBasePartStatus";
+            this.pbBasePartStatus.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblBasePartStatus
+            // 
+            this.lblBasePartStatus.Name = "lblBasePartStatus";
+            this.lblBasePartStatus.Size = new System.Drawing.Size(97, 17);
+            this.lblBasePartStatus.Text = "lblBasePartStatus";
+            // 
+            // lblBasePartCount
+            // 
+            this.lblBasePartCount.Name = "lblBasePartCount";
+            this.lblBasePartCount.Size = new System.Drawing.Size(98, 17);
+            this.lblBasePartCount.Text = "lblBasePartCount";
+            // 
+            // lblBasePartSummaryItemFilteredCount
+            // 
+            this.lblBasePartSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblBasePartSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
+            this.lblBasePartSummaryItemFilteredCount.Name = "lblBasePartSummaryItemFilteredCount";
+            this.lblBasePartSummaryItemFilteredCount.Size = new System.Drawing.Size(225, 17);
+            this.lblBasePartSummaryItemFilteredCount.Text = "lblBasePartSummaryItemFilteredCount";
+            // 
+            // tsBasePartDetails
+            // 
+            this.tsBasePartDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tsBasePartDetails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblBasePartLDrawRef,
+            this.fldBasePartLDrawRef,
+            this.fldBasePartLDrawImage,
+            this.lblBasePartLDrawDescription,
+            this.fldBasePartLDrawDescription,
+            this.lblBasePartLDrawSize,
+            this.fldBasePartLDrawSize,
+            this.lblBasePartPartType,
+            this.fldBasePartPartType,
+            this.lblBasePartLDrawPartType,
+            this.fldBasePartLDrawPartType,
+            this.lblBasePartOffsetX,
+            this.fldBasePartOffsetX,
+            this.lblBasePartOffsetY,
+            this.fldBasePartOffsetY,
+            this.lblBasePartOffsetZ,
+            this.fldBasePartOffsetZ,
+            this.lblBasePartSubPartCount,
+            this.fldBasePartSubPartCount,
+            this.toolStripSeparator15,
+            this.btnBasePartClear,
+            this.toolStripSeparator3,
+            this.btnBasePartSave,
+            this.btnBasePartDelete});
+            this.tsBasePartDetails.Location = new System.Drawing.Point(3, 334);
+            this.tsBasePartDetails.Name = "tsBasePartDetails";
+            this.tsBasePartDetails.Size = new System.Drawing.Size(1742, 25);
+            this.tsBasePartDetails.TabIndex = 76;
+            this.tsBasePartDetails.Text = "toolStrip5";
+            // 
+            // lblBasePartLDrawRef
+            // 
+            this.lblBasePartLDrawRef.Name = "lblBasePartLDrawRef";
+            this.lblBasePartLDrawRef.Size = new System.Drawing.Size(63, 22);
+            this.lblBasePartLDrawRef.Text = "LDraw Ref:";
+            // 
+            // fldBasePartLDrawRef
+            // 
+            this.fldBasePartLDrawRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartLDrawRef.Name = "fldBasePartLDrawRef";
+            this.fldBasePartLDrawRef.Size = new System.Drawing.Size(100, 25);
+            this.fldBasePartLDrawRef.Leave += new System.EventHandler(this.fldBasePartLDrawRef_Leave);
+            // 
+            // fldBasePartLDrawImage
+            // 
+            this.fldBasePartLDrawImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fldBasePartLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fldBasePartLDrawImage.Name = "fldBasePartLDrawImage";
+            this.fldBasePartLDrawImage.Size = new System.Drawing.Size(23, 22);
+            this.fldBasePartLDrawImage.Click += new System.EventHandler(this.fldBasePartLDrawImage_Click);
+            // 
+            // lblBasePartLDrawDescription
+            // 
+            this.lblBasePartLDrawDescription.Name = "lblBasePartLDrawDescription";
+            this.lblBasePartLDrawDescription.Size = new System.Drawing.Size(106, 22);
+            this.lblBasePartLDrawDescription.Text = "LDraw Description:";
+            // 
+            // fldBasePartLDrawDescription
+            // 
+            this.fldBasePartLDrawDescription.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartLDrawDescription.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartLDrawDescription.Name = "fldBasePartLDrawDescription";
+            this.fldBasePartLDrawDescription.Size = new System.Drawing.Size(200, 25);
+            // 
+            // lblBasePartLDrawSize
+            // 
+            this.lblBasePartLDrawSize.Name = "lblBasePartLDrawSize";
+            this.lblBasePartLDrawSize.Size = new System.Drawing.Size(66, 22);
+            this.lblBasePartLDrawSize.Text = "LDraw Size:";
+            // 
+            // fldBasePartLDrawSize
+            // 
+            this.fldBasePartLDrawSize.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartLDrawSize.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartLDrawSize.Name = "fldBasePartLDrawSize";
+            this.fldBasePartLDrawSize.Size = new System.Drawing.Size(30, 25);
+            // 
+            // lblBasePartPartType
+            // 
+            this.lblBasePartPartType.Name = "lblBasePartPartType";
+            this.lblBasePartPartType.Size = new System.Drawing.Size(55, 22);
+            this.lblBasePartPartType.Text = "Part Type";
+            // 
+            // fldBasePartPartType
+            // 
+            this.fldBasePartPartType.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartPartType.Name = "fldBasePartPartType";
+            this.fldBasePartPartType.Size = new System.Drawing.Size(100, 25);
+            // 
+            // lblBasePartLDrawPartType
+            // 
+            this.lblBasePartLDrawPartType.Name = "lblBasePartLDrawPartType";
+            this.lblBasePartLDrawPartType.Size = new System.Drawing.Size(91, 22);
+            this.lblBasePartLDrawPartType.Text = "LDraw Part Type";
+            // 
+            // fldBasePartLDrawPartType
+            // 
+            this.fldBasePartLDrawPartType.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartLDrawPartType.Name = "fldBasePartLDrawPartType";
+            this.fldBasePartLDrawPartType.Size = new System.Drawing.Size(100, 25);
+            // 
+            // lblBasePartOffsetX
+            // 
+            this.lblBasePartOffsetX.BackColor = System.Drawing.Color.Yellow;
+            this.lblBasePartOffsetX.Name = "lblBasePartOffsetX";
+            this.lblBasePartOffsetX.Size = new System.Drawing.Size(46, 22);
+            this.lblBasePartOffsetX.Text = "OffsetX";
+            // 
+            // fldBasePartOffsetX
+            // 
+            this.fldBasePartOffsetX.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartOffsetX.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartOffsetX.Name = "fldBasePartOffsetX";
+            this.fldBasePartOffsetX.Size = new System.Drawing.Size(50, 25);
+            // 
+            // lblBasePartOffsetY
+            // 
+            this.lblBasePartOffsetY.BackColor = System.Drawing.Color.Yellow;
+            this.lblBasePartOffsetY.Name = "lblBasePartOffsetY";
+            this.lblBasePartOffsetY.Size = new System.Drawing.Size(46, 22);
+            this.lblBasePartOffsetY.Text = "OffsetY";
+            // 
+            // fldBasePartOffsetY
+            // 
+            this.fldBasePartOffsetY.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartOffsetY.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartOffsetY.Name = "fldBasePartOffsetY";
+            this.fldBasePartOffsetY.Size = new System.Drawing.Size(50, 25);
+            // 
+            // lblBasePartOffsetZ
+            // 
+            this.lblBasePartOffsetZ.BackColor = System.Drawing.Color.Yellow;
+            this.lblBasePartOffsetZ.Name = "lblBasePartOffsetZ";
+            this.lblBasePartOffsetZ.Size = new System.Drawing.Size(46, 22);
+            this.lblBasePartOffsetZ.Text = "OffsetZ";
+            // 
+            // fldBasePartOffsetZ
+            // 
+            this.fldBasePartOffsetZ.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartOffsetZ.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartOffsetZ.Name = "fldBasePartOffsetZ";
+            this.fldBasePartOffsetZ.Size = new System.Drawing.Size(50, 25);
+            // 
+            // lblBasePartSubPartCount
+            // 
+            this.lblBasePartSubPartCount.BackColor = System.Drawing.Color.Yellow;
+            this.lblBasePartSubPartCount.Name = "lblBasePartSubPartCount";
+            this.lblBasePartSubPartCount.Size = new System.Drawing.Size(87, 22);
+            this.lblBasePartSubPartCount.Text = "Sub Part Count";
+            // 
+            // fldBasePartSubPartCount
+            // 
+            this.fldBasePartSubPartCount.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartSubPartCount.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartSubPartCount.Name = "fldBasePartSubPartCount";
+            this.fldBasePartSubPartCount.Size = new System.Drawing.Size(25, 25);
+            // 
+            // toolStripSeparator15
+            // 
+            this.toolStripSeparator15.Name = "toolStripSeparator15";
+            this.toolStripSeparator15.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnBasePartClear
+            // 
+            this.btnBasePartClear.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartClear.Image")));
+            this.btnBasePartClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBasePartClear.Name = "btnBasePartClear";
+            this.btnBasePartClear.Size = new System.Drawing.Size(54, 22);
+            this.btnBasePartClear.Text = "Clear";
+            this.btnBasePartClear.Click += new System.EventHandler(this.btnBasePartClear_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnBasePartSave
+            // 
+            this.btnBasePartSave.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartSave.Image")));
+            this.btnBasePartSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBasePartSave.Name = "btnBasePartSave";
+            this.btnBasePartSave.Size = new System.Drawing.Size(51, 22);
+            this.btnBasePartSave.Text = "Save";
+            this.btnBasePartSave.Click += new System.EventHandler(this.btnBasePartSave_Click);
+            // 
+            // btnBasePartDelete
+            // 
+            this.btnBasePartDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartDelete.Image")));
+            this.btnBasePartDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBasePartDelete.Name = "btnBasePartDelete";
+            this.btnBasePartDelete.Size = new System.Drawing.Size(60, 22);
+            this.btnBasePartDelete.Text = "Delete";
+            this.btnBasePartDelete.Click += new System.EventHandler(this.btnBasePartDelete_Click);
+            // 
+            // tsBasePartHeader
+            // 
+            this.tsBasePartHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnBasePartRefresh,
+            this.toolStripSeparator1,
+            this.btnBasePartSummaryCopyToClipboard,
+            this.toolStripSeparator7,
+            this.lblBasePartLDrawRefAc,
+            this.fldBasePartLDrawRefAc,
+            this.lblBasePartLDrawDescriptionAc,
+            this.fldBasePartLDrawDescriptionAc});
+            this.tsBasePartHeader.Location = new System.Drawing.Point(3, 16);
+            this.tsBasePartHeader.Name = "tsBasePartHeader";
+            this.tsBasePartHeader.Size = new System.Drawing.Size(1742, 25);
+            this.tsBasePartHeader.TabIndex = 27;
+            this.tsBasePartHeader.Text = "toolStrip4";
+            // 
+            // btnBasePartRefresh
+            // 
+            this.btnBasePartRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartRefresh.Image")));
+            this.btnBasePartRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBasePartRefresh.Name = "btnBasePartRefresh";
+            this.btnBasePartRefresh.Size = new System.Drawing.Size(66, 22);
+            this.btnBasePartRefresh.Text = "Refresh";
+            this.btnBasePartRefresh.Click += new System.EventHandler(this.btnBasePartRefresh_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnBasePartSummaryCopyToClipboard
+            // 
+            this.btnBasePartSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
+            this.btnBasePartSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartSummaryCopyToClipboard.Image")));
+            this.btnBasePartSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBasePartSummaryCopyToClipboard.Name = "btnBasePartSummaryCopyToClipboard";
+            this.btnBasePartSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
+            this.btnBasePartSummaryCopyToClipboard.Text = "Copy to Clipboard";
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
+            // 
+            // lblBasePartLDrawRefAc
+            // 
+            this.lblBasePartLDrawRefAc.Name = "lblBasePartLDrawRefAc";
+            this.lblBasePartLDrawRefAc.Size = new System.Drawing.Size(63, 22);
+            this.lblBasePartLDrawRefAc.Text = "LDraw Ref:";
+            // 
+            // fldBasePartLDrawRefAc
+            // 
+            this.fldBasePartLDrawRefAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldBasePartLDrawRefAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartLDrawRefAc.Name = "fldBasePartLDrawRefAc";
+            this.fldBasePartLDrawRefAc.Size = new System.Drawing.Size(100, 25);
+            this.fldBasePartLDrawRefAc.TextChanged += new System.EventHandler(this.fldBasePartLDrawRefAc_TextChanged);
+            // 
+            // lblBasePartLDrawDescriptionAc
+            // 
+            this.lblBasePartLDrawDescriptionAc.Name = "lblBasePartLDrawDescriptionAc";
+            this.lblBasePartLDrawDescriptionAc.Size = new System.Drawing.Size(106, 22);
+            this.lblBasePartLDrawDescriptionAc.Text = "LDraw Description:";
+            // 
+            // fldBasePartLDrawDescriptionAc
+            // 
+            this.fldBasePartLDrawDescriptionAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldBasePartLDrawDescriptionAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartLDrawDescriptionAc.Name = "fldBasePartLDrawDescriptionAc";
+            this.fldBasePartLDrawDescriptionAc.Size = new System.Drawing.Size(300, 25);
+            this.fldBasePartLDrawDescriptionAc.TextChanged += new System.EventHandler(this.fldBasePartLDrawDescriptionAc_TextChanged);
+            // 
+            // chkShowPartImages
+            // 
+            this.chkShowPartImages.AutoSize = true;
+            this.chkShowPartImages.Location = new System.Drawing.Point(217, 8);
+            this.chkShowPartImages.Name = "chkShowPartImages";
+            this.chkShowPartImages.Size = new System.Drawing.Size(112, 17);
+            this.chkShowPartImages.TabIndex = 111;
+            this.chkShowPartImages.Text = "Show Part Images";
+            this.chkShowPartImages.UseVisualStyleBackColor = false;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnRefreshAll,
+            this.toolStripSeparator23});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(1748, 25);
+            this.toolStrip1.TabIndex = 27;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // btnRefreshAll
+            // 
+            this.btnRefreshAll.Image = ((System.Drawing.Image)(resources.GetObject("btnRefreshAll.Image")));
+            this.btnRefreshAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRefreshAll.Name = "btnRefreshAll";
+            this.btnRefreshAll.Size = new System.Drawing.Size(83, 22);
+            this.btnRefreshAll.Text = "Refresh All";
+            this.btnRefreshAll.Click += new System.EventHandler(this.btnRefreshAll_Click);
+            // 
+            // toolStripSeparator23
+            // 
+            this.toolStripSeparator23.Name = "toolStripSeparator23";
+            this.toolStripSeparator23.Size = new System.Drawing.Size(6, 25);
             // 
             // splitContainer2
             // 
@@ -1743,442 +1552,645 @@
             this.pnlSubPartMappingData.Size = new System.Drawing.Size(619, 150);
             this.pnlSubPartMappingData.TabIndex = 1;
             // 
-            // chkShowPartImages
-            // 
-            this.chkShowPartImages.AutoSize = true;
-            this.chkShowPartImages.Location = new System.Drawing.Point(217, 8);
-            this.chkShowPartImages.Name = "chkShowPartImages";
-            this.chkShowPartImages.Size = new System.Drawing.Size(112, 17);
-            this.chkShowPartImages.TabIndex = 111;
-            this.chkShowPartImages.Text = "Show Part Images";
-            this.chkShowPartImages.UseVisualStyleBackColor = false;
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnRefreshAll,
-            this.toolStripSeparator23});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1748, 25);
-            this.toolStrip1.TabIndex = 27;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // btnRefreshAll
-            // 
-            this.btnRefreshAll.Image = ((System.Drawing.Image)(resources.GetObject("btnRefreshAll.Image")));
-            this.btnRefreshAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRefreshAll.Name = "btnRefreshAll";
-            this.btnRefreshAll.Size = new System.Drawing.Size(83, 22);
-            this.btnRefreshAll.Text = "Refresh All";
-            this.btnRefreshAll.Click += new System.EventHandler(this.btnRefreshAll_Click);
-            // 
-            // toolStripSeparator23
-            // 
-            this.toolStripSeparator23.Name = "toolStripSeparator23";
-            this.toolStripSeparator23.Size = new System.Drawing.Size(6, 25);
-            // 
-            // gpBasePart
-            // 
-            this.gpBasePart.Controls.Add(this.chkBasePartLDrawDescriptionAcEquals);
-            this.gpBasePart.Controls.Add(this.chkBasePartLDrawRefAcEquals);
-            this.gpBasePart.Controls.Add(this.chkBasePartIsLargeModel);
-            this.gpBasePart.Controls.Add(this.chkLockLDrawRef);
-            this.gpBasePart.Controls.Add(this.chkBasePartIsSticker);
-            this.gpBasePart.Controls.Add(this.chkBasePartIsSubPart);
-            this.gpBasePart.Controls.Add(this.dgBasePartSummary);
-            this.gpBasePart.Controls.Add(this.c);
-            this.gpBasePart.Controls.Add(this.tsBasePartDetails);
-            this.gpBasePart.Controls.Add(this.tsBasePartHeader);
-            this.gpBasePart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gpBasePart.Location = new System.Drawing.Point(0, 25);
-            this.gpBasePart.Name = "gpBasePart";
-            this.gpBasePart.Size = new System.Drawing.Size(1748, 362);
-            this.gpBasePart.TabIndex = 112;
-            this.gpBasePart.TabStop = false;
-            this.gpBasePart.Text = "Base Part";
-            // 
-            // chkBasePartLDrawDescriptionAcEquals
-            // 
-            this.chkBasePartLDrawDescriptionAcEquals.AutoSize = true;
-            this.chkBasePartLDrawDescriptionAcEquals.Location = new System.Drawing.Point(858, 16);
-            this.chkBasePartLDrawDescriptionAcEquals.Name = "chkBasePartLDrawDescriptionAcEquals";
-            this.chkBasePartLDrawDescriptionAcEquals.Size = new System.Drawing.Size(32, 17);
-            this.chkBasePartLDrawDescriptionAcEquals.TabIndex = 85;
-            this.chkBasePartLDrawDescriptionAcEquals.Text = "=";
-            this.chkBasePartLDrawDescriptionAcEquals.UseVisualStyleBackColor = true;
-            // 
-            // chkBasePartLDrawRefAcEquals
-            // 
-            this.chkBasePartLDrawRefAcEquals.AutoSize = true;
-            this.chkBasePartLDrawRefAcEquals.Location = new System.Drawing.Point(820, 18);
-            this.chkBasePartLDrawRefAcEquals.Name = "chkBasePartLDrawRefAcEquals";
-            this.chkBasePartLDrawRefAcEquals.Size = new System.Drawing.Size(32, 17);
-            this.chkBasePartLDrawRefAcEquals.TabIndex = 84;
-            this.chkBasePartLDrawRefAcEquals.Text = "=";
-            this.chkBasePartLDrawRefAcEquals.UseVisualStyleBackColor = true;
-            // 
-            // chkBasePartIsLargeModel
-            // 
-            this.chkBasePartIsLargeModel.AutoSize = true;
-            this.chkBasePartIsLargeModel.Location = new System.Drawing.Point(839, 218);
-            this.chkBasePartIsLargeModel.Name = "chkBasePartIsLargeModel";
-            this.chkBasePartIsLargeModel.Size = new System.Drawing.Size(96, 17);
-            this.chkBasePartIsLargeModel.TabIndex = 83;
-            this.chkBasePartIsLargeModel.Text = "Is Large Model";
-            this.chkBasePartIsLargeModel.UseVisualStyleBackColor = true;
-            // 
-            // chkLockLDrawRef
-            // 
-            this.chkLockLDrawRef.AutoSize = true;
-            this.chkLockLDrawRef.Location = new System.Drawing.Point(909, 18);
-            this.chkLockLDrawRef.Name = "chkLockLDrawRef";
-            this.chkLockLDrawRef.Size = new System.Drawing.Size(104, 17);
-            this.chkLockLDrawRef.TabIndex = 82;
-            this.chkLockLDrawRef.Text = "Lock LDraw Ref";
-            this.chkLockLDrawRef.UseVisualStyleBackColor = false;
-            this.chkLockLDrawRef.CheckedChanged += new System.EventHandler(this.chkLockLDrawRef_CheckedChanged);
-            // 
-            // chkBasePartIsSticker
-            // 
-            this.chkBasePartIsSticker.AutoSize = true;
-            this.chkBasePartIsSticker.Location = new System.Drawing.Point(632, 116);
-            this.chkBasePartIsSticker.Name = "chkBasePartIsSticker";
-            this.chkBasePartIsSticker.Size = new System.Drawing.Size(70, 17);
-            this.chkBasePartIsSticker.TabIndex = 81;
-            this.chkBasePartIsSticker.Text = "Is Sticker";
-            this.chkBasePartIsSticker.UseVisualStyleBackColor = true;
-            // 
-            // chkBasePartIsSubPart
-            // 
-            this.chkBasePartIsSubPart.AutoSize = true;
-            this.chkBasePartIsSubPart.Location = new System.Drawing.Point(978, 138);
-            this.chkBasePartIsSubPart.Name = "chkBasePartIsSubPart";
-            this.chkBasePartIsSubPart.Size = new System.Drawing.Size(78, 17);
-            this.chkBasePartIsSubPart.TabIndex = 80;
-            this.chkBasePartIsSubPart.Text = "Is Sub Part";
-            this.chkBasePartIsSubPart.UseVisualStyleBackColor = true;
-            // 
-            // dgBasePartSummary
-            // 
-            this.dgBasePartSummary.BackgroundColor = System.Drawing.Color.White;
-            this.dgBasePartSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgBasePartSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgBasePartSummary.Location = new System.Drawing.Point(3, 41);
-            this.dgBasePartSummary.Name = "dgBasePartSummary";
-            this.dgBasePartSummary.Size = new System.Drawing.Size(1742, 271);
-            this.dgBasePartSummary.TabIndex = 78;
-            // 
-            // c
-            // 
-            this.c.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pbBasePartStatus,
-            this.lblBasePartStatus,
-            this.lblBasePartCount,
-            this.lblBasePartSummaryItemFilteredCount});
-            this.c.Location = new System.Drawing.Point(3, 312);
-            this.c.Name = "c";
-            this.c.Size = new System.Drawing.Size(1742, 22);
-            this.c.TabIndex = 77;
-            this.c.Text = "statusStrip2";
-            // 
-            // pbBasePartStatus
-            // 
-            this.pbBasePartStatus.ForeColor = System.Drawing.Color.Lime;
-            this.pbBasePartStatus.Name = "pbBasePartStatus";
-            this.pbBasePartStatus.Size = new System.Drawing.Size(100, 16);
-            // 
-            // lblBasePartStatus
-            // 
-            this.lblBasePartStatus.Name = "lblBasePartStatus";
-            this.lblBasePartStatus.Size = new System.Drawing.Size(97, 17);
-            this.lblBasePartStatus.Text = "lblBasePartStatus";
-            // 
-            // lblBasePartCount
-            // 
-            this.lblBasePartCount.Name = "lblBasePartCount";
-            this.lblBasePartCount.Size = new System.Drawing.Size(98, 17);
-            this.lblBasePartCount.Text = "lblBasePartCount";
-            // 
-            // lblBasePartSummaryItemFilteredCount
-            // 
-            this.lblBasePartSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblBasePartSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
-            this.lblBasePartSummaryItemFilteredCount.Name = "lblBasePartSummaryItemFilteredCount";
-            this.lblBasePartSummaryItemFilteredCount.Size = new System.Drawing.Size(225, 17);
-            this.lblBasePartSummaryItemFilteredCount.Text = "lblBasePartSummaryItemFilteredCount";
-            // 
-            // tsBasePartDetails
-            // 
-            this.tsBasePartDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tsBasePartDetails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblBasePartLDrawRef,
-            this.fldBasePartLDrawRef,
-            this.fldBasePartLDrawImage,
-            this.lblBasePartLDrawDescription,
-            this.fldBasePartLDrawDescription,
-            this.lblBasePartLDrawSize,
-            this.fldBasePartLDrawSize,
-            this.lblBasePartPartType,
-            this.fldBasePartPartType,
-            this.lblBasePartLDrawPartType,
-            this.fldBasePartLDrawPartType,
-            this.lblBasePartOffsetX,
-            this.fldBasePartOffsetX,
-            this.lblBasePartOffsetY,
-            this.fldBasePartOffsetY,
-            this.lblBasePartOffsetZ,
-            this.fldBasePartOffsetZ,
-            this.lblBasePartSubPartCount,
-            this.fldBasePartSubPartCount,
-            this.toolStripSeparator15,
-            this.btnBasePartClear,
-            this.toolStripSeparator3,
-            this.btnBasePartSave,
-            this.btnBasePartDelete});
-            this.tsBasePartDetails.Location = new System.Drawing.Point(3, 334);
-            this.tsBasePartDetails.Name = "tsBasePartDetails";
-            this.tsBasePartDetails.Size = new System.Drawing.Size(1742, 25);
-            this.tsBasePartDetails.TabIndex = 76;
-            this.tsBasePartDetails.Text = "toolStrip5";
-            // 
-            // lblBasePartLDrawRef
-            // 
-            this.lblBasePartLDrawRef.Name = "lblBasePartLDrawRef";
-            this.lblBasePartLDrawRef.Size = new System.Drawing.Size(63, 22);
-            this.lblBasePartLDrawRef.Text = "LDraw Ref:";
-            // 
-            // fldBasePartLDrawRef
-            // 
-            this.fldBasePartLDrawRef.BackColor = System.Drawing.Color.LightGray;
-            this.fldBasePartLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldBasePartLDrawRef.Name = "fldBasePartLDrawRef";
-            this.fldBasePartLDrawRef.Size = new System.Drawing.Size(100, 25);
-            this.fldBasePartLDrawRef.Leave += new System.EventHandler(this.fldBasePartLDrawRef_Leave);
-            // 
-            // fldBasePartLDrawImage
-            // 
-            this.fldBasePartLDrawImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.fldBasePartLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.fldBasePartLDrawImage.Name = "fldBasePartLDrawImage";
-            this.fldBasePartLDrawImage.Size = new System.Drawing.Size(23, 22);
-            this.fldBasePartLDrawImage.Click += new System.EventHandler(this.fldBasePartLDrawImage_Click);
-            // 
-            // lblBasePartLDrawDescription
-            // 
-            this.lblBasePartLDrawDescription.Name = "lblBasePartLDrawDescription";
-            this.lblBasePartLDrawDescription.Size = new System.Drawing.Size(106, 22);
-            this.lblBasePartLDrawDescription.Text = "LDraw Description:";
-            // 
-            // fldBasePartLDrawDescription
-            // 
-            this.fldBasePartLDrawDescription.BackColor = System.Drawing.Color.LightGray;
-            this.fldBasePartLDrawDescription.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldBasePartLDrawDescription.Name = "fldBasePartLDrawDescription";
-            this.fldBasePartLDrawDescription.Size = new System.Drawing.Size(200, 25);
-            // 
-            // lblBasePartLDrawSize
-            // 
-            this.lblBasePartLDrawSize.Name = "lblBasePartLDrawSize";
-            this.lblBasePartLDrawSize.Size = new System.Drawing.Size(66, 22);
-            this.lblBasePartLDrawSize.Text = "LDraw Size:";
-            // 
-            // fldBasePartLDrawSize
-            // 
-            this.fldBasePartLDrawSize.BackColor = System.Drawing.Color.LightGray;
-            this.fldBasePartLDrawSize.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldBasePartLDrawSize.Name = "fldBasePartLDrawSize";
-            this.fldBasePartLDrawSize.Size = new System.Drawing.Size(30, 25);
-            // 
-            // lblBasePartPartType
-            // 
-            this.lblBasePartPartType.Name = "lblBasePartPartType";
-            this.lblBasePartPartType.Size = new System.Drawing.Size(55, 22);
-            this.lblBasePartPartType.Text = "Part Type";
-            // 
-            // fldBasePartPartType
-            // 
-            this.fldBasePartPartType.BackColor = System.Drawing.Color.LightGray;
-            this.fldBasePartPartType.Name = "fldBasePartPartType";
-            this.fldBasePartPartType.Size = new System.Drawing.Size(100, 25);
-            // 
-            // lblBasePartLDrawPartType
-            // 
-            this.lblBasePartLDrawPartType.Name = "lblBasePartLDrawPartType";
-            this.lblBasePartLDrawPartType.Size = new System.Drawing.Size(91, 22);
-            this.lblBasePartLDrawPartType.Text = "LDraw Part Type";
-            // 
-            // fldBasePartLDrawPartType
-            // 
-            this.fldBasePartLDrawPartType.BackColor = System.Drawing.Color.LightGray;
-            this.fldBasePartLDrawPartType.Name = "fldBasePartLDrawPartType";
-            this.fldBasePartLDrawPartType.Size = new System.Drawing.Size(100, 25);
-            // 
-            // lblBasePartOffsetX
-            // 
-            this.lblBasePartOffsetX.BackColor = System.Drawing.Color.Yellow;
-            this.lblBasePartOffsetX.Name = "lblBasePartOffsetX";
-            this.lblBasePartOffsetX.Size = new System.Drawing.Size(46, 22);
-            this.lblBasePartOffsetX.Text = "OffsetX";
-            // 
-            // fldBasePartOffsetX
-            // 
-            this.fldBasePartOffsetX.BackColor = System.Drawing.Color.LightGray;
-            this.fldBasePartOffsetX.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldBasePartOffsetX.Name = "fldBasePartOffsetX";
-            this.fldBasePartOffsetX.Size = new System.Drawing.Size(50, 25);
-            // 
-            // lblBasePartOffsetY
-            // 
-            this.lblBasePartOffsetY.BackColor = System.Drawing.Color.Yellow;
-            this.lblBasePartOffsetY.Name = "lblBasePartOffsetY";
-            this.lblBasePartOffsetY.Size = new System.Drawing.Size(46, 22);
-            this.lblBasePartOffsetY.Text = "OffsetY";
-            // 
-            // fldBasePartOffsetY
-            // 
-            this.fldBasePartOffsetY.BackColor = System.Drawing.Color.LightGray;
-            this.fldBasePartOffsetY.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldBasePartOffsetY.Name = "fldBasePartOffsetY";
-            this.fldBasePartOffsetY.Size = new System.Drawing.Size(50, 25);
-            // 
-            // lblBasePartOffsetZ
-            // 
-            this.lblBasePartOffsetZ.BackColor = System.Drawing.Color.Yellow;
-            this.lblBasePartOffsetZ.Name = "lblBasePartOffsetZ";
-            this.lblBasePartOffsetZ.Size = new System.Drawing.Size(46, 22);
-            this.lblBasePartOffsetZ.Text = "OffsetZ";
-            // 
-            // fldBasePartOffsetZ
-            // 
-            this.fldBasePartOffsetZ.BackColor = System.Drawing.Color.LightGray;
-            this.fldBasePartOffsetZ.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldBasePartOffsetZ.Name = "fldBasePartOffsetZ";
-            this.fldBasePartOffsetZ.Size = new System.Drawing.Size(50, 25);
-            // 
-            // lblBasePartSubPartCount
-            // 
-            this.lblBasePartSubPartCount.BackColor = System.Drawing.Color.Yellow;
-            this.lblBasePartSubPartCount.Name = "lblBasePartSubPartCount";
-            this.lblBasePartSubPartCount.Size = new System.Drawing.Size(87, 22);
-            this.lblBasePartSubPartCount.Text = "Sub Part Count";
-            // 
-            // fldBasePartSubPartCount
-            // 
-            this.fldBasePartSubPartCount.BackColor = System.Drawing.Color.LightGray;
-            this.fldBasePartSubPartCount.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldBasePartSubPartCount.Name = "fldBasePartSubPartCount";
-            this.fldBasePartSubPartCount.Size = new System.Drawing.Size(25, 25);
-            // 
-            // toolStripSeparator15
-            // 
-            this.toolStripSeparator15.Name = "toolStripSeparator15";
-            this.toolStripSeparator15.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnBasePartClear
-            // 
-            this.btnBasePartClear.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartClear.Image")));
-            this.btnBasePartClear.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnBasePartClear.Name = "btnBasePartClear";
-            this.btnBasePartClear.Size = new System.Drawing.Size(54, 22);
-            this.btnBasePartClear.Text = "Clear";
-            this.btnBasePartClear.Click += new System.EventHandler(this.btnBasePartClear_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnBasePartSave
-            // 
-            this.btnBasePartSave.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartSave.Image")));
-            this.btnBasePartSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnBasePartSave.Name = "btnBasePartSave";
-            this.btnBasePartSave.Size = new System.Drawing.Size(51, 22);
-            this.btnBasePartSave.Text = "Save";
-            this.btnBasePartSave.Click += new System.EventHandler(this.btnBasePartSave_Click);
-            // 
-            // btnBasePartDelete
-            // 
-            this.btnBasePartDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartDelete.Image")));
-            this.btnBasePartDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnBasePartDelete.Name = "btnBasePartDelete";
-            this.btnBasePartDelete.Size = new System.Drawing.Size(60, 22);
-            this.btnBasePartDelete.Text = "Delete";
-            this.btnBasePartDelete.Click += new System.EventHandler(this.btnBasePartDelete_Click);
-            // 
-            // tsBasePartHeader
-            // 
-            this.tsBasePartHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnBasePartRefresh,
-            this.toolStripSeparator1,
-            this.btnBasePartSummaryCopyToClipboard,
-            this.toolStripSeparator7,
-            this.lblBasePartLDrawRefAc,
-            this.fldBasePartLDrawRefAc,
-            this.lblBasePartLDrawDescriptionAc,
-            this.fldBasePartLDrawDescriptionAc});
-            this.tsBasePartHeader.Location = new System.Drawing.Point(3, 16);
-            this.tsBasePartHeader.Name = "tsBasePartHeader";
-            this.tsBasePartHeader.Size = new System.Drawing.Size(1742, 25);
-            this.tsBasePartHeader.TabIndex = 27;
-            this.tsBasePartHeader.Text = "toolStrip4";
-            // 
-            // btnBasePartRefresh
-            // 
-            this.btnBasePartRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartRefresh.Image")));
-            this.btnBasePartRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnBasePartRefresh.Name = "btnBasePartRefresh";
-            this.btnBasePartRefresh.Size = new System.Drawing.Size(66, 22);
-            this.btnBasePartRefresh.Text = "Refresh";
-            this.btnBasePartRefresh.Click += new System.EventHandler(this.btnBasePartRefresh_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnBasePartSummaryCopyToClipboard
-            // 
-            this.btnBasePartSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
-            this.btnBasePartSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartSummaryCopyToClipboard.Image")));
-            this.btnBasePartSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnBasePartSummaryCopyToClipboard.Name = "btnBasePartSummaryCopyToClipboard";
-            this.btnBasePartSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
-            this.btnBasePartSummaryCopyToClipboard.Text = "Copy to Clipboard";
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
-            // 
-            // lblBasePartLDrawRefAc
-            // 
-            this.lblBasePartLDrawRefAc.Name = "lblBasePartLDrawRefAc";
-            this.lblBasePartLDrawRefAc.Size = new System.Drawing.Size(63, 22);
-            this.lblBasePartLDrawRefAc.Text = "LDraw Ref:";
-            // 
-            // fldBasePartLDrawRefAc
-            // 
-            this.fldBasePartLDrawRefAc.BackColor = System.Drawing.Color.Wheat;
-            this.fldBasePartLDrawRefAc.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldBasePartLDrawRefAc.Name = "fldBasePartLDrawRefAc";
-            this.fldBasePartLDrawRefAc.Size = new System.Drawing.Size(100, 25);
-            this.fldBasePartLDrawRefAc.TextChanged += new System.EventHandler(this.fldBasePartLDrawRefAc_TextChanged);
-            // 
-            // lblBasePartLDrawDescriptionAc
-            // 
-            this.lblBasePartLDrawDescriptionAc.Name = "lblBasePartLDrawDescriptionAc";
-            this.lblBasePartLDrawDescriptionAc.Size = new System.Drawing.Size(106, 22);
-            this.lblBasePartLDrawDescriptionAc.Text = "LDraw Description:";
-            // 
-            // fldBasePartLDrawDescriptionAc
-            // 
-            this.fldBasePartLDrawDescriptionAc.BackColor = System.Drawing.Color.Wheat;
-            this.fldBasePartLDrawDescriptionAc.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldBasePartLDrawDescriptionAc.Name = "fldBasePartLDrawDescriptionAc";
-            this.fldBasePartLDrawDescriptionAc.Size = new System.Drawing.Size(300, 25);
-            this.fldBasePartLDrawDescriptionAc.TextChanged += new System.EventHandler(this.fldBasePartLDrawDescriptionAc_TextChanged);
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.splitContainer5);
+            this.tabPage3.Controls.Add(this.toolStrip2);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(1754, 773);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "FBX";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer5
+            // 
+            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer5.Location = new System.Drawing.Point(0, 25);
+            this.splitContainer5.Name = "splitContainer5";
+            // 
+            // splitContainer5.Panel1
+            // 
+            this.splitContainer5.Panel1.Controls.Add(this.groupBox1);
+            // 
+            // splitContainer5.Panel2
+            // 
+            this.splitContainer5.Panel2.Controls.Add(this.splitContainer6);
+            this.splitContainer5.Size = new System.Drawing.Size(1754, 748);
+            this.splitContainer5.SplitterDistance = 605;
+            this.splitContainer5.TabIndex = 30;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.chkIsLargeModel);
+            this.groupBox1.Controls.Add(this.chkIsSticker);
+            this.groupBox1.Controls.Add(this.chkIsSubPart);
+            this.groupBox1.Controls.Add(this.dgFilesDatSummary);
+            this.groupBox1.Controls.Add(this.statusStrip3);
+            this.groupBox1.Controls.Add(this.gbPartDetails);
+            this.groupBox1.Controls.Add(this.chkFilesDatLock);
+            this.groupBox1.Controls.Add(this.chkFilesDatFilenameAcEquals);
+            this.groupBox1.Controls.Add(this.tsFilesDatHeader);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(605, 748);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "files-dat";
+            // 
+            // chkIsLargeModel
+            // 
+            this.chkIsLargeModel.AutoSize = true;
+            this.chkIsLargeModel.Location = new System.Drawing.Point(168, 548);
+            this.chkIsLargeModel.Name = "chkIsLargeModel";
+            this.chkIsLargeModel.Size = new System.Drawing.Size(96, 17);
+            this.chkIsLargeModel.TabIndex = 115;
+            this.chkIsLargeModel.Text = "Is Large Model";
+            this.chkIsLargeModel.UseVisualStyleBackColor = false;
+            // 
+            // chkIsSticker
+            // 
+            this.chkIsSticker.AutoSize = true;
+            this.chkIsSticker.Location = new System.Drawing.Point(268, 516);
+            this.chkIsSticker.Name = "chkIsSticker";
+            this.chkIsSticker.Size = new System.Drawing.Size(70, 17);
+            this.chkIsSticker.TabIndex = 114;
+            this.chkIsSticker.Text = "Is Sticker";
+            this.chkIsSticker.UseVisualStyleBackColor = false;
+            // 
+            // chkIsSubPart
+            // 
+            this.chkIsSubPart.AutoSize = true;
+            this.chkIsSubPart.Location = new System.Drawing.Point(152, 516);
+            this.chkIsSubPart.Name = "chkIsSubPart";
+            this.chkIsSubPart.Size = new System.Drawing.Size(78, 17);
+            this.chkIsSubPart.TabIndex = 113;
+            this.chkIsSubPart.Text = "Is Sub Part";
+            this.chkIsSubPart.UseVisualStyleBackColor = false;
+            // 
+            // dgFilesDatSummary
+            // 
+            this.dgFilesDatSummary.BackgroundColor = System.Drawing.Color.White;
+            this.dgFilesDatSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgFilesDatSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgFilesDatSummary.Location = new System.Drawing.Point(3, 41);
+            this.dgFilesDatSummary.Name = "dgFilesDatSummary";
+            this.dgFilesDatSummary.Size = new System.Drawing.Size(599, 614);
+            this.dgFilesDatSummary.TabIndex = 92;
+            // 
+            // statusStrip3
+            // 
+            this.statusStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pbFilesDat,
+            this.lblFilesDatStatus,
+            this.lblFilesDatCount,
+            this.lblFilesDatSummaryItemFilteredCount});
+            this.statusStrip3.Location = new System.Drawing.Point(3, 655);
+            this.statusStrip3.Name = "statusStrip3";
+            this.statusStrip3.Size = new System.Drawing.Size(599, 22);
+            this.statusStrip3.TabIndex = 91;
+            this.statusStrip3.Text = "statusStrip2";
+            // 
+            // pbFilesDat
+            // 
+            this.pbFilesDat.ForeColor = System.Drawing.Color.Lime;
+            this.pbFilesDat.Name = "pbFilesDat";
+            this.pbFilesDat.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblFilesDatStatus
+            // 
+            this.lblFilesDatStatus.Name = "lblFilesDatStatus";
+            this.lblFilesDatStatus.Size = new System.Drawing.Size(93, 17);
+            this.lblFilesDatStatus.Text = "lblFilesDatStatus";
+            // 
+            // lblFilesDatCount
+            // 
+            this.lblFilesDatCount.Name = "lblFilesDatCount";
+            this.lblFilesDatCount.Size = new System.Drawing.Size(94, 17);
+            this.lblFilesDatCount.Text = "lblFilesDatCount";
+            // 
+            // lblFilesDatSummaryItemFilteredCount
+            // 
+            this.lblFilesDatSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblFilesDatSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
+            this.lblFilesDatSummaryItemFilteredCount.Name = "lblFilesDatSummaryItemFilteredCount";
+            this.lblFilesDatSummaryItemFilteredCount.Size = new System.Drawing.Size(220, 17);
+            this.lblFilesDatSummaryItemFilteredCount.Text = "lblFilesDatSummaryItemFilteredCount";
+            // 
+            // gbPartDetails
+            // 
+            this.gbPartDetails.Controls.Add(this.tsPartDetails1);
+            this.gbPartDetails.Controls.Add(this.tsPartDetails2);
+            this.gbPartDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.gbPartDetails.Location = new System.Drawing.Point(3, 677);
+            this.gbPartDetails.Name = "gbPartDetails";
+            this.gbPartDetails.Size = new System.Drawing.Size(599, 68);
+            this.gbPartDetails.TabIndex = 90;
+            this.gbPartDetails.TabStop = false;
+            this.gbPartDetails.Text = "Part Details";
+            // 
+            // tsPartDetails1
+            // 
+            this.tsPartDetails1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tsPartDetails1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.fldLDrawRef,
+            this.fldLDrawImage,
+            this.btnAddPartToBasePartCollection,
+            this.toolStripSeparator24,
+            this.btnPartClear,
+            this.btnGenerateDatFile});
+            this.tsPartDetails1.Location = new System.Drawing.Point(3, 15);
+            this.tsPartDetails1.Name = "tsPartDetails1";
+            this.tsPartDetails1.Size = new System.Drawing.Size(593, 25);
+            this.tsPartDetails1.TabIndex = 90;
+            this.tsPartDetails1.Text = "toolStrip5";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(27, 22);
+            this.toolStripLabel1.Text = "Ref:";
+            // 
+            // fldLDrawRef
+            // 
+            this.fldLDrawRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldLDrawRef.Name = "fldLDrawRef";
+            this.fldLDrawRef.Size = new System.Drawing.Size(100, 25);
+            this.fldLDrawRef.Leave += new System.EventHandler(this.fldLDrawRef_Leave);
+            // 
+            // fldLDrawImage
+            // 
+            this.fldLDrawImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.fldLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fldLDrawImage.Name = "fldLDrawImage";
+            this.fldLDrawImage.Size = new System.Drawing.Size(23, 22);
+            // 
+            // btnAddPartToBasePartCollection
+            // 
+            this.btnAddPartToBasePartCollection.Enabled = false;
+            this.btnAddPartToBasePartCollection.Image = ((System.Drawing.Image)(resources.GetObject("btnAddPartToBasePartCollection.Image")));
+            this.btnAddPartToBasePartCollection.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAddPartToBasePartCollection.Name = "btnAddPartToBasePartCollection";
+            this.btnAddPartToBasePartCollection.Size = new System.Drawing.Size(23, 22);
+            this.btnAddPartToBasePartCollection.Click += new System.EventHandler(this.btnAddPartToBasePartCollection_Click);
+            // 
+            // toolStripSeparator24
+            // 
+            this.toolStripSeparator24.Name = "toolStripSeparator24";
+            this.toolStripSeparator24.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnGenerateDatFile
+            // 
+            this.btnGenerateDatFile.Image = ((System.Drawing.Image)(resources.GetObject("btnGenerateDatFile.Image")));
+            this.btnGenerateDatFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnGenerateDatFile.Name = "btnGenerateDatFile";
+            this.btnGenerateDatFile.Size = new System.Drawing.Size(120, 22);
+            this.btnGenerateDatFile.Text = "Generate .DAT file";
+            this.btnGenerateDatFile.Click += new System.EventHandler(this.btnGenerateDatFile_Click);
+            // 
+            // tsPartDetails2
+            // 
+            this.tsPartDetails2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tsPartDetails2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblPartType,
+            this.fldPartType,
+            this.lblLDrawSize,
+            this.fldLDrawSize});
+            this.tsPartDetails2.Location = new System.Drawing.Point(3, 40);
+            this.tsPartDetails2.Name = "tsPartDetails2";
+            this.tsPartDetails2.Size = new System.Drawing.Size(593, 25);
+            this.tsPartDetails2.TabIndex = 89;
+            this.tsPartDetails2.Text = "toolStrip10";
+            // 
+            // lblPartType
+            // 
+            this.lblPartType.Name = "lblPartType";
+            this.lblPartType.Size = new System.Drawing.Size(55, 22);
+            this.lblPartType.Text = "Part Type";
+            // 
+            // fldPartType
+            // 
+            this.fldPartType.Items.AddRange(new object[] {
+            "BASIC",
+            "COMPOSITE"});
+            this.fldPartType.Name = "fldPartType";
+            this.fldPartType.Size = new System.Drawing.Size(100, 25);
+            this.fldPartType.Text = "BASIC";
+            // 
+            // lblLDrawSize
+            // 
+            this.lblLDrawSize.Name = "lblLDrawSize";
+            this.lblLDrawSize.Size = new System.Drawing.Size(63, 22);
+            this.lblLDrawSize.Text = "LDraw Size";
+            // 
+            // fldLDrawSize
+            // 
+            this.fldLDrawSize.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawSize.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldLDrawSize.Name = "fldLDrawSize";
+            this.fldLDrawSize.Size = new System.Drawing.Size(25, 25);
+            // 
+            // chkFilesDatLock
+            // 
+            this.chkFilesDatLock.AutoSize = true;
+            this.chkFilesDatLock.Location = new System.Drawing.Point(268, 98);
+            this.chkFilesDatLock.Name = "chkFilesDatLock";
+            this.chkFilesDatLock.Size = new System.Drawing.Size(53, 17);
+            this.chkFilesDatLock.TabIndex = 86;
+            this.chkFilesDatLock.Text = "Lock ";
+            this.chkFilesDatLock.UseVisualStyleBackColor = false;
+            this.chkFilesDatLock.CheckedChanged += new System.EventHandler(this.chkFilesDatLock_CheckedChanged);
+            // 
+            // chkFilesDatFilenameAcEquals
+            // 
+            this.chkFilesDatFilenameAcEquals.AutoSize = true;
+            this.chkFilesDatFilenameAcEquals.Location = new System.Drawing.Point(486, 18);
+            this.chkFilesDatFilenameAcEquals.Name = "chkFilesDatFilenameAcEquals";
+            this.chkFilesDatFilenameAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkFilesDatFilenameAcEquals.TabIndex = 85;
+            this.chkFilesDatFilenameAcEquals.Text = "=";
+            this.chkFilesDatFilenameAcEquals.UseVisualStyleBackColor = true;
+            // 
+            // tsFilesDatHeader
+            // 
+            this.tsFilesDatHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnFilesDatRefresh,
+            this.toolStripSeparator14,
+            this.btnFilesDatSummaryCopyToClipboard,
+            this.toolStripSeparator16,
+            this.lblFilesDatFilenameAc,
+            this.fldFilesDatFilenameAc});
+            this.tsFilesDatHeader.Location = new System.Drawing.Point(3, 16);
+            this.tsFilesDatHeader.Name = "tsFilesDatHeader";
+            this.tsFilesDatHeader.Size = new System.Drawing.Size(599, 25);
+            this.tsFilesDatHeader.TabIndex = 28;
+            this.tsFilesDatHeader.Text = "toolStrip4";
+            // 
+            // btnFilesDatRefresh
+            // 
+            this.btnFilesDatRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesDatRefresh.Image")));
+            this.btnFilesDatRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFilesDatRefresh.Name = "btnFilesDatRefresh";
+            this.btnFilesDatRefresh.Size = new System.Drawing.Size(66, 22);
+            this.btnFilesDatRefresh.Text = "Refresh";
+            this.btnFilesDatRefresh.Click += new System.EventHandler(this.btnFilesDatRefresh_Click);
+            // 
+            // toolStripSeparator14
+            // 
+            this.toolStripSeparator14.Name = "toolStripSeparator14";
+            this.toolStripSeparator14.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnFilesDatSummaryCopyToClipboard
+            // 
+            this.btnFilesDatSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
+            this.btnFilesDatSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesDatSummaryCopyToClipboard.Image")));
+            this.btnFilesDatSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFilesDatSummaryCopyToClipboard.Name = "btnFilesDatSummaryCopyToClipboard";
+            this.btnFilesDatSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
+            this.btnFilesDatSummaryCopyToClipboard.Text = "Copy to Clipboard";
+            // 
+            // toolStripSeparator16
+            // 
+            this.toolStripSeparator16.Name = "toolStripSeparator16";
+            this.toolStripSeparator16.Size = new System.Drawing.Size(6, 25);
+            // 
+            // lblFilesDatFilenameAc
+            // 
+            this.lblFilesDatFilenameAc.Name = "lblFilesDatFilenameAc";
+            this.lblFilesDatFilenameAc.Size = new System.Drawing.Size(58, 22);
+            this.lblFilesDatFilenameAc.Text = "Filename:";
+            // 
+            // fldFilesDatFilenameAc
+            // 
+            this.fldFilesDatFilenameAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldFilesDatFilenameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldFilesDatFilenameAc.Name = "fldFilesDatFilenameAc";
+            this.fldFilesDatFilenameAc.Size = new System.Drawing.Size(200, 25);
+            this.fldFilesDatFilenameAc.TextChanged += new System.EventHandler(this.fldFilesDatFilenameAc_TextChanged);
+            // 
+            // splitContainer6
+            // 
+            this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer6.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer6.Name = "splitContainer6";
+            // 
+            // splitContainer6.Panel1
+            // 
+            this.splitContainer6.Panel1.Controls.Add(this.groupBox2);
+            // 
+            // splitContainer6.Panel2
+            // 
+            this.splitContainer6.Panel2.Controls.Add(this.groupBox3);
+            this.splitContainer6.Size = new System.Drawing.Size(1145, 748);
+            this.splitContainer6.SplitterDistance = 489;
+            this.splitContainer6.TabIndex = 0;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.chkFilesFbxFilenameAcEquals);
+            this.groupBox2.Controls.Add(this.dgFilesFbxSummary);
+            this.groupBox2.Controls.Add(this.statusStrip4);
+            this.groupBox2.Controls.Add(this.tsFilesFbxHeader);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(489, 748);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "files-fbx";
+            // 
+            // chkFilesFbxFilenameAcEquals
+            // 
+            this.chkFilesFbxFilenameAcEquals.AutoSize = true;
+            this.chkFilesFbxFilenameAcEquals.Location = new System.Drawing.Point(309, 72);
+            this.chkFilesFbxFilenameAcEquals.Name = "chkFilesFbxFilenameAcEquals";
+            this.chkFilesFbxFilenameAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkFilesFbxFilenameAcEquals.TabIndex = 86;
+            this.chkFilesFbxFilenameAcEquals.Text = "=";
+            this.chkFilesFbxFilenameAcEquals.UseVisualStyleBackColor = true;
+            // 
+            // dgFilesFbxSummary
+            // 
+            this.dgFilesFbxSummary.BackgroundColor = System.Drawing.Color.White;
+            this.dgFilesFbxSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgFilesFbxSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgFilesFbxSummary.Location = new System.Drawing.Point(3, 41);
+            this.dgFilesFbxSummary.Name = "dgFilesFbxSummary";
+            this.dgFilesFbxSummary.Size = new System.Drawing.Size(483, 682);
+            this.dgFilesFbxSummary.TabIndex = 80;
+            // 
+            // statusStrip4
+            // 
+            this.statusStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pbFilesFbx,
+            this.lblFilesFbxStatus,
+            this.lblFilesFbxCount,
+            this.lblFilesFbxSummaryItemFilteredCount});
+            this.statusStrip4.Location = new System.Drawing.Point(3, 723);
+            this.statusStrip4.Name = "statusStrip4";
+            this.statusStrip4.Size = new System.Drawing.Size(483, 22);
+            this.statusStrip4.TabIndex = 79;
+            this.statusStrip4.Text = "statusStrip2";
+            // 
+            // pbFilesFbx
+            // 
+            this.pbFilesFbx.ForeColor = System.Drawing.Color.Lime;
+            this.pbFilesFbx.Name = "pbFilesFbx";
+            this.pbFilesFbx.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblFilesFbxStatus
+            // 
+            this.lblFilesFbxStatus.Name = "lblFilesFbxStatus";
+            this.lblFilesFbxStatus.Size = new System.Drawing.Size(94, 17);
+            this.lblFilesFbxStatus.Text = "lblFilesFbxStatus";
+            // 
+            // lblFilesFbxCount
+            // 
+            this.lblFilesFbxCount.Name = "lblFilesFbxCount";
+            this.lblFilesFbxCount.Size = new System.Drawing.Size(95, 17);
+            this.lblFilesFbxCount.Text = "lblFilesFbxCount";
+            // 
+            // lblFilesFbxSummaryItemFilteredCount
+            // 
+            this.lblFilesFbxSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblFilesFbxSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
+            this.lblFilesFbxSummaryItemFilteredCount.Name = "lblFilesFbxSummaryItemFilteredCount";
+            this.lblFilesFbxSummaryItemFilteredCount.Size = new System.Drawing.Size(220, 15);
+            this.lblFilesFbxSummaryItemFilteredCount.Text = "lblFilesFbxSummaryItemFilteredCount";
+            // 
+            // tsFilesFbxHeader
+            // 
+            this.tsFilesFbxHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnFilesFbxRefresh,
+            this.toolStripSeparator17,
+            this.btnFilesFbxSummaryCopyToClipboard,
+            this.toolStripSeparator18,
+            this.lblFilesFbxFilenameAc,
+            this.fldFilesFbxFilenameAc});
+            this.tsFilesFbxHeader.Location = new System.Drawing.Point(3, 16);
+            this.tsFilesFbxHeader.Name = "tsFilesFbxHeader";
+            this.tsFilesFbxHeader.Size = new System.Drawing.Size(483, 25);
+            this.tsFilesFbxHeader.TabIndex = 29;
+            this.tsFilesFbxHeader.Text = "toolStrip4";
+            // 
+            // btnFilesFbxRefresh
+            // 
+            this.btnFilesFbxRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesFbxRefresh.Image")));
+            this.btnFilesFbxRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFilesFbxRefresh.Name = "btnFilesFbxRefresh";
+            this.btnFilesFbxRefresh.Size = new System.Drawing.Size(66, 22);
+            this.btnFilesFbxRefresh.Text = "Refresh";
+            this.btnFilesFbxRefresh.Click += new System.EventHandler(this.btnFilesFbxRefresh_Click);
+            // 
+            // toolStripSeparator17
+            // 
+            this.toolStripSeparator17.Name = "toolStripSeparator17";
+            this.toolStripSeparator17.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnFilesFbxSummaryCopyToClipboard
+            // 
+            this.btnFilesFbxSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
+            this.btnFilesFbxSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesFbxSummaryCopyToClipboard.Image")));
+            this.btnFilesFbxSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFilesFbxSummaryCopyToClipboard.Name = "btnFilesFbxSummaryCopyToClipboard";
+            this.btnFilesFbxSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
+            this.btnFilesFbxSummaryCopyToClipboard.Text = "Copy to Clipboard";
+            // 
+            // toolStripSeparator18
+            // 
+            this.toolStripSeparator18.Name = "toolStripSeparator18";
+            this.toolStripSeparator18.Size = new System.Drawing.Size(6, 25);
+            // 
+            // lblFilesFbxFilenameAc
+            // 
+            this.lblFilesFbxFilenameAc.Name = "lblFilesFbxFilenameAc";
+            this.lblFilesFbxFilenameAc.Size = new System.Drawing.Size(58, 22);
+            this.lblFilesFbxFilenameAc.Text = "Filename:";
+            // 
+            // fldFilesFbxFilenameAc
+            // 
+            this.fldFilesFbxFilenameAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldFilesFbxFilenameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldFilesFbxFilenameAc.Name = "fldFilesFbxFilenameAc";
+            this.fldFilesFbxFilenameAc.Size = new System.Drawing.Size(200, 25);
+            this.fldFilesFbxFilenameAc.TextChanged += new System.EventHandler(this.fldFilesFbxFilenameAc_TextChanged);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.chkFilesUnityFbxFilenameAcEquals);
+            this.groupBox3.Controls.Add(this.dgFilesUnityFbxSummary);
+            this.groupBox3.Controls.Add(this.statusStrip5);
+            this.groupBox3.Controls.Add(this.tsFilesUnityFbxHeader);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox3.Location = new System.Drawing.Point(0, 0);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(652, 748);
+            this.groupBox3.TabIndex = 3;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Unity Resources FBX";
+            // 
+            // chkFilesUnityFbxFilenameAcEquals
+            // 
+            this.chkFilesUnityFbxFilenameAcEquals.AutoSize = true;
+            this.chkFilesUnityFbxFilenameAcEquals.Location = new System.Drawing.Point(409, 72);
+            this.chkFilesUnityFbxFilenameAcEquals.Name = "chkFilesUnityFbxFilenameAcEquals";
+            this.chkFilesUnityFbxFilenameAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkFilesUnityFbxFilenameAcEquals.TabIndex = 87;
+            this.chkFilesUnityFbxFilenameAcEquals.Text = "=";
+            this.chkFilesUnityFbxFilenameAcEquals.UseVisualStyleBackColor = true;
+            // 
+            // dgFilesUnityFbxSummary
+            // 
+            this.dgFilesUnityFbxSummary.BackgroundColor = System.Drawing.Color.White;
+            this.dgFilesUnityFbxSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgFilesUnityFbxSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgFilesUnityFbxSummary.Location = new System.Drawing.Point(3, 41);
+            this.dgFilesUnityFbxSummary.Name = "dgFilesUnityFbxSummary";
+            this.dgFilesUnityFbxSummary.Size = new System.Drawing.Size(646, 682);
+            this.dgFilesUnityFbxSummary.TabIndex = 80;
+            // 
+            // statusStrip5
+            // 
+            this.statusStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar3,
+            this.lblFilesUnityFbxStatus,
+            this.lblFilesUnityFbxCount,
+            this.lblFilesUnityFbxSummaryItemFilteredCount});
+            this.statusStrip5.Location = new System.Drawing.Point(3, 723);
+            this.statusStrip5.Name = "statusStrip5";
+            this.statusStrip5.Size = new System.Drawing.Size(646, 22);
+            this.statusStrip5.TabIndex = 79;
+            this.statusStrip5.Text = "statusStrip2";
+            // 
+            // toolStripProgressBar3
+            // 
+            this.toolStripProgressBar3.ForeColor = System.Drawing.Color.Lime;
+            this.toolStripProgressBar3.Name = "toolStripProgressBar3";
+            this.toolStripProgressBar3.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblFilesUnityFbxStatus
+            // 
+            this.lblFilesUnityFbxStatus.Name = "lblFilesUnityFbxStatus";
+            this.lblFilesUnityFbxStatus.Size = new System.Drawing.Size(122, 17);
+            this.lblFilesUnityFbxStatus.Text = "lblFilesUnityFbxStatus";
+            // 
+            // lblFilesUnityFbxCount
+            // 
+            this.lblFilesUnityFbxCount.Name = "lblFilesUnityFbxCount";
+            this.lblFilesUnityFbxCount.Size = new System.Drawing.Size(123, 17);
+            this.lblFilesUnityFbxCount.Text = "lblFilesUnityFbxCount";
+            // 
+            // lblFilesUnityFbxSummaryItemFilteredCount
+            // 
+            this.lblFilesUnityFbxSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblFilesUnityFbxSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
+            this.lblFilesUnityFbxSummaryItemFilteredCount.Name = "lblFilesUnityFbxSummaryItemFilteredCount";
+            this.lblFilesUnityFbxSummaryItemFilteredCount.Size = new System.Drawing.Size(250, 17);
+            this.lblFilesUnityFbxSummaryItemFilteredCount.Text = "lblFilesUnityFbxSummaryItemFilteredCount";
+            // 
+            // tsFilesUnityFbxHeader
+            // 
+            this.tsFilesUnityFbxHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnFilesUnityFbxRefresh,
+            this.toolStripSeparator19,
+            this.btnFilesUnityFbxSummaryCopyToClipboard,
+            this.toolStripSeparator20,
+            this.lblFilesUnityFbxFilenameAc,
+            this.fldFilesUnityFbxFilenameAc});
+            this.tsFilesUnityFbxHeader.Location = new System.Drawing.Point(3, 16);
+            this.tsFilesUnityFbxHeader.Name = "tsFilesUnityFbxHeader";
+            this.tsFilesUnityFbxHeader.Size = new System.Drawing.Size(646, 25);
+            this.tsFilesUnityFbxHeader.TabIndex = 29;
+            this.tsFilesUnityFbxHeader.Text = "toolStrip4";
+            // 
+            // btnFilesUnityFbxRefresh
+            // 
+            this.btnFilesUnityFbxRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesUnityFbxRefresh.Image")));
+            this.btnFilesUnityFbxRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFilesUnityFbxRefresh.Name = "btnFilesUnityFbxRefresh";
+            this.btnFilesUnityFbxRefresh.Size = new System.Drawing.Size(66, 22);
+            this.btnFilesUnityFbxRefresh.Text = "Refresh";
+            this.btnFilesUnityFbxRefresh.Click += new System.EventHandler(this.btnFilesUnityFbxRefresh_Click);
+            // 
+            // toolStripSeparator19
+            // 
+            this.toolStripSeparator19.Name = "toolStripSeparator19";
+            this.toolStripSeparator19.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnFilesUnityFbxSummaryCopyToClipboard
+            // 
+            this.btnFilesUnityFbxSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
+            this.btnFilesUnityFbxSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesUnityFbxSummaryCopyToClipboard.Image")));
+            this.btnFilesUnityFbxSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFilesUnityFbxSummaryCopyToClipboard.Name = "btnFilesUnityFbxSummaryCopyToClipboard";
+            this.btnFilesUnityFbxSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
+            this.btnFilesUnityFbxSummaryCopyToClipboard.Text = "Copy to Clipboard";
+            // 
+            // toolStripSeparator20
+            // 
+            this.toolStripSeparator20.Name = "toolStripSeparator20";
+            this.toolStripSeparator20.Size = new System.Drawing.Size(6, 25);
+            // 
+            // lblFilesUnityFbxFilenameAc
+            // 
+            this.lblFilesUnityFbxFilenameAc.Name = "lblFilesUnityFbxFilenameAc";
+            this.lblFilesUnityFbxFilenameAc.Size = new System.Drawing.Size(58, 22);
+            this.lblFilesUnityFbxFilenameAc.Text = "Filename:";
+            // 
+            // fldFilesUnityFbxFilenameAc
+            // 
+            this.fldFilesUnityFbxFilenameAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldFilesUnityFbxFilenameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldFilesUnityFbxFilenameAc.Name = "fldFilesUnityFbxFilenameAc";
+            this.fldFilesUnityFbxFilenameAc.Size = new System.Drawing.Size(200, 25);
+            this.fldFilesUnityFbxFilenameAc.TextChanged += new System.EventHandler(this.fldFilesUnityFbxFilenameAc_TextChanged);
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnFBXRefreshAll,
+            this.toolStripSeparator21,
+            this.btnSyncFBSFiles});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(1754, 25);
+            this.toolStrip2.TabIndex = 29;
+            this.toolStrip2.Text = "toolStrip4";
+            // 
+            // btnFBXRefreshAll
+            // 
+            this.btnFBXRefreshAll.Image = ((System.Drawing.Image)(resources.GetObject("btnFBXRefreshAll.Image")));
+            this.btnFBXRefreshAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFBXRefreshAll.Name = "btnFBXRefreshAll";
+            this.btnFBXRefreshAll.Size = new System.Drawing.Size(83, 22);
+            this.btnFBXRefreshAll.Text = "Refresh All";
+            this.btnFBXRefreshAll.Click += new System.EventHandler(this.btnFBXRefreshAll_Click);
+            // 
+            // toolStripSeparator21
+            // 
+            this.toolStripSeparator21.Name = "toolStripSeparator21";
+            this.toolStripSeparator21.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnSyncFBSFiles
+            // 
+            this.btnSyncFBSFiles.Image = ((System.Drawing.Image)(resources.GetObject("btnSyncFBSFiles.Image")));
+            this.btnSyncFBSFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSyncFBSFiles.Name = "btnSyncFBSFiles";
+            this.btnSyncFBSFiles.Size = new System.Drawing.Size(101, 22);
+            this.btnSyncFBSFiles.Text = "Sync FBX Files";
+            this.btnSyncFBSFiles.Click += new System.EventHandler(this.btnSyncFBXFiles_Click);
+            // 
+            // btnPartClear
+            // 
+            this.btnPartClear.Image = ((System.Drawing.Image)(resources.GetObject("btnPartClear.Image")));
+            this.btnPartClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPartClear.Name = "btnPartClear";
+            this.btnPartClear.Size = new System.Drawing.Size(54, 22);
+            this.btnPartClear.Text = "Clear";
+            this.btnPartClear.Click += new System.EventHandler(this.btnPartClear_Click);
             // 
             // StaticDataScreen
             // 
@@ -2192,6 +2204,55 @@
             this.tsHeader.ResumeLayout(false);
             this.tsHeader.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.gpBasePart.ResumeLayout(false);
+            this.gpBasePart.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgBasePartSummary)).EndInit();
+            this.c.ResumeLayout(false);
+            this.c.PerformLayout();
+            this.tsBasePartDetails.ResumeLayout(false);
+            this.tsBasePartDetails.PerformLayout();
+            this.tsBasePartHeader.ResumeLayout(false);
+            this.tsBasePartHeader.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            this.gpLDrawDetails.ResumeLayout(false);
+            this.gpLDrawDetails.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgLDrawDetailsSummary)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            this.tsLDrawDetailsDetails.ResumeLayout(false);
+            this.tsLDrawDetailsDetails.PerformLayout();
+            this.tsLDrawDetailsHeader.ResumeLayout(false);
+            this.tsLDrawDetailsHeader.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
+            this.gpSubPartMapping.ResumeLayout(false);
+            this.gpSubPartMapping.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgSubPartMappingSummary)).EndInit();
+            this.statusStrip2.ResumeLayout(false);
+            this.statusStrip2.PerformLayout();
+            this.toolStrip5.ResumeLayout(false);
+            this.toolStrip5.PerformLayout();
+            this.tsSubPartMappingHeader.ResumeLayout(false);
+            this.tsSubPartMappingHeader.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.splitContainer5.Panel1.ResumeLayout(false);
@@ -2231,55 +2292,6 @@
             this.tsFilesUnityFbxHeader.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
-            this.tabPage1.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
-            this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
-            this.splitContainer3.ResumeLayout(false);
-            this.gpLDrawDetails.ResumeLayout(false);
-            this.gpLDrawDetails.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgLDrawDetailsSummary)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            this.tsLDrawDetailsDetails.ResumeLayout(false);
-            this.tsLDrawDetailsDetails.PerformLayout();
-            this.tsLDrawDetailsHeader.ResumeLayout(false);
-            this.tsLDrawDetailsHeader.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
-            this.splitContainer4.ResumeLayout(false);
-            this.gpSubPartMapping.ResumeLayout(false);
-            this.gpSubPartMapping.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgSubPartMappingSummary)).EndInit();
-            this.statusStrip2.ResumeLayout(false);
-            this.statusStrip2.PerformLayout();
-            this.toolStrip5.ResumeLayout(false);
-            this.toolStrip5.PerformLayout();
-            this.tsSubPartMappingHeader.ResumeLayout(false);
-            this.tsSubPartMappingHeader.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.gpBasePart.ResumeLayout(false);
-            this.gpBasePart.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgBasePartSummary)).EndInit();
-            this.c.ResumeLayout(false);
-            this.c.PerformLayout();
-            this.tsBasePartDetails.ResumeLayout(false);
-            this.tsBasePartDetails.PerformLayout();
-            this.tsBasePartHeader.ResumeLayout(false);
-            this.tsBasePartHeader.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2498,5 +2510,6 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btnRefreshAll;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
+        private System.Windows.Forms.ToolStripButton btnPartClear;
     }
 }
