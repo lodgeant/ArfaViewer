@@ -3240,6 +3240,7 @@ namespace Generator
             try
             {
                 // ** GET VARIABLES **
+                fldLDrawRef.Text = fldLDrawRef.Text.ToLower();
                 string LDrawRef = fldLDrawRef.Text;
                 
                 // ** GET LDRAW IMAGE **                
@@ -4485,13 +4486,12 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
-
-       
+               
         private void AddPartToBasePartCollection()
         {            
             try
             {
-                #region ** VALIDATION **
+                // ** VALIDATION **
                 if (fldLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");                               
                 if (fldPartType.Text.Equals("")) throw new Exception("No Part Type selected...");                
                 if (fldLDrawRef.Text.Contains("c") && fldPartType.Text.Equals("BASIC"))
@@ -4500,91 +4500,12 @@ namespace Generator
                     DialogResult res = MessageBox.Show("The part contains 'c' - do you really want to create a BASIC part and not a COMPOSITE one?", "BASIC Part Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (res == DialogResult.No) return;                    
                 }
-                string LDrawRef = fldLDrawRef.Text;
-                BasePart.PartType partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), fldPartType.Text, true);
                 int LDrawSize = 0;
-                if (fldLDrawSize.Text != "") LDrawSize = int.Parse(fldLDrawSize.Text);
+                int.TryParse(fldLDrawSize.Text, out LDrawSize);
 
-                // ** Check if LDrawDetails are available **
-                LDrawDetails lDrawDetails = null;
-                LDrawDetailsCollection ldd_coll = StaticData.GetLDrawDetailsData_UsingLDrawRefList(new List<string>() { LDrawRef });
-                if (ldd_coll.LDrawDetailsList.Count > 0) lDrawDetails = ldd_coll.LDrawDetailsList[0];
-                if (lDrawDetails == null) throw new Exception("Unable to find LDraw details for " + LDrawRef);
-                BasePart.LDrawPartType lDrawPartType = (BasePart.LDrawPartType)Enum.Parse(typeof(BasePart.LDrawPartType), lDrawDetails.LDrawPartType, true);
-                
-                // ** Check if LDraw Ref already exists in BasePart **
-                if (StaticData.CheckIfBasePartExists(LDrawRef) == true) throw new Exception("LDraw Ref already exists...");
-
-                // ** Check if CHECK IF PART EXISTS IN OFFICIAL/UNOFFIAL LDRAW PARTS ** 
-                //if (StaticData.CheckIfLDrawFileDetailsExist(LDrawRef) == false) throw new Exception("Unable to find " + LDrawRef + " in official or unofficial LDraw Parts data...");
-                
-                // ** Check if LDraw Refs already exist in Sub Part Mapping **               
-                if (partType == BasePart.PartType.COMPOSITE && StaticData.CheckIfSubPartMappingPartsExist(LDrawRef) == true) throw new Exception("Parent LDraw Ref already exists...");
-                #endregion
-
-                #region ** GENERATE NEW BasePart & ADD TO STATIC DATA **                
-                BasePart newBasePart = new BasePart()
-                {
-                    LDrawRef = LDrawRef,
-                    LDrawDescription = new System.Xml.Linq.XText(lDrawDetails.LDrawDescription).ToString(),                   
-                    lDrawPartType = lDrawPartType,
-                    LDrawCategory = "",
-                    partType = partType,
-                    IsSubPart = chkIsSubPart.Checked,
-                    IsSticker = chkIsSticker.Checked,
-                    IsLargeModel = chkIsLargeModel.Checked,
-                    SubPartCount = lDrawDetails.SubPartCount
-                };
-                if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;               
-                newBasePart.LDrawSize = LDrawSize;                
-                StaticData.AddBasePart(newBasePart);
-                #endregion
-
-
-                #region ** ADD ALL SUB PARTS FROM LDRAW .DAT FILE (IF PART = COMPOSITE) **
-                if (newBasePart.partType == BasePart.PartType.COMPOSITE)
-                { 
-                    PartListPartCollection SubPartCollection = StaticData.GetAllSubParts_FromLDrawDetails(LDrawRef);
-                    foreach (PartListPart cp in SubPartCollection.PartListPartList)
-                    {
-                        // ** Trigger creation of LDrawDetails for Sub Part **
-                        LDrawDetails subPart_lDrawDetails = StaticData.GetLDrawDetails(cp.LDrawRef);
-
-                        // check if basepart already exists for sub part - if does then don't add again.
-                        if (StaticData.CheckIfBasePartExists(cp.LDrawRef) == false)
-                        {
-                            // Create BasePart for Sub Part
-                            BasePart subBP = new BasePart()
-                            {
-                                LDrawRef = cp.LDrawRef,
-                                //LDrawDescription = new System.Xml.Linq.XText(lDrawDetails.LDrawDescription).ToString(),
-                                LDrawDescription = cp.LDrawDescription,
-                                lDrawPartType = (BasePart.LDrawPartType)Enum.Parse(typeof(BasePart.LDrawPartType), subPart_lDrawDetails.LDrawPartType, true),
-                                LDrawCategory = "",
-                                partType = BasePart.PartType.BASIC,
-                                IsSubPart = true,
-                                IsSticker = false,
-                                IsLargeModel = false,
-                                SubPartCount = 0
-                            };
-                            //if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;
-                            subBP.LDrawSize = 0;
-                            StaticData.AddBasePart(subBP);
-                        }
-
-                        // ** Add SubPartMapping **
-                        SubPartMapping spm = new SubPartMapping()
-                        {
-                            ParentLDrawRef = LDrawRef,
-                            SubPartLDrawRef = cp.LDrawRef,
-                            LDrawColourID = cp.LDrawColourID,
-                            PosX = -1
-                        };
-                        StaticData.AddSubPartMapping(spm);
-                    }
-                }
-                #endregion
-
+                // ** Add Part and all related stuff **
+                string response = StaticData.AddPartToBasePartCollection(fldLDrawRef.Text, fldPartType.Text, LDrawSize, chkIsSticker.Checked, chkIsLargeModel.Checked);
+                if (response != "") throw new Exception(response);
 
                 // ** Refresh Part Details ** 
                 ProcessLDrawRef_Leave();
@@ -5333,165 +5254,8 @@ namespace Generator
 
 
 
-        #region ** SYNC FBX FUNCTIONS **
+        
 
-        //private void SyncFBXFiles_OLD()
-        //{
-        //    try
-        //    {
-        //        #region ** OLD CODE **
-        //        // ** Get all FBX files in Unity Resources directory **
-        //        //string unityPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";
-        //        //List<string> FileListFull_Unity = Directory.GetFiles(unityPath).Where(s => Path.GetExtension(s).Equals(".fbx")).ToList();
-        //        //List<string> FileList_Unity = Directory.GetFiles(unityPath)
-        //        //                                .Where(s => Path.GetExtension(s).Equals(".fbx"))
-        //        //                                .Select(Path.GetFileName).ToList();
-        //        //int index = 0;
-        //        //Dictionary<string, string> FileList_Map_Unity = new Dictionary<string, string>();
-        //        //foreach (string filename in FileList_Unity)
-        //        //{
-        //        //    string fullPath = FileListFull_Unity.ToArray()[index];
-        //        //    FileList_Map_Unity.Add(filename, fullPath);
-        //        //    index += 1;
-        //        //}
-
-        //        // ** Get all FBX files in files-fbx location on Share **
-        //        //string fsPath = @"Z:\static-data\files-fbx";                
-        //        //List<string> FileListFull_FS = Directory.GetFiles(fsPath).ToList();
-        //        //List<string> FileList_FS = Directory.GetFiles(fsPath).Select(Path.GetFileName).ToList();
-        //        //List<string> FileListFull_FS = Directory.GetFiles(fsPath).Where(s => Path.GetExtension(s).Equals(".fbx")).ToList();
-        //        //List<string> FileList_FS = Directory.GetFiles(fsPath)
-        //        //                                .Where(s => Path.GetExtension(s).Equals(".fbx"))
-        //        //                                .Select(Path.GetFileName).ToList();
-        //        //index = 0;
-        //        //Dictionary<string, string> FileList_Map_FS = new Dictionary<string, string>();
-        //        //foreach (string filename in FileList_FS)
-        //        //{
-        //        //    string fullPath = FileListFull_FS.ToArray()[index];
-        //        //    FileList_Map_FS.Add(filename, fullPath);
-        //        //    index += 1;
-        //        //}
-        //        #endregion
-
-        //        // ** GET ALL FBX FILES IN "static-data\files-fbx" ON AZURE SHARE **
-        //        //string fsPath = @"Z:\static-data\files-fbx";
-        //        //List<string> FileList_FS = Directory.GetFiles(fsPath)
-        //        //                                .Where(s => Path.GetExtension(s).Equals(".fbx"))
-        //        //                                .Select(Path.GetFileName).ToList();
-        //        List<Azure.Storage.Files.Shares.Models.ShareFileItem> FSFileList = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFilesAndDirectories().ToList();
-        //        List<string> FileList_FS = FSFileList.Select(x => x.Name).ToList();
-
-        //        // ** GET ALL FBX FILES IN UNITY "Resources\Lego Part Models" DIRECTORY **
-        //        string unityPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";                
-        //        List<string> FileList_Unity = Directory.GetFiles(unityPath)
-        //                                        .Where(s => Path.GetExtension(s).Equals(".fbx"))
-        //                                        .Select(Path.GetFileName).ToList();
-
-        //        // ** COPY NEW FBX TO UNITY LOCATION **
-        //        List<string> difList = FileList_FS.Except(FileList_Unity).ToList();
-        //        if (difList.Count == 0)
-        //        {
-        //            throw new Exception("No FBX files need uploading...");
-        //        }
-        //        foreach (string filename in difList)
-        //        {
-        //            string source = @"Z:\static-data\files-fbx\" + filename;
-        //            string target = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models\" + filename;
-        //            File.Copy(source, target);
-        //        }
-        //        MessageBox.Show(difList.Count + " FBX file(s) uploaded to Azure FS...");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
-
-        public static void SyncFBXFiles()
-        {
-            string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
-            string UnityLegoPartPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";
-            try
-            {
-                // ** GET ALL FBX FILES IN "static-data\files-fbx" ON AZURE SHARE **                
-                List<Azure.Storage.Files.Shares.Models.ShareFileItem> FSFileList = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFilesAndDirectories().ToList();
-                List<string> FileList_FS = FSFileList.Select(x => x.Name).ToList();
-
-                // ** COPY FILES ACROSS THAT ARE NEW OR NEWER **
-                List<string> updatedFileList = new List<string>();
-                foreach (string filename in FileList_FS)
-                {
-                    ShareFileClient share = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(filename);
-                    DateTime lastModified_TS = share.GetProperties().Value.LastModified.UtcDateTime;
-                    DateTime lastModified_Unity;
-                    bool CopyFile = false;
-                    if (File.Exists(Path.Combine(UnityLegoPartPath, filename)) == false)
-                    {
-                        CopyFile = true;
-                    }
-                    else
-                    {
-                        lastModified_Unity = new FileInfo(Path.Combine(UnityLegoPartPath, filename)).LastWriteTimeUtc;
-                        if (lastModified_Unity < lastModified_TS)
-                        {
-                            CopyFile = true;
-                        }
-                    }
-                    if (CopyFile)
-                    {
-                        // ** Download file from Azure and save into Unity Resources\Lego Part Model directory **                        
-                        string target = Path.Combine(UnityLegoPartPath, filename);
-                        byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
-                        Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
-                        using (var fs = new FileStream(target, FileMode.Create, FileAccess.Write))
-                        {
-                            download.Content.CopyTo(fs);
-                        }
-                        File.SetLastWriteTimeUtc(target, lastModified_TS);
-                        updatedFileList.Add(filename);
-                    }
-                }
-
-                // ** SHOW CONFIRMATION **
-                string confirmation = updatedFileList.Count + " file(s) added/updated in Unity Resource directory" + Environment.NewLine;
-                foreach (string filename in updatedFileList) confirmation += filename + Environment.NewLine;               
-                MessageBox.Show(confirmation, "Syncing FBX file(s)...");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        #endregion
-
-
-
-        //private void AddToPartDAT()
-        //{
-        //    try
-        //    {
-        //        // ** Validation checks **
-        //        if (fldLDrawRef.Text.Equals(""))
-        //        {
-        //            throw new Exception("No LDraw Ref entered...");
-        //        }
-
-        //        // ** Update part.dat file **
-        //        string line = "1 450 0 0 0 1 0 0 0 1 0 0 0 1 " + fldLDrawRef.Text + ".dat" + Environment.NewLine;                
-        //        byte[] bytes = Encoding.UTF8.GetBytes(line);
-        //        ShareFileClient share = new ShareClient(Global_Variables.AzureStorageConnString, "lodgeant-fs").GetDirectoryClient("static-data").GetFileClient("part.dat");
-        //        share.Create(bytes.Length);
-        //        using (MemoryStream ms = new MemoryStream(bytes))
-        //        {
-        //            share.Upload(ms);                    
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
 
 
 

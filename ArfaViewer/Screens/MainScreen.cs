@@ -41,63 +41,16 @@ namespace Generator
                 lblStatus.Text = "";
                 log.Info(".......................................................................APPLICATION STARTED.......................................................................");
 
-                // ** Generate Proxy API **
-                //Global_Variables.APIProxy = new zzz_APIProxy();
+                // ** Get PartColour collection static data from API **
                 Global_Variables.PartColourCollection = StaticData.GetPartColourData_All();
-
-                // ** Refresh static data **                
-                //StaticData.RefreshStaticData_All();
-
-                // ** Convert CompositePart data into SQL insert string **
-                //CompositePartCollection coll = new CompositePartCollection().DeserialiseFromXMLString(Global_Variables.CompositePartCollectionXML.OuterXml);
-                //string insertSQL = CompositePartCollection.ConvertCompositePartCollectionToDBInsertValuesString(coll);
-
-
-                //string test = StaticData.GetLDrawDescription("3001");
-
-                //long test = 0;
-                //test = StaticData.GetFBXSize("3001");       // BASIC PART
-                //test = StaticData.GetFBXSize("122c01");     // COMPOSITE PART
-                //test = StaticData.GetFBXSize("4592");       // SUB PART
-                //string test1 = "";
-
 
                 //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("3001");
                 //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("122c01");
-
                 //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("54701p01c01");
                 //List<string> subPartList = LDrawDetails.GetSubPartLDrawRefsFromLDrawFileText(ldd.data);
 
 
 
-                //string JSONString = StaticData.GetRebrickableSetJSONString("7327-1");
-
-                //string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
-                //string itemRef = "PLN106Legs_0";
-                //BlobClient blob = new BlobContainerClient(AzureStorageConnString, "images-element").GetBlobClient(itemRef + ".png");
-                //bool test = blob.Exists();
-
-                //APITest();
-
-
-                //StaticData.UpdateSetDetailsInstructions_UsingSetRef("1271-1", "Some more test data");
-
-                //string setRef = "7327-1";
-                //SetDetails sd = StaticData.GetSetDetails(setRef);
-                //StaticData.UpdateSetDetailsInstructions_UsingSetRef(setRef, sd.Instructions);
-
-
-                //string JSONString = StaticData.GetRebrickableSetJSONString("7305-1");
-                //JSONString = JSONString.Replace("\\", "").TrimStart('\"').TrimEnd('\"');               
-                //byte[] buffer = Encoding.ASCII.GetBytes(JSONString);
-                //XDocument xml2 = XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(buffer, new XmlDictionaryReaderQuotas()));
-                //string XMLString2 = xml2.ToString();
-
-                //XmlDocument doc1 = JsonConvert.DeserializeXmlNode(JSONString);
-
-                //string SetRef = "7305-1";
-                //string JSONString = StaticData.GetRebrickableSetJSONString(SetRef);
-                //DataTable targetTable = InstructionViewer.GeneratePartListTableFromRebrickable(JSONString);
 
             }
             catch (Exception ex)
@@ -144,11 +97,6 @@ namespace Generator
         private void btnFlushStaticDataFile_Click(object sender, EventArgs e)
         {
             FlushStaticDataFile();
-        }
-
-        private void btnSyncFBXFiles_Click(object sender, EventArgs e)
-        {
-            InstructionViewer.SyncFBXFiles();
         }
 
         private void btnShowPartTickBackScreen_Click(object sender, EventArgs e)

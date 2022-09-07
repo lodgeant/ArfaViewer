@@ -45,7 +45,6 @@
             this.btnUploadImage = new System.Windows.Forms.Button();
             this.fldImageName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnSyncFBXFiles = new System.Windows.Forms.Button();
             this.btnShowPartTickBackScreen = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnGenerateMiniFigLDrawFiles = new System.Windows.Forms.Button();
@@ -205,17 +204,6 @@
             this.label3.TabIndex = 46;
             this.label3.Text = "Image Name:";
             // 
-            // btnSyncFBXFiles
-            // 
-            this.btnSyncFBXFiles.BackColor = System.Drawing.Color.Orange;
-            this.btnSyncFBXFiles.Location = new System.Drawing.Point(136, 127);
-            this.btnSyncFBXFiles.Name = "btnSyncFBXFiles";
-            this.btnSyncFBXFiles.Size = new System.Drawing.Size(135, 31);
-            this.btnSyncFBXFiles.TabIndex = 50;
-            this.btnSyncFBXFiles.Text = "Sync FBX Files";
-            this.btnSyncFBXFiles.UseVisualStyleBackColor = false;
-            this.btnSyncFBXFiles.Click += new System.EventHandler(this.btnSyncFBXFiles_Click);
-            // 
             // btnShowPartTickBackScreen
             // 
             this.btnShowPartTickBackScreen.BackColor = System.Drawing.Color.PaleGreen;
@@ -322,7 +310,6 @@
             this.Controls.Add(this.btnShowSetDetailsScreen);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnShowPartTickBackScreen);
-            this.Controls.Add(this.btnSyncFBXFiles);
             this.Controls.Add(this.fldImageName);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnUploadImage);
@@ -366,7 +353,6 @@
         private System.Windows.Forms.Button btnUploadImage;
         private System.Windows.Forms.TextBox fldImageName;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnSyncFBXFiles;
         private System.Windows.Forms.Button btnShowPartTickBackScreen;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnGenerateMiniFigLDrawFiles;

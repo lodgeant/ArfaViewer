@@ -79,13 +79,11 @@ namespace Generator
                 lblFilesUnityFbxSummaryItemFilteredCount.Text = "";
                 #endregion
 
-                #region ** ADD HEADER SUMMARY TOOLSTRIP ITEMS **
-                tsHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-                {
-                    btnExit,
-                    toolStripSeparator2,
+                #region ** ADD BASEPART SUMMARY TOOLSTRIP ITEMS **
+                toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+                {                   
                     btnRefreshAll,
-                    toolStripSeparator13,
+                    toolStripSeparator23,
                     new ToolStripControlHost(chkShowPartImages)
                 });
                 #endregion
@@ -207,6 +205,20 @@ namespace Generator
                     lblFilesUnityFbxFilenameAc,
                     new ToolStripControlHost(chkFilesUnityFbxFilenameAcEquals),
                     fldFilesUnityFbxFilenameAc,
+                });
+                #endregion
+
+                #region ** ADD PART DETAILS HEADER TOOLSTRIP ITEMS **
+                tsPartDetails2.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+                {
+                    lblPartType,
+                    fldPartType,
+                    lblLDrawSize,
+                    fldLDrawSize,
+                    new ToolStripControlHost(chkIsSubPart),
+                    new ToolStripControlHost(chkIsSticker),
+                    new ToolStripControlHost(chkIsLargeModel)
+
                 });
                 #endregion
 
@@ -387,6 +399,26 @@ namespace Generator
         private void fldFilesUnityFbxFilenameAc_TextChanged(object sender, EventArgs e)
         {
             ProcessFilesUnityFbxSummaryFilter();
+        }
+
+        private void fldLDrawRef_Leave(object sender, EventArgs e)
+        {
+            ProcessLDrawRef_Leave();
+        }
+
+        private void btnGenerateDatFile_Click(object sender, EventArgs e)
+        {
+            GenerateDATFile();
+        }
+
+        private void btnSyncFBXFiles_Click(object sender, EventArgs e)
+        {
+            SyncFBXFiles();
+        }
+
+        private void btnAddPartToBasePartCollection_Click(object sender, EventArgs e)
+        {
+            AddPartToBasePartCollection();
         }
 
         #endregion
@@ -1303,7 +1335,6 @@ namespace Generator
             }
         }
 
-
         private void ProcessFilesDatSummaryFilter()
         {
             try
@@ -1618,13 +1649,7 @@ namespace Generator
             SubPartMappingData.Text = "";
         }
 
-
-       
-
-
-
-
-
+        #region ** REFRESH FBX SUMMARY FUNCTIONS **
 
         private void RefreshFilesDat()
         {
@@ -1636,15 +1661,10 @@ namespace Generator
                 // ** Build table **
                 dgFilesDatSummaryTable_Orig = FileDetailsCollection.GetDatatableFromFileDetailsCollection(fdc);
                 dgFilesDatSummary.DataSource = dgFilesDatSummaryTable_Orig;
+                AdjustFBXSummaryRowFormatting(dgFilesDatSummary);
 
                 // ** Update counts **
                 lblFilesDatCount.Text = fdc.FileDetailsList.Count + " file(s)";
-
-                // ** Format columns **                
-                //dgFilesDatSummary.Columns["Created TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
-                //dgFilesDatSummary.Columns["Last Updated TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
-                //dgFilesDatSummary.AutoResizeColumns();
-                AdjustFBXSummaryRowFormatting(dgFilesDatSummary);
             }
             catch (Exception ex)
             {
@@ -1662,15 +1682,10 @@ namespace Generator
                 // ** Build table **
                 dgFilesFbxSummaryTable_Orig = FileDetailsCollection.GetDatatableFromFileDetailsCollection(fdc);
                 dgFilesFbxSummary.DataSource = dgFilesFbxSummaryTable_Orig;
+                AdjustFBXSummaryRowFormatting(dgFilesFbxSummary);
 
                 // ** Update counts **
                 lblFilesFbxCount.Text = fdc.FileDetailsList.Count + " file(s)";
-
-                // ** Format columns **                
-                //dgFilesFbx.Columns["Created TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
-                //dgFilesFbx.Columns["Last Updated TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
-                //dgFilesFbx.AutoResizeColumns();
-                AdjustFBXSummaryRowFormatting(dgFilesFbxSummary);
             }
             catch (Exception ex)
             {
@@ -1688,15 +1703,10 @@ namespace Generator
                 // ** Build table **
                 dgFilesUnityFbxSummaryTable_Orig = FileDetailsCollection.GetDatatableFromFileDetailsCollection(fdc);
                 dgFilesUnityFbxSummary.DataSource = dgFilesUnityFbxSummaryTable_Orig;
+                AdjustFBXSummaryRowFormatting(dgFilesUnityFbxSummary);
 
                 // ** Update counts **
                 lblFilesUnityFbxCount.Text = fdc.FileDetailsList.Count + " file(s)";
-
-                // ** Format columns **                
-                //dgFilesUnityFbx.Columns["Created TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
-                //dgFilesUnityFbx.Columns["Last Updated TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
-                //dgFilesUnityFbx.AutoResizeColumns();
-                AdjustFBXSummaryRowFormatting(dgFilesUnityFbxSummary);
             }
             catch (Exception ex)
             {
@@ -1712,23 +1722,23 @@ namespace Generator
             }
             else
             {
-                // **Format columns * *
+                // ** Format columns **
+                dg.Columns["Size"].DefaultCellStyle.Format = "#,###";
                 if (dg.Columns["Created TS"] != null) dg.Columns["Created TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
                 if (dg.Columns["Last Updated TS"] != null) dg.Columns["Last Updated TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
                 dg.AutoResizeColumns();
             }
         }
 
-        private void fldLDrawRef_Leave(object sender, EventArgs e)
-        {
-            ProcessLDrawRef_Leave();
-        }
+        #endregion
+
 
         private void ProcessLDrawRef_Leave()
         {
             try
             {
                 // ** GET VARIABLES **
+                fldLDrawRef.Text = fldLDrawRef.Text.ToLower();
                 string LDrawRef = fldLDrawRef.Text;
 
                 // ** GET LDRAW IMAGE **                
@@ -1742,12 +1752,12 @@ namespace Generator
                     // ** Post data **
                     string description = coll.BasePartList[0].LDrawDescription;
                     if (description != "") gbPartDetails.Text = "Part Details | " + description;
-                    //fldPartType.Text = coll.BasePartList[0].partType.ToString();
-                    //fldLDrawSize.Text = "";
-                    //if (coll.BasePartList[0].LDrawSize > 0) fldLDrawSize.Text = coll.BasePartList[0].LDrawSize.ToString();
-                    //chkIsSubPart.Checked = coll.BasePartList[0].IsSubPart;
-                    //chkIsSticker.Checked = coll.BasePartList[0].IsSticker;
-                    //chkIsLargeModel.Checked = coll.BasePartList[0].IsLargeModel;
+                    fldPartType.Text = coll.BasePartList[0].partType.ToString();
+                    fldLDrawSize.Text = "";
+                    if (coll.BasePartList[0].LDrawSize > 0) fldLDrawSize.Text = coll.BasePartList[0].LDrawSize.ToString();
+                    chkIsSubPart.Checked = coll.BasePartList[0].IsSubPart;
+                    chkIsSticker.Checked = coll.BasePartList[0].IsSticker;
+                    chkIsLargeModel.Checked = coll.BasePartList[0].IsLargeModel;
                 }
                 else
                 {
@@ -1755,9 +1765,8 @@ namespace Generator
                     LDrawDetailsCollection ldd_coll = StaticData.GetLDrawDetailsData_UsingLDrawRefList(new List<string>() { LDrawRef });
                     if (ldd_coll.LDrawDetailsList.Count > 0)
                     {
-                        //fldPartType.Text = ldd_coll.LDrawDetailsList[0].PartType;
-                        gbPartDetails.Text = "Part Details | " + ldd_coll.LDrawDetailsList[0].LDrawDescription;
-                        //fldPartType.Text = ldd_coll.LDrawDetailsList[0].PartType.ToString();
+                        fldPartType.Text = ldd_coll.LDrawDetailsList[0].PartType.ToString();
+                        gbPartDetails.Text = "Part Details | " + ldd_coll.LDrawDetailsList[0].LDrawDescription;                        
                     }
                 }
 
@@ -1767,25 +1776,20 @@ namespace Generator
                     //chkBasePartCollection.Checked = true;
                     btnAddPartToBasePartCollection.Enabled = false;
                     btnAddPartToBasePartCollection.BackColor = Color.Transparent;
-                    //tsBasePartCollection.Enabled = false;
+                    tsPartDetails2.Enabled = false;
                 }
                 else
                 {
                     //chkBasePartCollection.Checked = false;
                     btnAddPartToBasePartCollection.Enabled = true;
                     btnAddPartToBasePartCollection.BackColor = Color.Red;
-                    //tsBasePartCollection.Enabled = true;
+                    tsPartDetails2.Enabled = true;
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        private void btnGenerateDatFile_Click(object sender, EventArgs e)
-        {
-            GenerateDATFile();
         }
 
         private void GenerateDATFile()
@@ -1813,13 +1817,162 @@ namespace Generator
             }
         }
 
-
-
-
-        private void btnAddPartToBasePartCollection_Click(object sender, EventArgs e)
+        private void AddPartToBasePartCollection()
         {
+            try
+            {
+                // ** VALIDATION **
+                if (fldLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");
+                if (fldPartType.Text.Equals("")) throw new Exception("No Part Type selected...");
+                if (fldLDrawRef.Text.Contains("c") && fldPartType.Text.Equals("BASIC"))
+                {
+                    // ** Make sure user wants to create strange part **
+                    DialogResult res = MessageBox.Show("The part contains 'c' - do you really want to create a BASIC part and not a COMPOSITE one?", "BASIC Part Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (res == DialogResult.No) return;
+                }
+                int LDrawSize = 0;
+                int.TryParse(fldLDrawSize.Text, out LDrawSize);
 
+                // ** Add Part and all related stuff **
+                string response = StaticData.AddPartToBasePartCollection(fldLDrawRef.Text, fldPartType.Text, LDrawSize, chkIsSticker.Checked, chkIsLargeModel.Checked);
+                if (response != "") throw new Exception(response);
+
+                // ** Refresh Part Details ** 
+                ProcessLDrawRef_Leave();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
+
+
+
+
+
+
+
+
+        public static void SyncFBXFiles_old()
+        {
+            string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
+            string UnityLegoPartPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";
+            try
+            {
+                // ** GET ALL FBX FILES IN "static-data\files-fbx" ON AZURE SHARE **                
+                List<Azure.Storage.Files.Shares.Models.ShareFileItem> FSFileList = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFilesAndDirectories().ToList();
+                List<string> FileList_FS = FSFileList.Select(x => x.Name).ToList();
+
+                // ** COPY FILES ACROSS THAT ARE NEW OR NEWER **
+                List<string> updatedFileList = new List<string>();
+                foreach (string filename in FileList_FS)
+                {
+                    ShareFileClient share = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(filename);
+                    DateTime lastModified_TS = share.GetProperties().Value.LastModified.UtcDateTime;
+                    DateTime lastModified_Unity;
+                    bool CopyFile = false;
+                    if (File.Exists(Path.Combine(UnityLegoPartPath, filename)) == false)
+                    {
+                        CopyFile = true;
+                    }
+                    else
+                    {
+                        lastModified_Unity = new FileInfo(Path.Combine(UnityLegoPartPath, filename)).LastWriteTimeUtc;
+                        if (lastModified_Unity < lastModified_TS)
+                        {
+                            CopyFile = true;
+                        }
+                    }
+                    if (CopyFile)
+                    {
+                        // ** Download file from Azure and save into Unity Resources\Lego Part Model directory **                        
+                        string target = Path.Combine(UnityLegoPartPath, filename);
+                        byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
+                        Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
+                        using (var fs = new FileStream(target, FileMode.Create, FileAccess.Write))
+                        {
+                            download.Content.CopyTo(fs);
+                        }
+                        File.SetLastWriteTimeUtc(target, lastModified_TS);
+                        updatedFileList.Add(filename);
+                    }
+                }
+
+                // ** SHOW CONFIRMATION **
+                string confirmation = updatedFileList.Count + " file(s) added/updated in Unity Resource directory" + Environment.NewLine;
+                foreach (string filename in updatedFileList) confirmation += filename + Environment.NewLine;
+                MessageBox.Show(confirmation, "Syncing FBX file(s)...");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public static void SyncFBXFiles()
+        {
+            try
+            {
+                // ** GET ALL FBX FILES IN "static-data\files-fbx" ON AZURE SHARE **                
+                //List<Azure.Storage.Files.Shares.Models.ShareFileItem> FSFileList = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFilesAndDirectories().ToList();
+                //List<string> FileList_FS = FSFileList.Select(x => x.Name).ToList();
+                FileDetailsCollection fdc = StaticData.GetFileDetailsData_FromContainer(@"static-data\files-fbx");
+
+                // ** COPY FILES ACROSS THAT ARE NEW OR NEWER **
+                List<string> updatedFileList = new List<string>();
+                //foreach (string filename in FileList_FS
+                foreach (FileDetails fd in fdc.FileDetailsList)
+                {
+                    //ShareFileClient share = new ShareClient(AzureStorageConnString, "lodgeant-fs").GetDirectoryClient(@"static-data\files-fbx").GetFileClient(filename);
+                    //DateTime lastModified_TS = share.GetProperties().Value.LastModified.UtcDateTime;
+                    DateTime lastModified_TS = fd.LastUpdatedTS;
+                    DateTime lastModified_Unity;
+                    bool CopyFile = false;
+                    if (File.Exists(Path.Combine(Global_Variables.UnityFBXLocation, fd.Name)) == false)
+                    {
+                        CopyFile = true;
+                    }
+                    else
+                    {
+                        lastModified_Unity = new FileInfo(Path.Combine(Global_Variables.UnityFBXLocation, fd.Name)).LastWriteTimeUtc;
+                        if (lastModified_Unity < lastModified_TS) CopyFile = true;                        
+                    }
+
+
+
+                    if (CopyFile)
+                    {
+                        // ** Download file from Azure and save into Unity Resources\Lego Part Model directory **                        
+                        //string target = Path.Combine(UnityLegoPartPath, fd.Name);
+                        //byte[] fileContent = new byte[share.GetProperties().Value.ContentLength];
+                        //Azure.Storage.Files.Shares.Models.ShareFileDownloadInfo download = share.Download();
+                        //using (var fs = new FileStream(target, FileMode.Create, FileAccess.Write)) download.Content.CopyTo(fs);                       
+                        //File.SetLastWriteTimeUtc(target, lastModified_TS);
+                        updatedFileList.Add(fd.Name);
+                    }
+                }
+
+
+
+
+                // ** SHOW CONFIRMATION **
+                string confirmation = updatedFileList.Count + " file(s) added/updated in Unity Resource directory" + Environment.NewLine;
+                foreach (string filename in updatedFileList) confirmation += filename + Environment.NewLine;
+                MessageBox.Show(confirmation, "Syncing FBX file(s)...");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+
+
+
+
+
+
 
 
     }

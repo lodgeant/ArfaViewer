@@ -427,6 +427,106 @@ namespace Generator
             PostRequestFromURL(url);
         }
 
+        public static string AddPartToBasePartCollection(string LDrawRef, string PartType, int LDrawSize, bool IsSticker, bool IsLargeModel)
+        {
+            try
+            {
+                // ** Validations **
+                BasePart.PartType partType = (BasePart.PartType)Enum.Parse(typeof(BasePart.PartType), PartType, true);
+
+                // ** Check if LDraw Ref already exists in BasePart **
+                if (StaticData.CheckIfBasePartExists(LDrawRef) == true) throw new Exception("LDraw Ref already exists...");
+
+                // ** Check if LDrawDetails are available **
+                LDrawDetails lDrawDetails = StaticData.GetLDrawDetails(LDrawRef);
+                if (lDrawDetails == null) throw new Exception("Unable to find LDraw details for " + LDrawRef);
+                BasePart.LDrawPartType lDrawPartType = (BasePart.LDrawPartType)Enum.Parse(typeof(BasePart.LDrawPartType), lDrawDetails.LDrawPartType, true);
+
+                // ** Check if LDraw Refs already exist in Sub Part Mapping **               
+                if (partType == BasePart.PartType.COMPOSITE && StaticData.CheckIfSubPartMappingPartsExist(LDrawRef) == true) throw new Exception("Parent LDraw Ref already exists...");
+
+                // ** Generate lists which will be created at end of function **
+                List<BasePart> BasePartList = new List<BasePart>();
+                List<SubPartMapping> SubPartMappingList = new List<SubPartMapping>();
+
+                #region ** GENERATE NEW BasePart & ADD TO STATIC DATA **                
+                BasePart newBasePart = new BasePart()
+                {
+                    LDrawRef = LDrawRef,
+                    LDrawDescription = new System.Xml.Linq.XText(lDrawDetails.LDrawDescription).ToString(),
+                    lDrawPartType = lDrawPartType,
+                    LDrawCategory = "",
+                    partType = partType,                   
+                    IsSubPart = false,
+                    IsSticker = IsSticker,
+                    IsLargeModel = IsLargeModel,
+                    SubPartCount = lDrawDetails.SubPartCount
+                };
+                if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;
+                newBasePart.LDrawSize = LDrawSize;
+                //StaticData.AddBasePart(newBasePart);
+                BasePartList.Add(newBasePart);
+                #endregion
+
+                #region ** ADD ALL SUB PARTS FROM LDRAW .DAT FILE (IF PART = COMPOSITE) **
+                if (newBasePart.partType == BasePart.PartType.COMPOSITE)
+                {
+                    PartListPartCollection SubPartCollection = StaticData.GetAllSubParts_FromLDrawDetails(LDrawRef);
+                    foreach (PartListPart cp in SubPartCollection.PartListPartList)
+                    {
+                        // ** Trigger creation of LDrawDetails for Sub Part **
+                        LDrawDetails subPart_lDrawDetails = StaticData.GetLDrawDetails(cp.LDrawRef);
+
+                        // check if basepart already exists for sub part - if does then don't add again.
+                        if (StaticData.CheckIfBasePartExists(cp.LDrawRef) == false)
+                        {
+                            // Create BasePart for Sub Part
+                            BasePart subBP = new BasePart()
+                            {
+                                LDrawRef = cp.LDrawRef,
+                                //LDrawDescription = new System.Xml.Linq.XText(lDrawDetails.LDrawDescription).ToString(),
+                                LDrawDescription = cp.LDrawDescription,
+                                lDrawPartType = (BasePart.LDrawPartType)Enum.Parse(typeof(BasePart.LDrawPartType), subPart_lDrawDetails.LDrawPartType, true),
+                                LDrawCategory = "",
+                                partType = BasePart.PartType.BASIC,
+                                IsSubPart = true,
+                                IsSticker = false,
+                                IsLargeModel = false,
+                                SubPartCount = 0
+                            };
+                            //if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;
+                            subBP.LDrawSize = 0;
+                            //StaticData.AddBasePart(subBP);
+                            BasePartList.Add(subBP);
+                        }
+
+                        // ** Add SubPartMapping **
+                        SubPartMapping spm = new SubPartMapping()
+                        {
+                            ParentLDrawRef = LDrawRef,
+                            SubPartLDrawRef = cp.LDrawRef,
+                            LDrawColourID = cp.LDrawColourID,
+                            PosX = -1
+                        };
+                        //StaticData.AddSubPartMapping(spm);
+                        SubPartMappingList.Add(spm);
+                    }
+                }
+                #endregion
+
+                // ** Create all items **
+                foreach (BasePart bp in BasePartList) StaticData.AddBasePart(bp);
+                foreach (SubPartMapping spm in SubPartMappingList) StaticData.AddSubPartMapping(spm);
+
+                return string.Empty;
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+
 
         // ** SubPartMapping functions **
 
