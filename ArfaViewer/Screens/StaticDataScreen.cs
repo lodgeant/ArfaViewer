@@ -443,6 +443,16 @@ namespace Generator
             PartDetailsClear();
         }
 
+        private void btnSubPartMappingDelete_Click(object sender, EventArgs e)
+        {
+            DeleteSubPartMapping();
+        }
+
+        private void btnSubPartMappingSave_Click(object sender, EventArgs e)
+        {
+            SubPartMapping_Save();
+        }
+
         #endregion
 
         #region ** SCINTILLA FUNCTIONS **
@@ -1706,16 +1716,90 @@ namespace Generator
 
         #endregion
 
-        private void LDrawDetails_Clear()
+        #region ** SUB PART MAPPING FUNCTIONS **
+
+        private void SubPartMapping_Save()
         {
-            fldLDrawDetailsLDrawRef.Text = "";
-            fldLDrawDetailsLDrawImage.Image = null;
-            fldLDrawDetailsLDrawDescription.Text = "";
-            fldLDrawDetailsPartType.Text = "";
-            fldLDrawDetailsLDrawPartType.Text = "";
-            fldLDrawDetailsSubPartCount.Text = "";
-            fldLDrawDetailsLDrawRefList.Text = "";
-            LDrawDetailsData.Text = "";
+            try
+            {
+                // ** Validation Checks **               
+                if (fldSubPartMappingParentLDrawRef.Text.Equals("")) throw new Exception("No Parent LDraw Ref entered...");
+                string ParentLDrawRef = fldSubPartMappingParentLDrawRef.Text;
+                if (fldSubPartMappingSubPartLDrawRef.Text.Equals("")) throw new Exception("No Sub Part LDraw Ref entered...");
+                string SubPartLDrawRef = fldSubPartMappingSubPartLDrawRef.Text;
+                if (fldSubPartMappingSubPartLDrawColourID.Text.Equals("")) throw new Exception("No LDrawColour ID entered...");
+                int LDrawColourID;
+                if(int.TryParse(fldSubPartMappingSubPartLDrawColourID.Text, out LDrawColourID) == false) throw new Exception("No LDrawColour ID not in correct format...");
+               
+                // Check if SubPartMapping already exists - if so update it, if not, add it.
+                string action = "UPDATE";
+                SubPartMapping spm = StaticData.GetSubPartMapping(ParentLDrawRef, SubPartLDrawRef);
+                if (spm == null)
+                {
+                    action = "ADD";
+                    spm = new SubPartMapping();
+                }
+                spm.ParentLDrawRef = fldSubPartMappingParentLDrawRef.Text;
+                spm.SubPartLDrawRef = fldSubPartMappingSubPartLDrawRef.Text;
+                spm.LDrawColourID = LDrawColourID;
+                float PosX = 0;
+                float.TryParse(fldSubPartMappingPosX.Text, out PosX);
+                spm.PosX = PosX;
+                float PosY = 0;
+                float.TryParse(fldSubPartMappingPosY.Text, out PosY);
+                spm.PosY = PosY;
+                float PosZ = 0;
+                float.TryParse(fldSubPartMappingPosZ.Text, out PosZ);
+                spm.PosZ = PosZ;
+                float RotX = 0;
+                float.TryParse(fldSubPartMappingRotX.Text, out RotX);
+                spm.RotX = RotX;
+                float RotY = 0;
+                float.TryParse(fldSubPartMappingRotY.Text, out RotY);
+                spm.RotY = RotY;
+                float RotZ = 0;
+                float.TryParse(fldSubPartMappingRotZ.Text, out RotZ);
+                spm.RotZ = RotZ;
+
+                // ** Determine what action to take **
+                if (action.Equals("ADD")) StaticData.AddSubPartMapping(spm);
+                else if (action.Equals("UPDATE")) StaticData.UpdateSubPartMapping(spm);
+
+                // ** Tidy Up **               
+                RefreshSubPartMapping();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void DeleteSubPartMapping()
+        {
+            try
+            {
+                // ** Validations **
+                if (fldSubPartMappingParentLDrawRef.Text.Equals("")) throw new Exception("No Parent LDraw Ref entered...");
+                string ParentLDrawRef = fldSubPartMappingParentLDrawRef.Text;
+                if (fldSubPartMappingSubPartLDrawRef.Text.Equals("")) throw new Exception("No Sub Part LDraw Ref entered...");
+                string SubPartLDrawRef = fldSubPartMappingSubPartLDrawRef.Text;
+
+                // ** Check if SubPartMapping exists **
+                bool exists = StaticData.CheckIfSubPartMappingExists(ParentLDrawRef, SubPartLDrawRef);
+                if (exists == false) throw new Exception("Sub Part Mapping doesn't exist for " + ParentLDrawRef + " and " + SubPartLDrawRef);
+
+                // ** Delete SubPartMapping **
+                StaticData.DeleteSubPartMapping(ParentLDrawRef, SubPartLDrawRef);
+
+                // ** Tidy Up **
+                SubPartMapping_Clear();
+                RefreshSubPartMapping();
+                MessageBox.Show("SubPartMapping for " + ParentLDrawRef + " and " + SubPartLDrawRef + " deleted successfully...");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void SubPartMapping_Clear()
@@ -1732,6 +1816,25 @@ namespace Generator
             fldSubPartMappingRotY.Text = "";
             fldSubPartMappingRotZ.Text = "";
             SubPartMappingData.Text = "";
+        }
+
+        #endregion
+
+
+
+
+
+
+        private void LDrawDetails_Clear()
+        {
+            fldLDrawDetailsLDrawRef.Text = "";
+            fldLDrawDetailsLDrawImage.Image = null;
+            fldLDrawDetailsLDrawDescription.Text = "";
+            fldLDrawDetailsPartType.Text = "";
+            fldLDrawDetailsLDrawPartType.Text = "";
+            fldLDrawDetailsSubPartCount.Text = "";
+            fldLDrawDetailsLDrawRefList.Text = "";
+            LDrawDetailsData.Text = "";
         }
 
         #region ** REFRESH FBX SUMMARY FUNCTIONS **
@@ -1985,6 +2088,9 @@ namespace Generator
             fldPartType.Text = "";
             fldLDrawSize.Text = "";
         }
+
+
+
 
         
     }

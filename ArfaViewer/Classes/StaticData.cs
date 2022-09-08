@@ -581,6 +581,30 @@ namespace Generator
             PostJSONRequestFromURL(url, json);
         }
 
+        public static void UpdateSubPartMapping(SubPartMapping spm)
+        {
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(spm);
+            string url = Global_Variables.APIUrl + "SubPartMapping/UpdateSubPartMapping";
+            PostJSONRequestFromURL(url, json);
+        }
+
+        public static bool CheckIfSubPartMappingExists(string ParentLDrawRef, string SubPartLDrawRef)
+        {
+            string url = Global_Variables.APIUrl + "SubPartMapping/CheckIfSubPartMappingExists?ParentLDrawRef=" + ParentLDrawRef + "&SubPartLDrawRef=" + SubPartLDrawRef;
+            string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
+            return bool.Parse(JSONString);
+        }
+
+        public static void DeleteSubPartMapping(string ParentLDrawRef, string SubPartLDrawRef)
+        {
+            string url = Global_Variables.APIUrl + "SubPartMapping/DeleteSubPartMapping?ParentLDrawRef=" + ParentLDrawRef + "&SubPartLDrawRef=" + SubPartLDrawRef;
+            PostRequestFromURL(url);
+        }
+
+
+
+
+
 
 
         // ** FileDetails functions **

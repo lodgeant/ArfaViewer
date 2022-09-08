@@ -166,8 +166,8 @@
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSubPartMappingClear = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton12 = new System.Windows.Forms.ToolStripButton();
+            this.btnSubPartMappingSave = new System.Windows.Forms.ToolStripButton();
+            this.btnSubPartMappingDelete = new System.Windows.Forms.ToolStripButton();
             this.tsSubPartMappingHeader = new System.Windows.Forms.ToolStrip();
             this.btnSubPartMappingRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
@@ -1251,7 +1251,7 @@
             // 
             this.splitContainer4.Panel2.Controls.Add(this.groupBox5);
             this.splitContainer4.Size = new System.Drawing.Size(1748, 169);
-            this.splitContainer4.SplitterDistance = 1119;
+            this.splitContainer4.SplitterDistance = 1161;
             this.splitContainer4.TabIndex = 2;
             // 
             // gpSubPartMapping
@@ -1264,7 +1264,7 @@
             this.gpSubPartMapping.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpSubPartMapping.Location = new System.Drawing.Point(0, 0);
             this.gpSubPartMapping.Name = "gpSubPartMapping";
-            this.gpSubPartMapping.Size = new System.Drawing.Size(1119, 169);
+            this.gpSubPartMapping.Size = new System.Drawing.Size(1161, 169);
             this.gpSubPartMapping.TabIndex = 2;
             this.gpSubPartMapping.TabStop = false;
             this.gpSubPartMapping.Text = "Sub Part Mapping";
@@ -1286,7 +1286,7 @@
             this.dgSubPartMappingSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgSubPartMappingSummary.Location = new System.Drawing.Point(3, 41);
             this.dgSubPartMappingSummary.Name = "dgSubPartMappingSummary";
-            this.dgSubPartMappingSummary.Size = new System.Drawing.Size(1113, 78);
+            this.dgSubPartMappingSummary.Size = new System.Drawing.Size(1155, 78);
             this.dgSubPartMappingSummary.TabIndex = 80;
             this.dgSubPartMappingSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSubPartMappingSummary_CellClick);
             this.dgSubPartMappingSummary.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgSubPartMappingSummary_ColumnHeaderMouseClick);
@@ -1300,7 +1300,7 @@
             this.lblSubPartMappingSummaryItemFilteredCount});
             this.statusStrip2.Location = new System.Drawing.Point(3, 119);
             this.statusStrip2.Name = "statusStrip2";
-            this.statusStrip2.Size = new System.Drawing.Size(1113, 22);
+            this.statusStrip2.Size = new System.Drawing.Size(1155, 22);
             this.statusStrip2.TabIndex = 79;
             this.statusStrip2.Text = "statusStrip2";
             // 
@@ -1357,11 +1357,11 @@
             this.toolStripSeparator11,
             this.btnSubPartMappingClear,
             this.toolStripSeparator12,
-            this.toolStripButton11,
-            this.toolStripButton12});
+            this.btnSubPartMappingSave,
+            this.btnSubPartMappingDelete});
             this.toolStrip5.Location = new System.Drawing.Point(3, 141);
             this.toolStrip5.Name = "toolStrip5";
-            this.toolStrip5.Size = new System.Drawing.Size(1113, 25);
+            this.toolStrip5.Size = new System.Drawing.Size(1155, 25);
             this.toolStrip5.TabIndex = 78;
             this.toolStrip5.Text = "toolStrip5";
             // 
@@ -1521,23 +1521,23 @@
             this.toolStripSeparator12.Name = "toolStripSeparator12";
             this.toolStripSeparator12.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton11
+            // btnSubPartMappingSave
             // 
-            this.toolStripButton11.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton11.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton11.Image")));
-            this.toolStripButton11.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton11.Name = "toolStripButton11";
-            this.toolStripButton11.Size = new System.Drawing.Size(51, 22);
-            this.toolStripButton11.Text = "Save";
+            this.btnSubPartMappingSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSubPartMappingSave.Image")));
+            this.btnSubPartMappingSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSubPartMappingSave.Name = "btnSubPartMappingSave";
+            this.btnSubPartMappingSave.Size = new System.Drawing.Size(51, 22);
+            this.btnSubPartMappingSave.Text = "Save";
+            this.btnSubPartMappingSave.Click += new System.EventHandler(this.btnSubPartMappingSave_Click);
             // 
-            // toolStripButton12
+            // btnSubPartMappingDelete
             // 
-            this.toolStripButton12.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton12.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton12.Image")));
-            this.toolStripButton12.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton12.Name = "toolStripButton12";
-            this.toolStripButton12.Size = new System.Drawing.Size(60, 20);
-            this.toolStripButton12.Text = "Delete";
+            this.btnSubPartMappingDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnSubPartMappingDelete.Image")));
+            this.btnSubPartMappingDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSubPartMappingDelete.Name = "btnSubPartMappingDelete";
+            this.btnSubPartMappingDelete.Size = new System.Drawing.Size(60, 20);
+            this.btnSubPartMappingDelete.Text = "Delete";
+            this.btnSubPartMappingDelete.Click += new System.EventHandler(this.btnSubPartMappingDelete_Click);
             // 
             // tsSubPartMappingHeader
             // 
@@ -1550,7 +1550,7 @@
             this.fldSubPartMappingParentLDrawRefAc});
             this.tsSubPartMappingHeader.Location = new System.Drawing.Point(3, 16);
             this.tsSubPartMappingHeader.Name = "tsSubPartMappingHeader";
-            this.tsSubPartMappingHeader.Size = new System.Drawing.Size(1113, 25);
+            this.tsSubPartMappingHeader.Size = new System.Drawing.Size(1155, 25);
             this.tsSubPartMappingHeader.TabIndex = 29;
             this.tsSubPartMappingHeader.Text = "toolStrip4";
             // 
@@ -1602,7 +1602,7 @@
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox5.Location = new System.Drawing.Point(0, 0);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(625, 169);
+            this.groupBox5.Size = new System.Drawing.Size(583, 169);
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Data";
@@ -1612,7 +1612,7 @@
             this.pnlSubPartMappingData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlSubPartMappingData.Location = new System.Drawing.Point(3, 16);
             this.pnlSubPartMappingData.Name = "pnlSubPartMappingData";
-            this.pnlSubPartMappingData.Size = new System.Drawing.Size(619, 150);
+            this.pnlSubPartMappingData.Size = new System.Drawing.Size(577, 150);
             this.pnlSubPartMappingData.TabIndex = 1;
             // 
             // tabPage3
@@ -2431,8 +2431,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripButton btnSubPartMappingClear;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
-        private System.Windows.Forms.ToolStripButton toolStripButton11;
-        private System.Windows.Forms.ToolStripButton toolStripButton12;
+        private System.Windows.Forms.ToolStripButton btnSubPartMappingSave;
+        private System.Windows.Forms.ToolStripButton btnSubPartMappingDelete;
         private System.Windows.Forms.ToolStrip tsSubPartMappingHeader;
         private System.Windows.Forms.ToolStripButton btnSubPartMappingRefresh;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
