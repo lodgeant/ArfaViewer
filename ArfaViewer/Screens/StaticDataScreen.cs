@@ -668,6 +668,10 @@ namespace Generator
                         row.DefaultCellStyle.Font = new System.Drawing.Font(this.Font, FontStyle.Italic);
                         row.DefaultCellStyle.ForeColor = Color.Gray;
                     }
+                    if (row.Cells["Part Type"].Value.ToString().ToUpper().Equals("COMPOSITE"))
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.Blue;
+                    }
                 }
             }
         }
@@ -817,14 +821,13 @@ namespace Generator
                 dg.AutoResizeColumns();
 
                 // ** Adjust row formatting **
-                //foreach (DataGridViewRow row in dg.Rows)
-                //{
-                //    if (row.Cells["Is Sub Part"].Value.ToString().ToUpper().Equals("TRUE"))
-                //    {
-                //        row.DefaultCellStyle.Font = new System.Drawing.Font(this.Font, FontStyle.Italic);
-                //        row.DefaultCellStyle.ForeColor = Color.Gray;
-                //    }
-                //}
+                foreach (DataGridViewRow row in dg.Rows)
+                {
+                    if (row.Cells["Part Type"].Value.ToString().ToUpper().Equals("COMPOSITE"))
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.Blue;
+                    }
+                }
             }
         }
 
@@ -996,40 +999,43 @@ namespace Generator
         private void dgBasePartSummary_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
-            {
-                if (e.ColumnIndex == 0)
-                {                    
-                    var obj = dgBasePartSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                    if(obj != DBNull.Value)
-                    {
-                        Bitmap image = (Bitmap)dgBasePartSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                        PartViewer.image = image;
-                        PartViewer form = new PartViewer();
-                        form.Visible = true;
-                    }
-                }
-                else
+            {                
+                if (e.RowIndex != -1)
                 {
-                    // Get Set_Details for Set Ref              
-                    string LDrawRef = dgBasePartSummary.Rows[e.RowIndex].Cells["LDraw Ref"].Value.ToString();
-                    BasePart bp = StaticData.GetBasePart(LDrawRef);
+                    if (e.ColumnIndex == 0)
+                    {
+                        var obj = dgBasePartSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                        if (obj != DBNull.Value)
+                        {
+                            Bitmap image = (Bitmap)dgBasePartSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                            PartViewer.image = image;
+                            PartViewer form = new PartViewer();
+                            form.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        // Get Set_Details for Set Ref              
+                        string LDrawRef = dgBasePartSummary.Rows[e.RowIndex].Cells["LDraw Ref"].Value.ToString();
+                        BasePart bp = StaticData.GetBasePart(LDrawRef);
 
-                    // ** Post data to form **
-                    fldBasePartLDrawRef.Text = bp.LDrawRef;
-                    fldBasePartLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { LDrawRef });
-                    fldBasePartLDrawDescription.Text = bp.LDrawDescription;                    
-                    fldBasePartLDrawSize.Text = "";
-                    if (bp.LDrawSize > 0) fldBasePartLDrawSize.Text = bp.LDrawSize.ToString();
-                    fldBasePartPartType.Text = bp.partType.ToString();
-                    fldBasePartLDrawPartType.Text = bp.lDrawPartType.ToString();
-                    chkBasePartIsSubPart.Checked = bp.IsSubPart;
-                    chkBasePartIsSticker.Checked = bp.IsSticker;
-                    chkBasePartIsLargeModel.Checked = bp.IsLargeModel;
-                    fldBasePartOffsetX.Text = bp.OffsetX.ToString();
-                    fldBasePartOffsetY.Text = bp.OffsetY.ToString();
-                    fldBasePartOffsetZ.Text = bp.OffsetZ.ToString();
-                    fldBasePartSubPartCount.Text = bp.SubPartCount.ToString();
-                }
+                        // ** Post data to form **
+                        fldBasePartLDrawRef.Text = bp.LDrawRef;
+                        fldBasePartLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { LDrawRef });
+                        fldBasePartLDrawDescription.Text = bp.LDrawDescription;
+                        fldBasePartLDrawSize.Text = "";
+                        if (bp.LDrawSize > 0) fldBasePartLDrawSize.Text = bp.LDrawSize.ToString();
+                        fldBasePartPartType.Text = bp.partType.ToString();
+                        fldBasePartLDrawPartType.Text = bp.lDrawPartType.ToString();
+                        chkBasePartIsSubPart.Checked = bp.IsSubPart;
+                        chkBasePartIsSticker.Checked = bp.IsSticker;
+                        chkBasePartIsLargeModel.Checked = bp.IsLargeModel;
+                        fldBasePartOffsetX.Text = bp.OffsetX.ToString();
+                        fldBasePartOffsetY.Text = bp.OffsetY.ToString();
+                        fldBasePartOffsetZ.Text = bp.OffsetZ.ToString();
+                        fldBasePartSubPartCount.Text = bp.SubPartCount.ToString();
+                    }
+                }                
             }
             catch (Exception ex)
             {
@@ -1041,33 +1047,36 @@ namespace Generator
         {
             try
             {
-                if (e.ColumnIndex == 0)
+                if (e.RowIndex != -1)
                 {
-                    var obj = dgLDrawDetailsSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                    if (obj != DBNull.Value)
+                    if (e.ColumnIndex == 0)
                     {
-                        Bitmap image = (Bitmap)obj;
-                        PartViewer.image = image;
-                        PartViewer form = new PartViewer();
-                        form.Visible = true;
+                        var obj = dgLDrawDetailsSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                        if (obj != DBNull.Value)
+                        {
+                            Bitmap image = (Bitmap)obj;
+                            PartViewer.image = image;
+                            PartViewer form = new PartViewer();
+                            form.Visible = true;
+                        }
                     }
-                }
-                else
-                {
-                    // Get LDrawDetails for LDraw Ref              
-                    string LDrawRef = dgLDrawDetailsSummary.Rows[e.RowIndex].Cells["LDraw Ref"].Value.ToString();
-                    LDrawDetails item = StaticData.GetLDrawDetails(LDrawRef);
+                    else
+                    {
+                        // Get LDrawDetails for LDraw Ref              
+                        string LDrawRef = dgLDrawDetailsSummary.Rows[e.RowIndex].Cells["LDraw Ref"].Value.ToString();
+                        LDrawDetails item = StaticData.GetLDrawDetails(LDrawRef);
 
-                    // ** Post data to form **
-                    fldLDrawDetailsLDrawRef.Text = item.LDrawRef;
-                    fldLDrawDetailsLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { LDrawRef });
-                    fldLDrawDetailsLDrawDescription.Text = item.LDrawDescription;
-                    fldLDrawDetailsPartType.Text = item.PartType.ToString();
-                    fldLDrawDetailsLDrawPartType.Text = item.LDrawPartType.ToString();
-                    fldLDrawDetailsSubPartCount.Text = item.SubPartCount.ToString();
-                    fldLDrawDetailsLDrawRefList.Text = String.Join(",", item.SubPartLDrawRefList);
-                    LDrawDetailsData.Text = item.Data;
-                }
+                        // ** Post data to form **
+                        fldLDrawDetailsLDrawRef.Text = item.LDrawRef;
+                        fldLDrawDetailsLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { LDrawRef });
+                        fldLDrawDetailsLDrawDescription.Text = item.LDrawDescription;
+                        fldLDrawDetailsPartType.Text = item.PartType.ToString();
+                        fldLDrawDetailsLDrawPartType.Text = item.LDrawPartType.ToString();
+                        fldLDrawDetailsSubPartCount.Text = item.SubPartCount.ToString();
+                        fldLDrawDetailsLDrawRefList.Text = String.Join(",", item.SubPartLDrawRefList);
+                        LDrawDetailsData.Text = item.Data;
+                    }
+                }                
             }
             catch (Exception ex)
             {
@@ -1079,44 +1088,62 @@ namespace Generator
         {
             try
             {
-                if (e.ColumnIndex == 0)
+                if (e.RowIndex != -1)
                 {
-                    var obj = dgSubPartMappingSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                    if (obj != DBNull.Value)
+                    if (e.ColumnIndex == 0)
                     {
-                        Bitmap image = (Bitmap)obj;
-                        PartViewer.image = image;
-                        PartViewer form = new PartViewer();
-                        form.Visible = true;
+                        var obj = dgSubPartMappingSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                        if (obj != DBNull.Value)
+                        {
+                            Bitmap image = (Bitmap)obj;
+                            PartViewer.image = image;
+                            PartViewer form = new PartViewer();
+                            form.Visible = true;
+                        }
                     }
-                }
-                else
-                {
-                    // Get SubPartMapping for Parent LDraw Ref & Sub Part LDraw Ref **
-                    string ParentLDrawRef = dgSubPartMappingSummary.Rows[e.RowIndex].Cells["Parent LDraw Ref"].Value.ToString();
-                    string SubPartLDrawRef = dgSubPartMappingSummary.Rows[e.RowIndex].Cells["Sub Part LDraw Ref"].Value.ToString();
-                    SubPartMapping spm = StaticData.GetSubPartMapping(ParentLDrawRef, SubPartLDrawRef);
-                    LDrawDetails ldd = StaticData.GetLDrawDetails(SubPartLDrawRef);
+                    else
+                    {
+                        // Get SubPartMapping for Parent LDraw Ref & Sub Part LDraw Ref **
+                        string ParentLDrawRef = dgSubPartMappingSummary.Rows[e.RowIndex].Cells["Parent LDraw Ref"].Value.ToString();
+                        string SubPartLDrawRef = dgSubPartMappingSummary.Rows[e.RowIndex].Cells["Sub Part LDraw Ref"].Value.ToString();
+                        SubPartMapping spm = StaticData.GetSubPartMapping(ParentLDrawRef, SubPartLDrawRef);
+                        LDrawDetails ldd = StaticData.GetLDrawDetails(SubPartLDrawRef);
 
-                    // ** Post data to form **
-                    fldSubPartMappingParentLDrawRef.Text = spm.ParentLDrawRef;
-                    fldSubPartMappingParentLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { ParentLDrawRef });
-                    fldSubPartMappingSubPartLDrawRef.Text = spm.SubPartLDrawRef;
-                    fldSubPartMappingSubPartLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { SubPartLDrawRef });
-                    fldSubPartMappingSubPartLDrawColourID.Text = spm.LDrawColourID.ToString();
-                    fldSubPartMappingPosX.Text = spm.PosX.ToString();
-                    fldSubPartMappingPosY.Text = spm.PosY.ToString();
-                    fldSubPartMappingPosZ.Text = spm.PosZ.ToString();
-                    fldSubPartMappingRotX.Text = spm.RotX.ToString();
-                    fldSubPartMappingRotY.Text = spm.RotY.ToString();
-                    fldSubPartMappingRotZ.Text = spm.RotZ.ToString();
-                    SubPartMappingData.Text = ldd.Data;
-                }
+                        // ** Post data to form **
+                        fldSubPartMappingParentLDrawRef.Text = spm.ParentLDrawRef;
+                        fldSubPartMappingParentLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { ParentLDrawRef });
+                        fldSubPartMappingSubPartLDrawRef.Text = spm.SubPartLDrawRef;
+                        fldSubPartMappingSubPartLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { SubPartLDrawRef });
+                        fldSubPartMappingSubPartLDrawColourID.Text = spm.LDrawColourID.ToString();
+                        fldSubPartMappingPosX.Text = spm.PosX.ToString();
+                        fldSubPartMappingPosY.Text = spm.PosY.ToString();
+                        fldSubPartMappingPosZ.Text = spm.PosZ.ToString();
+                        fldSubPartMappingRotX.Text = spm.RotX.ToString();
+                        fldSubPartMappingRotY.Text = spm.RotY.ToString();
+                        fldSubPartMappingRotZ.Text = spm.RotZ.ToString();
+                        SubPartMappingData.Text = ldd.Data;
+                    }
+                }                
             }
             catch (Exception ex)
             {
                 MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
             }
+        }
+
+        private void dgBasePartSummary_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            AdjustBasePartSummaryRowFormatting(dgBasePartSummary);
+        }
+
+        private void dgLDrawDetailsSummary_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            AdjustLDrawDetailsSummaryRowFormatting(dgLDrawDetailsSummary);
+        }
+
+        private void dgSubPartMappingSummary_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            AdjustSubPartMappingSummaryRowFormatting(dgSubPartMappingSummary);
         }
 
         #endregion

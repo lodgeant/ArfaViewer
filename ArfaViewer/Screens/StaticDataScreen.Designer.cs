@@ -36,6 +36,8 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.gpBasePart = new System.Windows.Forms.GroupBox();
+            this.chkBasePartPartTypeAcEquals = new System.Windows.Forms.CheckBox();
+            this.chkBasePartOffsetXAcEquals = new System.Windows.Forms.CheckBox();
             this.chkBasePartLDrawDescriptionAcEquals = new System.Windows.Forms.CheckBox();
             this.chkBasePartLDrawRefAcEquals = new System.Windows.Forms.CheckBox();
             this.chkBasePartIsLargeModel = new System.Windows.Forms.CheckBox();
@@ -82,6 +84,10 @@
             this.fldBasePartLDrawRefAc = new System.Windows.Forms.ToolStripTextBox();
             this.lblBasePartLDrawDescriptionAc = new System.Windows.Forms.ToolStripLabel();
             this.fldBasePartLDrawDescriptionAc = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartPartTypeAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartPartTypeAc = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartOffsetXAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartOffsetXAc = new System.Windows.Forms.ToolStripTextBox();
             this.chkShowPartImages = new System.Windows.Forms.CheckBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnRefreshAll = new System.Windows.Forms.ToolStripButton();
@@ -241,12 +247,6 @@
             this.btnFBXRefreshAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSyncFBSFiles = new System.Windows.Forms.ToolStripButton();
-            this.lblBasePartPartTypeAc = new System.Windows.Forms.ToolStripLabel();
-            this.fldBasePartPartTypeAc = new System.Windows.Forms.ToolStripTextBox();
-            this.lblBasePartOffsetXAc = new System.Windows.Forms.ToolStripLabel();
-            this.fldBasePartOffsetXAc = new System.Windows.Forms.ToolStripTextBox();
-            this.chkBasePartOffsetXAcEquals = new System.Windows.Forms.CheckBox();
-            this.chkBasePartPartTypeAcEquals = new System.Windows.Forms.CheckBox();
             this.tsHeader.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -400,6 +400,26 @@
             this.gpBasePart.TabStop = false;
             this.gpBasePart.Text = "Base Part";
             // 
+            // chkBasePartPartTypeAcEquals
+            // 
+            this.chkBasePartPartTypeAcEquals.AutoSize = true;
+            this.chkBasePartPartTypeAcEquals.Location = new System.Drawing.Point(551, 64);
+            this.chkBasePartPartTypeAcEquals.Name = "chkBasePartPartTypeAcEquals";
+            this.chkBasePartPartTypeAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkBasePartPartTypeAcEquals.TabIndex = 87;
+            this.chkBasePartPartTypeAcEquals.Text = "=";
+            this.chkBasePartPartTypeAcEquals.UseVisualStyleBackColor = true;
+            // 
+            // chkBasePartOffsetXAcEquals
+            // 
+            this.chkBasePartOffsetXAcEquals.AutoSize = true;
+            this.chkBasePartOffsetXAcEquals.Location = new System.Drawing.Point(632, 64);
+            this.chkBasePartOffsetXAcEquals.Name = "chkBasePartOffsetXAcEquals";
+            this.chkBasePartOffsetXAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkBasePartOffsetXAcEquals.TabIndex = 86;
+            this.chkBasePartOffsetXAcEquals.Text = "=";
+            this.chkBasePartOffsetXAcEquals.UseVisualStyleBackColor = true;
+            // 
             // chkBasePartLDrawDescriptionAcEquals
             // 
             this.chkBasePartLDrawDescriptionAcEquals.AutoSize = true;
@@ -471,6 +491,7 @@
             this.dgBasePartSummary.Size = new System.Drawing.Size(1742, 271);
             this.dgBasePartSummary.TabIndex = 78;
             this.dgBasePartSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgBasePartSummary_CellClick);
+            this.dgBasePartSummary.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgBasePartSummary_ColumnHeaderMouseClick);
             // 
             // c
             // 
@@ -787,6 +808,34 @@
             this.fldBasePartLDrawDescriptionAc.Size = new System.Drawing.Size(300, 25);
             this.fldBasePartLDrawDescriptionAc.TextChanged += new System.EventHandler(this.fldBasePartLDrawDescriptionAc_TextChanged);
             // 
+            // lblBasePartPartTypeAc
+            // 
+            this.lblBasePartPartTypeAc.Name = "lblBasePartPartTypeAc";
+            this.lblBasePartPartTypeAc.Size = new System.Drawing.Size(58, 22);
+            this.lblBasePartPartTypeAc.Text = "Part Type:";
+            // 
+            // fldBasePartPartTypeAc
+            // 
+            this.fldBasePartPartTypeAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldBasePartPartTypeAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartPartTypeAc.Name = "fldBasePartPartTypeAc";
+            this.fldBasePartPartTypeAc.Size = new System.Drawing.Size(100, 25);
+            this.fldBasePartPartTypeAc.TextChanged += new System.EventHandler(this.fldBasePartPartTypeAc_TextChanged);
+            // 
+            // lblBasePartOffsetXAc
+            // 
+            this.lblBasePartOffsetXAc.Name = "lblBasePartOffsetXAc";
+            this.lblBasePartOffsetXAc.Size = new System.Drawing.Size(52, 22);
+            this.lblBasePartOffsetXAc.Text = "Offset X:";
+            // 
+            // fldBasePartOffsetXAc
+            // 
+            this.fldBasePartOffsetXAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldBasePartOffsetXAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartOffsetXAc.Name = "fldBasePartOffsetXAc";
+            this.fldBasePartOffsetXAc.Size = new System.Drawing.Size(100, 25);
+            this.fldBasePartOffsetXAc.TextChanged += new System.EventHandler(this.fldBasePartOffsetXAc_TextChanged);
+            // 
             // chkShowPartImages
             // 
             this.chkShowPartImages.AutoSize = true;
@@ -903,6 +952,7 @@
             this.dgLDrawDetailsSummary.Size = new System.Drawing.Size(1351, 112);
             this.dgLDrawDetailsSummary.TabIndex = 79;
             this.dgLDrawDetailsSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgLDrawDetailsSummary_CellClick);
+            this.dgLDrawDetailsSummary.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgLDrawDetailsSummary_ColumnHeaderMouseClick);
             // 
             // statusStrip1
             // 
@@ -1239,6 +1289,7 @@
             this.dgSubPartMappingSummary.Size = new System.Drawing.Size(1113, 78);
             this.dgSubPartMappingSummary.TabIndex = 80;
             this.dgSubPartMappingSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSubPartMappingSummary_CellClick);
+            this.dgSubPartMappingSummary.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgSubPartMappingSummary_ColumnHeaderMouseClick);
             // 
             // statusStrip2
             // 
@@ -2203,54 +2254,6 @@
             this.btnSyncFBSFiles.Size = new System.Drawing.Size(101, 22);
             this.btnSyncFBSFiles.Text = "Sync FBX Files";
             this.btnSyncFBSFiles.Click += new System.EventHandler(this.btnSyncFBXFiles_Click);
-            // 
-            // lblBasePartPartTypeAc
-            // 
-            this.lblBasePartPartTypeAc.Name = "lblBasePartPartTypeAc";
-            this.lblBasePartPartTypeAc.Size = new System.Drawing.Size(58, 22);
-            this.lblBasePartPartTypeAc.Text = "Part Type:";
-            // 
-            // fldBasePartPartTypeAc
-            // 
-            this.fldBasePartPartTypeAc.BackColor = System.Drawing.Color.Wheat;
-            this.fldBasePartPartTypeAc.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldBasePartPartTypeAc.Name = "fldBasePartPartTypeAc";
-            this.fldBasePartPartTypeAc.Size = new System.Drawing.Size(100, 25);            
-            this.fldBasePartPartTypeAc.TextChanged += new System.EventHandler(this.fldBasePartPartTypeAc_TextChanged);
-            // 
-            // lblBasePartOffsetXAc
-            // 
-            this.lblBasePartOffsetXAc.Name = "lblBasePartOffsetXAc";
-            this.lblBasePartOffsetXAc.Size = new System.Drawing.Size(52, 22);
-            this.lblBasePartOffsetXAc.Text = "Offset X:";
-            // 
-            // fldBasePartOffsetXAc
-            // 
-            this.fldBasePartOffsetXAc.BackColor = System.Drawing.Color.Wheat;
-            this.fldBasePartOffsetXAc.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldBasePartOffsetXAc.Name = "fldBasePartOffsetXAc";
-            this.fldBasePartOffsetXAc.Size = new System.Drawing.Size(100, 25);
-            this.fldBasePartOffsetXAc.TextChanged += new System.EventHandler(this.fldBasePartOffsetXAc_TextChanged);
-            // 
-            // chkBasePartOffsetXAcEquals
-            // 
-            this.chkBasePartOffsetXAcEquals.AutoSize = true;
-            this.chkBasePartOffsetXAcEquals.Location = new System.Drawing.Point(632, 64);
-            this.chkBasePartOffsetXAcEquals.Name = "chkBasePartOffsetXAcEquals";
-            this.chkBasePartOffsetXAcEquals.Size = new System.Drawing.Size(32, 17);
-            this.chkBasePartOffsetXAcEquals.TabIndex = 86;
-            this.chkBasePartOffsetXAcEquals.Text = "=";
-            this.chkBasePartOffsetXAcEquals.UseVisualStyleBackColor = true;
-            // 
-            // chkBasePartPartTypeAcEquals
-            // 
-            this.chkBasePartPartTypeAcEquals.AutoSize = true;
-            this.chkBasePartPartTypeAcEquals.Location = new System.Drawing.Point(551, 64);
-            this.chkBasePartPartTypeAcEquals.Name = "chkBasePartPartTypeAcEquals";
-            this.chkBasePartPartTypeAcEquals.Size = new System.Drawing.Size(32, 17);
-            this.chkBasePartPartTypeAcEquals.TabIndex = 87;
-            this.chkBasePartPartTypeAcEquals.Text = "=";
-            this.chkBasePartPartTypeAcEquals.UseVisualStyleBackColor = true;            
             // 
             // StaticDataScreen
             // 
