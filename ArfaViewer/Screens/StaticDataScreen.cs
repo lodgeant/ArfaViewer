@@ -98,10 +98,18 @@ namespace Generator
                     new ToolStripControlHost(chkBasePartLDrawRefAcEquals),
                     fldBasePartLDrawRefAc,
                     new ToolStripControlHost(chkLockLDrawRef),
+                    
                     lblBasePartLDrawDescriptionAc,
                     new ToolStripControlHost(chkBasePartLDrawDescriptionAcEquals),
                     fldBasePartLDrawDescriptionAc,
-                    //new ToolStripControlHost(chkLockLDrawRef),                    
+
+                    lblBasePartPartTypeAc,
+                    new ToolStripControlHost(chkBasePartPartTypeAcEquals),
+                    fldBasePartPartTypeAc,
+                    lblBasePartOffsetXAc,
+                    new ToolStripControlHost(chkBasePartOffsetXAcEquals),
+                    fldBasePartOffsetXAc,
+
                 });
                 #endregion
 
@@ -330,6 +338,16 @@ namespace Generator
         }
 
         private void fldBasePartLDrawDescriptionAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessBasePartSummaryFilter();
+        }
+
+        private void fldBasePartPartTypeAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessBasePartSummaryFilter();
+        }
+
+        private void fldBasePartOffsetXAc_TextChanged(object sender, EventArgs e)
         {
             ProcessBasePartSummaryFilter();
         }
@@ -1117,7 +1135,7 @@ namespace Generator
                     AdjustBasePartSummaryRowFormatting(dgBasePartSummary);
 
                     // ** Determine what filters have been applied **
-                    if (fldBasePartLDrawRefAc.Text != "" || fldBasePartLDrawDescriptionAc.Text != "")
+                    if (fldBasePartLDrawRefAc.Text != "" || fldBasePartLDrawDescriptionAc.Text != "" || fldBasePartPartTypeAc.Text != "" || fldBasePartOffsetXAc.Text != "")
                     //if (fldLDrawRefAc.Text != "" || fldLDrawColourNameAc.Text != "" || chkFBXMissingAc.Checked == true)
                     {
                         List<DataRow> filteredRows = dgBasePartSummaryTable_Orig.AsEnumerable().CopyToDataTable().AsEnumerable().ToList();
@@ -1153,6 +1171,42 @@ namespace Generator
                             {
                                 filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
                                                             .Where(row => row.Field<string>("LDraw Description").ToUpper().Contains(fldBasePartLDrawDescriptionAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                        }
+                        #endregion
+
+                        #region ** Apply filtering for Part Type **
+                        if (filteredRows.Count > 0)
+                        {
+                            if (chkBasePartPartTypeAcEquals.Checked)
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("Part Type").ToUpper().Equals(fldBasePartPartTypeAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                            else
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("Part Type").ToUpper().Contains(fldBasePartPartTypeAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                        }
+                        #endregion
+
+                        #region ** Apply filtering for Offset X **
+                        if (filteredRows.Count > 0)
+                        {
+                            if (chkBasePartOffsetXAcEquals.Checked)
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<float>("Offset X").ToString().ToUpper().Equals(fldBasePartOffsetXAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                            else
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<float>("Offset X").ToString().ToUpper().Contains(fldBasePartOffsetXAc.Text.ToUpper()))
                                                             .ToList();
                             }
                         }
@@ -1897,8 +1951,6 @@ namespace Generator
             }
         }
 
-       
-
         private void PartDetailsClear()
         {
             fldLDrawRef.Text = "";
@@ -1907,6 +1959,6 @@ namespace Generator
             fldLDrawSize.Text = "";
         }
 
-
+        
     }
 }

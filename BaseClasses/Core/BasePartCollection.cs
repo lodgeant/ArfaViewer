@@ -107,9 +107,9 @@ namespace BaseClasses
             table.Columns.Add("Is Sub Part", typeof(bool));
             table.Columns.Add("Is Sticker", typeof(bool));
             table.Columns.Add("Is Large Model", typeof(bool));
-            table.Columns.Add("OffsetX", typeof(float));
-            table.Columns.Add("OffsetY", typeof(float));
-            table.Columns.Add("OffsetZ", typeof(float));
+            table.Columns.Add("Offset X", typeof(float));
+            table.Columns.Add("Offset Y", typeof(float));
+            table.Columns.Add("Offset Z", typeof(float));
             table.Columns.Add("Sub Part Count", typeof(int));
             foreach (BasePart bp in coll.BasePartList)
             {
@@ -122,9 +122,9 @@ namespace BaseClasses
                 newRow["Is Sub Part"] = bp.IsSubPart;
                 newRow["Is Sticker"] = bp.IsSticker;
                 newRow["Is Large Model"] = bp.IsLargeModel;
-                newRow["OffsetX"] = bp.OffsetX;
-                newRow["OffsetY"] = bp.OffsetY;
-                newRow["OffsetZ"] = bp.OffsetZ;
+                newRow["Offset X"] = bp.OffsetX;
+                newRow["Offset Y"] = bp.OffsetY;
+                newRow["Offset Z"] = bp.OffsetZ;
                 newRow["Sub Part Count"] = bp.SubPartCount;
                 table.Rows.Add(newRow);
             }

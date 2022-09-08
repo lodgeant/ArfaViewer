@@ -190,6 +190,7 @@
             this.fldLDrawImage = new System.Windows.Forms.ToolStripButton();
             this.btnAddPartToBasePartCollection = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnPartClear = new System.Windows.Forms.ToolStripButton();
             this.btnGenerateDatFile = new System.Windows.Forms.ToolStripButton();
             this.tsPartDetails2 = new System.Windows.Forms.ToolStrip();
             this.lblPartType = new System.Windows.Forms.ToolStripLabel();
@@ -240,7 +241,12 @@
             this.btnFBXRefreshAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSyncFBSFiles = new System.Windows.Forms.ToolStripButton();
-            this.btnPartClear = new System.Windows.Forms.ToolStripButton();
+            this.lblBasePartPartTypeAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartPartTypeAc = new System.Windows.Forms.ToolStripTextBox();
+            this.lblBasePartOffsetXAc = new System.Windows.Forms.ToolStripLabel();
+            this.fldBasePartOffsetXAc = new System.Windows.Forms.ToolStripTextBox();
+            this.chkBasePartOffsetXAcEquals = new System.Windows.Forms.CheckBox();
+            this.chkBasePartPartTypeAcEquals = new System.Windows.Forms.CheckBox();
             this.tsHeader.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -374,6 +380,8 @@
             // 
             // gpBasePart
             // 
+            this.gpBasePart.Controls.Add(this.chkBasePartPartTypeAcEquals);
+            this.gpBasePart.Controls.Add(this.chkBasePartOffsetXAcEquals);
             this.gpBasePart.Controls.Add(this.chkBasePartLDrawDescriptionAcEquals);
             this.gpBasePart.Controls.Add(this.chkBasePartLDrawRefAcEquals);
             this.gpBasePart.Controls.Add(this.chkBasePartIsLargeModel);
@@ -395,7 +403,7 @@
             // chkBasePartLDrawDescriptionAcEquals
             // 
             this.chkBasePartLDrawDescriptionAcEquals.AutoSize = true;
-            this.chkBasePartLDrawDescriptionAcEquals.Location = new System.Drawing.Point(858, 16);
+            this.chkBasePartLDrawDescriptionAcEquals.Location = new System.Drawing.Point(471, 64);
             this.chkBasePartLDrawDescriptionAcEquals.Name = "chkBasePartLDrawDescriptionAcEquals";
             this.chkBasePartLDrawDescriptionAcEquals.Size = new System.Drawing.Size(32, 17);
             this.chkBasePartLDrawDescriptionAcEquals.TabIndex = 85;
@@ -405,7 +413,7 @@
             // chkBasePartLDrawRefAcEquals
             // 
             this.chkBasePartLDrawRefAcEquals.AutoSize = true;
-            this.chkBasePartLDrawRefAcEquals.Location = new System.Drawing.Point(820, 18);
+            this.chkBasePartLDrawRefAcEquals.Location = new System.Drawing.Point(403, 64);
             this.chkBasePartLDrawRefAcEquals.Name = "chkBasePartLDrawRefAcEquals";
             this.chkBasePartLDrawRefAcEquals.Size = new System.Drawing.Size(32, 17);
             this.chkBasePartLDrawRefAcEquals.TabIndex = 84;
@@ -425,7 +433,7 @@
             // chkLockLDrawRef
             // 
             this.chkLockLDrawRef.AutoSize = true;
-            this.chkLockLDrawRef.Location = new System.Drawing.Point(909, 18);
+            this.chkLockLDrawRef.Location = new System.Drawing.Point(875, 84);
             this.chkLockLDrawRef.Name = "chkLockLDrawRef";
             this.chkLockLDrawRef.Size = new System.Drawing.Size(104, 17);
             this.chkLockLDrawRef.TabIndex = 82;
@@ -436,7 +444,7 @@
             // chkBasePartIsSticker
             // 
             this.chkBasePartIsSticker.AutoSize = true;
-            this.chkBasePartIsSticker.Location = new System.Drawing.Point(632, 116);
+            this.chkBasePartIsSticker.Location = new System.Drawing.Point(551, 138);
             this.chkBasePartIsSticker.Name = "chkBasePartIsSticker";
             this.chkBasePartIsSticker.Size = new System.Drawing.Size(70, 17);
             this.chkBasePartIsSticker.TabIndex = 81;
@@ -712,7 +720,11 @@
             this.lblBasePartLDrawRefAc,
             this.fldBasePartLDrawRefAc,
             this.lblBasePartLDrawDescriptionAc,
-            this.fldBasePartLDrawDescriptionAc});
+            this.fldBasePartLDrawDescriptionAc,
+            this.lblBasePartPartTypeAc,
+            this.fldBasePartPartTypeAc,
+            this.lblBasePartOffsetXAc,
+            this.fldBasePartOffsetXAc});
             this.tsBasePartHeader.Location = new System.Drawing.Point(3, 16);
             this.tsBasePartHeader.Name = "tsBasePartHeader";
             this.tsBasePartHeader.Size = new System.Drawing.Size(1742, 25);
@@ -1742,6 +1754,15 @@
             this.toolStripSeparator24.Name = "toolStripSeparator24";
             this.toolStripSeparator24.Size = new System.Drawing.Size(6, 25);
             // 
+            // btnPartClear
+            // 
+            this.btnPartClear.Image = ((System.Drawing.Image)(resources.GetObject("btnPartClear.Image")));
+            this.btnPartClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPartClear.Name = "btnPartClear";
+            this.btnPartClear.Size = new System.Drawing.Size(54, 22);
+            this.btnPartClear.Text = "Clear";
+            this.btnPartClear.Click += new System.EventHandler(this.btnPartClear_Click);
+            // 
             // btnGenerateDatFile
             // 
             this.btnGenerateDatFile.Image = ((System.Drawing.Image)(resources.GetObject("btnGenerateDatFile.Image")));
@@ -2183,14 +2204,53 @@
             this.btnSyncFBSFiles.Text = "Sync FBX Files";
             this.btnSyncFBSFiles.Click += new System.EventHandler(this.btnSyncFBXFiles_Click);
             // 
-            // btnPartClear
+            // lblBasePartPartTypeAc
             // 
-            this.btnPartClear.Image = ((System.Drawing.Image)(resources.GetObject("btnPartClear.Image")));
-            this.btnPartClear.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPartClear.Name = "btnPartClear";
-            this.btnPartClear.Size = new System.Drawing.Size(54, 22);
-            this.btnPartClear.Text = "Clear";
-            this.btnPartClear.Click += new System.EventHandler(this.btnPartClear_Click);
+            this.lblBasePartPartTypeAc.Name = "lblBasePartPartTypeAc";
+            this.lblBasePartPartTypeAc.Size = new System.Drawing.Size(58, 22);
+            this.lblBasePartPartTypeAc.Text = "Part Type:";
+            // 
+            // fldBasePartPartTypeAc
+            // 
+            this.fldBasePartPartTypeAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldBasePartPartTypeAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartPartTypeAc.Name = "fldBasePartPartTypeAc";
+            this.fldBasePartPartTypeAc.Size = new System.Drawing.Size(100, 25);            
+            this.fldBasePartPartTypeAc.TextChanged += new System.EventHandler(this.fldBasePartPartTypeAc_TextChanged);
+            // 
+            // lblBasePartOffsetXAc
+            // 
+            this.lblBasePartOffsetXAc.Name = "lblBasePartOffsetXAc";
+            this.lblBasePartOffsetXAc.Size = new System.Drawing.Size(52, 22);
+            this.lblBasePartOffsetXAc.Text = "Offset X:";
+            // 
+            // fldBasePartOffsetXAc
+            // 
+            this.fldBasePartOffsetXAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldBasePartOffsetXAc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldBasePartOffsetXAc.Name = "fldBasePartOffsetXAc";
+            this.fldBasePartOffsetXAc.Size = new System.Drawing.Size(100, 25);
+            this.fldBasePartOffsetXAc.TextChanged += new System.EventHandler(this.fldBasePartOffsetXAc_TextChanged);
+            // 
+            // chkBasePartOffsetXAcEquals
+            // 
+            this.chkBasePartOffsetXAcEquals.AutoSize = true;
+            this.chkBasePartOffsetXAcEquals.Location = new System.Drawing.Point(632, 64);
+            this.chkBasePartOffsetXAcEquals.Name = "chkBasePartOffsetXAcEquals";
+            this.chkBasePartOffsetXAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkBasePartOffsetXAcEquals.TabIndex = 86;
+            this.chkBasePartOffsetXAcEquals.Text = "=";
+            this.chkBasePartOffsetXAcEquals.UseVisualStyleBackColor = true;
+            // 
+            // chkBasePartPartTypeAcEquals
+            // 
+            this.chkBasePartPartTypeAcEquals.AutoSize = true;
+            this.chkBasePartPartTypeAcEquals.Location = new System.Drawing.Point(551, 64);
+            this.chkBasePartPartTypeAcEquals.Name = "chkBasePartPartTypeAcEquals";
+            this.chkBasePartPartTypeAcEquals.Size = new System.Drawing.Size(32, 17);
+            this.chkBasePartPartTypeAcEquals.TabIndex = 87;
+            this.chkBasePartPartTypeAcEquals.Text = "=";
+            this.chkBasePartPartTypeAcEquals.UseVisualStyleBackColor = true;            
             // 
             // StaticDataScreen
             // 
@@ -2511,5 +2571,11 @@
         private System.Windows.Forms.ToolStripButton btnRefreshAll;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
         private System.Windows.Forms.ToolStripButton btnPartClear;
+        private System.Windows.Forms.ToolStripLabel lblBasePartPartTypeAc;
+        private System.Windows.Forms.ToolStripTextBox fldBasePartPartTypeAc;
+        private System.Windows.Forms.ToolStripLabel lblBasePartOffsetXAc;
+        private System.Windows.Forms.ToolStripTextBox fldBasePartOffsetXAc;
+        private System.Windows.Forms.CheckBox chkBasePartPartTypeAcEquals;
+        private System.Windows.Forms.CheckBox chkBasePartOffsetXAcEquals;
     }
 }
