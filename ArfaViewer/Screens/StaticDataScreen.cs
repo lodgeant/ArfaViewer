@@ -22,8 +22,9 @@ namespace Generator
 {
     public partial class StaticDataScreen : Form
     {
-        private Scintilla LDrawDetailsData = new ScintillaNET.Scintilla();
-        private Scintilla SubPartMappingData = new ScintillaNET.Scintilla();
+        private Scintilla LDrawDetailsData = new Scintilla();
+        private Scintilla SubPartMappingData = new Scintilla();
+        private Scintilla FilesDatData = new Scintilla();
         private DataTable dgBasePartSummaryTable_Orig;
         private DataTable dgLDrawDetailsSummaryTable_Orig;
         private DataTable dgSubPartMappingSummaryTable_Orig;
@@ -234,6 +235,8 @@ namespace Generator
                 ApplyDefaultScintillaStyles(LDrawDetailsData);
                 pnlSubPartMappingData.Controls.Add(SubPartMappingData);
                 ApplyDefaultScintillaStyles(SubPartMappingData);
+                pnlFilesDatData.Controls.Add(FilesDatData);
+                ApplyDefaultScintillaStyles(FilesDatData);
 
                 // ** Populate all PartType related dropdowns **
                 PopulatePartType_Dropdowns();
@@ -2089,9 +2092,36 @@ namespace Generator
             fldLDrawSize.Text = "";
         }
 
+        private void btnRefreshAllSummaries_Click(object sender, EventArgs e)
+        {
+            RefreshBasePart();
+            RefreshLDrawDetails();
+            RefreshSubPartMapping();
+            RefreshFilesDat();
+            RefreshFilesFbx();
+            RefreshFilesUnityFbx();
+        }
+
+        private void dgFilesDatSummary_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex != -1)
+                {  
+                    string Filename = dgFilesDatSummary.Rows[e.RowIndex].Cells["Name"].Value.ToString().ToLower();
+                    FileDetails fd = StaticData.GetFileDetails_FromContainerAndFilename(@"static-data\files-dat", Filename);                    
+                    FilesDatData.Text = fd.Data;                   
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
+            }
+        }
 
 
 
-        
+
+
     }
 }

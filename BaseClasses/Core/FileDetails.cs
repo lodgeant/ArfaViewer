@@ -22,6 +22,9 @@ namespace BaseClasses
         [XmlAttribute("LastUpdatedTS")]
         public DateTime LastUpdatedTS { get; set; }
 
+        [XmlAttribute("Data")]
+        public string Data { get; set; }
+
     }
 
 }

@@ -32,6 +32,7 @@
             this.tsHeader = new System.Windows.Forms.ToolStrip();
             this.btnExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnRefreshAllSummaries = new System.Windows.Forms.ToolStripButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -180,16 +181,19 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chkIsLargeModel = new System.Windows.Forms.CheckBox();
-            this.chkIsSticker = new System.Windows.Forms.CheckBox();
-            this.chkIsSubPart = new System.Windows.Forms.CheckBox();
+            this.splitContainer7 = new System.Windows.Forms.SplitContainer();
             this.dgFilesDatSummary = new System.Windows.Forms.DataGridView();
             this.statusStrip3 = new System.Windows.Forms.StatusStrip();
             this.pbFilesDat = new System.Windows.Forms.ToolStripProgressBar();
             this.lblFilesDatStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFilesDatCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFilesDatSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pnlFilesDatData = new System.Windows.Forms.Panel();
+            this.chkFilesDatLock = new System.Windows.Forms.CheckBox();
             this.gbPartDetails = new System.Windows.Forms.GroupBox();
+            this.chkIsSticker = new System.Windows.Forms.CheckBox();
+            this.chkIsLargeModel = new System.Windows.Forms.CheckBox();
+            this.chkIsSubPart = new System.Windows.Forms.CheckBox();
             this.tsPartDetails1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.fldLDrawRef = new System.Windows.Forms.ToolStripTextBox();
@@ -203,7 +207,6 @@
             this.fldPartType = new System.Windows.Forms.ToolStripComboBox();
             this.lblLDrawSize = new System.Windows.Forms.ToolStripLabel();
             this.fldLDrawSize = new System.Windows.Forms.ToolStripTextBox();
-            this.chkFilesDatLock = new System.Windows.Forms.CheckBox();
             this.chkFilesDatFilenameAcEquals = new System.Windows.Forms.CheckBox();
             this.tsFilesDatHeader = new System.Windows.Forms.ToolStrip();
             this.btnFilesDatRefresh = new System.Windows.Forms.ToolStripButton();
@@ -290,6 +293,10 @@
             this.splitContainer5.Panel2.SuspendLayout();
             this.splitContainer5.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
+            this.splitContainer7.Panel1.SuspendLayout();
+            this.splitContainer7.Panel2.SuspendLayout();
+            this.splitContainer7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgFilesDatSummary)).BeginInit();
             this.statusStrip3.SuspendLayout();
             this.gbPartDetails.SuspendLayout();
@@ -315,7 +322,8 @@
             // 
             this.tsHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnExit,
-            this.toolStripSeparator2});
+            this.toolStripSeparator2,
+            this.btnRefreshAllSummaries});
             this.tsHeader.Location = new System.Drawing.Point(0, 0);
             this.tsHeader.Name = "tsHeader";
             this.tsHeader.Size = new System.Drawing.Size(1762, 25);
@@ -335,6 +343,15 @@
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnRefreshAllSummaries
+            // 
+            this.btnRefreshAllSummaries.Image = ((System.Drawing.Image)(resources.GetObject("btnRefreshAllSummaries.Image")));
+            this.btnRefreshAllSummaries.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRefreshAllSummaries.Name = "btnRefreshAllSummaries";
+            this.btnRefreshAllSummaries.Size = new System.Drawing.Size(83, 22);
+            this.btnRefreshAllSummaries.Text = "Refresh All";
+            this.btnRefreshAllSummaries.Click += new System.EventHandler(this.btnRefreshAllSummaries_Click);
             // 
             // tabControl1
             // 
@@ -1535,7 +1552,7 @@
             this.btnSubPartMappingDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnSubPartMappingDelete.Image")));
             this.btnSubPartMappingDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSubPartMappingDelete.Name = "btnSubPartMappingDelete";
-            this.btnSubPartMappingDelete.Size = new System.Drawing.Size(60, 20);
+            this.btnSubPartMappingDelete.Size = new System.Drawing.Size(60, 22);
             this.btnSubPartMappingDelete.Text = "Delete";
             this.btnSubPartMappingDelete.Click += new System.EventHandler(this.btnSubPartMappingDelete_Click);
             // 
@@ -1645,13 +1662,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.chkIsLargeModel);
-            this.groupBox1.Controls.Add(this.chkIsSticker);
-            this.groupBox1.Controls.Add(this.chkIsSubPart);
-            this.groupBox1.Controls.Add(this.dgFilesDatSummary);
-            this.groupBox1.Controls.Add(this.statusStrip3);
-            this.groupBox1.Controls.Add(this.gbPartDetails);
+            this.groupBox1.Controls.Add(this.splitContainer7);
             this.groupBox1.Controls.Add(this.chkFilesDatLock);
+            this.groupBox1.Controls.Add(this.gbPartDetails);
             this.groupBox1.Controls.Add(this.chkFilesDatFilenameAcEquals);
             this.groupBox1.Controls.Add(this.tsFilesDatHeader);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1662,45 +1675,35 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "files-dat";
             // 
-            // chkIsLargeModel
+            // splitContainer7
             // 
-            this.chkIsLargeModel.AutoSize = true;
-            this.chkIsLargeModel.Location = new System.Drawing.Point(168, 548);
-            this.chkIsLargeModel.Name = "chkIsLargeModel";
-            this.chkIsLargeModel.Size = new System.Drawing.Size(96, 17);
-            this.chkIsLargeModel.TabIndex = 115;
-            this.chkIsLargeModel.Text = "Is Large Model";
-            this.chkIsLargeModel.UseVisualStyleBackColor = false;
+            this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer7.Location = new System.Drawing.Point(3, 41);
+            this.splitContainer7.Name = "splitContainer7";
+            this.splitContainer7.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // chkIsSticker
+            // splitContainer7.Panel1
             // 
-            this.chkIsSticker.AutoSize = true;
-            this.chkIsSticker.Location = new System.Drawing.Point(268, 516);
-            this.chkIsSticker.Name = "chkIsSticker";
-            this.chkIsSticker.Size = new System.Drawing.Size(70, 17);
-            this.chkIsSticker.TabIndex = 114;
-            this.chkIsSticker.Text = "Is Sticker";
-            this.chkIsSticker.UseVisualStyleBackColor = false;
+            this.splitContainer7.Panel1.Controls.Add(this.dgFilesDatSummary);
+            this.splitContainer7.Panel1.Controls.Add(this.statusStrip3);
             // 
-            // chkIsSubPart
+            // splitContainer7.Panel2
             // 
-            this.chkIsSubPart.AutoSize = true;
-            this.chkIsSubPart.Location = new System.Drawing.Point(152, 516);
-            this.chkIsSubPart.Name = "chkIsSubPart";
-            this.chkIsSubPart.Size = new System.Drawing.Size(78, 17);
-            this.chkIsSubPart.TabIndex = 113;
-            this.chkIsSubPart.Text = "Is Sub Part";
-            this.chkIsSubPart.UseVisualStyleBackColor = false;
+            this.splitContainer7.Panel2.Controls.Add(this.pnlFilesDatData);
+            this.splitContainer7.Size = new System.Drawing.Size(599, 636);
+            this.splitContainer7.SplitterDistance = 505;
+            this.splitContainer7.TabIndex = 95;
             // 
             // dgFilesDatSummary
             // 
             this.dgFilesDatSummary.BackgroundColor = System.Drawing.Color.White;
             this.dgFilesDatSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgFilesDatSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgFilesDatSummary.Location = new System.Drawing.Point(3, 41);
+            this.dgFilesDatSummary.Location = new System.Drawing.Point(0, 0);
             this.dgFilesDatSummary.Name = "dgFilesDatSummary";
-            this.dgFilesDatSummary.Size = new System.Drawing.Size(599, 614);
-            this.dgFilesDatSummary.TabIndex = 92;
+            this.dgFilesDatSummary.Size = new System.Drawing.Size(599, 483);
+            this.dgFilesDatSummary.TabIndex = 93;
+            this.dgFilesDatSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgFilesDatSummary_CellClick);
             // 
             // statusStrip3
             // 
@@ -1709,10 +1712,10 @@
             this.lblFilesDatStatus,
             this.lblFilesDatCount,
             this.lblFilesDatSummaryItemFilteredCount});
-            this.statusStrip3.Location = new System.Drawing.Point(3, 655);
+            this.statusStrip3.Location = new System.Drawing.Point(0, 483);
             this.statusStrip3.Name = "statusStrip3";
             this.statusStrip3.Size = new System.Drawing.Size(599, 22);
-            this.statusStrip3.TabIndex = 91;
+            this.statusStrip3.TabIndex = 92;
             this.statusStrip3.Text = "statusStrip2";
             // 
             // pbFilesDat
@@ -1741,8 +1744,30 @@
             this.lblFilesDatSummaryItemFilteredCount.Size = new System.Drawing.Size(220, 17);
             this.lblFilesDatSummaryItemFilteredCount.Text = "lblFilesDatSummaryItemFilteredCount";
             // 
+            // pnlFilesDatData
+            // 
+            this.pnlFilesDatData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlFilesDatData.Location = new System.Drawing.Point(0, 0);
+            this.pnlFilesDatData.Name = "pnlFilesDatData";
+            this.pnlFilesDatData.Size = new System.Drawing.Size(599, 127);
+            this.pnlFilesDatData.TabIndex = 94;
+            // 
+            // chkFilesDatLock
+            // 
+            this.chkFilesDatLock.AutoSize = true;
+            this.chkFilesDatLock.Location = new System.Drawing.Point(536, 16);
+            this.chkFilesDatLock.Name = "chkFilesDatLock";
+            this.chkFilesDatLock.Size = new System.Drawing.Size(53, 17);
+            this.chkFilesDatLock.TabIndex = 94;
+            this.chkFilesDatLock.Text = "Lock ";
+            this.chkFilesDatLock.UseVisualStyleBackColor = false;
+            this.chkFilesDatLock.CheckedChanged += new System.EventHandler(this.chkFilesDatLock_CheckedChanged);
+            // 
             // gbPartDetails
             // 
+            this.gbPartDetails.Controls.Add(this.chkIsSticker);
+            this.gbPartDetails.Controls.Add(this.chkIsLargeModel);
+            this.gbPartDetails.Controls.Add(this.chkIsSubPart);
             this.gbPartDetails.Controls.Add(this.tsPartDetails1);
             this.gbPartDetails.Controls.Add(this.tsPartDetails2);
             this.gbPartDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -1752,6 +1777,36 @@
             this.gbPartDetails.TabIndex = 90;
             this.gbPartDetails.TabStop = false;
             this.gbPartDetails.Text = "Part Details";
+            // 
+            // chkIsSticker
+            // 
+            this.chkIsSticker.AutoSize = true;
+            this.chkIsSticker.Location = new System.Drawing.Point(461, 40);
+            this.chkIsSticker.Name = "chkIsSticker";
+            this.chkIsSticker.Size = new System.Drawing.Size(70, 17);
+            this.chkIsSticker.TabIndex = 117;
+            this.chkIsSticker.Text = "Is Sticker";
+            this.chkIsSticker.UseVisualStyleBackColor = false;
+            // 
+            // chkIsLargeModel
+            // 
+            this.chkIsLargeModel.AutoSize = true;
+            this.chkIsLargeModel.Location = new System.Drawing.Point(359, 40);
+            this.chkIsLargeModel.Name = "chkIsLargeModel";
+            this.chkIsLargeModel.Size = new System.Drawing.Size(96, 17);
+            this.chkIsLargeModel.TabIndex = 116;
+            this.chkIsLargeModel.Text = "Is Large Model";
+            this.chkIsLargeModel.UseVisualStyleBackColor = false;
+            // 
+            // chkIsSubPart
+            // 
+            this.chkIsSubPart.AutoSize = true;
+            this.chkIsSubPart.Location = new System.Drawing.Point(275, 40);
+            this.chkIsSubPart.Name = "chkIsSubPart";
+            this.chkIsSubPart.Size = new System.Drawing.Size(78, 17);
+            this.chkIsSubPart.TabIndex = 114;
+            this.chkIsSubPart.Text = "Is Sub Part";
+            this.chkIsSubPart.UseVisualStyleBackColor = false;
             // 
             // tsPartDetails1
             // 
@@ -1864,17 +1919,6 @@
             this.fldLDrawSize.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawSize.Name = "fldLDrawSize";
             this.fldLDrawSize.Size = new System.Drawing.Size(25, 25);
-            // 
-            // chkFilesDatLock
-            // 
-            this.chkFilesDatLock.AutoSize = true;
-            this.chkFilesDatLock.Location = new System.Drawing.Point(268, 98);
-            this.chkFilesDatLock.Name = "chkFilesDatLock";
-            this.chkFilesDatLock.Size = new System.Drawing.Size(53, 17);
-            this.chkFilesDatLock.TabIndex = 86;
-            this.chkFilesDatLock.Text = "Lock ";
-            this.chkFilesDatLock.UseVisualStyleBackColor = false;
-            this.chkFilesDatLock.CheckedChanged += new System.EventHandler(this.chkFilesDatLock_CheckedChanged);
             // 
             // chkFilesDatFilenameAcEquals
             // 
@@ -2324,6 +2368,11 @@
             this.splitContainer5.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.splitContainer7.Panel1.ResumeLayout(false);
+            this.splitContainer7.Panel1.PerformLayout();
+            this.splitContainer7.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
+            this.splitContainer7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgFilesDatSummary)).EndInit();
             this.statusStrip3.ResumeLayout(false);
             this.statusStrip3.PerformLayout();
@@ -2495,22 +2544,12 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
         private System.Windows.Forms.ToolStripLabel lblFilesUnityFbxFilenameAc;
         private System.Windows.Forms.ToolStripTextBox fldFilesUnityFbxFilenameAc;
-        private System.Windows.Forms.CheckBox chkFilesDatLock;
         private System.Windows.Forms.CheckBox chkFilesDatFilenameAcEquals;
         private System.Windows.Forms.CheckBox chkFilesFbxFilenameAcEquals;
         private System.Windows.Forms.CheckBox chkFilesUnityFbxFilenameAcEquals;
         private System.Windows.Forms.GroupBox gbPartDetails;
-        private System.Windows.Forms.DataGridView dgFilesDatSummary;
-        private System.Windows.Forms.StatusStrip statusStrip3;
-        private System.Windows.Forms.ToolStripProgressBar pbFilesDat;
-        private System.Windows.Forms.ToolStripStatusLabel lblFilesDatStatus;
-        private System.Windows.Forms.ToolStripStatusLabel lblFilesDatCount;
-        private System.Windows.Forms.ToolStripStatusLabel lblFilesDatSummaryItemFilteredCount;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
         private System.Windows.Forms.ToolStripButton btnSyncFBSFiles;
-        private System.Windows.Forms.CheckBox chkIsSubPart;
-        private System.Windows.Forms.CheckBox chkIsLargeModel;
-        private System.Windows.Forms.CheckBox chkIsSticker;
         private System.Windows.Forms.ToolStrip tsPartDetails1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripTextBox fldLDrawRef;
@@ -2580,5 +2619,18 @@
         private System.Windows.Forms.ToolStripTextBox fldBasePartOffsetXAc;
         private System.Windows.Forms.CheckBox chkBasePartPartTypeAcEquals;
         private System.Windows.Forms.CheckBox chkBasePartOffsetXAcEquals;
+        private System.Windows.Forms.ToolStripButton btnRefreshAllSummaries;
+        private System.Windows.Forms.CheckBox chkFilesDatLock;
+        private System.Windows.Forms.CheckBox chkIsSticker;
+        private System.Windows.Forms.CheckBox chkIsLargeModel;
+        private System.Windows.Forms.CheckBox chkIsSubPart;
+        private System.Windows.Forms.SplitContainer splitContainer7;
+        private System.Windows.Forms.DataGridView dgFilesDatSummary;
+        private System.Windows.Forms.StatusStrip statusStrip3;
+        private System.Windows.Forms.ToolStripProgressBar pbFilesDat;
+        private System.Windows.Forms.ToolStripStatusLabel lblFilesDatStatus;
+        private System.Windows.Forms.ToolStripStatusLabel lblFilesDatCount;
+        private System.Windows.Forms.ToolStripStatusLabel lblFilesDatSummaryItemFilteredCount;
+        private System.Windows.Forms.Panel pnlFilesDatData;
     }
 }

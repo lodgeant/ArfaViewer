@@ -462,7 +462,8 @@ namespace Generator
                     IsLargeModel = IsLargeModel,
                     SubPartCount = lDrawDetails.SubPartCount
                 };
-                if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;                
+                //if (newBasePart.partType == BasePart.PartType.BASIC) newBasePart.OffsetX = -1;
+                newBasePart.OffsetX = -1;
                 newBasePart.LDrawSize = LDrawSize;
                 BasePartList.Add(newBasePart);
                 #endregion
@@ -503,8 +504,7 @@ namespace Generator
                         {
                             ParentLDrawRef = LDrawRef,
                             SubPartLDrawRef = cp.LDrawRef,
-                            LDrawColourID = cp.LDrawColourID,
-                            PosX = -1
+                            LDrawColourID = cp.LDrawColourID                            
                         };
                         SubPartMappingList.Add(spm);
                     }
@@ -642,6 +642,15 @@ namespace Generator
                 return new FileDetailsCollection();
             }            
         }
+
+        public static FileDetails GetFileDetails_FromContainerAndFilename(string Container, string Filename)
+        {
+            string url = Global_Variables.APIUrl + "FileDetails/GetFileDetails_FromContainerAndFilename?Container=" + Container + "&Filename=" + Filename;
+            string JSONString = GetJSONResponseFromURL(url);
+            FileDetails fd = Newtonsoft.Json.JsonConvert.DeserializeObject<FileDetails>(JSONString);
+            return fd;
+        }
+
 
 
 
