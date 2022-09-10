@@ -180,11 +180,11 @@
             this.pnlSubPartMappingData = new System.Windows.Forms.Panel();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gpFilesDat = new System.Windows.Forms.GroupBox();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
             this.dgFilesDatSummary = new System.Windows.Forms.DataGridView();
             this.statusStrip3 = new System.Windows.Forms.StatusStrip();
-            this.pbFilesDat = new System.Windows.Forms.ToolStripProgressBar();
+            this.pbFilesDatStatus = new System.Windows.Forms.ToolStripProgressBar();
             this.lblFilesDatStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFilesDatCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFilesDatSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
@@ -216,11 +216,11 @@
             this.lblFilesDatFilenameAc = new System.Windows.Forms.ToolStripLabel();
             this.fldFilesDatFilenameAc = new System.Windows.Forms.ToolStripTextBox();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gpFilesFbx = new System.Windows.Forms.GroupBox();
             this.chkFilesFbxFilenameAcEquals = new System.Windows.Forms.CheckBox();
             this.dgFilesFbxSummary = new System.Windows.Forms.DataGridView();
             this.statusStrip4 = new System.Windows.Forms.StatusStrip();
-            this.pbFilesFbx = new System.Windows.Forms.ToolStripProgressBar();
+            this.pbFilesFbxStatus = new System.Windows.Forms.ToolStripProgressBar();
             this.lblFilesFbxStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFilesFbxCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFilesFbxSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
@@ -231,11 +231,11 @@
             this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
             this.lblFilesFbxFilenameAc = new System.Windows.Forms.ToolStripLabel();
             this.fldFilesFbxFilenameAc = new System.Windows.Forms.ToolStripTextBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.gpFilesUnityFbx = new System.Windows.Forms.GroupBox();
             this.chkFilesUnityFbxFilenameAcEquals = new System.Windows.Forms.CheckBox();
             this.dgFilesUnityFbxSummary = new System.Windows.Forms.DataGridView();
             this.statusStrip5 = new System.Windows.Forms.StatusStrip();
-            this.toolStripProgressBar3 = new System.Windows.Forms.ToolStripProgressBar();
+            this.pbFilesUnityFbxStatus = new System.Windows.Forms.ToolStripProgressBar();
             this.lblFilesUnityFbxStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFilesUnityFbxCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFilesUnityFbxSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
@@ -292,7 +292,7 @@
             this.splitContainer5.Panel1.SuspendLayout();
             this.splitContainer5.Panel2.SuspendLayout();
             this.splitContainer5.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.gpFilesDat.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
             this.splitContainer7.Panel1.SuspendLayout();
             this.splitContainer7.Panel2.SuspendLayout();
@@ -307,11 +307,11 @@
             this.splitContainer6.Panel1.SuspendLayout();
             this.splitContainer6.Panel2.SuspendLayout();
             this.splitContainer6.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.gpFilesFbx.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgFilesFbxSummary)).BeginInit();
             this.statusStrip4.SuspendLayout();
             this.tsFilesFbxHeader.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.gpFilesUnityFbx.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgFilesUnityFbxSummary)).BeginInit();
             this.statusStrip5.SuspendLayout();
             this.tsFilesUnityFbxHeader.SuspendLayout();
@@ -1651,7 +1651,7 @@
             // 
             // splitContainer5.Panel1
             // 
-            this.splitContainer5.Panel1.Controls.Add(this.groupBox1);
+            this.splitContainer5.Panel1.Controls.Add(this.gpFilesDat);
             // 
             // splitContainer5.Panel2
             // 
@@ -1660,20 +1660,20 @@
             this.splitContainer5.SplitterDistance = 605;
             this.splitContainer5.TabIndex = 30;
             // 
-            // groupBox1
+            // gpFilesDat
             // 
-            this.groupBox1.Controls.Add(this.splitContainer7);
-            this.groupBox1.Controls.Add(this.chkFilesDatLock);
-            this.groupBox1.Controls.Add(this.gbPartDetails);
-            this.groupBox1.Controls.Add(this.chkFilesDatFilenameAcEquals);
-            this.groupBox1.Controls.Add(this.tsFilesDatHeader);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(605, 748);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "files-dat";
+            this.gpFilesDat.Controls.Add(this.splitContainer7);
+            this.gpFilesDat.Controls.Add(this.chkFilesDatLock);
+            this.gpFilesDat.Controls.Add(this.gbPartDetails);
+            this.gpFilesDat.Controls.Add(this.chkFilesDatFilenameAcEquals);
+            this.gpFilesDat.Controls.Add(this.tsFilesDatHeader);
+            this.gpFilesDat.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpFilesDat.Location = new System.Drawing.Point(0, 0);
+            this.gpFilesDat.Name = "gpFilesDat";
+            this.gpFilesDat.Size = new System.Drawing.Size(605, 748);
+            this.gpFilesDat.TabIndex = 1;
+            this.gpFilesDat.TabStop = false;
+            this.gpFilesDat.Text = "files-dat";
             // 
             // splitContainer7
             // 
@@ -1708,7 +1708,7 @@
             // statusStrip3
             // 
             this.statusStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pbFilesDat,
+            this.pbFilesDatStatus,
             this.lblFilesDatStatus,
             this.lblFilesDatCount,
             this.lblFilesDatSummaryItemFilteredCount});
@@ -1718,11 +1718,11 @@
             this.statusStrip3.TabIndex = 92;
             this.statusStrip3.Text = "statusStrip2";
             // 
-            // pbFilesDat
+            // pbFilesDatStatus
             // 
-            this.pbFilesDat.ForeColor = System.Drawing.Color.Lime;
-            this.pbFilesDat.Name = "pbFilesDat";
-            this.pbFilesDat.Size = new System.Drawing.Size(100, 16);
+            this.pbFilesDatStatus.ForeColor = System.Drawing.Color.Lime;
+            this.pbFilesDatStatus.Name = "pbFilesDatStatus";
+            this.pbFilesDatStatus.Size = new System.Drawing.Size(100, 16);
             // 
             // lblFilesDatStatus
             // 
@@ -1995,28 +1995,28 @@
             // 
             // splitContainer6.Panel1
             // 
-            this.splitContainer6.Panel1.Controls.Add(this.groupBox2);
+            this.splitContainer6.Panel1.Controls.Add(this.gpFilesFbx);
             // 
             // splitContainer6.Panel2
             // 
-            this.splitContainer6.Panel2.Controls.Add(this.groupBox3);
+            this.splitContainer6.Panel2.Controls.Add(this.gpFilesUnityFbx);
             this.splitContainer6.Size = new System.Drawing.Size(1145, 748);
             this.splitContainer6.SplitterDistance = 489;
             this.splitContainer6.TabIndex = 0;
             // 
-            // groupBox2
+            // gpFilesFbx
             // 
-            this.groupBox2.Controls.Add(this.chkFilesFbxFilenameAcEquals);
-            this.groupBox2.Controls.Add(this.dgFilesFbxSummary);
-            this.groupBox2.Controls.Add(this.statusStrip4);
-            this.groupBox2.Controls.Add(this.tsFilesFbxHeader);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(489, 748);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "files-fbx";
+            this.gpFilesFbx.Controls.Add(this.chkFilesFbxFilenameAcEquals);
+            this.gpFilesFbx.Controls.Add(this.dgFilesFbxSummary);
+            this.gpFilesFbx.Controls.Add(this.statusStrip4);
+            this.gpFilesFbx.Controls.Add(this.tsFilesFbxHeader);
+            this.gpFilesFbx.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpFilesFbx.Location = new System.Drawing.Point(0, 0);
+            this.gpFilesFbx.Name = "gpFilesFbx";
+            this.gpFilesFbx.Size = new System.Drawing.Size(489, 748);
+            this.gpFilesFbx.TabIndex = 2;
+            this.gpFilesFbx.TabStop = false;
+            this.gpFilesFbx.Text = "files-fbx";
             // 
             // chkFilesFbxFilenameAcEquals
             // 
@@ -2041,7 +2041,7 @@
             // statusStrip4
             // 
             this.statusStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pbFilesFbx,
+            this.pbFilesFbxStatus,
             this.lblFilesFbxStatus,
             this.lblFilesFbxCount,
             this.lblFilesFbxSummaryItemFilteredCount});
@@ -2051,11 +2051,11 @@
             this.statusStrip4.TabIndex = 79;
             this.statusStrip4.Text = "statusStrip2";
             // 
-            // pbFilesFbx
+            // pbFilesFbxStatus
             // 
-            this.pbFilesFbx.ForeColor = System.Drawing.Color.Lime;
-            this.pbFilesFbx.Name = "pbFilesFbx";
-            this.pbFilesFbx.Size = new System.Drawing.Size(100, 16);
+            this.pbFilesFbxStatus.ForeColor = System.Drawing.Color.Lime;
+            this.pbFilesFbxStatus.Name = "pbFilesFbxStatus";
+            this.pbFilesFbxStatus.Size = new System.Drawing.Size(100, 16);
             // 
             // lblFilesFbxStatus
             // 
@@ -2134,19 +2134,19 @@
             this.fldFilesFbxFilenameAc.Size = new System.Drawing.Size(200, 25);
             this.fldFilesFbxFilenameAc.TextChanged += new System.EventHandler(this.fldFilesFbxFilenameAc_TextChanged);
             // 
-            // groupBox3
+            // gpFilesUnityFbx
             // 
-            this.groupBox3.Controls.Add(this.chkFilesUnityFbxFilenameAcEquals);
-            this.groupBox3.Controls.Add(this.dgFilesUnityFbxSummary);
-            this.groupBox3.Controls.Add(this.statusStrip5);
-            this.groupBox3.Controls.Add(this.tsFilesUnityFbxHeader);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(0, 0);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(652, 748);
-            this.groupBox3.TabIndex = 3;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Unity Resources FBX";
+            this.gpFilesUnityFbx.Controls.Add(this.chkFilesUnityFbxFilenameAcEquals);
+            this.gpFilesUnityFbx.Controls.Add(this.dgFilesUnityFbxSummary);
+            this.gpFilesUnityFbx.Controls.Add(this.statusStrip5);
+            this.gpFilesUnityFbx.Controls.Add(this.tsFilesUnityFbxHeader);
+            this.gpFilesUnityFbx.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpFilesUnityFbx.Location = new System.Drawing.Point(0, 0);
+            this.gpFilesUnityFbx.Name = "gpFilesUnityFbx";
+            this.gpFilesUnityFbx.Size = new System.Drawing.Size(652, 748);
+            this.gpFilesUnityFbx.TabIndex = 3;
+            this.gpFilesUnityFbx.TabStop = false;
+            this.gpFilesUnityFbx.Text = "Unity Resources FBX";
             // 
             // chkFilesUnityFbxFilenameAcEquals
             // 
@@ -2171,7 +2171,7 @@
             // statusStrip5
             // 
             this.statusStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBar3,
+            this.pbFilesUnityFbxStatus,
             this.lblFilesUnityFbxStatus,
             this.lblFilesUnityFbxCount,
             this.lblFilesUnityFbxSummaryItemFilteredCount});
@@ -2181,11 +2181,11 @@
             this.statusStrip5.TabIndex = 79;
             this.statusStrip5.Text = "statusStrip2";
             // 
-            // toolStripProgressBar3
+            // pbFilesUnityFbxStatus
             // 
-            this.toolStripProgressBar3.ForeColor = System.Drawing.Color.Lime;
-            this.toolStripProgressBar3.Name = "toolStripProgressBar3";
-            this.toolStripProgressBar3.Size = new System.Drawing.Size(100, 16);
+            this.pbFilesUnityFbxStatus.ForeColor = System.Drawing.Color.Lime;
+            this.pbFilesUnityFbxStatus.Name = "pbFilesUnityFbxStatus";
+            this.pbFilesUnityFbxStatus.Size = new System.Drawing.Size(100, 16);
             // 
             // lblFilesUnityFbxStatus
             // 
@@ -2366,8 +2366,8 @@
             this.splitContainer5.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
             this.splitContainer5.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gpFilesDat.ResumeLayout(false);
+            this.gpFilesDat.PerformLayout();
             this.splitContainer7.Panel1.ResumeLayout(false);
             this.splitContainer7.Panel1.PerformLayout();
             this.splitContainer7.Panel2.ResumeLayout(false);
@@ -2388,15 +2388,15 @@
             this.splitContainer6.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
             this.splitContainer6.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.gpFilesFbx.ResumeLayout(false);
+            this.gpFilesFbx.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgFilesFbxSummary)).EndInit();
             this.statusStrip4.ResumeLayout(false);
             this.statusStrip4.PerformLayout();
             this.tsFilesFbxHeader.ResumeLayout(false);
             this.tsFilesFbxHeader.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.gpFilesUnityFbx.ResumeLayout(false);
+            this.gpFilesUnityFbx.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgFilesUnityFbxSummary)).EndInit();
             this.statusStrip5.ResumeLayout(false);
             this.statusStrip5.PerformLayout();
@@ -2505,7 +2505,7 @@
         private System.Windows.Forms.CheckBox chkSubPartMappingParentLDrawRefAcEquals;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.SplitContainer splitContainer5;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gpFilesDat;
         private System.Windows.Forms.ToolStrip tsFilesDatHeader;
         private System.Windows.Forms.ToolStripButton btnFilesDatRefresh;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
@@ -2514,13 +2514,13 @@
         private System.Windows.Forms.ToolStripLabel lblFilesDatFilenameAc;
         private System.Windows.Forms.ToolStripTextBox fldFilesDatFilenameAc;
         private System.Windows.Forms.SplitContainer splitContainer6;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox gpFilesFbx;
+        private System.Windows.Forms.GroupBox gpFilesUnityFbx;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton btnFBXRefreshAll;
         private System.Windows.Forms.DataGridView dgFilesFbxSummary;
         private System.Windows.Forms.StatusStrip statusStrip4;
-        private System.Windows.Forms.ToolStripProgressBar pbFilesFbx;
+        private System.Windows.Forms.ToolStripProgressBar pbFilesFbxStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblFilesFbxStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblFilesFbxCount;
         private System.Windows.Forms.ToolStripStatusLabel lblFilesFbxSummaryItemFilteredCount;
@@ -2533,7 +2533,7 @@
         private System.Windows.Forms.ToolStripTextBox fldFilesFbxFilenameAc;
         private System.Windows.Forms.DataGridView dgFilesUnityFbxSummary;
         private System.Windows.Forms.StatusStrip statusStrip5;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar3;
+        private System.Windows.Forms.ToolStripProgressBar pbFilesUnityFbxStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblFilesUnityFbxStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblFilesUnityFbxCount;
         private System.Windows.Forms.ToolStripStatusLabel lblFilesUnityFbxSummaryItemFilteredCount;
@@ -2627,7 +2627,7 @@
         private System.Windows.Forms.SplitContainer splitContainer7;
         private System.Windows.Forms.DataGridView dgFilesDatSummary;
         private System.Windows.Forms.StatusStrip statusStrip3;
-        private System.Windows.Forms.ToolStripProgressBar pbFilesDat;
+        private System.Windows.Forms.ToolStripProgressBar pbFilesDatStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblFilesDatStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblFilesDatCount;
         private System.Windows.Forms.ToolStripStatusLabel lblFilesDatSummaryItemFilteredCount;

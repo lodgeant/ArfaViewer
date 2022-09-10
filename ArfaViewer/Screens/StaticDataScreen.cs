@@ -1027,6 +1027,338 @@ namespace Generator
 
         #endregion
 
+        #region ** REFRESH FILES DAT FUNCTIONS
+
+        private BackgroundWorker bw_RefreshFilesDat;
+
+        private void EnableControls_RefreshFilesDat(bool value)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => EnableControls_RefreshFilesDat(value)));
+            }
+            else
+            {
+                btnExit.Enabled = value;
+                gpFilesDat.Enabled = value;
+            }
+        }
+
+        private void RefreshFilesDat()
+        {
+            try
+            {
+                EnableControls_RefreshFilesDat(false);
+
+                // ** CLEAR FIELDS ** 
+                dgFilesDatSummary.DataSource = null;
+                lblFilesDatCount.Text = "";
+                lblFilesDatSummaryItemFilteredCount.Text = "";
+                fldFilesDatFilenameAc.Text = "";
+                FilesDatData.Text = "";
+
+                // ** Run background to process functions **
+                bw_RefreshFilesDat = new BackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                };
+                bw_RefreshFilesDat.DoWork += new DoWorkEventHandler(bw_RefreshFilesDat_DoWork);
+                bw_RefreshFilesDat.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RefreshFilesDat_RunWorkerCompleted);
+                bw_RefreshFilesDat.ProgressChanged += new ProgressChangedEventHandler(bw_RefreshFilesDat_ProgressChanged);
+                bw_RefreshFilesDat.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                //Delegates.ToolStripButton_SetText(this, btnRefreshStaticData, "Refresh Static Data");
+                //btnRefreshStaticData.ForeColor = Color.Black;
+                pbFilesDatStatus.Value = 0;
+                EnableControls_RefreshFilesDat(true);
+                Delegates.ToolStripLabel_SetText(this, lblFilesDatStatus, "");
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshFilesDat_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+                Delegates.ToolStripProgressBar_SetValue(this, pbFilesDatStatus, e.ProgressPercentage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshFilesDat_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                //Delegates.ToolStripButton_SetTextAndForeColor(this, btnRefreshStaticData, "Refresh Static Data", Color.Black);
+                Delegates.ToolStripProgressBar_SetValue(this, pbFilesDatStatus, 0);
+                Delegates.ToolStripLabel_SetText(this, lblFilesDatStatus, "");
+                EnableControls_RefreshFilesDat(true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshFilesDat_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                // ** Get all files in static-data/files-dat directory **
+                Delegates.ToolStripLabel_SetText(this, lblFilesDatStatus, "Refreshing - Getting all files from Azure...");
+                FileDetailsCollection fdc = StaticData.GetFileDetailsData_FromContainer(@"static-data\files-dat");
+                dgFilesDatSummaryTable_Orig = FileDetailsCollection.GetDatatableFromFileDetailsCollection(fdc);
+
+                // ** Posting data to summary **
+                Delegates.ToolStripLabel_SetText(this, lblFilesDatStatus, "Refreshing - Posting data to summary...");
+                Delegates.DataGridView_SetDataSource(this, dgFilesDatSummary, dgFilesDatSummaryTable_Orig);
+                Delegates.ToolStripLabel_SetText(this, lblFilesDatCount, fdc.FileDetailsList.Count.ToString("#,##0") + " file(s)");
+
+                // ** Format summary **
+                Delegates.ToolStripLabel_SetText(this, lblFilesDatStatus, "Refreshing - Formatting summary data...");
+                AdjustFBXSummaryRowFormatting(dgFilesDatSummary);
+                Delegates.ToolStripLabel_SetText(this, lblFilesDatStatus, "");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void AdjustFBXSummaryRowFormatting(DataGridView dg)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => AdjustFBXSummaryRowFormatting(dg)));
+            }
+            else
+            {
+                // ** Format columns **
+                dg.Columns["Size"].DefaultCellStyle.Format = "#,###";
+                if (dg.Columns["Created TS"] != null) dg.Columns["Created TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
+                if (dg.Columns["Last Updated TS"] != null) dg.Columns["Last Updated TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
+                dg.AutoResizeColumns();
+            }
+        }
+
+        #endregion
+
+        #region ** REFRESH FILES FBX FUNCTIONS
+
+        private BackgroundWorker bw_RefreshFilesFbx;
+
+        private void EnableControls_RefreshFilesFbx(bool value)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => EnableControls_RefreshFilesFbx(value)));
+            }
+            else
+            {
+                btnExit.Enabled = value;
+                gpFilesFbx.Enabled = value;
+            }
+        }
+
+        private void RefreshFilesFbx()
+        {
+            try
+            {
+                EnableControls_RefreshFilesFbx(false);
+
+                // ** CLEAR FIELDS ** 
+                dgFilesFbxSummary.DataSource = null;
+                lblFilesFbxCount.Text = "";
+                lblFilesFbxSummaryItemFilteredCount.Text = "";
+                fldFilesFbxFilenameAc.Text = "";
+
+                // ** Run background to process functions **
+                bw_RefreshFilesFbx = new BackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                };
+                bw_RefreshFilesFbx.DoWork += new DoWorkEventHandler(bw_RefreshFilesFbx_DoWork);
+                bw_RefreshFilesFbx.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RefreshFilesFbx_RunWorkerCompleted);
+                bw_RefreshFilesFbx.ProgressChanged += new ProgressChangedEventHandler(bw_RefreshFilesFbx_ProgressChanged);
+                bw_RefreshFilesFbx.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                //Delegates.ToolStripButton_SetText(this, btnRefreshStaticData, "Refresh Static Data");
+                //btnRefreshStaticData.ForeColor = Color.Black;
+                pbFilesFbxStatus.Value = 0;
+                EnableControls_RefreshFilesFbx(true);
+                Delegates.ToolStripLabel_SetText(this, lblFilesFbxStatus, "");
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshFilesFbx_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+                Delegates.ToolStripProgressBar_SetValue(this, pbFilesFbxStatus, e.ProgressPercentage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshFilesFbx_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                //Delegates.ToolStripButton_SetTextAndForeColor(this, btnRefreshStaticData, "Refresh Static Data", Color.Black);
+                Delegates.ToolStripProgressBar_SetValue(this, pbFilesFbxStatus, 0);
+                Delegates.ToolStripLabel_SetText(this, lblFilesFbxStatus, "");
+                EnableControls_RefreshFilesFbx(true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshFilesFbx_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                // ** Get all files in static-data/files-dat directory **
+                Delegates.ToolStripLabel_SetText(this, lblFilesFbxStatus, "Refreshing - Getting all files from Azure...");
+                FileDetailsCollection fdc = StaticData.GetFileDetailsData_FromContainer(@"static-data\files-fbx");
+                dgFilesFbxSummaryTable_Orig = FileDetailsCollection.GetDatatableFromFileDetailsCollection(fdc);
+
+                // ** Posting data to summary **
+                Delegates.ToolStripLabel_SetText(this, lblFilesFbxStatus, "Refreshing - Posting data to summary...");
+                Delegates.DataGridView_SetDataSource(this, dgFilesFbxSummary, dgFilesFbxSummaryTable_Orig);
+                Delegates.ToolStripLabel_SetText(this, lblFilesFbxCount, fdc.FileDetailsList.Count.ToString("#,##0") + " file(s)");
+
+                // ** Format summary **
+                Delegates.ToolStripLabel_SetText(this, lblFilesFbxStatus, "Refreshing - Formatting summary data...");
+                AdjustFBXSummaryRowFormatting(dgFilesFbxSummary);
+                Delegates.ToolStripLabel_SetText(this, lblFilesFbxStatus, "");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region ** REFRESH FILES FBX FUNCTIONS
+
+        private BackgroundWorker bw_RefreshFilesUnityFbx;
+
+        private void EnableControls_RefreshFilesUnityFbx(bool value)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => EnableControls_RefreshFilesUnityFbx(value)));
+            }
+            else
+            {
+                btnExit.Enabled = value;
+                gpFilesUnityFbx.Enabled = value;
+            }
+        }
+
+        private void RefreshFilesUnityFbx()
+        {
+            try
+            {
+                EnableControls_RefreshFilesUnityFbx(false);
+
+                // ** CLEAR FIELDS ** 
+                dgFilesUnityFbxSummary.DataSource = null;
+                lblFilesUnityFbxCount.Text = "";
+                lblFilesUnityFbxSummaryItemFilteredCount.Text = "";
+                fldFilesUnityFbxFilenameAc.Text = "";
+
+                // ** Run background to process functions **
+                bw_RefreshFilesUnityFbx = new BackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                };
+                bw_RefreshFilesUnityFbx.DoWork += new DoWorkEventHandler(bw_RefreshFilesUnityFbx_DoWork);
+                bw_RefreshFilesUnityFbx.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RefreshFilesUnityFbx_RunWorkerCompleted);
+                bw_RefreshFilesUnityFbx.ProgressChanged += new ProgressChangedEventHandler(bw_RefreshFilesUnityFbx_ProgressChanged);
+                bw_RefreshFilesUnityFbx.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                //Delegates.ToolStripButton_SetText(this, btnRefreshStaticData, "Refresh Static Data");
+                //btnRefreshStaticData.ForeColor = Color.Black;
+                pbFilesUnityFbxStatus.Value = 0;
+                EnableControls_RefreshFilesUnityFbx(true);
+                Delegates.ToolStripLabel_SetText(this, lblFilesUnityFbxStatus, "");
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshFilesUnityFbx_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+                Delegates.ToolStripProgressBar_SetValue(this, pbFilesUnityFbxStatus, e.ProgressPercentage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshFilesUnityFbx_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                //Delegates.ToolStripButton_SetTextAndForeColor(this, btnRefreshStaticData, "Refresh Static Data", Color.Black);
+                Delegates.ToolStripProgressBar_SetValue(this, pbFilesUnityFbxStatus, 0);
+                Delegates.ToolStripLabel_SetText(this, lblFilesUnityFbxStatus, "");
+                EnableControls_RefreshFilesUnityFbx(true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshFilesUnityFbx_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                // ** Get all files in static-data/files-dat directory **
+                Delegates.ToolStripLabel_SetText(this, lblFilesUnityFbxStatus, "Refreshing - Getting all files from Azure...");
+                FileDetailsCollection fdc = StaticData.GetFileDetailsData_FromLocalLocation(Global_Variables.UnityFBXLocation);
+                dgFilesUnityFbxSummaryTable_Orig = FileDetailsCollection.GetDatatableFromFileDetailsCollection(fdc);
+
+                // ** Posting data to summary **
+                Delegates.ToolStripLabel_SetText(this, lblFilesUnityFbxStatus, "Refreshing - Posting data to summary...");
+                Delegates.DataGridView_SetDataSource(this, dgFilesUnityFbxSummary, dgFilesUnityFbxSummaryTable_Orig);
+                Delegates.ToolStripLabel_SetText(this, lblFilesUnityFbxCount, fdc.FileDetailsList.Count.ToString("#,##0") + " file(s)");
+
+                // ** Format summary **
+                Delegates.ToolStripLabel_SetText(this, lblFilesUnityFbxStatus, "Refreshing - Formatting summary data...");
+                AdjustFBXSummaryRowFormatting(dgFilesUnityFbxSummary);
+                Delegates.ToolStripLabel_SetText(this, lblFilesUnityFbxStatus, "");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
         #region ** CELL CLICK FUNCTIONS **
 
         private void dgBasePartSummary_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -1706,27 +2038,32 @@ namespace Generator
                 bool exists = StaticData.CheckIfBasePartExists(LDrawRef);
                 if (exists == false) throw new Exception("LDraw Ref doesn't exist for " + LDrawRef);
 
-                // Check if all Sub Part Mappings should be deleted as well
-                bool DeleteSubPartMappings = true;  // Maybe we will take a look at this future. Currently will delete all SubPartMappings as well by default.
-
-                // ** Delete BasePart and all associated SubPartMappings **
-                List<string> LDrawRefList = StaticData.DeleteBasePart(LDrawRef, DeleteSubPartMappings);
-                
-                // ** Tidy Up **
-                BasePart_Clear();
-                RefreshBasePart();
-                if(DeleteSubPartMappings) RefreshSubPartMapping();
-
-                // ** Show confirmation **
-                string confString = "BasePart " + LDrawRef + " deleted successfully..." + Environment.NewLine;
-                if(DeleteSubPartMappings)
+                // Make sure user wants to delete
+                DialogResult res = MessageBox.Show("Are you sure you want to Delete?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
                 {
-                    List<string> SubPartMappingRefList = new List<string>(LDrawRefList);
-                    SubPartMappingRefList.Remove(LDrawRef);
-                    confString += "The following SubPartMappings were also deleted:" + Environment.NewLine;
-                    confString += String.Join(",", SubPartMappingRefList);
+                    // Check if all Sub Part Mappings should be deleted as well
+                    bool DeleteSubPartMappings = true;  // Maybe we will take a look at this future. Currently will delete all SubPartMappings as well by default.
+
+                    // ** Delete BasePart and all associated SubPartMappings **
+                    List<string> LDrawRefList = StaticData.DeleteBasePart(LDrawRef, DeleteSubPartMappings);
+
+                    // ** Tidy Up **
+                    BasePart_Clear();
+                    RefreshBasePart();
+                    if (DeleteSubPartMappings) RefreshSubPartMapping();
+
+                    // ** Show confirmation **
+                    string confString = "BasePart " + LDrawRef + " deleted successfully..." + Environment.NewLine;
+                    if (DeleteSubPartMappings)
+                    {
+                        List<string> SubPartMappingRefList = new List<string>(LDrawRefList);
+                        SubPartMappingRefList.Remove(LDrawRef);
+                        confString += "The following SubPartMappings were also deleted:" + Environment.NewLine;
+                        confString += String.Join(",", SubPartMappingRefList);
+                    }
+                    MessageBox.Show(confString);
                 }
-                MessageBox.Show(confString);
             }
             catch (Exception ex)
             {
@@ -1825,13 +2162,18 @@ namespace Generator
                 bool exists = StaticData.CheckIfSubPartMappingExists(ParentLDrawRef, SubPartLDrawRef);
                 if (exists == false) throw new Exception("Sub Part Mapping doesn't exist for " + ParentLDrawRef + " and " + SubPartLDrawRef);
 
-                // ** Delete SubPartMapping **
-                StaticData.DeleteSubPartMapping(ParentLDrawRef, SubPartLDrawRef);
+                // Make sure user wants to delete
+                DialogResult res = MessageBox.Show("Are you sure you want to Delete?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    // ** Delete SubPartMapping **
+                    StaticData.DeleteSubPartMapping(ParentLDrawRef, SubPartLDrawRef);
 
-                // ** Tidy Up **
-                SubPartMapping_Clear();
-                RefreshSubPartMapping();
-                MessageBox.Show("SubPartMapping for " + ParentLDrawRef + " and " + SubPartLDrawRef + " deleted successfully...");
+                    // ** Tidy Up **
+                    SubPartMapping_Clear();
+                    RefreshSubPartMapping();
+                    MessageBox.Show("SubPartMapping for " + ParentLDrawRef + " and " + SubPartLDrawRef + " deleted successfully...");
+                }
             }
             catch (Exception ex)
             {
@@ -1913,26 +2255,31 @@ namespace Generator
                 bool exists = StaticData.CheckIfLDrawDetailsExist(LDrawRef);
                 if (exists == false) throw new Exception("LDraw Details don't exist for " + LDrawRef);
 
-                // Check if all Sub Parts should be deleted as well
-                bool DeleteSubParts = true; // Maybe we will take a look at this future. Currently will delete all SubParts as well by default.
-
-                // ** Delete parent LDrawDetails and all associated Sub Parts **
-                List<string> LDrawRefList = StaticData.DeleteLDrawDetails(LDrawRef, DeleteSubParts);
-
-                // ** Tidy Up **
-                LDrawDetails_Clear();
-                RefreshLDrawDetails();
-
-                // ** Show confirmation **
-                string confString = "LDrawDetails for " + LDrawRef + " deleted successfully..." + Environment.NewLine;
-                if (DeleteSubParts)
+                // Make sure user wants to delete
+                DialogResult res = MessageBox.Show("Are you sure you want to Delete?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
                 {
-                    List<string> SubPartRefList = new List<string>(LDrawRefList);
-                    SubPartRefList.Remove(LDrawRef);
-                    confString += "The following Sub Parts were also deleted:" + Environment.NewLine;
-                    confString += String.Join(",", SubPartRefList);
+                    // Check if all Sub Parts should be deleted as well
+                    bool DeleteSubParts = true; // Maybe we will take a look at this future. Currently will delete all SubParts as well by default.
+
+                    // ** Delete parent LDrawDetails and all associated Sub Parts **
+                    List<string> LDrawRefList = StaticData.DeleteLDrawDetails(LDrawRef, DeleteSubParts);
+
+                    // ** Tidy Up **
+                    LDrawDetails_Clear();
+                    RefreshLDrawDetails();
+
+                    // ** Show confirmation **
+                    string confString = "LDrawDetails for " + LDrawRef + " deleted successfully..." + Environment.NewLine;
+                    if (DeleteSubParts)
+                    {
+                        List<string> SubPartRefList = new List<string>(LDrawRefList);
+                        SubPartRefList.Remove(LDrawRef);
+                        confString += "The following Sub Parts were also deleted:" + Environment.NewLine;
+                        confString += String.Join(",", SubPartRefList);
+                    }
+                    MessageBox.Show(confString);
                 }
-                MessageBox.Show(confString);
             }
             catch (Exception ex)
             {
@@ -1950,89 +2297,6 @@ namespace Generator
             fldLDrawDetailsSubPartCount.Text = "";
             fldLDrawDetailsLDrawRefList.Text = "";
             LDrawDetailsData.Text = "";
-        }
-
-        #endregion
-
-        #region ** REFRESH FBX SUMMARY FUNCTIONS **
-
-        private void RefreshFilesDat()
-        {
-            try
-            {
-                // ** Get all files in static-data/files-dat directory **               
-                FileDetailsCollection fdc = StaticData.GetFileDetailsData_FromContainer(@"static-data\files-dat");
-
-                // ** Build table **
-                dgFilesDatSummaryTable_Orig = FileDetailsCollection.GetDatatableFromFileDetailsCollection(fdc);
-                dgFilesDatSummary.DataSource = dgFilesDatSummaryTable_Orig;
-                AdjustFBXSummaryRowFormatting(dgFilesDatSummary);
-
-                // ** Update counts **
-                lblFilesDatCount.Text = fdc.FileDetailsList.Count + " file(s)";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void RefreshFilesFbx()
-        {
-            try
-            {
-                // ** Get all files in static-data/files-fbx directory **               
-                FileDetailsCollection fdc = StaticData.GetFileDetailsData_FromContainer(@"static-data\files-fbx");
-
-                // ** Build table **
-                dgFilesFbxSummaryTable_Orig = FileDetailsCollection.GetDatatableFromFileDetailsCollection(fdc);
-                dgFilesFbxSummary.DataSource = dgFilesFbxSummaryTable_Orig;
-                AdjustFBXSummaryRowFormatting(dgFilesFbxSummary);
-
-                // ** Update counts **
-                lblFilesFbxCount.Text = fdc.FileDetailsList.Count + " file(s)";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void RefreshFilesUnityFbx()
-        {
-            try
-            {
-                // ** Get all files in Unity FBX directory **               
-                FileDetailsCollection fdc = StaticData.GetFileDetailsData_FromLocalLocation(Global_Variables.UnityFBXLocation);
-
-                // ** Build table **
-                dgFilesUnityFbxSummaryTable_Orig = FileDetailsCollection.GetDatatableFromFileDetailsCollection(fdc);
-                dgFilesUnityFbxSummary.DataSource = dgFilesUnityFbxSummaryTable_Orig;
-                AdjustFBXSummaryRowFormatting(dgFilesUnityFbxSummary);
-
-                // ** Update counts **
-                lblFilesUnityFbxCount.Text = fdc.FileDetailsList.Count + " file(s)";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void AdjustFBXSummaryRowFormatting(DataGridView dg)
-        {
-            if (this.InvokeRequired)
-            {
-                this.BeginInvoke(new MethodInvoker(() => AdjustFBXSummaryRowFormatting(dg)));
-            }
-            else
-            {
-                // ** Format columns **
-                dg.Columns["Size"].DefaultCellStyle.Format = "#,###";
-                if (dg.Columns["Created TS"] != null) dg.Columns["Created TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
-                if (dg.Columns["Last Updated TS"] != null) dg.Columns["Last Updated TS"].DefaultCellStyle.Format = "dd-MMM-yy HH:mm:ss";
-                dg.AutoResizeColumns();
-            }
         }
 
         #endregion
@@ -2273,6 +2537,8 @@ namespace Generator
 
 
 
-        
+
+
+
     }
 }
