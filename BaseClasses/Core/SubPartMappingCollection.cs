@@ -71,11 +71,10 @@ namespace BaseClasses
             return coll;
         }
 
-
-
         public static DataTable GetDatatableFromSubPartMappingCollection(SubPartMappingCollection coll)
         {
             DataTable table = new DataTable("", "");
+            table.Columns.Add("ID", typeof(int));
             table.Columns.Add("Parent LDraw Ref", typeof(string));
             table.Columns.Add("Sub Part LDraw Ref", typeof(string));
             table.Columns.Add("LDraw Colour ID", typeof(int));
@@ -88,6 +87,7 @@ namespace BaseClasses
             foreach (SubPartMapping item in coll.SubPartMappingList)
             {
                 DataRow newRow = table.NewRow();
+                newRow["ID"] = item.ID;
                 newRow["Parent LDraw Ref"] = item.ParentLDrawRef;
                 newRow["Sub Part LDraw Ref"] = item.SubPartLDrawRef;
                 newRow["LDraw Colour ID"] = item.LDrawColourID;

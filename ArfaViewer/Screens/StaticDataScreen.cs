@@ -958,9 +958,9 @@ namespace Generator
                 Delegates.ToolStripProgressBar_SetMax(this, pbSubPartMappingStatus, coll.SubPartMappingList.Count);
                 int imageIndex = 0;
                 table.Columns.Add("Parent Part Image", typeof(Bitmap));
-                table.Columns["Parent Part Image"].SetOrdinal(0);
+                table.Columns["Parent Part Image"].SetOrdinal(1);
                 table.Columns.Add("Sub Part Image", typeof(Bitmap));
-                table.Columns["Sub Part Image"].SetOrdinal(2);
+                table.Columns["Sub Part Image"].SetOrdinal(3);
                 if (chkShowPartImages.Checked)
                 {
                     foreach (DataRow row in table.Rows)
@@ -1455,7 +1455,7 @@ namespace Generator
             {
                 if (e.RowIndex != -1)
                 {
-                    if (e.ColumnIndex == 0)
+                    if (e.ColumnIndex == 1 || e.ColumnIndex == 3)
                     {
                         var obj = dgSubPartMappingSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                         if (obj != DBNull.Value)
@@ -1471,7 +1471,8 @@ namespace Generator
                         // Get SubPartMapping for Parent LDraw Ref & Sub Part LDraw Ref **
                         string ParentLDrawRef = dgSubPartMappingSummary.Rows[e.RowIndex].Cells["Parent LDraw Ref"].Value.ToString();
                         string SubPartLDrawRef = dgSubPartMappingSummary.Rows[e.RowIndex].Cells["Sub Part LDraw Ref"].Value.ToString();
-                        SubPartMapping spm = StaticData.GetSubPartMapping(ParentLDrawRef, SubPartLDrawRef);
+                        int ID = (int)dgSubPartMappingSummary.Rows[e.RowIndex].Cells["ID"].Value;
+                        SubPartMapping spm = StaticData.GetSubPartMapping(ParentLDrawRef, SubPartLDrawRef, ID);
                         LDrawDetails ldd = StaticData.GetLDrawDetails(SubPartLDrawRef);
 
                         // ** Post data to form **
@@ -1479,6 +1480,7 @@ namespace Generator
                         fldSubPartMappingParentLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { ParentLDrawRef });
                         fldSubPartMappingSubPartLDrawRef.Text = spm.SubPartLDrawRef;
                         fldSubPartMappingSubPartLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { SubPartLDrawRef });
+                        fldSubPartMappingSubPartID.Text = spm.ID.ToString();                        
                         fldSubPartMappingSubPartLDrawColourID.Text = spm.LDrawColourID.ToString();
                         fldSubPartMappingPosX.Text = spm.PosX.ToString();
                         fldSubPartMappingPosY.Text = spm.PosY.ToString();
@@ -2103,11 +2105,15 @@ namespace Generator
                 string SubPartLDrawRef = fldSubPartMappingSubPartLDrawRef.Text;
                 if (fldSubPartMappingSubPartLDrawColourID.Text.Equals("")) throw new Exception("No LDrawColour ID entered...");
                 int LDrawColourID;
-                if(int.TryParse(fldSubPartMappingSubPartLDrawColourID.Text, out LDrawColourID) == false) throw new Exception("No LDrawColour ID not in correct format...");
-               
+                if(int.TryParse(fldSubPartMappingSubPartLDrawColourID.Text, out LDrawColourID) == false) throw new Exception("LDrawColour ID not in correct format...");
+                int ID;
+                if (int.TryParse(fldSubPartMappingSubPartID.Text, out ID) == false) throw new Exception("ID not in correct format...");
+
+
+
                 // Check if SubPartMapping already exists - if so update it, if not, add it.
                 string action = "UPDATE";
-                SubPartMapping spm = StaticData.GetSubPartMapping(ParentLDrawRef, SubPartLDrawRef);
+                SubPartMapping spm = StaticData.GetSubPartMapping(ParentLDrawRef, SubPartLDrawRef, ID);
                 if (spm == null)
                 {
                     action = "ADD";
@@ -2157,9 +2163,10 @@ namespace Generator
                 string ParentLDrawRef = fldSubPartMappingParentLDrawRef.Text;
                 if (fldSubPartMappingSubPartLDrawRef.Text.Equals("")) throw new Exception("No Sub Part LDraw Ref entered...");
                 string SubPartLDrawRef = fldSubPartMappingSubPartLDrawRef.Text;
+                int ID = int.Parse(fldSubPartMappingSubPartID.Text);
 
                 // ** Check if SubPartMapping exists **
-                bool exists = StaticData.CheckIfSubPartMappingExists(ParentLDrawRef, SubPartLDrawRef);
+                bool exists = StaticData.CheckIfSubPartMappingExists(ParentLDrawRef, SubPartLDrawRef, ID);
                 if (exists == false) throw new Exception("Sub Part Mapping doesn't exist for " + ParentLDrawRef + " and " + SubPartLDrawRef);
 
                 // Make sure user wants to delete
@@ -2167,7 +2174,7 @@ namespace Generator
                 if (res == DialogResult.Yes)
                 {
                     // ** Delete SubPartMapping **
-                    StaticData.DeleteSubPartMapping(ParentLDrawRef, SubPartLDrawRef);
+                    StaticData.DeleteSubPartMapping(ParentLDrawRef, SubPartLDrawRef, ID);
 
                     // ** Tidy Up **
                     SubPartMapping_Clear();

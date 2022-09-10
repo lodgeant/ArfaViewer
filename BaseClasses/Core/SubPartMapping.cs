@@ -12,6 +12,9 @@ namespace BaseClasses
     [Serializable]
     public class SubPartMapping
     {
+        [XmlAttribute("ID")]
+        public int ID { get; set; }
+
         [XmlAttribute("ParentLDrawRef")]
         public string ParentLDrawRef { get; set; }
 
@@ -84,6 +87,7 @@ namespace BaseClasses
         public static SubPartMapping GetSubPartMappingFromDBDataRow(DataRow row)
         {
             SubPartMapping item = new SubPartMapping();
+            item.ID = (int)row["ID"];
             item.SubPartLDrawRef = (string)row["SUB_PART_LDRAW_REF"];
             item.ParentLDrawRef = (string)row["PARENT_LDRAW_REF"];
             item.LDrawColourID = (int)row["LDRAW_COLOUR_ID"];

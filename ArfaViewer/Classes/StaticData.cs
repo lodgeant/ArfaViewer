@@ -583,10 +583,10 @@ namespace Generator
             return coll;
         }
 
-        public static SubPartMapping GetSubPartMapping(string ParentLDrawRef, string SubPartLDrawRef)
+        public static SubPartMapping GetSubPartMapping(string ParentLDrawRef, string SubPartLDrawRef, int ID)
         {
             SubPartMapping item = null;
-            string url = Global_Variables.APIUrl + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRefAndSubPartLDrawRef?ParentLDrawRef=" + ParentLDrawRef + "&SubPartLDrawRef=" + SubPartLDrawRef;
+            string url = Global_Variables.APIUrl + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRefAndSubPartLDrawRefAndID?ParentLDrawRef=" + ParentLDrawRef + "&SubPartLDrawRef=" + SubPartLDrawRef + "&ID=" + ID;
             string JSONString = GetJSONResponseFromURL(url);
             SubPartMappingCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SubPartMappingCollection>(JSONString);
             if (coll.SubPartMappingList.Count > 0) item = coll.SubPartMappingList[0];
@@ -614,16 +614,16 @@ namespace Generator
             PostJSONRequestFromURL(url, json);
         }
 
-        public static bool CheckIfSubPartMappingExists(string ParentLDrawRef, string SubPartLDrawRef)
+        public static bool CheckIfSubPartMappingExists(string ParentLDrawRef, string SubPartLDrawRef, int ID)
         {
-            string url = Global_Variables.APIUrl + "SubPartMapping/CheckIfSubPartMappingExists?ParentLDrawRef=" + ParentLDrawRef + "&SubPartLDrawRef=" + SubPartLDrawRef;
+            string url = Global_Variables.APIUrl + "SubPartMapping/CheckIfSubPartMappingExists?ParentLDrawRef=" + ParentLDrawRef + "&SubPartLDrawRef=" + SubPartLDrawRef + "&ID=" + ID;
             string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
             return bool.Parse(JSONString);
         }
 
-        public static void DeleteSubPartMapping(string ParentLDrawRef, string SubPartLDrawRef)
+        public static void DeleteSubPartMapping(string ParentLDrawRef, string SubPartLDrawRef, int ID)
         {
-            string url = Global_Variables.APIUrl + "SubPartMapping/DeleteSubPartMapping?ParentLDrawRef=" + ParentLDrawRef + "&SubPartLDrawRef=" + SubPartLDrawRef;
+            string url = Global_Variables.APIUrl + "SubPartMapping/DeleteSubPartMapping?ParentLDrawRef=" + ParentLDrawRef + "&SubPartLDrawRef=" + SubPartLDrawRef + "&ID=" + ID;
             PostRequestFromURL(url);
         }
 

@@ -150,6 +150,8 @@
             this.lblSubPartMappingSubPartLDrawRef = new System.Windows.Forms.ToolStripLabel();
             this.fldSubPartMappingSubPartLDrawRef = new System.Windows.Forms.ToolStripTextBox();
             this.fldSubPartMappingSubPartLDrawImage = new System.Windows.Forms.ToolStripButton();
+            this.lblSubPartMappingSubPartID = new System.Windows.Forms.ToolStripLabel();
+            this.fldSubPartMappingSubPartID = new System.Windows.Forms.ToolStripTextBox();
             this.lblSubPartMappingSubPartLDrawColourID = new System.Windows.Forms.ToolStripLabel();
             this.fldSubPartMappingSubPartLDrawColourID = new System.Windows.Forms.ToolStripTextBox();
             this.lblSubPartMappingPosX = new System.Windows.Forms.ToolStripLabel();
@@ -1357,6 +1359,8 @@
             this.lblSubPartMappingSubPartLDrawRef,
             this.fldSubPartMappingSubPartLDrawRef,
             this.fldSubPartMappingSubPartLDrawImage,
+            this.lblSubPartMappingSubPartID,
+            this.fldSubPartMappingSubPartID,
             this.lblSubPartMappingSubPartLDrawColourID,
             this.fldSubPartMappingSubPartLDrawColourID,
             this.lblSubPartMappingPosX,
@@ -1421,6 +1425,20 @@
             this.fldSubPartMappingSubPartLDrawImage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.fldSubPartMappingSubPartLDrawImage.Name = "fldSubPartMappingSubPartLDrawImage";
             this.fldSubPartMappingSubPartLDrawImage.Size = new System.Drawing.Size(23, 22);
+            // 
+            // lblSubPartMappingSubPartID
+            // 
+            this.lblSubPartMappingSubPartID.BackColor = System.Drawing.Color.Yellow;
+            this.lblSubPartMappingSubPartID.Name = "lblSubPartMappingSubPartID";
+            this.lblSubPartMappingSubPartID.Size = new System.Drawing.Size(21, 22);
+            this.lblSubPartMappingSubPartID.Text = "ID:";
+            // 
+            // fldSubPartMappingSubPartID
+            // 
+            this.fldSubPartMappingSubPartID.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingSubPartID.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldSubPartMappingSubPartID.Name = "fldSubPartMappingSubPartID";
+            this.fldSubPartMappingSubPartID.Size = new System.Drawing.Size(25, 25);
             // 
             // lblSubPartMappingSubPartLDrawColourID
             // 
@@ -1552,7 +1570,7 @@
             this.btnSubPartMappingDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnSubPartMappingDelete.Image")));
             this.btnSubPartMappingDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSubPartMappingDelete.Name = "btnSubPartMappingDelete";
-            this.btnSubPartMappingDelete.Size = new System.Drawing.Size(60, 22);
+            this.btnSubPartMappingDelete.Size = new System.Drawing.Size(60, 20);
             this.btnSubPartMappingDelete.Text = "Delete";
             this.btnSubPartMappingDelete.Click += new System.EventHandler(this.btnSubPartMappingDelete_Click);
             // 
@@ -2632,5 +2650,7 @@
         private System.Windows.Forms.ToolStripStatusLabel lblFilesDatCount;
         private System.Windows.Forms.ToolStripStatusLabel lblFilesDatSummaryItemFilteredCount;
         private System.Windows.Forms.Panel pnlFilesDatData;
+        private System.Windows.Forms.ToolStripLabel lblSubPartMappingSubPartID;
+        private System.Windows.Forms.ToolStripTextBox fldSubPartMappingSubPartID;
     }
 }
