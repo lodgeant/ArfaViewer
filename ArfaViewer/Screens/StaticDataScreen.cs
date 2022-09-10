@@ -318,7 +318,7 @@ namespace Generator
 
         private void btnBasePartDelete_Click(object sender, EventArgs e)
         {
-            DeleteBasePart();
+            BasePart_Delete();
         }
 
         private void chkLockLDrawRef_CheckedChanged(object sender, EventArgs e)
@@ -448,12 +448,32 @@ namespace Generator
 
         private void btnSubPartMappingDelete_Click(object sender, EventArgs e)
         {
-            DeleteSubPartMapping();
+            SubPartMapping_Delete();
         }
 
         private void btnSubPartMappingSave_Click(object sender, EventArgs e)
         {
             SubPartMapping_Save();
+        }
+
+        private void btnRefreshAllSummaries_Click(object sender, EventArgs e)
+        {
+            RefreshBasePart();
+            RefreshLDrawDetails();
+            RefreshSubPartMapping();
+            RefreshFilesDat();
+            RefreshFilesFbx();
+            RefreshFilesUnityFbx();
+        }
+
+        private void btnLDrawDetailsSave_Click(object sender, EventArgs e)
+        {
+            LDrawDetails_Save();
+        }
+
+        private void btnLDrawDetailsDelete_Click(object sender, EventArgs e)
+        {
+            LDrawDetails_Delete();
         }
 
         #endregion
@@ -1674,7 +1694,7 @@ namespace Generator
             }
         }
 
-        private void DeleteBasePart()
+        private void BasePart_Delete()
         {
             try
             {
@@ -1686,13 +1706,27 @@ namespace Generator
                 bool exists = StaticData.CheckIfBasePartExists(LDrawRef);
                 if (exists == false) throw new Exception("LDraw Ref doesn't exist for " + LDrawRef);
 
-                // ** Delete BasePart **
-                StaticData.DeleteBasePart(LDrawRef);
+                // Check if all Sub Part Mappings should be deleted as well
+                bool DeleteSubPartMappings = true;  // Maybe we will take a look at this future. Currently will delete all SubPartMappings as well by default.
+
+                // ** Delete BasePart and all associated SubPartMappings **
+                List<string> LDrawRefList = StaticData.DeleteBasePart(LDrawRef, DeleteSubPartMappings);
                 
                 // ** Tidy Up **
                 BasePart_Clear();
                 RefreshBasePart();
-                MessageBox.Show("BasePart " + LDrawRef + " deleted successfully...");
+                if(DeleteSubPartMappings) RefreshSubPartMapping();
+
+                // ** Show confirmation **
+                string confString = "BasePart " + LDrawRef + " deleted successfully..." + Environment.NewLine;
+                if(DeleteSubPartMappings)
+                {
+                    List<string> SubPartMappingRefList = new List<string>(LDrawRefList);
+                    SubPartMappingRefList.Remove(LDrawRef);
+                    confString += "The following SubPartMappings were also deleted:" + Environment.NewLine;
+                    confString += String.Join(",", SubPartMappingRefList);
+                }
+                MessageBox.Show(confString);
             }
             catch (Exception ex)
             {
@@ -1777,7 +1811,7 @@ namespace Generator
             }
         }
 
-        private void DeleteSubPartMapping()
+        private void SubPartMapping_Delete()
         {
             try
             {
@@ -1823,10 +1857,88 @@ namespace Generator
 
         #endregion
 
+        #region ** LDRAW DETAILS FUNCTIONS **
 
+        private void LDrawDetails_Save()
+        {
+            try
+            {
+                // ** Validation Checks **               
+                if (fldLDrawDetailsLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");
+                string LDrawRef = fldLDrawDetailsLDrawRef.Text;
+                if (fldLDrawDetailsLDrawDescription.Text.Equals("")) throw new Exception("No LDraw Description entered...");
+                if (fldLDrawDetailsPartType.Text.Equals("")) throw new Exception("No Part Type entered...");
+                if (fldLDrawDetailsLDrawPartType.Text.Equals("")) throw new Exception("No LDraw Part Type entered...");
 
+                // Check if LDrawDetails already exists - if so update it, if not, add it.
+                string action = "UPDATE";
+                LDrawDetails ldd = StaticData.GetLDrawDetails(LDrawRef);
+                if (ldd == null)
+                {
+                    action = "ADD";
+                    ldd = new LDrawDetails();
+                }
+                ldd.LDrawRef = LDrawRef;
+                ldd.LDrawDescription = fldLDrawDetailsLDrawDescription.Text;
+                ldd.PartType = fldLDrawDetailsPartType.Text;
+                ldd.LDrawPartType = fldLDrawDetailsLDrawPartType.Text;
+                int SubPartCount = 0;
+                int.TryParse(fldLDrawDetailsSubPartCount.Text, out SubPartCount);
+                ldd.SubPartCount = SubPartCount;
+                ldd.SubPartLDrawRefList = new List<string>();
+                if (fldLDrawDetailsLDrawRefList.Text != "") ldd.SubPartLDrawRefList = fldLDrawDetailsLDrawRefList.Text.Split(',').ToList();
 
+                // ** Determine what action to take **
+                if (action.Equals("ADD")) StaticData.AddLDrawDetails(ldd);
+                else if (action.Equals("UPDATE")) StaticData.UpdateLDrawDetails(ldd);
 
+                // ** Tidy Up **               
+                RefreshLDrawDetails();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void LDrawDetails_Delete()
+        {
+            try
+            {
+                // ** Validations **
+                if (fldLDrawDetailsLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");
+                string LDrawRef = fldLDrawDetailsLDrawRef.Text;
+
+                // ** Check if LDrawDetails exists **
+                bool exists = StaticData.CheckIfLDrawDetailsExist(LDrawRef);
+                if (exists == false) throw new Exception("LDraw Details don't exist for " + LDrawRef);
+
+                // Check if all Sub Parts should be deleted as well
+                bool DeleteSubParts = true; // Maybe we will take a look at this future. Currently will delete all SubParts as well by default.
+
+                // ** Delete parent LDrawDetails and all associated Sub Parts **
+                List<string> LDrawRefList = StaticData.DeleteLDrawDetails(LDrawRef, DeleteSubParts);
+
+                // ** Tidy Up **
+                LDrawDetails_Clear();
+                RefreshLDrawDetails();
+
+                // ** Show confirmation **
+                string confString = "LDrawDetails for " + LDrawRef + " deleted successfully..." + Environment.NewLine;
+                if (DeleteSubParts)
+                {
+                    List<string> SubPartRefList = new List<string>(LDrawRefList);
+                    SubPartRefList.Remove(LDrawRef);
+                    confString += "The following Sub Parts were also deleted:" + Environment.NewLine;
+                    confString += String.Join(",", SubPartRefList);
+                }
+                MessageBox.Show(confString);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         private void LDrawDetails_Clear()
         {
@@ -1839,6 +1951,8 @@ namespace Generator
             fldLDrawDetailsLDrawRefList.Text = "";
             LDrawDetailsData.Text = "";
         }
+
+        #endregion
 
         #region ** REFRESH FBX SUMMARY FUNCTIONS **
 
@@ -1923,12 +2037,60 @@ namespace Generator
 
         #endregion
 
+        #region ** COPY TO CLIPBOARD FUNCTIONS **
+
+        private void btnBasePartSummaryCopyToClipboard_Click(object sender, EventArgs e)
+        {
+            CopySummaryToClipboard(dgBasePartSummary);
+        }
+
+        private void btnLDrawDetailsSummaryCopyToClipboard_Click(object sender, EventArgs e)
+        {
+            CopySummaryToClipboard(dgLDrawDetailsSummary);
+        }
+
+        private void btnSubPartMappingSummaryCopyToClipboard_Click(object sender, EventArgs e)
+        {
+            CopySummaryToClipboard(dgSubPartMappingSummary);
+        }
+
+        private void btnFilesDatSummaryCopyToClipboard_Click(object sender, EventArgs e)
+        {
+            CopySummaryToClipboard(dgFilesDatSummary);
+        }
+
+        private void btnFilesFbxSummaryCopyToClipboard_Click(object sender, EventArgs e)
+        {
+            CopySummaryToClipboard(dgFilesFbxSummary);
+        }
+
+        private void btnFilesUnityFbxSummaryCopyToClipboard_Click(object sender, EventArgs e)
+        {
+            CopySummaryToClipboard(dgFilesUnityFbxSummary);
+        }
+
+        private void CopySummaryToClipboard(DataGridView dg)
+        {
+            try
+            {
+                if (dg.Rows.Count == 0) throw new Exception("No data to copy from " + dg.Name + "...");
+                StringBuilder sb = BaseClasses.HelperFunctions.GenerateClipboardStringFromDataTable(dg);
+                Clipboard.SetText(sb.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
         private void ProcessLDrawRef_Leave()
         {
             try
             {
-                // ** GET VARIABLES **
-                fldLDrawRef.Text = fldLDrawRef.Text.ToLower();
+                // ** GET VARIABLES **                
+                //if(fldLDrawRef.Text.Contains("Legs") == false && fldLDrawRef.Text.Contains("Torso") == false) fldLDrawRef.Text = fldLDrawRef.Text.ToLower();                
                 string LDrawRef = fldLDrawRef.Text;
 
                 // ** GET LDRAW IMAGE **                
@@ -2092,16 +2254,6 @@ namespace Generator
             fldLDrawSize.Text = "";
         }
 
-        private void btnRefreshAllSummaries_Click(object sender, EventArgs e)
-        {
-            RefreshBasePart();
-            RefreshLDrawDetails();
-            RefreshSubPartMapping();
-            RefreshFilesDat();
-            RefreshFilesFbx();
-            RefreshFilesUnityFbx();
-        }
-
         private void dgFilesDatSummary_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -2121,7 +2273,6 @@ namespace Generator
 
 
 
-
-
+        
     }
 }

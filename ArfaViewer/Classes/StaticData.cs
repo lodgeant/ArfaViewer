@@ -227,6 +227,13 @@ namespace Generator
             PostJSONRequestFromURL(url, json);
         }
 
+        public static void UpdateLDrawDetails(LDrawDetails ldd)
+        {
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(ldd);
+            string url = Global_Variables.APIUrl + "LDrawDetails/UpdateLDrawDetails";
+            PostJSONRequestFromURL(url, json);
+        }
+
         public static PartListPartCollection GetAllSubParts_FromLDrawDetails(string LDrawRef)
         {
             string url = Global_Variables.APIUrl + "LDrawDetails/GetAllSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
@@ -242,6 +249,24 @@ namespace Generator
             List<string> LDrawRefList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(JSONString);
             return LDrawRefList;
         }
+
+        public static bool CheckIfLDrawDetailsExist(string LDrawRef)
+        {
+            string url = Global_Variables.APIUrl + "LDrawDetails/CheckIfLDrawDetailsExist?LDrawRef=" + LDrawRef;
+            string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
+            return bool.Parse(JSONString);
+        }
+
+        public static List<string> DeleteLDrawDetails(string LDrawRef, bool DeleteSubParts)
+        {
+            string url = Global_Variables.APIUrl + "LDrawDetails/DeleteLDrawDetails?LDrawRef=" + LDrawRef + "&DeleteSubParts=" + DeleteSubParts;
+            string JSONString = GetJSONResponseFromURL(url);
+            List<string> LDrawRefList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(JSONString);
+            return LDrawRefList;
+        }
+
+
+
 
 
         // ** FBXDetails functions **
@@ -404,7 +429,6 @@ namespace Generator
             string url = Global_Variables.APIUrl + "BasePart/CheckIfBasePartExists?LDrawRef=" + LDrawRef;
             string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
             return bool.Parse(JSONString);
-
         }
 
         public static void AddBasePart(BasePart bp)
@@ -421,10 +445,12 @@ namespace Generator
             PostJSONRequestFromURL(url, json);
         }
 
-        public static void DeleteBasePart(string LDrawRef)
+        public static List<string> DeleteBasePart(string LDrawRef, bool DeleteSubPartMappings)
         {
-            string url = Global_Variables.APIUrl + "BasePart/DeleteBasePart?LDrawRef=" + LDrawRef;
-            PostRequestFromURL(url);
+            string url = Global_Variables.APIUrl + "BasePart/DeleteBasePart?LDrawRef=" + LDrawRef + "&DeleteSubPartMappings=" + DeleteSubPartMappings;
+            string JSONString = GetJSONResponseFromURL(url);
+            List<string> LDrawRefList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(JSONString);
+            return LDrawRefList;
         }
 
         public static string AddPartToBasePartCollection(string LDrawRef, string PartType, int LDrawSize, bool IsSticker, bool IsLargeModel)

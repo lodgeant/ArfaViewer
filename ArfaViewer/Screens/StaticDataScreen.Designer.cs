@@ -121,8 +121,8 @@
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.btnLDrawDetailsClear = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
+            this.btnLDrawDetailsSave = new System.Windows.Forms.ToolStripButton();
+            this.btnLDrawDetailsDelete = new System.Windows.Forms.ToolStripButton();
             this.tsLDrawDetailsHeader = new System.Windows.Forms.ToolStrip();
             this.btnLDrawDetailsRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -785,12 +785,12 @@
             // 
             // btnBasePartSummaryCopyToClipboard
             // 
-            this.btnBasePartSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
             this.btnBasePartSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnBasePartSummaryCopyToClipboard.Image")));
             this.btnBasePartSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnBasePartSummaryCopyToClipboard.Name = "btnBasePartSummaryCopyToClipboard";
             this.btnBasePartSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
             this.btnBasePartSummaryCopyToClipboard.Text = "Copy to Clipboard";
+            this.btnBasePartSummaryCopyToClipboard.Click += new System.EventHandler(this.btnBasePartSummaryCopyToClipboard_Click);
             // 
             // toolStripSeparator7
             // 
@@ -1030,8 +1030,8 @@
             this.toolStripSeparator6,
             this.btnLDrawDetailsClear,
             this.toolStripSeparator8,
-            this.toolStripButton6,
-            this.toolStripButton7});
+            this.btnLDrawDetailsSave,
+            this.btnLDrawDetailsDelete});
             this.tsLDrawDetailsDetails.Location = new System.Drawing.Point(3, 175);
             this.tsLDrawDetailsDetails.Name = "tsLDrawDetailsDetails";
             this.tsLDrawDetailsDetails.Size = new System.Drawing.Size(1351, 25);
@@ -1144,23 +1144,23 @@
             this.toolStripSeparator8.Name = "toolStripSeparator8";
             this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton6
+            // btnLDrawDetailsSave
             // 
-            this.toolStripButton6.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(51, 22);
-            this.toolStripButton6.Text = "Save";
+            this.btnLDrawDetailsSave.Image = ((System.Drawing.Image)(resources.GetObject("btnLDrawDetailsSave.Image")));
+            this.btnLDrawDetailsSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLDrawDetailsSave.Name = "btnLDrawDetailsSave";
+            this.btnLDrawDetailsSave.Size = new System.Drawing.Size(51, 22);
+            this.btnLDrawDetailsSave.Text = "Save";
+            this.btnLDrawDetailsSave.Click += new System.EventHandler(this.btnLDrawDetailsSave_Click);
             // 
-            // toolStripButton7
+            // btnLDrawDetailsDelete
             // 
-            this.toolStripButton7.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(60, 22);
-            this.toolStripButton7.Text = "Delete";
+            this.btnLDrawDetailsDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnLDrawDetailsDelete.Image")));
+            this.btnLDrawDetailsDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLDrawDetailsDelete.Name = "btnLDrawDetailsDelete";
+            this.btnLDrawDetailsDelete.Size = new System.Drawing.Size(60, 22);
+            this.btnLDrawDetailsDelete.Text = "Delete";
+            this.btnLDrawDetailsDelete.Click += new System.EventHandler(this.btnLDrawDetailsDelete_Click);
             // 
             // tsLDrawDetailsHeader
             // 
@@ -1195,12 +1195,12 @@
             // 
             // btnLDrawDetailsSummaryCopyToClipboard
             // 
-            this.btnLDrawDetailsSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
             this.btnLDrawDetailsSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnLDrawDetailsSummaryCopyToClipboard.Image")));
             this.btnLDrawDetailsSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLDrawDetailsSummaryCopyToClipboard.Name = "btnLDrawDetailsSummaryCopyToClipboard";
             this.btnLDrawDetailsSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
             this.btnLDrawDetailsSummaryCopyToClipboard.Text = "Copy to Clipboard";
+            this.btnLDrawDetailsSummaryCopyToClipboard.Click += new System.EventHandler(this.btnLDrawDetailsSummaryCopyToClipboard_Click);
             // 
             // toolStripSeparator5
             // 
@@ -1587,12 +1587,12 @@
             // 
             // btnSubPartMappingSummaryCopyToClipboard
             // 
-            this.btnSubPartMappingSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
             this.btnSubPartMappingSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnSubPartMappingSummaryCopyToClipboard.Image")));
             this.btnSubPartMappingSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSubPartMappingSummaryCopyToClipboard.Name = "btnSubPartMappingSummaryCopyToClipboard";
             this.btnSubPartMappingSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
             this.btnSubPartMappingSummaryCopyToClipboard.Text = "Copy to Clipboard";
+            this.btnSubPartMappingSummaryCopyToClipboard.Click += new System.EventHandler(this.btnSubPartMappingSummaryCopyToClipboard_Click);
             // 
             // toolStripSeparator10
             // 
@@ -1961,12 +1961,12 @@
             // 
             // btnFilesDatSummaryCopyToClipboard
             // 
-            this.btnFilesDatSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
             this.btnFilesDatSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesDatSummaryCopyToClipboard.Image")));
             this.btnFilesDatSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnFilesDatSummaryCopyToClipboard.Name = "btnFilesDatSummaryCopyToClipboard";
             this.btnFilesDatSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
             this.btnFilesDatSummaryCopyToClipboard.Text = "Copy to Clipboard";
+            this.btnFilesDatSummaryCopyToClipboard.Click += new System.EventHandler(this.btnFilesDatSummaryCopyToClipboard_Click);
             // 
             // toolStripSeparator16
             // 
@@ -2108,12 +2108,12 @@
             // 
             // btnFilesFbxSummaryCopyToClipboard
             // 
-            this.btnFilesFbxSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
             this.btnFilesFbxSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesFbxSummaryCopyToClipboard.Image")));
             this.btnFilesFbxSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnFilesFbxSummaryCopyToClipboard.Name = "btnFilesFbxSummaryCopyToClipboard";
             this.btnFilesFbxSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
             this.btnFilesFbxSummaryCopyToClipboard.Text = "Copy to Clipboard";
+            this.btnFilesFbxSummaryCopyToClipboard.Click += new System.EventHandler(this.btnFilesFbxSummaryCopyToClipboard_Click);
             // 
             // toolStripSeparator18
             // 
@@ -2238,12 +2238,12 @@
             // 
             // btnFilesUnityFbxSummaryCopyToClipboard
             // 
-            this.btnFilesUnityFbxSummaryCopyToClipboard.BackColor = System.Drawing.Color.Pink;
             this.btnFilesUnityFbxSummaryCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("btnFilesUnityFbxSummaryCopyToClipboard.Image")));
             this.btnFilesUnityFbxSummaryCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnFilesUnityFbxSummaryCopyToClipboard.Name = "btnFilesUnityFbxSummaryCopyToClipboard";
             this.btnFilesUnityFbxSummaryCopyToClipboard.Size = new System.Drawing.Size(124, 22);
             this.btnFilesUnityFbxSummaryCopyToClipboard.Text = "Copy to Clipboard";
+            this.btnFilesUnityFbxSummaryCopyToClipboard.Click += new System.EventHandler(this.btnFilesUnityFbxSummaryCopyToClipboard_Click);
             // 
             // toolStripSeparator20
             // 
@@ -2440,8 +2440,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripButton btnLDrawDetailsClear;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private System.Windows.Forms.ToolStripButton toolStripButton6;
-        private System.Windows.Forms.ToolStripButton toolStripButton7;
+        private System.Windows.Forms.ToolStripButton btnLDrawDetailsSave;
+        private System.Windows.Forms.ToolStripButton btnLDrawDetailsDelete;
         private System.Windows.Forms.ToolStrip tsLDrawDetailsHeader;
         private System.Windows.Forms.ToolStripButton btnLDrawDetailsRefresh;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;

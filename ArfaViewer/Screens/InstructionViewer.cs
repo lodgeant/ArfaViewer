@@ -688,10 +688,7 @@ namespace Generator
         {
             try
             {
-                if (dgPartSummary.Rows.Count == 0)
-                {
-                    throw new Exception("No data to copy from " + dgPartSummary.Name + "...");
-                }
+                if (dgPartSummary.Rows.Count == 0) throw new Exception("No data to copy from " + dgPartSummary.Name + "...");                
                 StringBuilder sb = BaseClasses.HelperFunctions.GenerateClipboardStringFromDataTable(dgPartSummary);
                 Clipboard.SetText(sb.ToString());
             }

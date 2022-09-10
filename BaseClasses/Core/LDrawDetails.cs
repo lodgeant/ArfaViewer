@@ -82,7 +82,9 @@ namespace BaseClasses
             item.LDrawPartType = (string)row["LDRAW_PART_TYPE"];
             item.SubPartCount = (int)row["SUB_PART_COUNT"];
             item.Data = (string)row["DATA"];
-            item.SubPartLDrawRefList = ((string)row["SUB_PART_LDRAW_REF_LIST"]).Split(',').ToList();
+            //item.SubPartLDrawRefList = ((string)row["SUB_PART_LDRAW_REF_LIST"]).Split(',').ToList();
+            string SubPartLDrawRefList = (string)row["SUB_PART_LDRAW_REF_LIST"];
+            if(SubPartLDrawRefList != "") item.SubPartLDrawRefList = ((string)row["SUB_PART_LDRAW_REF_LIST"]).Split(',').ToList();            
             return item;
         }
 
