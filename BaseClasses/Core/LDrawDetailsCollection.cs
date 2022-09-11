@@ -14,7 +14,7 @@ namespace BaseClasses
 
     [Serializable]
     public class LDrawDetailsCollection
-{
+    {
         [XmlElement("LDrawDetails")]
         public List<LDrawDetails> LDrawDetailsList { get; set; }
 
@@ -22,9 +22,6 @@ namespace BaseClasses
         {
             LDrawDetailsList = new List<LDrawDetails>();
         }
-
-
-
 
         public string SerializeToString(bool omitDeclaration)
         {

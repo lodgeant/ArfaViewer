@@ -25,12 +25,12 @@ namespace Generator
         private Scintilla LDrawDetailsData = new Scintilla();
         private Scintilla SubPartMappingData = new Scintilla();
         private Scintilla FilesDatData = new Scintilla();
-        private DataTable dgBasePartSummaryTable_Orig;
-        private DataTable dgLDrawDetailsSummaryTable_Orig;
-        private DataTable dgSubPartMappingSummaryTable_Orig;
-        private DataTable dgFilesDatSummaryTable_Orig;
-        private DataTable dgFilesFbxSummaryTable_Orig;
-        private DataTable dgFilesUnityFbxSummaryTable_Orig;
+        private DataTable dgBasePartSummaryTable_Orig = new DataTable("","");
+        private DataTable dgLDrawDetailsSummaryTable_Orig = new DataTable("", "");
+        private DataTable dgSubPartMappingSummaryTable_Orig = new DataTable("", "");
+        private DataTable dgFilesDatSummaryTable_Orig = new DataTable("", "");
+        private DataTable dgFilesFbxSummaryTable_Orig = new DataTable("", "");
+        private DataTable dgFilesUnityFbxSummaryTable_Orig = new DataTable("", "");
 
 
         public StaticDataScreen()
@@ -2361,7 +2361,7 @@ namespace Generator
             try
             {
                 // ** GET VARIABLES **                
-                //if(fldLDrawRef.Text.Contains("Legs") == false && fldLDrawRef.Text.Contains("Torso") == false) fldLDrawRef.Text = fldLDrawRef.Text.ToLower();                
+                if (fldLDrawRef.Text.EndsWith("Legs") == false && fldLDrawRef.Text.EndsWith("Torso") == false) fldLDrawRef.Text = fldLDrawRef.Text.ToLower();               
                 string LDrawRef = fldLDrawRef.Text;
 
                 // ** GET LDRAW IMAGE **                

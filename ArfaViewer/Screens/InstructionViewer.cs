@@ -3237,9 +3237,10 @@ namespace Generator
             try
             {
                 // ** GET VARIABLES **
-                fldLDrawRef.Text = fldLDrawRef.Text.ToLower();
+                //fldLDrawRef.Text = fldLDrawRef.Text.ToLower();
+                if (fldLDrawRef.Text.EndsWith("Legs") == false && fldLDrawRef.Text.EndsWith("Torso") == false) fldLDrawRef.Text = fldLDrawRef.Text.ToLower();
                 string LDrawRef = fldLDrawRef.Text;
-                
+                                
                 // ** GET LDRAW IMAGE **                
                 fldLDrawImage.Image = ArfaImage.GetImage(ImageType.LDRAW, new string[] { LDrawRef });
 
