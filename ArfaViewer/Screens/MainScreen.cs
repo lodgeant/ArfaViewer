@@ -44,11 +44,6 @@ namespace Generator
                 // ** Get PartColour collection static data from API **
                 Global_Variables.PartColourCollection = StaticData.GetPartColourData_All();
 
-                //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("3001");
-                //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("122c01");
-                //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("54701p01c01");
-                //List<string> subPartList = LDrawDetails.GetSubPartLDrawRefsFromLDrawFileText(ldd.data);
-
                 // ** Copy BaseClasses.dll to Unity directory **
                 try
                 {
@@ -57,8 +52,37 @@ namespace Generator
                     File.Copy(SourcePath, TargetPath, true);
                 }
                 catch (Exception) { }
+
+
+
+
+
+                //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("3001");
+                //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("122c01");
+                //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("54701p01c01");
+                //List<string> subPartList = LDrawDetails.GetSubPartLDrawRefsFromLDrawFileText(ldd.data);
+
+                //string itemRef = "3001|0";
+                //string container = "images-element";
+                //string blobName = itemRef + ".png";
+                //Bitmap image = null;
+                //byte[] data = StaticData.DownloadDataFromBLOB(container, blobName);
+                //using (var ms = new MemoryStream(data))
+                //{
+                //    image = new Bitmap(ms);
+                //}
+
+
+
+                //string Container = "images-element";
+                //string BlobName = "3001|0.png";
+                //ImageObject io = StaticData.GetImageObject_UsingContainerAndBlobName(Container, BlobName);
+                //Bitmap image = null;
+                //using (var ms = new MemoryStream(io.Data)) image = new Bitmap(ms);
                 
 
+
+                //string test = "";
 
 
             }
@@ -149,6 +173,15 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
+
+
+
+
+
+
+
+
+
 
         //private void APITest()
         //{

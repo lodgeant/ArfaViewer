@@ -7,6 +7,7 @@ using System.Drawing;
 using Azure.Storage.Blobs;
 using System.IO;
 using System.Net;
+using BaseClasses;
 
 namespace Generator
 {
@@ -16,7 +17,6 @@ namespace Generator
     public class ArfaImage
     {
        
-
         public static Bitmap GetImage(ImageType imageType, string[] _params)
         {
             // ** Check if base key is present - if not, add it **
@@ -58,10 +58,9 @@ namespace Generator
             return image;
         }
 
-
         private static Bitmap GetImageDetails(ImageType imageType, string[] _params)
         {
-            string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
+            //string AzureStorageConnString = "DefaultEndpointsProtocol=https;AccountName=lodgeaccount;AccountKey=j3PZRNLxF00NZqpjfyZ+I1SqDTvdGOkgacv4/SGBSVoz6Zyl394bIZNQVp7TfqIg+d/anW9R0bSUh44ogoJ39Q==;EndpointSuffix=core.windows.net";
 
             Bitmap image = null;
 
@@ -106,22 +105,16 @@ namespace Generator
             }
             #endregion
 
-
-
             #region ** Process image **
 
             // Check if data exists for the BLOB
-            //string container = "images-" + imageType.ToString().ToLower();
-            //string blobName = itemRef + ".png";
-            //byte[] data = StaticData.DownloadDataFromBLOB(container, blobName);
-            //using (var ms = new MemoryStream(data))
-            //{               
-            //    image = new Bitmap(ms);
-            //}
-            BlobClient blob = new BlobContainerClient(AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
-            if (blob.Exists())
+            ImageObject io = StaticData.GetImageObject_UsingContainerAndBlobName("images-" + imageType.ToString().ToLower(), itemRef + ".png");            
+            if(io.Name != null && io.Name != "")
+            //BlobClient blob = new BlobContainerClient(AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
+            //if (blob.Exists())
             {
-                image = DownloadBlobToBitmap(blob);
+                //image = DownloadBlobToBitmap(blob);
+                using (var ms = new MemoryStream(io.Data)) image = new Bitmap(ms);
             }
             else
             {
@@ -129,12 +122,14 @@ namespace Generator
                 {
                     // ** If the image was not already in the Azure images, upload it to Azure for use in future **
                     // ** Download element image from source API **                    
-                    byte[] imageb = null;                    
+                    byte[] imageb = null;
+                    string foundUrl = "";
                     if (imageUrlList.Count == 1)
                     {                        
                         try
                         {
                             imageb = new WebClient().DownloadData(imageUrlList[0]);
+                            foundUrl = imageUrlList[0];
                         }
                         catch { }
                     }
@@ -147,6 +142,7 @@ namespace Generator
                                 try
                                 {
                                     imageb = new WebClient().DownloadData(imageUrl);
+                                    foundUrl = imageUrl;
                                 }
                                 catch { }
                             }
@@ -155,17 +151,17 @@ namespace Generator
                     if (imageb != null && imageb.Length > 0)
                     {
                         // ** Upload the image to Azure **                        
-                        BlobClient newBlob = new BlobContainerClient(AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
-                        using (var ms = new MemoryStream(imageb))
-                        {
-                            newBlob.Upload(ms, true);
-                            image = new Bitmap(ms);
-                        }
+                        //BlobClient newBlob = new BlobContainerClient(AzureStorageConnString, "images-" + imageType.ToString().ToLower()).GetBlobClient(itemRef + ".png");
+                        //using (var ms = new MemoryStream(imageb))
+                        //{
+                        //    newBlob.Upload(ms, true);
+                        //    image = new Bitmap(ms);
+                        //}
+                        StaticData.UploadImageToBLOB_UsingURL(foundUrl, imageType.ToString().ToLower(), itemRef);
                     }
                 }
             }
             #endregion
-
 
             return image;
         }

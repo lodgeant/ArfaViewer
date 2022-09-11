@@ -39,6 +39,17 @@ namespace Generator
         }
 
 
+        public static ImageObject GetImageObject_UsingContainerAndBlobName(string Container, string BlobName)
+        {
+            string url = Global_Variables.APIUrl + "Image/GetImageObject_FromBlob?Container=" + Container + "&BlobName=" + BlobName;
+            string JSONString = GetJSONResponseFromURL(url);
+            ImageObject io = Newtonsoft.Json.JsonConvert.DeserializeObject<ImageObject>(JSONString);
+            return io;
+        }
+
+
+
+
         // ** PartColour functions **
 
         public static PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)

@@ -53,6 +53,7 @@
     <Compile Include="Core\LDrawDetails.cs" />
     <Compile Include="Core\FBXDetails.cs" />
     <Compile Include="HelperFunctions.cs" />
+    <Compile Include="ImageObject.cs" />
     <Compile Include="OfficalSet_MiniFig.cs" />
     <Compile Include="OfficalSets.cs" />
     <Compile Include="Core\FBXDetailsCollection.cs" />
