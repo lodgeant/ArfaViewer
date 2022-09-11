@@ -38,7 +38,6 @@ namespace Generator
             return data;
         }
 
-
         public static ImageObject GetImageObject_UsingContainerAndBlobName(string Container, string BlobName)
         {
             string url = Global_Variables.APIUrl + "Image/GetImageObject_FromBlob?Container=" + Container + "&BlobName=" + BlobName;
@@ -246,17 +245,9 @@ namespace Generator
             PostJSONRequestFromURL(url, json);
         }
 
-        public static PartListPartCollection GetAllSubParts_FromLDrawDetails(string LDrawRef)
+        public static List<string> DeleteLDrawDetails(string LDrawRef, bool DeleteSubParts)
         {
-            string url = Global_Variables.APIUrl + "LDrawDetails/GetAllSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
-            string JSONString = GetJSONResponseFromURL(url);
-            PartListPartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<PartListPartCollection>(JSONString);
-            return coll;
-        }
-
-        public static List<string> GenerateDATFiles_ForLDrawDetails(string LDrawRef)
-        {           
-            string url = Global_Variables.APIUrl + "LDrawDetails/GenerateDATFiles_ForLDrawDetails?LDrawRef=" + LDrawRef;
+            string url = Global_Variables.APIUrl + "LDrawDetails/DeleteLDrawDetails?LDrawRef=" + LDrawRef + "&DeleteSubParts=" + DeleteSubParts;
             string JSONString = GetJSONResponseFromURL(url);
             List<string> LDrawRefList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(JSONString);
             return LDrawRefList;
@@ -269,9 +260,17 @@ namespace Generator
             return bool.Parse(JSONString);
         }
 
-        public static List<string> DeleteLDrawDetails(string LDrawRef, bool DeleteSubParts)
+        public static PartListPartCollection GetAllSubParts_FromLDrawDetails(string LDrawRef)
         {
-            string url = Global_Variables.APIUrl + "LDrawDetails/DeleteLDrawDetails?LDrawRef=" + LDrawRef + "&DeleteSubParts=" + DeleteSubParts;
+            string url = Global_Variables.APIUrl + "LDrawDetails/GetAllSubParts_FromLDrawDetails?LDrawRef=" + LDrawRef;
+            string JSONString = GetJSONResponseFromURL(url);
+            PartListPartCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<PartListPartCollection>(JSONString);
+            return coll;
+        }
+
+        public static List<string> GenerateDATFiles_ForLDrawDetails(string LDrawRef)
+        {           
+            string url = Global_Variables.APIUrl + "LDrawDetails/GenerateDATFiles_ForLDrawDetails?LDrawRef=" + LDrawRef;
             string JSONString = GetJSONResponseFromURL(url);
             List<string> LDrawRefList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(JSONString);
             return LDrawRefList;

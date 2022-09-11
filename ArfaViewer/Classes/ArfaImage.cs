@@ -13,7 +13,7 @@ namespace Generator
 {
 
 
-
+    //TODO_H: Move these details to the StaticData class
     public class ArfaImage
     {
        
@@ -166,18 +166,17 @@ namespace Generator
             return image;
         }
 
-
-        private static Bitmap DownloadBlobToBitmap(BlobClient blob)
-        {
-            Bitmap image = null;
-            byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-            using (var ms = new MemoryStream(fileContent))
-            {
-                blob.DownloadTo(ms);
-                image = new Bitmap(ms);
-            }
-            return image;
-        }
+        //private static Bitmap DownloadBlobToBitmap(BlobClient blob)
+        //{
+        //    Bitmap image = null;
+        //    byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
+        //    using (var ms = new MemoryStream(fileContent))
+        //    {
+        //        blob.DownloadTo(ms);
+        //        image = new Bitmap(ms);
+        //    }
+        //    return image;
+        //}
 
 
     }

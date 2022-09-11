@@ -81,8 +81,6 @@
     <Compile Include="Set.cs" />
     <Compile Include="Core\PartColour.cs" />
     <Compile Include="Core\PartColourCollection.cs" />
-    <Compile Include="zzz_CompositePart.cs" />
-    <Compile Include="zzz_CompositePartCollection.cs" />
     <Compile Include="PlacementMovement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

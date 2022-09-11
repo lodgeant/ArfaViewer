@@ -533,6 +533,13 @@ namespace Generator
             fldBasePartLDrawPartType.Text = "";
             foreach (var value in LDrawPartTypeList) fldBasePartLDrawPartType.Items.Add(value);
 
+            fldLDrawDetailsPartType.Items.Clear();
+            fldLDrawDetailsPartType.Text = "";
+            foreach (var value in PartTypeList) fldLDrawDetailsPartType.Items.Add(value);
+            fldLDrawDetailsLDrawPartType.Items.Clear();
+            fldLDrawDetailsLDrawPartType.Text = "";
+            foreach (var value in LDrawPartTypeList) fldLDrawDetailsLDrawPartType.Items.Add(value);
+
         }
 
         private void ShowPart(string LDrawRef, Image Image)

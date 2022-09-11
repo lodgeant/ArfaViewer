@@ -16,6 +16,7 @@ using ScintillaNET;
 
 namespace Generator
 {
+    //TODO_H: Move Delegates class to BaseClasses
     public class Delegates
     {
         public static void ToolStripButton_SetText(Form obj, ToolStripButton tsb, String text)
