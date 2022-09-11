@@ -1982,7 +1982,7 @@ namespace Generator
                 partTable.Columns.Add("FBX Size", typeof(long));
                 partTable.Columns.Add("LDraw Part Type", typeof(string));
                 partTable.Columns.Add("LDraw Description", typeof(string));
-                partTable.Columns.Add("Unity Ref", typeof(string));
+                //partTable.Columns.Add("Unity Ref", typeof(string));
                 #endregion
                    
                 #region ** CYCLE THROUGH PART NODES AND GENERATE PART ROWS **  
@@ -1993,7 +1993,7 @@ namespace Generator
                     #region ** GET LDRAW VARIABLES ** 
                     string SubSetRef = "";
                     if (partNode.SelectSingleNode("@SubSetRef") != null) SubSetRef = partNode.SelectSingleNode("@SubSetRef").InnerXml;                   
-                    string UnityRef = partNode.SelectSingleNode("@UnityRef").InnerXml;
+                    //string UnityRef = partNode.SelectSingleNode("@UnityRef").InnerXml;
                     string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
                     bool IsSubPart = bool.Parse(partNode.SelectSingleNode("@IsSubPart").InnerXml);
                     int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);  
@@ -2103,7 +2103,7 @@ namespace Generator
                     newRow["FBX Count"] = fbxDetails.FBXCount;
                     newRow["LDraw Part Type"] = LDrawPartType;
                     newRow["LDraw Description"] = LDrawDescription;
-                    newRow["Unity Ref"] = UnityRef;
+                    //newRow["Unity Ref"] = UnityRef;
                     partTable.Rows.Add(newRow);
                 }
                 #endregion
@@ -4218,7 +4218,7 @@ namespace Generator
                     newPart.LDrawRef = LDrawRef;
                     newPart.LDrawColourID = LDrawColourID;
                     newPart.SubSetRef = parentSubSetRef + "|" + SubSetIndex;
-                    newPart.UnityRef = "";
+                    //newPart.UnityRef = "";
                     newPart.state = Part.PartState.NOT_COMPLETED;
 
                     // ** Add PlacementMovements to Part **
@@ -4246,7 +4246,7 @@ namespace Generator
                         subPart.LDrawRef = compPart.SubPartLDrawRef;
                         subPart.LDrawColourID = compPart.LDrawColourID;
                         subPart.SubSetRef = parentSubSetRef + "|" + SubSetIndex;    //TODO: Check whether this data is even used? This is data is used but the value doesn't seem to be populated correctly for Sub Parts.
-                        subPart.UnityRef = "";
+                        //subPart.UnityRef = "";
                         subPart.state = Part.PartState.NOT_COMPLETED;
                         subPart.IsSubPart = true;
                         subPart.PosX = compPart.PosX;
@@ -4340,7 +4340,7 @@ namespace Generator
                 Part newPart = new Part();
                 newPart.LDrawRef = LDrawRef;
                 newPart.LDrawColourID = LDrawColourID;
-                newPart.UnityRef = "";
+                //newPart.UnityRef = "";
                 newPart.SubSetRef = oldSubSetRef;
                 newPart.state = Part.PartState.NOT_COMPLETED;
                 newPart.PosX = posX;
@@ -4373,7 +4373,7 @@ namespace Generator
                     //subPart.LDrawRef = compPart.LDrawRef;
                     subPart.LDrawRef = compPart.SubPartLDrawRef;
                     subPart.LDrawColourID = compPart.LDrawColourID;
-                    subPart.UnityRef = "";
+                    //subPart.UnityRef = "";
                     subPart.state = Part.PartState.NOT_COMPLETED;
                     subPart.IsSubPart = true;
                     subPart.PosX = compPart.PosX;

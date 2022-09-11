@@ -44,7 +44,7 @@
   <ItemGroup>
     <Compile Include="Core\FileDetailsCollection.cs" />
     <Compile Include="Core\FileDetails.cs" />
-    <Compile Include="PartListPartCollection.cs" />
+    <Compile Include="Core\PartListPartCollection.cs" />
     <Compile Include="Core\BasePartCollection.cs" />
     <Compile Include="Core\BasePart.cs" />
     <Compile Include="BuildInstructions.cs" />
@@ -71,7 +71,7 @@
     <Compile Include="SubModel.cs" />
     <Compile Include="Part.cs" />
     <Compile Include="SubSet.cs" />
-    <Compile Include="PartListPart.cs" />
+    <Compile Include="Core\PartListPart.cs" />
     <Compile Include="Sticker.cs" />
     <Compile Include="StickerPositions.cs" />
     <Compile Include="PartList.cs" />

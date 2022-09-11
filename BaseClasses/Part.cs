@@ -13,8 +13,8 @@ namespace BaseClasses
         [XmlAttribute("SubSetRef")]
         public string SubSetRef = "";
 
-        [XmlAttribute("UnityRef")]
-        public string UnityRef;
+        //[XmlAttribute("UnityRef")]
+        //public string UnityRef;
 
         [XmlAttribute("LDrawRef")]
         public string LDrawRef;
