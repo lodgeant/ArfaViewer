@@ -49,6 +49,15 @@ namespace Generator
                 //LDrawDetails ldd = StaticData.GetLDrawDetails_FromLDrawFile("54701p01c01");
                 //List<string> subPartList = LDrawDetails.GetSubPartLDrawRefsFromLDrawFileText(ldd.data);
 
+                // ** Copy BaseClasses.dll to Unity directory **
+                try
+                {
+                    string SourcePath = @"C:\Source Code\CS\Arfa Viewer\BaseClasses\bin\Debug\BaseClasses.dll";
+                    string TargetPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Scripts\BaseClasses.dll";
+                    File.Copy(SourcePath, TargetPath, true);
+                }
+                catch (Exception) { }
+                
 
 
 

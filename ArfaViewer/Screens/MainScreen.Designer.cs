@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainScreen));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnExit = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnShowGeneratorScreen = new System.Windows.Forms.Button();
             this.btnTest = new System.Windows.Forms.Button();
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
@@ -62,11 +61,10 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnExit,
-            this.toolStripSeparator1});
+            this.btnExit});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(883, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(746, 25);
             this.toolStrip1.TabIndex = 26;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -78,11 +76,6 @@
             this.btnExit.Size = new System.Drawing.Size(46, 22);
             this.btnExit.Text = "Exit";
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // btnShowGeneratorScreen
             // 
@@ -98,7 +91,7 @@
             // btnTest
             // 
             this.btnTest.BackColor = System.Drawing.Color.Yellow;
-            this.btnTest.Location = new System.Drawing.Point(277, 75);
+            this.btnTest.Location = new System.Drawing.Point(137, 166);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(134, 31);
             this.btnTest.TabIndex = 29;
@@ -113,7 +106,7 @@
             this.lblStatus});
             this.statusStrip2.Location = new System.Drawing.Point(0, 301);
             this.statusStrip2.Name = "statusStrip2";
-            this.statusStrip2.Size = new System.Drawing.Size(883, 22);
+            this.statusStrip2.Size = new System.Drawing.Size(746, 22);
             this.statusStrip2.TabIndex = 36;
             this.statusStrip2.Text = "statusStrip2";
             // 
@@ -132,7 +125,7 @@
             // btnUploadToStorage
             // 
             this.btnUploadToStorage.BackColor = System.Drawing.Color.Yellow;
-            this.btnUploadToStorage.Location = new System.Drawing.Point(277, 38);
+            this.btnUploadToStorage.Location = new System.Drawing.Point(137, 129);
             this.btnUploadToStorage.Name = "btnUploadToStorage";
             this.btnUploadToStorage.Size = new System.Drawing.Size(134, 31);
             this.btnUploadToStorage.TabIndex = 37;
@@ -165,7 +158,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(429, 43);
+            this.label1.Location = new System.Drawing.Point(300, 43);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 41;
@@ -173,14 +166,14 @@
             // 
             // fldSourceURL
             // 
-            this.fldSourceURL.Location = new System.Drawing.Point(501, 40);
+            this.fldSourceURL.Location = new System.Drawing.Point(372, 40);
             this.fldSourceURL.Name = "fldSourceURL";
             this.fldSourceURL.Size = new System.Drawing.Size(363, 20);
             this.fldSourceURL.TabIndex = 42;
             // 
             // btnUploadImage
             // 
-            this.btnUploadImage.Location = new System.Drawing.Point(770, 67);
+            this.btnUploadImage.Location = new System.Drawing.Point(641, 67);
             this.btnUploadImage.Name = "btnUploadImage";
             this.btnUploadImage.Size = new System.Drawing.Size(94, 46);
             this.btnUploadImage.TabIndex = 45;
@@ -190,7 +183,7 @@
             // 
             // fldImageName
             // 
-            this.fldImageName.Location = new System.Drawing.Point(501, 96);
+            this.fldImageName.Location = new System.Drawing.Point(372, 96);
             this.fldImageName.Name = "fldImageName";
             this.fldImageName.Size = new System.Drawing.Size(263, 20);
             this.fldImageName.TabIndex = 44;
@@ -198,7 +191,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(425, 99);
+            this.label3.Location = new System.Drawing.Point(296, 99);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(70, 13);
             this.label3.TabIndex = 46;
@@ -220,7 +213,7 @@
             this.groupBox2.Controls.Add(this.btnGenerateMiniFigLDrawFiles);
             this.groupBox2.Controls.Add(this.fldMiniFigRef);
             this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(501, 139);
+            this.groupBox2.Location = new System.Drawing.Point(372, 139);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(320, 64);
             this.groupBox2.TabIndex = 61;
@@ -268,7 +261,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(461, 69);
+            this.label2.Location = new System.Drawing.Point(332, 69);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 13);
             this.label2.TabIndex = 63;
@@ -283,7 +276,7 @@
             "PartColour",
             "Set",
             "Theme"});
-            this.fldImageType.Location = new System.Drawing.Point(501, 66);
+            this.fldImageType.Location = new System.Drawing.Point(372, 66);
             this.fldImageType.Name = "fldImageType";
             this.fldImageType.Size = new System.Drawing.Size(121, 21);
             this.fldImageType.TabIndex = 43;
@@ -303,7 +296,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(883, 323);
+            this.ClientSize = new System.Drawing.Size(746, 323);
             this.Controls.Add(this.btnShowStaticDataScreen);
             this.Controls.Add(this.fldImageType);
             this.Controls.Add(this.label2);
@@ -339,7 +332,6 @@
 
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btnExit;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Button btnShowGeneratorScreen;
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.StatusStrip statusStrip2;

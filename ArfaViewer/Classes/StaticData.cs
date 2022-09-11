@@ -20,6 +20,7 @@ namespace Generator
 {
     public class StaticData
     {
+
         // ** Image functions **
 
         public static void UploadImageToBLOB_UsingURL(string SourceURL, string ImageType, string ImageName)
@@ -568,9 +569,6 @@ namespace Generator
 
         public static SubPartMappingCollection GetSubPartMappingData_UsingParentLDrawRef(string ParentLDrawRef)
         {
-            //string url = Global_Variables.APIUrl + "SubPartMapping/GetSubPartMappingData_UsingParentLDrawRef?ParentLDrawRef=" + ParentLDrawRef;
-            //string JSONString = GetJSONResponseFromURL(url);
-            //SubPartMappingCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SubPartMappingCollection>(JSONString);
             SubPartMappingCollection coll = GetSubPartMappingData_UsingParentLDrawRefList(new List<string>() { ParentLDrawRef });            
             return coll;
         }
