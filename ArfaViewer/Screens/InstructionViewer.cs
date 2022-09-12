@@ -850,8 +850,11 @@ namespace Generator
 
                 // ** Determine mode using SetDetails **
                 SetDetails setDetails = StaticData.GetSetDetails(SetRef);
-                mode = "EDIT";
-                if(setDetails.AssignedTo != Global_Variables.currentUser) mode = "READ-ONLY";
+                if(setDetails != null)
+                {
+                    mode = "EDIT";
+                    if (setDetails.AssignedTo != Global_Variables.currentUser) mode = "READ-ONLY";
+                }                
                
                 // ** Tidy Up **
                 ClearAllFields();

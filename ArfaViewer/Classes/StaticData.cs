@@ -47,8 +47,6 @@ namespace Generator
         }
 
 
-
-
         // ** PartColour functions **
 
         public static PartColourCollection GetPartColourData_UsingLDrawColourIDList(List<int> IDList)
@@ -183,6 +181,14 @@ namespace Generator
             return si;
         }
 
+        public static SetInstructionsCollection GetSetInstructionsData_All()
+        {
+            string url = Global_Variables.APIUrl + "SetInstructions/GetSetInstructionsData_All";
+            string JSONString = GetJSONResponseFromURL(url);
+            SetInstructionsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetInstructionsCollection>(JSONString);
+            return coll;
+        }
+
         public static void UpdateSetInstructions(SetInstructions si)
         {
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(si);
@@ -275,9 +281,6 @@ namespace Generator
             List<string> LDrawRefList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(JSONString);
             return LDrawRefList;
         }
-
-
-
 
 
         // ** FBXDetails functions **
@@ -565,7 +568,6 @@ namespace Generator
         }
 
 
-
         // ** SubPartMapping functions **
 
         public static SubPartMappingCollection GetSubPartMappingData_UsingParentLDrawRefList(List<string> IDList)
@@ -634,11 +636,6 @@ namespace Generator
             string url = Global_Variables.APIUrl + "SubPartMapping/DeleteSubPartMapping?ParentLDrawRef=" + ParentLDrawRef + "&SubPartLDrawRef=" + SubPartLDrawRef + "&ID=" + ID;
             PostRequestFromURL(url);
         }
-
-
-
-
-
 
 
         // ** FileDetails functions **

@@ -17,6 +17,7 @@ using System.IO;
 using Azure.Storage.Files.Shares;
 using Org.BouncyCastle.Ocsp;
 using Azure.Storage.Files.Shares.Models;
+using System.Data.SqlTypes;
 
 namespace Generator
 {
@@ -25,12 +26,14 @@ namespace Generator
         private Scintilla LDrawDetailsData = new Scintilla();
         private Scintilla SubPartMappingData = new Scintilla();
         private Scintilla FilesDatData = new Scintilla();
+        private Scintilla SetInstructionsData = new Scintilla();
         private DataTable dgBasePartSummaryTable_Orig = new DataTable("","");
         private DataTable dgLDrawDetailsSummaryTable_Orig = new DataTable("", "");
         private DataTable dgSubPartMappingSummaryTable_Orig = new DataTable("", "");
         private DataTable dgFilesDatSummaryTable_Orig = new DataTable("", "");
         private DataTable dgFilesFbxSummaryTable_Orig = new DataTable("", "");
         private DataTable dgFilesUnityFbxSummaryTable_Orig = new DataTable("", "");
+        private DataTable dgSetInstructionsSummaryTable_Orig = new DataTable("", "");
 
 
         public StaticDataScreen()
@@ -44,7 +47,7 @@ namespace Generator
                 this.Text += " | " + "v" + versionArray[0] + "." + versionArray[1] + "." + versionArray[2];
 
                 #region ** FORMAT SUMMARIES **
-                String[] DGnames = new string[] { "dgBasePartSummary", "dgLDrawDetailsSummary", "dgSubPartMappingSummary", "dgFilesDatSummary", "dgFilesFbxSummary", "dgFilesUnityFbxSummary" };
+                String[] DGnames = new string[] { "dgBasePartSummary", "dgLDrawDetailsSummary", "dgSubPartMappingSummary", "dgFilesDatSummary", "dgFilesFbxSummary", "dgFilesUnityFbxSummary", "dgSetInstructionsSummary" };
                 foreach (String dgName in DGnames)
                 {
                     DataGridView dgv = (DataGridView)(this.Controls.Find(dgName, true)[0]);
@@ -77,6 +80,9 @@ namespace Generator
                 lblFilesUnityFbxStatus.Text = "";
                 lblFilesUnityFbxCount.Text = "";
                 lblFilesUnityFbxSummaryItemFilteredCount.Text = "";
+                lblSetInstructionsStatus.Text = "";
+                lblSetInstructionsCount.Text = "";
+                lblSetInstructionsSummaryItemFilteredCount.Text = "";
                 #endregion
 
                 #region ** ADD BASEPART SUMMARY TOOLSTRIP ITEMS **
@@ -237,6 +243,8 @@ namespace Generator
                 ApplyDefaultScintillaStyles(SubPartMappingData);
                 pnlFilesDatData.Controls.Add(FilesDatData);
                 ApplyDefaultScintillaStyles(FilesDatData);
+                pnlSetInstructionsData.Controls.Add(SetInstructionsData);
+                ApplyDefaultScintillaStyles(SetInstructionsData);
 
                 // ** Populate all PartType related dropdowns **
                 PopulatePartType_Dropdowns();
@@ -474,6 +482,11 @@ namespace Generator
         private void btnLDrawDetailsDelete_Click(object sender, EventArgs e)
         {
             LDrawDetails_Delete();
+        }
+
+        private void btnSetInstructionsRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshSetInstruction();
         }
 
         #endregion
@@ -1520,6 +1533,22 @@ namespace Generator
             AdjustSubPartMappingSummaryRowFormatting(dgSubPartMappingSummary);
         }
 
+        private void dgSetInstructionsSummary_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex != -1)
+                {
+                    string Data = dgSetInstructionsSummary.Rows[e.RowIndex].Cells["Data"].Value.ToString();
+                    SetInstructionsData.Text = XDocument.Parse(Data).ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
+            }
+        }
+
         #endregion
 
         #region ** ACCELERATOR FUNCTIONS **
@@ -2315,6 +2344,144 @@ namespace Generator
 
         #endregion
 
+        #region ** REFRESH SET INSTRUCTION FUNCTIONS **
+
+        private BackgroundWorker bw_RefreshSetInstruction;
+
+        private void EnableControls_RefreshSetInstruction(bool value)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => EnableControls_RefreshSetInstruction(value)));
+            }
+            else
+            {
+                btnExit.Enabled = value;
+                tabPage2.Enabled = value;
+            }
+        }
+
+        private void RefreshSetInstruction()
+        {
+            try
+            {
+                EnableControls_RefreshSetInstruction(false);
+
+                // ** CLEAR FIELDS ** 
+                dgSetInstructionsSummary.DataSource = null;
+                lblSetInstructionsCount.Text = "";
+                lblSetInstructionsSummaryItemFilteredCount.Text = "";
+                SetInstructionsData.Text = "";
+                //fldBasePartLDrawRefAc.Text = "";
+                //fldBasePartLDrawDescriptionAc.Text = "";
+
+                // ** Run background to process functions **
+                bw_RefreshSetInstruction = new BackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                };
+                bw_RefreshSetInstruction.DoWork += new DoWorkEventHandler(bw_RefreshSetInstruction_DoWork);
+                bw_RefreshSetInstruction.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RefreshSetInstruction_RunWorkerCompleted);
+                bw_RefreshSetInstruction.ProgressChanged += new ProgressChangedEventHandler(bw_RefreshSetInstruction_ProgressChanged);
+                bw_RefreshSetInstruction.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                //Delegates.ToolStripButton_SetText(this, btnRefreshStaticData, "Refresh Static Data");
+                //btnRefreshStaticData.ForeColor = Color.Black;
+                pbSetInstructionStatus.Value = 0;
+                EnableControls_RefreshSetInstruction(true);
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "");
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshSetInstruction_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+                Delegates.ToolStripProgressBar_SetValue(this, pbSetInstructionStatus, e.ProgressPercentage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshSetInstruction_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                //Delegates.ToolStripButton_SetTextAndForeColor(this, btnRefreshStaticData, "Refresh Static Data", Color.Black);
+                Delegates.ToolStripProgressBar_SetValue(this, pbSetInstructionStatus, 0);
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "");
+                EnableControls_RefreshSetInstruction(true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshSetInstruction_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                // ** Get SetInstruction data **
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "Refreshing - Getting SetInstruction data...");
+                SetInstructionsCollection coll = StaticData.GetSetInstructionsData_All();
+                dgSetInstructionsSummaryTable_Orig = SetInstructionsCollection.GetDatatableFromSetInstructionsCollection(coll);
+
+                // ** Posting data to summary **
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "Refreshing - Posting data to summary...");
+                Delegates.DataGridView_SetDataSource(this, dgSetInstructionsSummary, dgSetInstructionsSummaryTable_Orig);
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsCount, coll.SetInstructionsList.Count.ToString("#,##0") + " item(s)");
+
+                // ** Format summary **
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "Refreshing - Formatting summary data...");
+                AdjustSetInstructionsSummaryRowFormatting(dgSetInstructionsSummary);
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void AdjustSetInstructionsSummaryRowFormatting(DataGridView dg)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => AdjustSetInstructionsSummaryRowFormatting(dg)));
+            }
+            else
+            {
+                // ** Format columns **
+                dg.Columns["Data"].Visible = false;
+                dg.AutoResizeColumns();
+
+                // ** Adjust row formatting **
+                //foreach (DataGridViewRow row in dg.Rows)
+                //{
+                //    if (row.Cells["Is Sub Part"].Value.ToString().ToUpper().Equals("TRUE"))
+                //    {
+                //        row.DefaultCellStyle.Font = new System.Drawing.Font(this.Font, FontStyle.Italic);
+                //        row.DefaultCellStyle.ForeColor = Color.Gray;
+                //    }
+                //    if (row.Cells["Part Type"].Value.ToString().ToUpper().Equals("COMPOSITE"))
+                //    {
+                //        row.DefaultCellStyle.ForeColor = Color.Blue;
+                //    }
+                //}
+            }
+        }
+
+        #endregion
+
+
+
+
         #region ** COPY TO CLIPBOARD FUNCTIONS **
 
         private void btnBasePartSummaryCopyToClipboard_Click(object sender, EventArgs e)
@@ -2552,7 +2719,28 @@ namespace Generator
 
 
 
+        
+
+        private void btnSetInstructionsShowDataInNotePadPlus_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // ** Validation Checks **
+                //if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
+                //string SetRef = fldCurrentSetRef.Text;
+                string Ref = dgSetInstructionsSummary.SelectedRows[0].Cells["Ref"].Value.ToString();
+                
 
 
+                // ** Save file to temp location then open In Notepadd ++ **
+                string tempfileLocation = Path.GetTempPath() + Ref + ".xml";
+                File.WriteAllText(tempfileLocation, SetInstructionsData.Text);
+                Process.Start("notepad++.exe", "\"" + tempfileLocation + "\"");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

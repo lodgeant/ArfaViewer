@@ -66,5 +66,24 @@ namespace BaseClasses
         }
 
 
+        public static DataTable GetDatatableFromSetInstructionsCollection(SetInstructionsCollection coll)
+        {
+            DataTable table = new DataTable("", "");
+            table.Columns.Add("Ref", typeof(string));
+            table.Columns.Add("Data", typeof(string));            
+            foreach (SetInstructions item in coll.SetInstructionsList)
+            {
+                DataRow newRow = table.NewRow();
+                newRow["Ref"] = item.Ref;
+                newRow["Data"] = item.Data;               
+                table.Rows.Add(newRow);
+            }
+            return table;
+        }
+
+
+
+
+
     }
 }
