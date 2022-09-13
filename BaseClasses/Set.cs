@@ -103,7 +103,8 @@ namespace BaseClasses
             {
                 // ** POPULATE Set DETAILS **                    
                 string SetRef = setXML.SelectSingleNode("//Set/@Ref").InnerXml;
-                string SetDescription = setXML.SelectSingleNode("//Set/@Description").InnerXml;
+                string SetDescription = "";
+                if(setXML.SelectSingleNode("//Set/@Description") != null) SetDescription = setXML.SelectSingleNode("//Set/@Description").InnerXml;               
                 SetTN = new TreeNode() { Text = SetRef + "|" + SetDescription, Tag = "SET|" + SetRef, ImageIndex = 0, SelectedImageIndex = 0 };
                 nodeList.Add("SET|" + SetRef + "|" + SetDescription);   // ## Debug
 
@@ -115,7 +116,8 @@ namespace BaseClasses
                     {
                         // ** GET VARIABLES **
                         string SubSetRef = SubSetNode.SelectSingleNode("@Ref").InnerXml;
-                        string SubSetDescription = SubSetNode.SelectSingleNode("@Description").InnerXml;
+                        string SubSetDescription = "";
+                        if(SubSetNode.SelectSingleNode("@Description") != null) SubSetDescription = SubSetNode.SelectSingleNode("@Description").InnerXml;                                             
                         TreeNode SubSetTN = new TreeNode() { Text = SubSetRef + "|" + SubSetDescription, Tag = "SUBSET|" + SubSetRef, ImageIndex = 1, SelectedImageIndex = 1 };
                         SetTN.Nodes.Add(SubSetTN);
                         nodeList.Add("SUBSET|" + SubSetRef + "|" + SubSetDescription);   // ## Debug
@@ -127,7 +129,8 @@ namespace BaseClasses
                             foreach (XmlNode ModelNode in ModelNodeList)
                             {
                                 string ModelRef = ModelNode.SelectSingleNode("@Ref").InnerXml;
-                                string ModelDescription = ModelDescription = ModelNode.SelectSingleNode("@Description").InnerXml;
+                                string ModelDescription = "";
+                                if(ModelNode.SelectSingleNode("@Description") != null) ModelDescription = ModelNode.SelectSingleNode("@Description").InnerXml;                                
                                 string ModelType = ModelNode.SelectSingleNode("@LDrawModelType").InnerXml;
                                 TreeNode modelTN = new TreeNode(ModelRef + "|" + ModelDescription);
                                 modelTN.Tag = "MODEL|" + SubSetRef + "|" + ModelRef;

@@ -1765,8 +1765,12 @@ namespace Generator
                 {
                     // ** Get variables **
                     string SetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
-                    string Description = currentSetXml.SelectSingleNode("//Set[@Ref='" + SetRef + "']/@Description").InnerXml;
-                    
+                    string Description = "";
+                    if (currentSetXml.SelectSingleNode("//Set[@Ref='" + SetRef + "']/@Description") != null)
+                    {
+                        Description = currentSetXml.SelectSingleNode("//Set[@Ref='" + SetRef + "']/@Description").InnerXml;
+                    }
+
                     // ** Post data **
                     fldSetCurrentRef.Text = SetRef;
                     fldSetDescription.Text = Description;                    
@@ -1776,7 +1780,11 @@ namespace Generator
                 {
                     // ** Get variables **
                     string SubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
-                    string Description = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']/@Description").InnerXml;
+                    string Description = "";
+                    if(currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']/@Description") != null)
+                    {
+                        Description = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']/@Description").InnerXml;
+                    }
                     string SubSetType = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']/@SubSetType").InnerXml;
 
                     // ** Post data **                    
@@ -1801,7 +1809,11 @@ namespace Generator
                     string SubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
                     string ModelRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[2];                    
                     //string SubSetRef = currentSetXml.SelectSingleNode("//SubModel[@Ref='" + ModelRef + "']/ancestor::SubSet/@Ref").InnerXml;
-                    string ModelDescription = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']/@Description").InnerXml;
+                    string ModelDescription = "";
+                    if(currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']/@Description") != null)
+                    {
+                        ModelDescription = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']/@Description").InnerXml;
+                    }
                     string ModelType = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']/@LDrawModelType").InnerXml;
 
                     // ** Post data **                    

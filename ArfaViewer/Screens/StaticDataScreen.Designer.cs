@@ -36,6 +36,18 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer8 = new System.Windows.Forms.SplitContainer();
+            this.dgSetInstructionsSummary = new System.Windows.Forms.DataGridView();
+            this.statusStrip6 = new System.Windows.Forms.StatusStrip();
+            this.pbSetInstructionStatus = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblSetInstructionsStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblSetInstructionsCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblSetInstructionsSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStrip6 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            this.fldSetInstructionsRef = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnSetInstructionsSave = new System.Windows.Forms.ToolStripButton();
+            this.btnSetInstructionsDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStrip4 = new System.Windows.Forms.ToolStrip();
             this.btnSetInstructionsRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
@@ -266,18 +278,6 @@
             this.btnFBXRefreshAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSyncFBSFiles = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip6 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
-            this.fldSetInstructionsRef = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
-            this.statusStrip6 = new System.Windows.Forms.StatusStrip();
-            this.pbSetInstructionStatus = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblSetInstructionsStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblSetInstructionsCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblSetInstructionsSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnSetInstructionsSave = new System.Windows.Forms.ToolStripButton();
-            this.btnSetInstructionsDelete = new System.Windows.Forms.ToolStripButton();
-            this.dgSetInstructionsSummary = new System.Windows.Forms.DataGridView();
             this.tsHeader.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -285,6 +285,9 @@
             this.splitContainer8.Panel1.SuspendLayout();
             this.splitContainer8.Panel2.SuspendLayout();
             this.splitContainer8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgSetInstructionsSummary)).BeginInit();
+            this.statusStrip6.SuspendLayout();
+            this.toolStrip6.SuspendLayout();
             this.toolStrip4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.toolStrip3.SuspendLayout();
@@ -352,9 +355,6 @@
             this.statusStrip5.SuspendLayout();
             this.tsFilesUnityFbxHeader.SuspendLayout();
             this.toolStrip2.SuspendLayout();
-            this.toolStrip6.SuspendLayout();
-            this.statusStrip6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgSetInstructionsSummary)).BeginInit();
             this.SuspendLayout();
             // 
             // tsHeader
@@ -394,9 +394,9 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 25);
             this.tabControl1.Name = "tabControl1";
@@ -433,6 +433,107 @@
             this.splitContainer8.Size = new System.Drawing.Size(1754, 773);
             this.splitContainer8.SplitterDistance = 422;
             this.splitContainer8.TabIndex = 0;
+            // 
+            // dgSetInstructionsSummary
+            // 
+            this.dgSetInstructionsSummary.BackgroundColor = System.Drawing.Color.White;
+            this.dgSetInstructionsSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgSetInstructionsSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgSetInstructionsSummary.Location = new System.Drawing.Point(0, 25);
+            this.dgSetInstructionsSummary.Name = "dgSetInstructionsSummary";
+            this.dgSetInstructionsSummary.Size = new System.Drawing.Size(422, 701);
+            this.dgSetInstructionsSummary.TabIndex = 83;
+            this.dgSetInstructionsSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSetInstructionsSummary_CellClick);
+            // 
+            // statusStrip6
+            // 
+            this.statusStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pbSetInstructionStatus,
+            this.lblSetInstructionsStatus,
+            this.lblSetInstructionsCount,
+            this.lblSetInstructionsSummaryItemFilteredCount});
+            this.statusStrip6.Location = new System.Drawing.Point(0, 726);
+            this.statusStrip6.Name = "statusStrip6";
+            this.statusStrip6.Size = new System.Drawing.Size(422, 22);
+            this.statusStrip6.TabIndex = 82;
+            this.statusStrip6.Text = "statusStrip2";
+            // 
+            // pbSetInstructionStatus
+            // 
+            this.pbSetInstructionStatus.ForeColor = System.Drawing.Color.Lime;
+            this.pbSetInstructionStatus.Name = "pbSetInstructionStatus";
+            this.pbSetInstructionStatus.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblSetInstructionsStatus
+            // 
+            this.lblSetInstructionsStatus.Name = "lblSetInstructionsStatus";
+            this.lblSetInstructionsStatus.Size = new System.Drawing.Size(130, 17);
+            this.lblSetInstructionsStatus.Text = "lblSetInstructionsStatus";
+            // 
+            // lblSetInstructionsCount
+            // 
+            this.lblSetInstructionsCount.Name = "lblSetInstructionsCount";
+            this.lblSetInstructionsCount.Size = new System.Drawing.Size(131, 17);
+            this.lblSetInstructionsCount.Text = "lblSetInstructionsCount";
+            // 
+            // lblSetInstructionsSummaryItemFilteredCount
+            // 
+            this.lblSetInstructionsSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblSetInstructionsSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
+            this.lblSetInstructionsSummaryItemFilteredCount.Name = "lblSetInstructionsSummaryItemFilteredCount";
+            this.lblSetInstructionsSummaryItemFilteredCount.Size = new System.Drawing.Size(261, 15);
+            this.lblSetInstructionsSummaryItemFilteredCount.Text = "lblSetInstructionsSummaryItemFilteredCount";
+            // 
+            // toolStrip6
+            // 
+            this.toolStrip6.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel3,
+            this.fldSetInstructionsRef,
+            this.toolStripSeparator26,
+            this.btnSetInstructionsSave,
+            this.btnSetInstructionsDelete});
+            this.toolStrip6.Location = new System.Drawing.Point(0, 748);
+            this.toolStrip6.Name = "toolStrip6";
+            this.toolStrip6.Size = new System.Drawing.Size(422, 25);
+            this.toolStrip6.TabIndex = 81;
+            this.toolStrip6.Text = "toolStrip5";
+            // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(27, 22);
+            this.toolStripLabel3.Text = "Ref:";
+            // 
+            // fldSetInstructionsRef
+            // 
+            this.fldSetInstructionsRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldSetInstructionsRef.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldSetInstructionsRef.Name = "fldSetInstructionsRef";
+            this.fldSetInstructionsRef.Size = new System.Drawing.Size(100, 25);
+            // 
+            // toolStripSeparator26
+            // 
+            this.toolStripSeparator26.Name = "toolStripSeparator26";
+            this.toolStripSeparator26.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnSetInstructionsSave
+            // 
+            this.btnSetInstructionsSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSetInstructionsSave.Image")));
+            this.btnSetInstructionsSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSetInstructionsSave.Name = "btnSetInstructionsSave";
+            this.btnSetInstructionsSave.Size = new System.Drawing.Size(51, 22);
+            this.btnSetInstructionsSave.Text = "Save";
+            this.btnSetInstructionsSave.Click += new System.EventHandler(this.btnSetInstructionsSave_Click);
+            // 
+            // btnSetInstructionsDelete
+            // 
+            this.btnSetInstructionsDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnSetInstructionsDelete.Image")));
+            this.btnSetInstructionsDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSetInstructionsDelete.Name = "btnSetInstructionsDelete";
+            this.btnSetInstructionsDelete.Size = new System.Drawing.Size(60, 22);
+            this.btnSetInstructionsDelete.Text = "Delete";
+            this.btnSetInstructionsDelete.Click += new System.EventHandler(this.btnSetInstructionsDelete_Click);
             // 
             // toolStrip4
             // 
@@ -2486,107 +2587,6 @@
             this.btnSyncFBSFiles.Text = "Sync FBX Files";
             this.btnSyncFBSFiles.Click += new System.EventHandler(this.btnSyncFBXFiles_Click);
             // 
-            // toolStrip6
-            // 
-            this.toolStrip6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel3,
-            this.fldSetInstructionsRef,
-            this.toolStripSeparator26,
-            this.btnSetInstructionsSave,
-            this.btnSetInstructionsDelete});
-            this.toolStrip6.Location = new System.Drawing.Point(0, 748);
-            this.toolStrip6.Name = "toolStrip6";
-            this.toolStrip6.Size = new System.Drawing.Size(422, 25);
-            this.toolStrip6.TabIndex = 81;
-            this.toolStrip6.Text = "toolStrip5";
-            // 
-            // toolStripLabel3
-            // 
-            this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(27, 22);
-            this.toolStripLabel3.Text = "Ref:";
-            // 
-            // fldSetInstructionsRef
-            // 
-            this.fldSetInstructionsRef.BackColor = System.Drawing.Color.LightGray;
-            this.fldSetInstructionsRef.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldSetInstructionsRef.Name = "fldSetInstructionsRef";
-            this.fldSetInstructionsRef.Size = new System.Drawing.Size(100, 25);
-            // 
-            // toolStripSeparator26
-            // 
-            this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(6, 25);
-            // 
-            // statusStrip6
-            // 
-            this.statusStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pbSetInstructionStatus,
-            this.lblSetInstructionsStatus,
-            this.lblSetInstructionsCount,
-            this.lblSetInstructionsSummaryItemFilteredCount});
-            this.statusStrip6.Location = new System.Drawing.Point(0, 726);
-            this.statusStrip6.Name = "statusStrip6";
-            this.statusStrip6.Size = new System.Drawing.Size(422, 22);
-            this.statusStrip6.TabIndex = 82;
-            this.statusStrip6.Text = "statusStrip2";
-            // 
-            // pbSetInstructionStatus
-            // 
-            this.pbSetInstructionStatus.ForeColor = System.Drawing.Color.Lime;
-            this.pbSetInstructionStatus.Name = "pbSetInstructionStatus";
-            this.pbSetInstructionStatus.Size = new System.Drawing.Size(100, 16);
-            // 
-            // lblSetInstructionsStatus
-            // 
-            this.lblSetInstructionsStatus.Name = "lblSetInstructionsStatus";
-            this.lblSetInstructionsStatus.Size = new System.Drawing.Size(130, 17);
-            this.lblSetInstructionsStatus.Text = "lblSetInstructionsStatus";
-            // 
-            // lblSetInstructionsCount
-            // 
-            this.lblSetInstructionsCount.Name = "lblSetInstructionsCount";
-            this.lblSetInstructionsCount.Size = new System.Drawing.Size(131, 17);
-            this.lblSetInstructionsCount.Text = "lblSetInstructionsCount";
-            // 
-            // lblSetInstructionsSummaryItemFilteredCount
-            // 
-            this.lblSetInstructionsSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblSetInstructionsSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
-            this.lblSetInstructionsSummaryItemFilteredCount.Name = "lblSetInstructionsSummaryItemFilteredCount";
-            this.lblSetInstructionsSummaryItemFilteredCount.Size = new System.Drawing.Size(261, 15);
-            this.lblSetInstructionsSummaryItemFilteredCount.Text = "lblSetInstructionsSummaryItemFilteredCount";
-            // 
-            // btnSetInstructionsSave
-            // 
-            this.btnSetInstructionsSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSetInstructionsSave.Image")));
-            this.btnSetInstructionsSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSetInstructionsSave.Name = "btnSetInstructionsSave";
-            this.btnSetInstructionsSave.Size = new System.Drawing.Size(51, 22);
-            this.btnSetInstructionsSave.Text = "Save";
-            this.btnSetInstructionsSave.Click += new System.EventHandler(this.btnSetInstructionsSave_Click);
-            // 
-            // btnSetInstructionsDelete
-            // 
-            this.btnSetInstructionsDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnSetInstructionsDelete.Image")));
-            this.btnSetInstructionsDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSetInstructionsDelete.Name = "btnSetInstructionsDelete";
-            this.btnSetInstructionsDelete.Size = new System.Drawing.Size(60, 22);
-            this.btnSetInstructionsDelete.Text = "Delete";
-            this.btnSetInstructionsDelete.Click += new System.EventHandler(this.btnSetInstructionsDelete_Click);
-            // 
-            // dgSetInstructionsSummary
-            // 
-            this.dgSetInstructionsSummary.BackgroundColor = System.Drawing.Color.White;
-            this.dgSetInstructionsSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgSetInstructionsSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgSetInstructionsSummary.Location = new System.Drawing.Point(0, 25);
-            this.dgSetInstructionsSummary.Name = "dgSetInstructionsSummary";
-            this.dgSetInstructionsSummary.Size = new System.Drawing.Size(422, 701);
-            this.dgSetInstructionsSummary.TabIndex = 83;
-            this.dgSetInstructionsSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSetInstructionsSummary_CellClick);
-            // 
             // StaticDataScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2605,6 +2605,11 @@
             this.splitContainer8.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
             this.splitContainer8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgSetInstructionsSummary)).EndInit();
+            this.statusStrip6.ResumeLayout(false);
+            this.statusStrip6.PerformLayout();
+            this.toolStrip6.ResumeLayout(false);
+            this.toolStrip6.PerformLayout();
             this.toolStrip4.ResumeLayout(false);
             this.toolStrip4.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -2704,11 +2709,6 @@
             this.tsFilesUnityFbxHeader.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
-            this.toolStrip6.ResumeLayout(false);
-            this.toolStrip6.PerformLayout();
-            this.statusStrip6.ResumeLayout(false);
-            this.statusStrip6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgSetInstructionsSummary)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
