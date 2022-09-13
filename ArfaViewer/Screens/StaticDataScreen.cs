@@ -486,7 +486,17 @@ namespace Generator
 
         private void btnSetInstructionsRefresh_Click(object sender, EventArgs e)
         {
-            RefreshSetInstruction();
+            RefreshSetInstructions();
+        }
+
+        private void btnSetInstructionsSave_Click(object sender, EventArgs e)
+        {
+            SetInstructions_Save();
+        }
+
+        private void btnSetInstructionsDelete_Click(object sender, EventArgs e)
+        {
+            SetInstructions_Delete();
         }
 
         #endregion
@@ -1274,7 +1284,7 @@ namespace Generator
 
         #endregion
 
-        #region ** REFRESH FILES FBX FUNCTIONS
+        #region ** REFRESH FILES UNITY FBX FUNCTIONS
 
         private BackgroundWorker bw_RefreshFilesUnityFbx;
 
@@ -1374,6 +1384,141 @@ namespace Generator
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region ** REFRESH SET INSTRUCTION FUNCTIONS **
+
+        private BackgroundWorker bw_RefreshSetInstruction;
+
+        private void EnableControls_RefreshSetInstruction(bool value)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => EnableControls_RefreshSetInstruction(value)));
+            }
+            else
+            {
+                btnExit.Enabled = value;
+                tabPage2.Enabled = value;
+            }
+        }
+
+        private void RefreshSetInstructions()
+        {
+            try
+            {
+                EnableControls_RefreshSetInstruction(false);
+
+                // ** CLEAR FIELDS ** 
+                dgSetInstructionsSummary.DataSource = null;
+                lblSetInstructionsCount.Text = "";
+                lblSetInstructionsSummaryItemFilteredCount.Text = "";
+                SetInstructionsData.Text = "";
+                //fldBasePartLDrawRefAc.Text = "";
+                //fldBasePartLDrawDescriptionAc.Text = "";
+
+                // ** Run background to process functions **
+                bw_RefreshSetInstruction = new BackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                };
+                bw_RefreshSetInstruction.DoWork += new DoWorkEventHandler(bw_RefreshSetInstruction_DoWork);
+                bw_RefreshSetInstruction.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RefreshSetInstruction_RunWorkerCompleted);
+                bw_RefreshSetInstruction.ProgressChanged += new ProgressChangedEventHandler(bw_RefreshSetInstruction_ProgressChanged);
+                bw_RefreshSetInstruction.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                //Delegates.ToolStripButton_SetText(this, btnRefreshStaticData, "Refresh Static Data");
+                //btnRefreshStaticData.ForeColor = Color.Black;
+                pbSetInstructionStatus.Value = 0;
+                EnableControls_RefreshSetInstruction(true);
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "");
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshSetInstruction_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+                Delegates.ToolStripProgressBar_SetValue(this, pbSetInstructionStatus, e.ProgressPercentage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshSetInstruction_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                //Delegates.ToolStripButton_SetTextAndForeColor(this, btnRefreshStaticData, "Refresh Static Data", Color.Black);
+                Delegates.ToolStripProgressBar_SetValue(this, pbSetInstructionStatus, 0);
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "");
+                EnableControls_RefreshSetInstruction(true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void bw_RefreshSetInstruction_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                // ** Get SetInstruction data **
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "Refreshing - Getting SetInstruction data...");
+                SetInstructionsCollection coll = StaticData.GetSetInstructionsData_All();
+                dgSetInstructionsSummaryTable_Orig = SetInstructionsCollection.GetDatatableFromSetInstructionsCollection(coll);
+
+                // ** Posting data to summary **
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "Refreshing - Posting data to summary...");
+                Delegates.DataGridView_SetDataSource(this, dgSetInstructionsSummary, dgSetInstructionsSummaryTable_Orig);
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsCount, coll.SetInstructionsList.Count.ToString("#,##0") + " item(s)");
+
+                // ** Format summary **
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "Refreshing - Formatting summary data...");
+                AdjustSetInstructionsSummaryRowFormatting(dgSetInstructionsSummary);
+                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void AdjustSetInstructionsSummaryRowFormatting(DataGridView dg)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => AdjustSetInstructionsSummaryRowFormatting(dg)));
+            }
+            else
+            {
+                // ** Format columns **
+                dg.Columns["Data"].Visible = false;
+                dg.AutoResizeColumns();
+
+                // ** Adjust row formatting **
+                //foreach (DataGridViewRow row in dg.Rows)
+                //{
+                //    if (row.Cells["Is Sub Part"].Value.ToString().ToUpper().Equals("TRUE"))
+                //    {
+                //        row.DefaultCellStyle.Font = new System.Drawing.Font(this.Font, FontStyle.Italic);
+                //        row.DefaultCellStyle.ForeColor = Color.Gray;
+                //    }
+                //    if (row.Cells["Part Type"].Value.ToString().ToUpper().Equals("COMPOSITE"))
+                //    {
+                //        row.DefaultCellStyle.ForeColor = Color.Blue;
+                //    }
+                //}
             }
         }
 
@@ -1539,8 +1684,10 @@ namespace Generator
             {
                 if (e.RowIndex != -1)
                 {
-                    string Data = dgSetInstructionsSummary.Rows[e.RowIndex].Cells["Data"].Value.ToString();
-                    SetInstructionsData.Text = XDocument.Parse(Data).ToString();
+                    string Ref = dgSetInstructionsSummary.SelectedRows[0].Cells["Ref"].Value.ToString();
+                    SetInstructions si = StaticData.GetSetInstructions(Ref);
+                    fldSetInstructionsRef.Text = Ref;
+                    SetInstructionsData.Text = XDocument.Parse(si.Data).ToString();
                 }
             }
             catch (Exception ex)
@@ -2344,143 +2491,75 @@ namespace Generator
 
         #endregion
 
-        #region ** REFRESH SET INSTRUCTION FUNCTIONS **
+        #region ** SET INSTRUCTIONS FUNCTIONS **
 
-        private BackgroundWorker bw_RefreshSetInstruction;
-
-        private void EnableControls_RefreshSetInstruction(bool value)
-        {
-            if (this.InvokeRequired)
-            {
-                this.BeginInvoke(new MethodInvoker(() => EnableControls_RefreshSetInstruction(value)));
-            }
-            else
-            {
-                btnExit.Enabled = value;
-                tabPage2.Enabled = value;
-            }
-        }
-
-        private void RefreshSetInstruction()
+        private void SetInstructions_Save()
         {
             try
             {
-                EnableControls_RefreshSetInstruction(false);
+                // ** Validation Checks **               
+                if (fldSetInstructionsRef.Text.Equals("")) throw new Exception("No Ref entered...");
+                string Ref = fldSetInstructionsRef.Text;
 
-                // ** CLEAR FIELDS ** 
-                dgSetInstructionsSummary.DataSource = null;
-                lblSetInstructionsCount.Text = "";
-                lblSetInstructionsSummaryItemFilteredCount.Text = "";
-                SetInstructionsData.Text = "";
-                //fldBasePartLDrawRefAc.Text = "";
-                //fldBasePartLDrawDescriptionAc.Text = "";
-
-                // ** Run background to process functions **
-                bw_RefreshSetInstruction = new BackgroundWorker
+                // Check if SetInstructions already exist - if so update it, if not, add it.
+                string action = "UPDATE";
+                SetInstructions si = StaticData.GetSetInstructions(Ref);
+                if (si == null)
                 {
-                    WorkerReportsProgress = true,
-                    WorkerSupportsCancellation = true
-                };
-                bw_RefreshSetInstruction.DoWork += new DoWorkEventHandler(bw_RefreshSetInstruction_DoWork);
-                bw_RefreshSetInstruction.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RefreshSetInstruction_RunWorkerCompleted);
-                bw_RefreshSetInstruction.ProgressChanged += new ProgressChangedEventHandler(bw_RefreshSetInstruction_ProgressChanged);
-                bw_RefreshSetInstruction.RunWorkerAsync();
+                    action = "ADD";
+                    si = new SetInstructions();
+                }
+                si.Ref = Ref;
+                si.Data = SetInstructionsData.Text;
+
+                // ** Determine what action to take **
+                if (action.Equals("ADD")) StaticData.AddSetInstructions(si);
+                else if (action.Equals("UPDATE")) StaticData.UpdateSetInstructions(si);
+
+                // ** Tidy Up **
+                //ClearAllSetDetailsFields();
+                RefreshSetInstructions();
             }
             catch (Exception ex)
             {
-                //Delegates.ToolStripButton_SetText(this, btnRefreshStaticData, "Refresh Static Data");
-                //btnRefreshStaticData.ForeColor = Color.Black;
-                pbSetInstructionStatus.Value = 0;
-                EnableControls_RefreshSetInstruction(true);
-                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "");
                 MessageBox.Show(ex.Message);
             }
         }
 
-        private void bw_RefreshSetInstruction_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void SetInstructions_Delete()
         {
             try
             {
-                Delegates.ToolStripProgressBar_SetValue(this, pbSetInstructionStatus, e.ProgressPercentage);
+                // ** Validation Checks **               
+                if (dgSetInstructionsSummary.SelectedRows.Count == 0) throw new Exception("No Ref selected...");
+                string Ref = dgSetInstructionsSummary.SelectedRows[0].Cells["Ref"].Value.ToString();
+
+                // ** Check if SetInstructions exists **
+                bool exists = StaticData.CheckIfSetInstructionsExists(Ref);
+                if (exists == false) throw new Exception("Set Instructions don't exist for " + Ref);
+
+                // Make sure user wants to delete
+                DialogResult res = MessageBox.Show("Are you sure you want to Delete?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    // ** Delete SetInstructions **
+                    StaticData.DeleteSetInstructions(Ref);
+
+                    // ** Tidy Up **
+                    //BasePart_Clear();
+                    RefreshSetInstructions();
+
+                    // ** Show confirmation **
+                    MessageBox.Show("SetInstructions " + Ref + " deleted successfully...");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void bw_RefreshSetInstruction_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            try
-            {
-                //Delegates.ToolStripButton_SetTextAndForeColor(this, btnRefreshStaticData, "Refresh Static Data", Color.Black);
-                Delegates.ToolStripProgressBar_SetValue(this, pbSetInstructionStatus, 0);
-                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "");
-                EnableControls_RefreshSetInstruction(true);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void bw_RefreshSetInstruction_DoWork(object sender, DoWorkEventArgs e)
-        {
-            try
-            {
-                // ** Get SetInstruction data **
-                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "Refreshing - Getting SetInstruction data...");
-                SetInstructionsCollection coll = StaticData.GetSetInstructionsData_All();
-                dgSetInstructionsSummaryTable_Orig = SetInstructionsCollection.GetDatatableFromSetInstructionsCollection(coll);
-
-                // ** Posting data to summary **
-                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "Refreshing - Posting data to summary...");
-                Delegates.DataGridView_SetDataSource(this, dgSetInstructionsSummary, dgSetInstructionsSummaryTable_Orig);
-                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsCount, coll.SetInstructionsList.Count.ToString("#,##0") + " item(s)");
-
-                // ** Format summary **
-                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "Refreshing - Formatting summary data...");
-                AdjustSetInstructionsSummaryRowFormatting(dgSetInstructionsSummary);
-                Delegates.ToolStripLabel_SetText(this, lblSetInstructionsStatus, "");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void AdjustSetInstructionsSummaryRowFormatting(DataGridView dg)
-        {
-            if (this.InvokeRequired)
-            {
-                this.BeginInvoke(new MethodInvoker(() => AdjustSetInstructionsSummaryRowFormatting(dg)));
-            }
-            else
-            {
-                // ** Format columns **
-                dg.Columns["Data"].Visible = false;
-                dg.AutoResizeColumns();
-
-                // ** Adjust row formatting **
-                //foreach (DataGridViewRow row in dg.Rows)
-                //{
-                //    if (row.Cells["Is Sub Part"].Value.ToString().ToUpper().Equals("TRUE"))
-                //    {
-                //        row.DefaultCellStyle.Font = new System.Drawing.Font(this.Font, FontStyle.Italic);
-                //        row.DefaultCellStyle.ForeColor = Color.Gray;
-                //    }
-                //    if (row.Cells["Part Type"].Value.ToString().ToUpper().Equals("COMPOSITE"))
-                //    {
-                //        row.DefaultCellStyle.ForeColor = Color.Blue;
-                //    }
-                //}
             }
         }
 
         #endregion
-
-
-
 
         #region ** COPY TO CLIPBOARD FUNCTIONS **
 
@@ -2716,22 +2795,14 @@ namespace Generator
             }
         }
 
-
-
-
-        
-
         private void btnSetInstructionsShowDataInNotePadPlus_Click(object sender, EventArgs e)
         {
             try
             {
                 // ** Validation Checks **
-                //if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
-                //string SetRef = fldCurrentSetRef.Text;
+                if (dgSetInstructionsSummary.SelectedRows.Count == 0) throw new Exception("No Ref selected...");
                 string Ref = dgSetInstructionsSummary.SelectedRows[0].Cells["Ref"].Value.ToString();
                 
-
-
                 // ** Save file to temp location then open In Notepadd ++ **
                 string tempfileLocation = Path.GetTempPath() + Ref + ".xml";
                 File.WriteAllText(tempfileLocation, SetInstructionsData.Text);
@@ -2742,5 +2813,12 @@ namespace Generator
                 MessageBox.Show(ex.Message);
             }
         }
+
+
+
+
+
+        
+       
     }
 }

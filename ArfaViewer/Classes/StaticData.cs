@@ -198,7 +198,7 @@ namespace Generator
 
         public static void DeleteSetInstructions(string SetRef)
         {
-            string url = Global_Variables.APIUrl + "SetInstructions/DeleteSetInstructions?setRef=" + SetRef;
+            string url = Global_Variables.APIUrl + "SetInstructions/DeleteSetInstructions?SetRef=" + SetRef;
             PostRequestFromURL(url);
         }
 
@@ -208,6 +208,17 @@ namespace Generator
             string url = Global_Variables.APIUrl + "SetInstructions/AddSetInstructions";
             PostJSONRequestFromURL(url, json);
         }
+
+        public static bool CheckIfSetInstructionsExists(string SetRef)
+        {
+            string url = Global_Variables.APIUrl + "SetInstructions/CheckIfSetInstructionsExists?SetRef=" + SetRef;
+            string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
+            return bool.Parse(JSONString);
+        }
+
+
+
+
 
 
         // ** LDrawDetails functions **

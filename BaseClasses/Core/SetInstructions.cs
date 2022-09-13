@@ -63,7 +63,7 @@ namespace BaseClasses
         {
             SetInstructions item = new SetInstructions();
             item.Ref = (string)row["REF"];
-            item.Data = (string)row["DATA"];                      
+            if(row.Table.Columns.Contains("DATA")) item.Data = (string)row["DATA"];                            
             return item;
         }
 
