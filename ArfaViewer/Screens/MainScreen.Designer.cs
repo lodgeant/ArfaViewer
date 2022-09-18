@@ -36,9 +36,6 @@
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
             this.pbStatus = new System.Windows.Forms.ToolStripProgressBar();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnUploadToStorage = new System.Windows.Forms.Button();
-            this.btnFlushStaticDataFile = new System.Windows.Forms.Button();
-            this.btnUpdateLDrawStaticDataDetails = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.fldSourceURL = new System.Windows.Forms.TextBox();
             this.btnUploadImage = new System.Windows.Forms.Button();
@@ -64,7 +61,7 @@
             this.btnExit});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(746, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(696, 25);
             this.toolStrip1.TabIndex = 26;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -91,9 +88,9 @@
             // btnTest
             // 
             this.btnTest.BackColor = System.Drawing.Color.Yellow;
-            this.btnTest.Location = new System.Drawing.Point(137, 166);
+            this.btnTest.Location = new System.Drawing.Point(12, 167);
             this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(134, 31);
+            this.btnTest.Size = new System.Drawing.Size(210, 31);
             this.btnTest.TabIndex = 29;
             this.btnTest.Text = "Test";
             this.btnTest.UseVisualStyleBackColor = false;
@@ -104,9 +101,9 @@
             this.statusStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pbStatus,
             this.lblStatus});
-            this.statusStrip2.Location = new System.Drawing.Point(0, 301);
+            this.statusStrip2.Location = new System.Drawing.Point(0, 210);
             this.statusStrip2.Name = "statusStrip2";
-            this.statusStrip2.Size = new System.Drawing.Size(746, 22);
+            this.statusStrip2.Size = new System.Drawing.Size(696, 22);
             this.statusStrip2.TabIndex = 36;
             this.statusStrip2.Text = "statusStrip2";
             // 
@@ -122,43 +119,10 @@
             this.lblStatus.Size = new System.Drawing.Size(52, 17);
             this.lblStatus.Text = "lblStatus";
             // 
-            // btnUploadToStorage
-            // 
-            this.btnUploadToStorage.BackColor = System.Drawing.Color.Yellow;
-            this.btnUploadToStorage.Location = new System.Drawing.Point(137, 129);
-            this.btnUploadToStorage.Name = "btnUploadToStorage";
-            this.btnUploadToStorage.Size = new System.Drawing.Size(134, 31);
-            this.btnUploadToStorage.TabIndex = 37;
-            this.btnUploadToStorage.Text = "Upload to Storage";
-            this.btnUploadToStorage.UseVisualStyleBackColor = false;
-            this.btnUploadToStorage.Click += new System.EventHandler(this.btnUploadToStorage_Click);
-            // 
-            // btnFlushStaticDataFile
-            // 
-            this.btnFlushStaticDataFile.BackColor = System.Drawing.Color.Orange;
-            this.btnFlushStaticDataFile.Location = new System.Drawing.Point(136, 38);
-            this.btnFlushStaticDataFile.Name = "btnFlushStaticDataFile";
-            this.btnFlushStaticDataFile.Size = new System.Drawing.Size(135, 31);
-            this.btnFlushStaticDataFile.TabIndex = 39;
-            this.btnFlushStaticDataFile.Text = "Flush Static Data File";
-            this.btnFlushStaticDataFile.UseVisualStyleBackColor = false;
-            this.btnFlushStaticDataFile.Click += new System.EventHandler(this.btnFlushStaticDataFile_Click);
-            // 
-            // btnUpdateLDrawStaticDataDetails
-            // 
-            this.btnUpdateLDrawStaticDataDetails.BackColor = System.Drawing.Color.Orange;
-            this.btnUpdateLDrawStaticDataDetails.Location = new System.Drawing.Point(136, 75);
-            this.btnUpdateLDrawStaticDataDetails.Name = "btnUpdateLDrawStaticDataDetails";
-            this.btnUpdateLDrawStaticDataDetails.Size = new System.Drawing.Size(135, 46);
-            this.btnUpdateLDrawStaticDataDetails.TabIndex = 40;
-            this.btnUpdateLDrawStaticDataDetails.Text = "Update LDraw Static Data Details";
-            this.btnUpdateLDrawStaticDataDetails.UseVisualStyleBackColor = false;
-            this.btnUpdateLDrawStaticDataDetails.Click += new System.EventHandler(this.btnUpdateLDrawStaticDataDetails_Click);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(300, 43);
+            this.label1.Location = new System.Drawing.Point(252, 43);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 41;
@@ -166,14 +130,14 @@
             // 
             // fldSourceURL
             // 
-            this.fldSourceURL.Location = new System.Drawing.Point(372, 40);
+            this.fldSourceURL.Location = new System.Drawing.Point(324, 40);
             this.fldSourceURL.Name = "fldSourceURL";
             this.fldSourceURL.Size = new System.Drawing.Size(363, 20);
             this.fldSourceURL.TabIndex = 42;
             // 
             // btnUploadImage
             // 
-            this.btnUploadImage.Location = new System.Drawing.Point(641, 67);
+            this.btnUploadImage.Location = new System.Drawing.Point(593, 67);
             this.btnUploadImage.Name = "btnUploadImage";
             this.btnUploadImage.Size = new System.Drawing.Size(94, 46);
             this.btnUploadImage.TabIndex = 45;
@@ -183,7 +147,7 @@
             // 
             // fldImageName
             // 
-            this.fldImageName.Location = new System.Drawing.Point(372, 96);
+            this.fldImageName.Location = new System.Drawing.Point(324, 96);
             this.fldImageName.Name = "fldImageName";
             this.fldImageName.Size = new System.Drawing.Size(263, 20);
             this.fldImageName.TabIndex = 44;
@@ -191,7 +155,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(296, 99);
+            this.label3.Location = new System.Drawing.Point(248, 99);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(70, 13);
             this.label3.TabIndex = 46;
@@ -199,8 +163,7 @@
             // 
             // btnShowPartTickBackScreen
             // 
-            this.btnShowPartTickBackScreen.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnShowPartTickBackScreen.Location = new System.Drawing.Point(12, 103);
+            this.btnShowPartTickBackScreen.Location = new System.Drawing.Point(120, 103);
             this.btnShowPartTickBackScreen.Name = "btnShowPartTickBackScreen";
             this.btnShowPartTickBackScreen.Size = new System.Drawing.Size(102, 57);
             this.btnShowPartTickBackScreen.TabIndex = 57;
@@ -213,18 +176,18 @@
             this.groupBox2.Controls.Add(this.btnGenerateMiniFigLDrawFiles);
             this.groupBox2.Controls.Add(this.fldMiniFigRef);
             this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(372, 139);
+            this.groupBox2.Location = new System.Drawing.Point(324, 122);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(320, 64);
+            this.groupBox2.Size = new System.Drawing.Size(363, 64);
             this.groupBox2.TabIndex = 61;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Create UnOfficial MiniFigs";
             // 
             // btnGenerateMiniFigLDrawFiles
             // 
-            this.btnGenerateMiniFigLDrawFiles.Location = new System.Drawing.Point(174, 17);
+            this.btnGenerateMiniFigLDrawFiles.Location = new System.Drawing.Point(164, 22);
             this.btnGenerateMiniFigLDrawFiles.Name = "btnGenerateMiniFigLDrawFiles";
-            this.btnGenerateMiniFigLDrawFiles.Size = new System.Drawing.Size(135, 31);
+            this.btnGenerateMiniFigLDrawFiles.Size = new System.Drawing.Size(132, 31);
             this.btnGenerateMiniFigLDrawFiles.TabIndex = 60;
             this.btnGenerateMiniFigLDrawFiles.Text = "Generate LDraw Files";
             this.btnGenerateMiniFigLDrawFiles.UseVisualStyleBackColor = false;
@@ -250,7 +213,7 @@
             // btnShowSetDetailsScreen
             // 
             this.btnShowSetDetailsScreen.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnShowSetDetailsScreen.Location = new System.Drawing.Point(12, 166);
+            this.btnShowSetDetailsScreen.Location = new System.Drawing.Point(120, 40);
             this.btnShowSetDetailsScreen.Name = "btnShowSetDetailsScreen";
             this.btnShowSetDetailsScreen.Size = new System.Drawing.Size(102, 57);
             this.btnShowSetDetailsScreen.TabIndex = 62;
@@ -261,7 +224,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(332, 69);
+            this.label2.Location = new System.Drawing.Point(284, 69);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 13);
             this.label2.TabIndex = 63;
@@ -276,15 +239,14 @@
             "PartColour",
             "Set",
             "Theme"});
-            this.fldImageType.Location = new System.Drawing.Point(372, 66);
+            this.fldImageType.Location = new System.Drawing.Point(324, 66);
             this.fldImageType.Name = "fldImageType";
             this.fldImageType.Size = new System.Drawing.Size(121, 21);
             this.fldImageType.TabIndex = 43;
             // 
             // btnShowStaticDataScreen
             // 
-            this.btnShowStaticDataScreen.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnShowStaticDataScreen.Location = new System.Drawing.Point(12, 229);
+            this.btnShowStaticDataScreen.Location = new System.Drawing.Point(12, 103);
             this.btnShowStaticDataScreen.Name = "btnShowStaticDataScreen";
             this.btnShowStaticDataScreen.Size = new System.Drawing.Size(102, 57);
             this.btnShowStaticDataScreen.TabIndex = 64;
@@ -296,7 +258,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(746, 323);
+            this.ClientSize = new System.Drawing.Size(696, 232);
             this.Controls.Add(this.btnShowStaticDataScreen);
             this.Controls.Add(this.fldImageType);
             this.Controls.Add(this.label2);
@@ -308,9 +270,6 @@
             this.Controls.Add(this.btnUploadImage);
             this.Controls.Add(this.fldSourceURL);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnUpdateLDrawStaticDataDetails);
-            this.Controls.Add(this.btnFlushStaticDataFile);
-            this.Controls.Add(this.btnUploadToStorage);
             this.Controls.Add(this.statusStrip2);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.btnShowGeneratorScreen);
@@ -337,9 +296,6 @@
         private System.Windows.Forms.StatusStrip statusStrip2;
         private System.Windows.Forms.ToolStripProgressBar pbStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
-        private System.Windows.Forms.Button btnUploadToStorage;
-        private System.Windows.Forms.Button btnFlushStaticDataFile;
-        private System.Windows.Forms.Button btnUpdateLDrawStaticDataDetails;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox fldSourceURL;
         private System.Windows.Forms.Button btnUploadImage;

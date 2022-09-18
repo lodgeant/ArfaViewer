@@ -34,32 +34,6 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnRefreshAllSummaries = new System.Windows.Forms.ToolStripButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.splitContainer8 = new System.Windows.Forms.SplitContainer();
-            this.dgSetInstructionsSummary = new System.Windows.Forms.DataGridView();
-            this.statusStrip6 = new System.Windows.Forms.StatusStrip();
-            this.pbSetInstructionStatus = new System.Windows.Forms.ToolStripProgressBar();
-            this.lblSetInstructionsStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblSetInstructionsCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblSetInstructionsSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStrip6 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
-            this.fldSetInstructionsRef = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnSetInstructionsSave = new System.Windows.Forms.ToolStripButton();
-            this.btnSetInstructionsDelete = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip4 = new System.Windows.Forms.ToolStrip();
-            this.btnSetInstructionsRefresh = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.pnlSetInstructionsData = new System.Windows.Forms.Panel();
-            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.btnSetInstructionsShowDataInNotePadPlus = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.gpBasePart = new System.Windows.Forms.GroupBox();
@@ -278,19 +252,34 @@
             this.btnFBXRefreshAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSyncFBSFiles = new System.Windows.Forms.ToolStripButton();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.splitContainer8 = new System.Windows.Forms.SplitContainer();
+            this.dgSetInstructionsSummary = new System.Windows.Forms.DataGridView();
+            this.statusStrip6 = new System.Windows.Forms.StatusStrip();
+            this.pbSetInstructionStatus = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblSetInstructionsStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblSetInstructionsCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblSetInstructionsSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStrip6 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            this.fldSetInstructionsRef = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnSetInstructionsSave = new System.Windows.Forms.ToolStripButton();
+            this.btnSetInstructionsDelete = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip4 = new System.Windows.Forms.ToolStrip();
+            this.btnSetInstructionsRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pnlSetInstructionsData = new System.Windows.Forms.Panel();
+            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.btnSetInstructionsShowDataInNotePadPlus = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.tsHeader.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).BeginInit();
-            this.splitContainer8.Panel1.SuspendLayout();
-            this.splitContainer8.Panel2.SuspendLayout();
-            this.splitContainer8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgSetInstructionsSummary)).BeginInit();
-            this.statusStrip6.SuspendLayout();
-            this.toolStrip6.SuspendLayout();
-            this.toolStrip4.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.toolStrip3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -355,6 +344,17 @@
             this.statusStrip5.SuspendLayout();
             this.tsFilesUnityFbxHeader.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).BeginInit();
+            this.splitContainer8.Panel1.SuspendLayout();
+            this.splitContainer8.Panel2.SuspendLayout();
+            this.splitContainer8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgSetInstructionsSummary)).BeginInit();
+            this.statusStrip6.SuspendLayout();
+            this.toolStrip6.SuspendLayout();
+            this.toolStrip4.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.toolStrip3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tsHeader
@@ -403,238 +403,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1762, 799);
             this.tabControl1.TabIndex = 27;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.splitContainer8);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(1754, 773);
-            this.tabPage2.TabIndex = 3;
-            this.tabPage2.Text = "Set Instructions";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer8
-            // 
-            this.splitContainer8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer8.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer8.Name = "splitContainer8";
-            // 
-            // splitContainer8.Panel1
-            // 
-            this.splitContainer8.Panel1.Controls.Add(this.dgSetInstructionsSummary);
-            this.splitContainer8.Panel1.Controls.Add(this.statusStrip6);
-            this.splitContainer8.Panel1.Controls.Add(this.toolStrip6);
-            this.splitContainer8.Panel1.Controls.Add(this.toolStrip4);
-            // 
-            // splitContainer8.Panel2
-            // 
-            this.splitContainer8.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer8.Size = new System.Drawing.Size(1754, 773);
-            this.splitContainer8.SplitterDistance = 422;
-            this.splitContainer8.TabIndex = 0;
-            // 
-            // dgSetInstructionsSummary
-            // 
-            this.dgSetInstructionsSummary.BackgroundColor = System.Drawing.Color.White;
-            this.dgSetInstructionsSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgSetInstructionsSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgSetInstructionsSummary.Location = new System.Drawing.Point(0, 25);
-            this.dgSetInstructionsSummary.Name = "dgSetInstructionsSummary";
-            this.dgSetInstructionsSummary.Size = new System.Drawing.Size(422, 701);
-            this.dgSetInstructionsSummary.TabIndex = 83;
-            this.dgSetInstructionsSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSetInstructionsSummary_CellClick);
-            // 
-            // statusStrip6
-            // 
-            this.statusStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pbSetInstructionStatus,
-            this.lblSetInstructionsStatus,
-            this.lblSetInstructionsCount,
-            this.lblSetInstructionsSummaryItemFilteredCount});
-            this.statusStrip6.Location = new System.Drawing.Point(0, 726);
-            this.statusStrip6.Name = "statusStrip6";
-            this.statusStrip6.Size = new System.Drawing.Size(422, 22);
-            this.statusStrip6.TabIndex = 82;
-            this.statusStrip6.Text = "statusStrip2";
-            // 
-            // pbSetInstructionStatus
-            // 
-            this.pbSetInstructionStatus.ForeColor = System.Drawing.Color.Lime;
-            this.pbSetInstructionStatus.Name = "pbSetInstructionStatus";
-            this.pbSetInstructionStatus.Size = new System.Drawing.Size(100, 16);
-            // 
-            // lblSetInstructionsStatus
-            // 
-            this.lblSetInstructionsStatus.Name = "lblSetInstructionsStatus";
-            this.lblSetInstructionsStatus.Size = new System.Drawing.Size(130, 17);
-            this.lblSetInstructionsStatus.Text = "lblSetInstructionsStatus";
-            // 
-            // lblSetInstructionsCount
-            // 
-            this.lblSetInstructionsCount.Name = "lblSetInstructionsCount";
-            this.lblSetInstructionsCount.Size = new System.Drawing.Size(131, 17);
-            this.lblSetInstructionsCount.Text = "lblSetInstructionsCount";
-            // 
-            // lblSetInstructionsSummaryItemFilteredCount
-            // 
-            this.lblSetInstructionsSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblSetInstructionsSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
-            this.lblSetInstructionsSummaryItemFilteredCount.Name = "lblSetInstructionsSummaryItemFilteredCount";
-            this.lblSetInstructionsSummaryItemFilteredCount.Size = new System.Drawing.Size(261, 15);
-            this.lblSetInstructionsSummaryItemFilteredCount.Text = "lblSetInstructionsSummaryItemFilteredCount";
-            // 
-            // toolStrip6
-            // 
-            this.toolStrip6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel3,
-            this.fldSetInstructionsRef,
-            this.toolStripSeparator26,
-            this.btnSetInstructionsSave,
-            this.btnSetInstructionsDelete});
-            this.toolStrip6.Location = new System.Drawing.Point(0, 748);
-            this.toolStrip6.Name = "toolStrip6";
-            this.toolStrip6.Size = new System.Drawing.Size(422, 25);
-            this.toolStrip6.TabIndex = 81;
-            this.toolStrip6.Text = "toolStrip5";
-            // 
-            // toolStripLabel3
-            // 
-            this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(27, 22);
-            this.toolStripLabel3.Text = "Ref:";
-            // 
-            // fldSetInstructionsRef
-            // 
-            this.fldSetInstructionsRef.BackColor = System.Drawing.Color.LightGray;
-            this.fldSetInstructionsRef.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldSetInstructionsRef.Name = "fldSetInstructionsRef";
-            this.fldSetInstructionsRef.Size = new System.Drawing.Size(100, 25);
-            // 
-            // toolStripSeparator26
-            // 
-            this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnSetInstructionsSave
-            // 
-            this.btnSetInstructionsSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSetInstructionsSave.Image")));
-            this.btnSetInstructionsSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSetInstructionsSave.Name = "btnSetInstructionsSave";
-            this.btnSetInstructionsSave.Size = new System.Drawing.Size(51, 22);
-            this.btnSetInstructionsSave.Text = "Save";
-            this.btnSetInstructionsSave.Click += new System.EventHandler(this.btnSetInstructionsSave_Click);
-            // 
-            // btnSetInstructionsDelete
-            // 
-            this.btnSetInstructionsDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnSetInstructionsDelete.Image")));
-            this.btnSetInstructionsDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSetInstructionsDelete.Name = "btnSetInstructionsDelete";
-            this.btnSetInstructionsDelete.Size = new System.Drawing.Size(60, 22);
-            this.btnSetInstructionsDelete.Text = "Delete";
-            this.btnSetInstructionsDelete.Click += new System.EventHandler(this.btnSetInstructionsDelete_Click);
-            // 
-            // toolStrip4
-            // 
-            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnSetInstructionsRefresh,
-            this.toolStripSeparator22,
-            this.toolStripButton3,
-            this.toolStripSeparator25,
-            this.toolStripLabel2,
-            this.toolStripTextBox1});
-            this.toolStrip4.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip4.Name = "toolStrip4";
-            this.toolStrip4.Size = new System.Drawing.Size(422, 25);
-            this.toolStrip4.TabIndex = 79;
-            this.toolStrip4.Text = "toolStrip4";
-            // 
-            // btnSetInstructionsRefresh
-            // 
-            this.btnSetInstructionsRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnSetInstructionsRefresh.Image")));
-            this.btnSetInstructionsRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSetInstructionsRefresh.Name = "btnSetInstructionsRefresh";
-            this.btnSetInstructionsRefresh.Size = new System.Drawing.Size(66, 22);
-            this.btnSetInstructionsRefresh.Text = "Refresh";
-            this.btnSetInstructionsRefresh.Click += new System.EventHandler(this.btnSetInstructionsRefresh_Click);
-            // 
-            // toolStripSeparator22
-            // 
-            this.toolStripSeparator22.Name = "toolStripSeparator22";
-            this.toolStripSeparator22.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(124, 22);
-            this.toolStripButton3.Text = "Copy to Clipboard";
-            // 
-            // toolStripSeparator25
-            // 
-            this.toolStripSeparator25.Name = "toolStripSeparator25";
-            this.toolStripSeparator25.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(27, 22);
-            this.toolStripLabel2.Text = "Ref:";
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.BackColor = System.Drawing.Color.Wheat;
-            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 25);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.pnlSetInstructionsData);
-            this.groupBox1.Controls.Add(this.toolStrip3);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1328, 773);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Data";
-            // 
-            // pnlSetInstructionsData
-            // 
-            this.pnlSetInstructionsData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlSetInstructionsData.Location = new System.Drawing.Point(3, 41);
-            this.pnlSetInstructionsData.Name = "pnlSetInstructionsData";
-            this.pnlSetInstructionsData.Size = new System.Drawing.Size(1322, 729);
-            this.pnlSetInstructionsData.TabIndex = 81;
-            // 
-            // toolStrip3
-            // 
-            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnSetInstructionsShowDataInNotePadPlus,
-            this.toolStripSeparator13});
-            this.toolStrip3.Location = new System.Drawing.Point(3, 16);
-            this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(1322, 25);
-            this.toolStrip3.TabIndex = 80;
-            this.toolStrip3.Text = "toolStrip3";
-            // 
-            // btnSetInstructionsShowDataInNotePadPlus
-            // 
-            this.btnSetInstructionsShowDataInNotePadPlus.Image = ((System.Drawing.Image)(resources.GetObject("btnSetInstructionsShowDataInNotePadPlus.Image")));
-            this.btnSetInstructionsShowDataInNotePadPlus.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSetInstructionsShowDataInNotePadPlus.Name = "btnSetInstructionsShowDataInNotePadPlus";
-            this.btnSetInstructionsShowDataInNotePadPlus.Size = new System.Drawing.Size(134, 22);
-            this.btnSetInstructionsShowDataInNotePadPlus.Text = "Open in Notepad++";
-            this.btnSetInstructionsShowDataInNotePadPlus.Click += new System.EventHandler(this.btnSetInstructionsShowDataInNotePadPlus_Click);
-            // 
-            // toolStripSeparator13
-            // 
-            this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(6, 25);
             // 
             // tabPage1
             // 
@@ -1540,7 +1308,7 @@
             // 
             this.splitContainer4.Panel2.Controls.Add(this.groupBox5);
             this.splitContainer4.Size = new System.Drawing.Size(1748, 169);
-            this.splitContainer4.SplitterDistance = 1161;
+            this.splitContainer4.SplitterDistance = 1277;
             this.splitContainer4.TabIndex = 2;
             // 
             // gpSubPartMapping
@@ -1553,7 +1321,7 @@
             this.gpSubPartMapping.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpSubPartMapping.Location = new System.Drawing.Point(0, 0);
             this.gpSubPartMapping.Name = "gpSubPartMapping";
-            this.gpSubPartMapping.Size = new System.Drawing.Size(1161, 169);
+            this.gpSubPartMapping.Size = new System.Drawing.Size(1277, 169);
             this.gpSubPartMapping.TabIndex = 2;
             this.gpSubPartMapping.TabStop = false;
             this.gpSubPartMapping.Text = "Sub Part Mapping";
@@ -1575,7 +1343,7 @@
             this.dgSubPartMappingSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgSubPartMappingSummary.Location = new System.Drawing.Point(3, 41);
             this.dgSubPartMappingSummary.Name = "dgSubPartMappingSummary";
-            this.dgSubPartMappingSummary.Size = new System.Drawing.Size(1155, 78);
+            this.dgSubPartMappingSummary.Size = new System.Drawing.Size(1271, 78);
             this.dgSubPartMappingSummary.TabIndex = 80;
             this.dgSubPartMappingSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSubPartMappingSummary_CellClick);
             this.dgSubPartMappingSummary.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgSubPartMappingSummary_ColumnHeaderMouseClick);
@@ -1589,7 +1357,7 @@
             this.lblSubPartMappingSummaryItemFilteredCount});
             this.statusStrip2.Location = new System.Drawing.Point(3, 119);
             this.statusStrip2.Name = "statusStrip2";
-            this.statusStrip2.Size = new System.Drawing.Size(1155, 22);
+            this.statusStrip2.Size = new System.Drawing.Size(1271, 22);
             this.statusStrip2.TabIndex = 79;
             this.statusStrip2.Text = "statusStrip2";
             // 
@@ -1652,7 +1420,7 @@
             this.btnSubPartMappingDelete});
             this.toolStrip5.Location = new System.Drawing.Point(3, 141);
             this.toolStrip5.Name = "toolStrip5";
-            this.toolStrip5.Size = new System.Drawing.Size(1155, 25);
+            this.toolStrip5.Size = new System.Drawing.Size(1271, 25);
             this.toolStrip5.TabIndex = 78;
             this.toolStrip5.Text = "toolStrip5";
             // 
@@ -1735,7 +1503,7 @@
             this.fldSubPartMappingPosX.BackColor = System.Drawing.Color.LightGray;
             this.fldSubPartMappingPosX.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingPosX.Name = "fldSubPartMappingPosX";
-            this.fldSubPartMappingPosX.Size = new System.Drawing.Size(25, 25);
+            this.fldSubPartMappingPosX.Size = new System.Drawing.Size(50, 25);
             // 
             // lblSubPartMappingPosY
             // 
@@ -1749,7 +1517,7 @@
             this.fldSubPartMappingPosY.BackColor = System.Drawing.Color.LightGray;
             this.fldSubPartMappingPosY.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingPosY.Name = "fldSubPartMappingPosY";
-            this.fldSubPartMappingPosY.Size = new System.Drawing.Size(25, 25);
+            this.fldSubPartMappingPosY.Size = new System.Drawing.Size(50, 25);
             // 
             // lblSubPartMappingPosZ
             // 
@@ -1763,7 +1531,7 @@
             this.fldSubPartMappingPosZ.BackColor = System.Drawing.Color.LightGray;
             this.fldSubPartMappingPosZ.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingPosZ.Name = "fldSubPartMappingPosZ";
-            this.fldSubPartMappingPosZ.Size = new System.Drawing.Size(25, 25);
+            this.fldSubPartMappingPosZ.Size = new System.Drawing.Size(50, 25);
             // 
             // lblSubPartMappingRotX
             // 
@@ -1777,7 +1545,7 @@
             this.fldSubPartMappingRotX.BackColor = System.Drawing.Color.LightGray;
             this.fldSubPartMappingRotX.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingRotX.Name = "fldSubPartMappingRotX";
-            this.fldSubPartMappingRotX.Size = new System.Drawing.Size(25, 25);
+            this.fldSubPartMappingRotX.Size = new System.Drawing.Size(50, 25);
             // 
             // lblSubPartMappingRotY
             // 
@@ -1791,7 +1559,7 @@
             this.fldSubPartMappingRotY.BackColor = System.Drawing.Color.LightGray;
             this.fldSubPartMappingRotY.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingRotY.Name = "fldSubPartMappingRotY";
-            this.fldSubPartMappingRotY.Size = new System.Drawing.Size(25, 25);
+            this.fldSubPartMappingRotY.Size = new System.Drawing.Size(50, 25);
             // 
             // lblSubPartMappingRotZ
             // 
@@ -1805,7 +1573,7 @@
             this.fldSubPartMappingRotZ.BackColor = System.Drawing.Color.LightGray;
             this.fldSubPartMappingRotZ.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingRotZ.Name = "fldSubPartMappingRotZ";
-            this.fldSubPartMappingRotZ.Size = new System.Drawing.Size(25, 25);
+            this.fldSubPartMappingRotZ.Size = new System.Drawing.Size(50, 25);
             // 
             // toolStripSeparator11
             // 
@@ -1831,7 +1599,7 @@
             this.btnSubPartMappingSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSubPartMappingSave.Image")));
             this.btnSubPartMappingSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSubPartMappingSave.Name = "btnSubPartMappingSave";
-            this.btnSubPartMappingSave.Size = new System.Drawing.Size(51, 22);
+            this.btnSubPartMappingSave.Size = new System.Drawing.Size(51, 20);
             this.btnSubPartMappingSave.Text = "Save";
             this.btnSubPartMappingSave.Click += new System.EventHandler(this.btnSubPartMappingSave_Click);
             // 
@@ -1855,7 +1623,7 @@
             this.fldSubPartMappingParentLDrawRefAc});
             this.tsSubPartMappingHeader.Location = new System.Drawing.Point(3, 16);
             this.tsSubPartMappingHeader.Name = "tsSubPartMappingHeader";
-            this.tsSubPartMappingHeader.Size = new System.Drawing.Size(1155, 25);
+            this.tsSubPartMappingHeader.Size = new System.Drawing.Size(1271, 25);
             this.tsSubPartMappingHeader.TabIndex = 29;
             this.tsSubPartMappingHeader.Text = "toolStrip4";
             // 
@@ -1907,7 +1675,7 @@
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox5.Location = new System.Drawing.Point(0, 0);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(583, 169);
+            this.groupBox5.Size = new System.Drawing.Size(467, 169);
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Data";
@@ -1917,7 +1685,7 @@
             this.pnlSubPartMappingData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlSubPartMappingData.Location = new System.Drawing.Point(3, 16);
             this.pnlSubPartMappingData.Name = "pnlSubPartMappingData";
-            this.pnlSubPartMappingData.Size = new System.Drawing.Size(577, 150);
+            this.pnlSubPartMappingData.Size = new System.Drawing.Size(461, 150);
             this.pnlSubPartMappingData.TabIndex = 1;
             // 
             // tabPage3
@@ -2587,6 +2355,238 @@
             this.btnSyncFBSFiles.Text = "Sync FBX Files";
             this.btnSyncFBSFiles.Click += new System.EventHandler(this.btnSyncFBXFiles_Click);
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.splitContainer8);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(1754, 773);
+            this.tabPage2.TabIndex = 3;
+            this.tabPage2.Text = "Set Instructions";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer8
+            // 
+            this.splitContainer8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer8.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer8.Name = "splitContainer8";
+            // 
+            // splitContainer8.Panel1
+            // 
+            this.splitContainer8.Panel1.Controls.Add(this.dgSetInstructionsSummary);
+            this.splitContainer8.Panel1.Controls.Add(this.statusStrip6);
+            this.splitContainer8.Panel1.Controls.Add(this.toolStrip6);
+            this.splitContainer8.Panel1.Controls.Add(this.toolStrip4);
+            // 
+            // splitContainer8.Panel2
+            // 
+            this.splitContainer8.Panel2.Controls.Add(this.groupBox1);
+            this.splitContainer8.Size = new System.Drawing.Size(1754, 773);
+            this.splitContainer8.SplitterDistance = 422;
+            this.splitContainer8.TabIndex = 0;
+            // 
+            // dgSetInstructionsSummary
+            // 
+            this.dgSetInstructionsSummary.BackgroundColor = System.Drawing.Color.White;
+            this.dgSetInstructionsSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgSetInstructionsSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgSetInstructionsSummary.Location = new System.Drawing.Point(0, 25);
+            this.dgSetInstructionsSummary.Name = "dgSetInstructionsSummary";
+            this.dgSetInstructionsSummary.Size = new System.Drawing.Size(422, 701);
+            this.dgSetInstructionsSummary.TabIndex = 83;
+            this.dgSetInstructionsSummary.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSetInstructionsSummary_CellClick);
+            // 
+            // statusStrip6
+            // 
+            this.statusStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pbSetInstructionStatus,
+            this.lblSetInstructionsStatus,
+            this.lblSetInstructionsCount,
+            this.lblSetInstructionsSummaryItemFilteredCount});
+            this.statusStrip6.Location = new System.Drawing.Point(0, 726);
+            this.statusStrip6.Name = "statusStrip6";
+            this.statusStrip6.Size = new System.Drawing.Size(422, 22);
+            this.statusStrip6.TabIndex = 82;
+            this.statusStrip6.Text = "statusStrip2";
+            // 
+            // pbSetInstructionStatus
+            // 
+            this.pbSetInstructionStatus.ForeColor = System.Drawing.Color.Lime;
+            this.pbSetInstructionStatus.Name = "pbSetInstructionStatus";
+            this.pbSetInstructionStatus.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblSetInstructionsStatus
+            // 
+            this.lblSetInstructionsStatus.Name = "lblSetInstructionsStatus";
+            this.lblSetInstructionsStatus.Size = new System.Drawing.Size(130, 17);
+            this.lblSetInstructionsStatus.Text = "lblSetInstructionsStatus";
+            // 
+            // lblSetInstructionsCount
+            // 
+            this.lblSetInstructionsCount.Name = "lblSetInstructionsCount";
+            this.lblSetInstructionsCount.Size = new System.Drawing.Size(131, 17);
+            this.lblSetInstructionsCount.Text = "lblSetInstructionsCount";
+            // 
+            // lblSetInstructionsSummaryItemFilteredCount
+            // 
+            this.lblSetInstructionsSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblSetInstructionsSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
+            this.lblSetInstructionsSummaryItemFilteredCount.Name = "lblSetInstructionsSummaryItemFilteredCount";
+            this.lblSetInstructionsSummaryItemFilteredCount.Size = new System.Drawing.Size(261, 15);
+            this.lblSetInstructionsSummaryItemFilteredCount.Text = "lblSetInstructionsSummaryItemFilteredCount";
+            // 
+            // toolStrip6
+            // 
+            this.toolStrip6.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel3,
+            this.fldSetInstructionsRef,
+            this.toolStripSeparator26,
+            this.btnSetInstructionsSave,
+            this.btnSetInstructionsDelete});
+            this.toolStrip6.Location = new System.Drawing.Point(0, 748);
+            this.toolStrip6.Name = "toolStrip6";
+            this.toolStrip6.Size = new System.Drawing.Size(422, 25);
+            this.toolStrip6.TabIndex = 81;
+            this.toolStrip6.Text = "toolStrip5";
+            // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(27, 22);
+            this.toolStripLabel3.Text = "Ref:";
+            // 
+            // fldSetInstructionsRef
+            // 
+            this.fldSetInstructionsRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldSetInstructionsRef.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldSetInstructionsRef.Name = "fldSetInstructionsRef";
+            this.fldSetInstructionsRef.Size = new System.Drawing.Size(100, 25);
+            // 
+            // toolStripSeparator26
+            // 
+            this.toolStripSeparator26.Name = "toolStripSeparator26";
+            this.toolStripSeparator26.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnSetInstructionsSave
+            // 
+            this.btnSetInstructionsSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSetInstructionsSave.Image")));
+            this.btnSetInstructionsSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSetInstructionsSave.Name = "btnSetInstructionsSave";
+            this.btnSetInstructionsSave.Size = new System.Drawing.Size(51, 22);
+            this.btnSetInstructionsSave.Text = "Save";
+            this.btnSetInstructionsSave.Click += new System.EventHandler(this.btnSetInstructionsSave_Click);
+            // 
+            // btnSetInstructionsDelete
+            // 
+            this.btnSetInstructionsDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnSetInstructionsDelete.Image")));
+            this.btnSetInstructionsDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSetInstructionsDelete.Name = "btnSetInstructionsDelete";
+            this.btnSetInstructionsDelete.Size = new System.Drawing.Size(60, 22);
+            this.btnSetInstructionsDelete.Text = "Delete";
+            this.btnSetInstructionsDelete.Click += new System.EventHandler(this.btnSetInstructionsDelete_Click);
+            // 
+            // toolStrip4
+            // 
+            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnSetInstructionsRefresh,
+            this.toolStripSeparator22,
+            this.toolStripButton3,
+            this.toolStripSeparator25,
+            this.toolStripLabel2,
+            this.toolStripTextBox1});
+            this.toolStrip4.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip4.Name = "toolStrip4";
+            this.toolStrip4.Size = new System.Drawing.Size(422, 25);
+            this.toolStrip4.TabIndex = 79;
+            this.toolStrip4.Text = "toolStrip4";
+            // 
+            // btnSetInstructionsRefresh
+            // 
+            this.btnSetInstructionsRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnSetInstructionsRefresh.Image")));
+            this.btnSetInstructionsRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSetInstructionsRefresh.Name = "btnSetInstructionsRefresh";
+            this.btnSetInstructionsRefresh.Size = new System.Drawing.Size(66, 22);
+            this.btnSetInstructionsRefresh.Text = "Refresh";
+            this.btnSetInstructionsRefresh.Click += new System.EventHandler(this.btnSetInstructionsRefresh_Click);
+            // 
+            // toolStripSeparator22
+            // 
+            this.toolStripSeparator22.Name = "toolStripSeparator22";
+            this.toolStripSeparator22.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.BackColor = System.Drawing.Color.Pink;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(124, 22);
+            this.toolStripButton3.Text = "Copy to Clipboard";
+            // 
+            // toolStripSeparator25
+            // 
+            this.toolStripSeparator25.Name = "toolStripSeparator25";
+            this.toolStripSeparator25.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(27, 22);
+            this.toolStripLabel2.Text = "Ref:";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.BackColor = System.Drawing.Color.Wheat;
+            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 25);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.pnlSetInstructionsData);
+            this.groupBox1.Controls.Add(this.toolStrip3);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1328, 773);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Data";
+            // 
+            // pnlSetInstructionsData
+            // 
+            this.pnlSetInstructionsData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlSetInstructionsData.Location = new System.Drawing.Point(3, 41);
+            this.pnlSetInstructionsData.Name = "pnlSetInstructionsData";
+            this.pnlSetInstructionsData.Size = new System.Drawing.Size(1322, 729);
+            this.pnlSetInstructionsData.TabIndex = 81;
+            // 
+            // toolStrip3
+            // 
+            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnSetInstructionsShowDataInNotePadPlus,
+            this.toolStripSeparator13});
+            this.toolStrip3.Location = new System.Drawing.Point(3, 16);
+            this.toolStrip3.Name = "toolStrip3";
+            this.toolStrip3.Size = new System.Drawing.Size(1322, 25);
+            this.toolStrip3.TabIndex = 80;
+            this.toolStrip3.Text = "toolStrip3";
+            // 
+            // btnSetInstructionsShowDataInNotePadPlus
+            // 
+            this.btnSetInstructionsShowDataInNotePadPlus.Image = ((System.Drawing.Image)(resources.GetObject("btnSetInstructionsShowDataInNotePadPlus.Image")));
+            this.btnSetInstructionsShowDataInNotePadPlus.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSetInstructionsShowDataInNotePadPlus.Name = "btnSetInstructionsShowDataInNotePadPlus";
+            this.btnSetInstructionsShowDataInNotePadPlus.Size = new System.Drawing.Size(134, 22);
+            this.btnSetInstructionsShowDataInNotePadPlus.Text = "Open in Notepad++";
+            this.btnSetInstructionsShowDataInNotePadPlus.Click += new System.EventHandler(this.btnSetInstructionsShowDataInNotePadPlus_Click);
+            // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(6, 25);
+            // 
             // StaticDataScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2596,26 +2596,10 @@
             this.Controls.Add(this.tsHeader);
             this.Name = "StaticDataScreen";
             this.Text = "StaticDataScreen";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.tsHeader.ResumeLayout(false);
             this.tsHeader.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.splitContainer8.Panel1.ResumeLayout(false);
-            this.splitContainer8.Panel1.PerformLayout();
-            this.splitContainer8.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
-            this.splitContainer8.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgSetInstructionsSummary)).EndInit();
-            this.statusStrip6.ResumeLayout(false);
-            this.statusStrip6.PerformLayout();
-            this.toolStrip6.ResumeLayout(false);
-            this.toolStrip6.PerformLayout();
-            this.toolStrip4.ResumeLayout(false);
-            this.toolStrip4.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.toolStrip3.ResumeLayout(false);
-            this.toolStrip3.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
@@ -2709,6 +2693,23 @@
             this.tsFilesUnityFbxHeader.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.splitContainer8.Panel1.ResumeLayout(false);
+            this.splitContainer8.Panel1.PerformLayout();
+            this.splitContainer8.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
+            this.splitContainer8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgSetInstructionsSummary)).EndInit();
+            this.statusStrip6.ResumeLayout(false);
+            this.statusStrip6.PerformLayout();
+            this.toolStrip6.ResumeLayout(false);
+            this.toolStrip6.PerformLayout();
+            this.toolStrip4.ResumeLayout(false);
+            this.toolStrip4.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.toolStrip3.ResumeLayout(false);
+            this.toolStrip3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

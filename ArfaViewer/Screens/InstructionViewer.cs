@@ -55,7 +55,7 @@ namespace Generator
                 log.Info(".......................................................................GENERATOR SCREEN STARTED.......................................................................");
 
                 #region ** FORMAT SUMMARIES **
-                String[] DGnames = new string[] { "dgPartSummary", "dgPartListSummary", "dgMiniFigsPartListSummary", "dgPartListWithMFsSummary" };
+                String[] DGnames = new string[] { "dgPartSummary", "dgPartListSummary", "dgMiniFigsPartListSummary", "dgPartListWithMFsSummary", "dgSetSubModelPartSummary", "dgUnitySubModelPartSummary" };
                 foreach (String dgName in DGnames)
                 {
                     DataGridView dgv = (DataGridView)(this.Controls.Find(dgName, true)[0]);
@@ -76,6 +76,12 @@ namespace Generator
                 lblPartListCount.Text = "";
                 lblPartListWithMFsCount.Text = "";
                 lblMiniFigsPartListCount.Text = "";
+
+                lblSetSubModelPartCount.Text = "";
+                lblSetSubModelPartSummaryItemFilteredCount.Text = "";
+                lblUnitySubModelPartCount.Text = "";
+                lblUnitySubModelPartSummaryItemFilteredCount.Text = "";
+
                 #endregion
 
                 #region ** ADD MAIN HEADER LINE TOOLSTRIP ITEMS **
@@ -174,7 +180,7 @@ namespace Generator
                 //fldCurrentSetRef.Text = "621-2";
                 //fldCurrentSetRef.Text = "41621-1";
                 //fldCurrentSetRef.Text = "TEST-1";
-
+                fldCurrentSetRef.Text = "7305-1";
 
             }
             catch (Exception ex)
@@ -2488,11 +2494,6 @@ namespace Generator
         }
 
         #endregion
-
-
-
-
-
 
         #region ** SUBSET FUNCTIONS **
 
@@ -4811,11 +4812,6 @@ namespace Generator
         #endregion
 
 
-
-
-
-
-
         #region ** PART SUMMARY ACCELERATOR FUNCTIONS **
 
         private void fldLDrawRefAc_TextChanged(object sender, EventArgs e)
@@ -4963,8 +4959,175 @@ namespace Generator
             }
         }
 
+        private void EnableControls_All(bool value)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => EnableControls_All(value)));
+            }
+            else
+            {
+                btnExit.Enabled = value;
+                fldCurrentSetRef.Enabled = value;
+                btnLoadSet.Enabled = value;
+                btnSaveSet.Enabled = value;
+                //btnDeleteSet.Enabled = value;
+                btnOpenSetInstructions.Enabled = value;
+                btnOpenSetURLs.Enabled = value;
+                chkShowSubParts.Enabled = value;
+                chkShowPages.Enabled = value;
+                tabControl1.Enabled = value;
+            }
+        }
+
+        private void RefreshLDrawColourNameDropdown()
+        {
+            //List<string> partColourNameList =   (from r in Global_Variables.pcc.PartColourList
+            //                                    select r.LDrawColourName).OrderBy(x => x).ToList();                
+            //XmlNodeList LDrawColourNameNodeList = Global_Variables.PartColourCollectionXML.SelectNodes("//PartColour/@LDrawColourName");
+            //List<string> partColourNameList = LDrawColourNameNodeList.Cast<XmlNode>()
+            //                                   .Select(x => x.InnerText)
+            //                                   .OrderBy(x => x).ToList();
+            List<string> partColourNameList = StaticData.GetAllLDrawColourNames();
+            fldLDrawColourName.Items.Clear();
+            fldLDrawColourName.Items.AddRange(partColourNameList.ToArray());
+        }
+
+        private void dgPartListSummary_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 0)
+                {
+                    Bitmap image = (Bitmap)dgPartListSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    PartViewer.image = image;
+                    PartViewer form = new PartViewer();
+                    form.Visible = true;
+                }                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
+            }
+        }
+
+        private void dgPartListWithMFsSummary_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 0)
+                {
+                    Bitmap image = (Bitmap)dgPartListWithMFsSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    PartViewer.image = image;
+                    PartViewer form = new PartViewer();
+                    form.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
+            }
+        }
+
+        private void dgMiniFigsPartListSummary_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 0)
+                {
+                    Bitmap image = (Bitmap)dgMiniFigsPartListSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    PartViewer.image = image;
+                    PartViewer form = new PartViewer();
+                    form.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
+            }
+        }
+    
+        private void PostHeader()
+        {
+            string[] versionArray = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
+            this.Text = "Instruction Viewer";
+            this.Text += " | " + "v" + versionArray[0] + "." + versionArray[1] + "." + versionArray[2];
+        }
+
+        private void ApplyModeSettings()
+        {  
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => ApplyModeSettings()));
+            }
+            else
+            {
+                if (mode.Equals("EDIT"))
+                {
+                    // ** Post header **            
+                    PostHeader();
+
+                    // ** Disable buttons **
+                    btnSaveSet.Enabled = true;
+                    gpSet.Enabled = true;
+                    gpSubSet.Enabled = true;
+                    gpModel.Enabled = true;
+                    gpSubModel.Enabled = true;
+                    gpStep.Enabled = true;
+                    btnPartAdd.Enabled = true;
+                    btnPartSave.Enabled = true;
+                    btnPartDelete.Enabled = true;
+                }
+                else if (mode.Equals("READ-ONLY"))
+                {
+                    // ** Post header **            
+                    PostHeader();
+                    this.Text += " |  #### READ-ONLY ####";
+
+                    // ** Disable buttons **
+                    btnSaveSet.Enabled = false;
+                    gpSet.Enabled = false;
+                    gpSubSet.Enabled = false;
+                    gpModel.Enabled = false;
+                    gpSubModel.Enabled = false;
+                    gpStep.Enabled = false;
+                    btnPartAdd.Enabled = false;
+                    btnPartSave.Enabled = false;
+                    btnPartDelete.Enabled = false;
+                }
+            }
+        }
+
+        private void GenerateDATFile()
+        {
+            try
+            {
+                // ** Validation **                
+                if (fldLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");
+                string LDrawRef = fldLDrawRef.Text;
+                
+                // ** Generate .DAT files using API **
+                List<string> LDrawRefList = StaticData.GenerateDATFiles_ForLDrawDetails(LDrawRef);
+
+                // ** SHOW CONFIRMATION **
+                string confirmation = "Created the following .DAT file(s) for " + LDrawRef + ":" + Environment.NewLine;                
+                foreach (string Ref in LDrawRefList) confirmation += Ref + Environment.NewLine;                
+                MessageBox.Show(confirmation);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+
+
+
+
+
         private void SubModelImportPartPosRot()
-        {            
+        {
             //try
             //{
             //    #region ** VALIDATION **
@@ -5124,173 +5287,207 @@ namespace Generator
             //}
         }
 
-        private void EnableControls_All(bool value)
+
+        private void btnUnitySubModelsRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshSetSubModels();
+        }
+
+
+        private void RefreshSetSubModels()
+        {
+
+            // ** Validation Checks **
+            if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
+            string SetRef = fldCurrentSetRef.Text;
+
+            // ** Clear existing data **
+            tvSetSubModels.Nodes.Clear();
+            //tvUnitySubModels.Nodes.Clear();
+            gpUnitySubModelParts.Text = "Unity SubModel Parts";
+            dgSetSubModelPartSummary.DataSource = null;
+            dgUnitySubModelPartSummary.DataSource = null;
+            lblSetSubModelPartCount.Text = "";
+            lblUnitySubModelPartCount.Text = "";
+
+
+            // ** Populate Summary Treeview with data **
+            //watch.Reset(); watch.Start();
+            Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Generating Treeview...");
+            Delegates.TreeView_AddNodes(this, tvSetSubModels, Set.GetSetTreeViewFromSetXML(currentSetXml, false, false, false, false));
+            //watch.Stop(); perfLog += "Populate Summary Treeview with data:\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
+
+
+            
+
+
+            // Get all SetInstructions that match the Set
+            //SetInstructionsCollection coll = StaticData.GetAllSubModelSetInstructions(SetRef);
+
+            // Get list of SubSets from SubModel names **
+            //List<string> SubSetList = new List<string>();
+            //foreach (SetInstructions si in coll.SetInstructionsList)
+            //{
+            //    string SubSetRef = si.Ref.Split('.')[0];
+            //    if (SubSetList.Contains(SubSetRef) == false) SubSetList.Add(SubSetRef);                
+            //}
+
+
+
+
+
+            // Turn those Set Instructions into a Treeview
+            //TreeNode SetTN = new TreeNode() { Text = SetRef, Tag = "SET|" + SetRef, ImageIndex = 0, SelectedImageIndex = 0 };
+            //foreach (string SubSetRef in SubSetList)
+            //{
+            //    // ** Post SuBSet details **               
+            //    TreeNode SubSetTN = new TreeNode() { Text = SubSetRef, Tag = "SUBSET|" + SubSetRef, ImageIndex = 1, SelectedImageIndex = 1 };
+            //    SetTN.Nodes.Add(SubSetTN);
+
+            //    // ** Post model details **
+            //    foreach (SetInstructions si in coll.SetInstructionsList)
+            //    {
+            //        string si_SubSetRef = si.Ref.Split('.')[0];
+            //        string si_ModelRef = si.Ref.Split('.')[1];
+            //        if (SubSetRef.Equals(si_SubSetRef))
+            //        {
+            //            TreeNode modelTN = new TreeNode(si_ModelRef);
+            //            modelTN.Tag = "MODEL|" + si_SubSetRef + "|" + si_ModelRef;
+            //            int imageIndex = 2;
+            //            //if (ModelType.Equals("MINIFIG")) imageIndex = 7;
+            //            modelTN.ImageIndex = imageIndex;
+            //            modelTN.SelectedImageIndex = imageIndex;
+            //            SubSetTN.Nodes.Add(modelTN);
+            //        }
+            //    }
+            //}
+            //Delegates.TreeView_AddNodes(this, tvUnitySubModels, SetTN);
+
+
+
+
+           
+
+
+
+
+
+        }
+
+
+
+        private DataTable dgSetSubModelPartSummaryTable_Orig;
+        private DataTable dgUnitySubModelPartSummaryTable_Orig;
+
+
+        private void tvSetSubModels_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            // ** Reset fields **
+            gpUnitySubModelParts.Text = "Unity SubModel Parts";
+            dgSetSubModelPartSummary.DataSource = null;
+            dgUnitySubModelPartSummary.DataSource = null;
+            lblSetSubModelPartCount.Text = "";
+            lblUnitySubModelPartCount.Text = "";
+
+
+            // ** Determine type of model selected **
+            string Type = tvSetSubModels.SelectedNode.Tag.ToString().Split('|')[0];
+            if (Type.Equals("MODEL"))
+            {
+                // ** Get variables **
+                string SubSetRef = tvSetSubModels.SelectedNode.Tag.ToString().Split('|')[1];
+                string ModelRef = tvSetSubModels.SelectedNode.Tag.ToString().Split('|')[2];
+                string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']//Part";
+                xmlString += "[@IsSubPart='false']";
+
+                // ** Get Set SubModel data **
+                XmlNodeList partNodeList = fullSetXml.SelectNodes(xmlString);
+                dgSetSubModelPartSummaryTable_Orig = GenerateStepPartTable(partNodeList);
+
+                // ** Get Unity SubModel data **
+                string UnitySubModelRef = SubSetRef + "." + ModelRef;
+                SetInstructions si = StaticData.GetSetInstructions(UnitySubModelRef);
+                XmlDocument UnitySubModelXML = new XmlDocument();
+                UnitySubModelXML.LoadXml(si.Data);
+                XmlNodeList UnitypartNodeList = UnitySubModelXML.SelectNodes(xmlString);
+                dgUnitySubModelPartSummaryTable_Orig = GenerateStepPartTable(UnitypartNodeList);
+
+                // ** Run matching **                
+                dgSetSubModelPartSummaryTable_Orig.Columns.Add("Matched", typeof(bool));
+                dgUnitySubModelPartSummaryTable_Orig.Columns.Add("Matched", typeof(bool));
+                for(int a = 0; a < dgSetSubModelPartSummaryTable_Orig.Rows.Count;a++)
+                {
+                    if(a >= dgUnitySubModelPartSummaryTable_Orig.Rows.Count) break;
+                   
+                    // ** Check variables **
+                    string set_LDrawRef = (string)dgSetSubModelPartSummaryTable_Orig.Rows[a]["LDraw Ref"];
+                    string unity_LDrawRef = (string)dgUnitySubModelPartSummaryTable_Orig.Rows[a]["LDraw Ref"];
+                    string set_LDrawColourID = dgSetSubModelPartSummaryTable_Orig.Rows[a]["LDraw Colour ID"].ToString();
+                    string unity_LDrawColourID = dgUnitySubModelPartSummaryTable_Orig.Rows[a]["LDraw Colour ID"].ToString();
+                    if (set_LDrawRef.Equals(unity_LDrawRef))
+                    {
+                        if (set_LDrawColourID.Equals(unity_LDrawColourID))
+                        {
+                            dgSetSubModelPartSummaryTable_Orig.Rows[a]["Matched"] = true;
+                            dgUnitySubModelPartSummaryTable_Orig.Rows[a]["Matched"] = true;
+                        }
+                    }
+                }
+
+
+
+
+                // ** Show summary data **
+                dgSetSubModelPartSummary.DataSource = dgSetSubModelPartSummaryTable_Orig;
+                AdjustPartSummaryRowFormatting(dgSetSubModelPartSummary);
+                AdjustSubModelMatchingSummaryRowFormatting(dgSetSubModelPartSummary);
+                //ProcessPartSummaryFilter();
+                lblSetSubModelPartCount.Text = dgSetSubModelPartSummaryTable_Orig.Rows.Count.ToString("#,##0") + " Part(s)";
+
+                gpUnitySubModelParts.Text = "Unity SubModel Parts | " + UnitySubModelRef;
+                dgUnitySubModelPartSummary.DataSource = dgUnitySubModelPartSummaryTable_Orig;
+                AdjustPartSummaryRowFormatting(dgUnitySubModelPartSummary);
+                AdjustSubModelMatchingSummaryRowFormatting(dgUnitySubModelPartSummary);
+                lblUnitySubModelPartCount.Text = dgUnitySubModelPartSummary.Rows.Count.ToString("#,##0") + " Part(s)";
+            }
+
+
+        }
+
+
+
+
+        private void AdjustSubModelMatchingSummaryRowFormatting(DataGridView dg)
         {
             if (this.InvokeRequired)
             {
-                this.BeginInvoke(new MethodInvoker(() => EnableControls_All(value)));
+                this.BeginInvoke(new MethodInvoker(() => AdjustSubModelMatchingSummaryRowFormatting(dg)));
             }
             else
             {
-                btnExit.Enabled = value;
-                fldCurrentSetRef.Enabled = value;
-                btnLoadSet.Enabled = value;
-                btnSaveSet.Enabled = value;
-                //btnDeleteSet.Enabled = value;
-                btnOpenSetInstructions.Enabled = value;
-                btnOpenSetURLs.Enabled = value;
-                chkShowSubParts.Enabled = value;
-                chkShowPages.Enabled = value;
-                tabControl1.Enabled = value;
-            }
-        }
+                // ** Format columns **                
+                //dg.Columns["Part Image"].HeaderText = "";
+                //((DataGridViewImageColumn)dg.Columns["Part Image"]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+                //dg.Columns["Colour Image"].HeaderText = "";
+                //((DataGridViewImageColumn)dg.Columns["Colour Image"]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+                //dg.AutoResizeColumns();
+                //dg.Columns["Step Node Index"].DefaultCellStyle.Format = "#,###";
+                //dg.Columns["FBX Size"].DefaultCellStyle.Format = "#,##0";
 
-        private void RefreshLDrawColourNameDropdown()
-        {
-            //List<string> partColourNameList =   (from r in Global_Variables.pcc.PartColourList
-            //                                    select r.LDrawColourName).OrderBy(x => x).ToList();                
-            //XmlNodeList LDrawColourNameNodeList = Global_Variables.PartColourCollectionXML.SelectNodes("//PartColour/@LDrawColourName");
-            //List<string> partColourNameList = LDrawColourNameNodeList.Cast<XmlNode>()
-            //                                   .Select(x => x.InnerText)
-            //                                   .OrderBy(x => x).ToList();
-            List<string> partColourNameList = StaticData.GetAllLDrawColourNames();
-            fldLDrawColourName.Items.Clear();
-            fldLDrawColourName.Items.AddRange(partColourNameList.ToArray());
-        }
 
-        private void dgPartListSummary_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (e.ColumnIndex == 0)
+                List<string> ColumnList = new List<string>() {"Is Official", "Unity FBX", "Base Part Collection", "FBX Count", "FBX Size", "Step Node Index", "LDraw Part Type", "LDraw Description" };
+                foreach(string ColumnName in ColumnList) dg.Columns[ColumnName].Visible = false;
+               
+
+
+                // ** Change colours of rows **
+                foreach (DataGridViewRow row in dg.Rows)
                 {
-                    Bitmap image = (Bitmap)dgPartListSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                    PartViewer.image = image;
-                    PartViewer form = new PartViewer();
-                    form.Visible = true;
-                }                
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
-            }
-        }
-
-        private void dgPartListWithMFsSummary_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (e.ColumnIndex == 0)
-                {
-                    Bitmap image = (Bitmap)dgPartListWithMFsSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                    PartViewer.image = image;
-                    PartViewer form = new PartViewer();
-                    form.Visible = true;
+                    if (row.Cells["Matched"].Value.ToString().ToUpper().Equals("FALSE"))
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightSalmon;
+                    }                    
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
-            }
-        }
-
-        private void dgMiniFigsPartListSummary_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (e.ColumnIndex == 0)
-                {
-                    Bitmap image = (Bitmap)dgMiniFigsPartListSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                    PartViewer.image = image;
-                    PartViewer form = new PartViewer();
-                    form.Visible = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("ERROR: " + new StackTrace(ex).GetFrame(0).GetMethod().Name + "|" + (new StackTrace(ex, true)).GetFrame(0).GetFileLineNumber() + ": " + ex.Message);
-            }
-        }
-    
-        private void PostHeader()
-        {
-            string[] versionArray = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
-            this.Text = "Instruction Viewer";
-            this.Text += " | " + "v" + versionArray[0] + "." + versionArray[1] + "." + versionArray[2];
-        }
-
-        private void ApplyModeSettings()
-        {  
-            if (this.InvokeRequired)
-            {
-                this.BeginInvoke(new MethodInvoker(() => ApplyModeSettings()));
-            }
-            else
-            {
-                if (mode.Equals("EDIT"))
-                {
-                    // ** Post header **            
-                    PostHeader();
-
-                    // ** Disable buttons **
-                    btnSaveSet.Enabled = true;
-                    gpSet.Enabled = true;
-                    gpSubSet.Enabled = true;
-                    gpModel.Enabled = true;
-                    gpSubModel.Enabled = true;
-                    gpStep.Enabled = true;
-                    btnPartAdd.Enabled = true;
-                    btnPartSave.Enabled = true;
-                    btnPartDelete.Enabled = true;
-                }
-                else if (mode.Equals("READ-ONLY"))
-                {
-                    // ** Post header **            
-                    PostHeader();
-                    this.Text += " |  #### READ-ONLY ####";
-
-                    // ** Disable buttons **
-                    btnSaveSet.Enabled = false;
-                    gpSet.Enabled = false;
-                    gpSubSet.Enabled = false;
-                    gpModel.Enabled = false;
-                    gpSubModel.Enabled = false;
-                    gpStep.Enabled = false;
-                    btnPartAdd.Enabled = false;
-                    btnPartSave.Enabled = false;
-                    btnPartDelete.Enabled = false;
-                }
-            }
-        }
-
-
-
-
-
-        
-
-
-
-
-        private void GenerateDATFile()
-        {
-            try
-            {
-                // ** Validation **                
-                if (fldLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");
-                string LDrawRef = fldLDrawRef.Text;
-                
-                // ** Generate .DAT files using API **
-                List<string> LDrawRefList = StaticData.GenerateDATFiles_ForLDrawDetails(LDrawRef);
-
-                // ** SHOW CONFIRMATION **
-                string confirmation = "Created the following .DAT file(s) for " + LDrawRef + ":" + Environment.NewLine;                
-                foreach (string Ref in LDrawRefList) confirmation += Ref + Environment.NewLine;                
-                MessageBox.Show(confirmation);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
             }
         }
 

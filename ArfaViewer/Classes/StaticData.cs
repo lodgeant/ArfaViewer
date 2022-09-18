@@ -216,6 +216,13 @@ namespace Generator
             return bool.Parse(JSONString);
         }
 
+        public static SetInstructionsCollection GetAllSubModelSetInstructions(string SetRef)
+        {
+            string url = Global_Variables.APIUrl + "SetInstructions/GetAllSubModelSetInstructions?SetRef=" + SetRef;
+            string JSONString = GetJSONResponseFromURL(url);
+            SetInstructionsCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<SetInstructionsCollection>(JSONString);
+            return coll;
+        }
 
 
 
