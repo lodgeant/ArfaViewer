@@ -76,12 +76,10 @@ namespace Generator
                 lblPartListCount.Text = "";
                 lblPartListWithMFsCount.Text = "";
                 lblMiniFigsPartListCount.Text = "";
-
                 lblSetSubModelPartCount.Text = "";
                 lblSetSubModelPartSummaryItemFilteredCount.Text = "";
                 lblUnitySubModelPartCount.Text = "";
                 lblUnitySubModelPartSummaryItemFilteredCount.Text = "";
-
                 #endregion
 
                 #region ** ADD MAIN HEADER LINE TOOLSTRIP ITEMS **
@@ -180,7 +178,7 @@ namespace Generator
                 //fldCurrentSetRef.Text = "621-2";
                 //fldCurrentSetRef.Text = "41621-1";
                 //fldCurrentSetRef.Text = "TEST-1";
-                fldCurrentSetRef.Text = "7305-1";
+                //fldCurrentSetRef.Text = "7305-1";
 
             }
             catch (Exception ex)
@@ -341,11 +339,6 @@ namespace Generator
             AddPartToBasePartCollection();
         }
         
-        private void tsSubModelImportPartPosRot_Click(object sender, EventArgs e)
-        {
-            SubModelImportPartPosRot();
-        }
-
         private void chkShowPages_CheckedChanged(object sender, EventArgs e)
         {
             RefreshScreen();
@@ -766,6 +759,16 @@ namespace Generator
         private void btnPartListRefresh_Click(object sender, EventArgs e)
         {
             RefreshPartList();
+        }
+
+        private void btnUnitySubModelsRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshSetSubModels();
+        }
+
+        private void btnSyncSubModelPositions_Click(object sender, EventArgs e)
+        {
+            SyncSubModelPositions();
         }
 
         #endregion
@@ -1229,6 +1232,11 @@ namespace Generator
 
                     // ** Trigger Partlist refresh **
                     RefreshPartList();
+
+                    watch.Reset(); watch.Start();
+                    Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Updating Set Sub Models...");
+                    RefreshSetSubModels();
+                    watch.Stop(); perfLog += "Update Set Image:\t\t\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
 
                     // ** Tidy up **
                     Delegates.ToolStripLabel_SetText(this, lblStatus, "");
@@ -1949,35 +1957,8 @@ namespace Generator
         {
             try
             {
-                #region ** GET DATA UPFRONT **
-                //Delegates.ToolStripLabel_SetText(this, lblStatus, "Refresh Set Detail Summary - Getting upfront data...");
-                //Delegates.ToolStripProgressBar_SetMax(this, pbStatus, partNodeList.Count);
-                //Delegates.ToolStripProgressBar_SetValue(this, pbStatus, 0);
-                //List<int> LDrawColourIDList = new List<int>();
-                List<string> LDrawRefList = new List<string>();
-                int index = 0;
-                foreach (XmlNode partNode in partNodeList)
-                {
-                    //bw_RefreshSetDetailsSummary.ReportProgress(index, "Working...");
-
-                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
-                    //if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
-                    string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                    if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);
-                    if(chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
-
-                    index += 1;
-                }
-                // ** Get a Collections for this data **
-                //PartColourCollection PartColourCollection = StaticData.GetPartColourData_UsingLDrawColourIDList(LDrawColourIDList);
-                BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
-                LDrawDetailsCollection LDrawDetailsCollection = StaticData.GetLDrawDetailsData_UsingLDrawRefList(LDrawRefList);
-                FBXDetailsCollection FBXDetailsCollection = new FBXDetailsCollection();
-                if (chkShowFBXDetails.Checked) FBXDetailsCollection = StaticData.GetFBXDetailsData_UsingLDrawRefList(LDrawRefList);               
-                #endregion
-
                 #region ** GENERATE COLUMNS **
-                DataTable partTable = new DataTable("partTable", "partTable");                
+                DataTable partTable = new DataTable("partTable", "partTable");
                 partTable.Columns.Add("Part Image", typeof(Bitmap));
                 partTable.Columns.Add("LDraw Ref", typeof(string));
                 partTable.Columns.Add("LDraw Colour ID", typeof(int));
@@ -1989,7 +1970,7 @@ namespace Generator
                 partTable.Columns.Add("Part Type", typeof(string));
                 partTable.Columns.Add("Is SubPart", typeof(bool));
                 partTable.Columns.Add("Step No", typeof(int));
-                partTable.Columns.Add("Step Node Index", typeof(int));                
+                partTable.Columns.Add("Step Node Index", typeof(int));
                 partTable.Columns.Add("Placement Movements", typeof(string));
                 partTable.Columns.Add("SubSet Ref", typeof(string));
                 partTable.Columns.Add("PosX", typeof(string));
@@ -2003,132 +1984,154 @@ namespace Generator
                 partTable.Columns.Add("FBX Size", typeof(long));
                 partTable.Columns.Add("LDraw Part Type", typeof(string));
                 partTable.Columns.Add("LDraw Description", typeof(string));
-                //partTable.Columns.Add("Unity Ref", typeof(string));
                 #endregion
-                   
-                #region ** CYCLE THROUGH PART NODES AND GENERATE PART ROWS **  
-                int stepNodeIndex = 0;
-                int previousStepNo = 1;
-                foreach (XmlNode partNode in partNodeList)
+
+                // ** Check if part list is null - if so just return an empty table with column headers only **
+                if (partNodeList != null)
                 {
-                    #region ** GET LDRAW VARIABLES ** 
-                    string SubSetRef = "";
-                    if (partNode.SelectSingleNode("@SubSetRef") != null) SubSetRef = partNode.SelectSingleNode("@SubSetRef").InnerXml;                   
-                    //string UnityRef = partNode.SelectSingleNode("@UnityRef").InnerXml;
-                    string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                    bool IsSubPart = bool.Parse(partNode.SelectSingleNode("@IsSubPart").InnerXml);
-                    int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);  
-                    string LDrawColourName = (from r in Global_Variables.PartColourCollection.PartColourList
-                                              where r.LDrawColourID == LDrawColourID
-                                              select r.LDrawColourName).FirstOrDefault();
-                    string partType = (from r in BasePartCollection.BasePartList
-                                       where r.LDrawRef.Equals(LDrawRef)
-                                       select r.partType.ToString()).FirstOrDefault();
-                    string LDrawDescription = (from r in BasePartCollection.BasePartList
-                                               where r.LDrawRef.Equals(LDrawRef)
-                                               select r.LDrawDescription).FirstOrDefault();
-                    string LDrawPartType = (from r in BasePartCollection.BasePartList
-                                            where r.LDrawRef.Equals(LDrawRef)
-                                            select r.lDrawPartType.ToString()).FirstOrDefault();
-                    if (LDrawPartType == null) LDrawPartType = "";
+                    #region ** GET DATA UPFRONT **
+                    List<string> LDrawRefList = new List<string>();
+                    int index = 0;
+                    foreach (XmlNode partNode in partNodeList)
+                    {
+                        int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
+                        //if (LDrawColourIDList.Contains(LDrawColourID) == false) LDrawColourIDList.Add(LDrawColourID);
+                        string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
+                        if (LDrawRefList.Contains(LDrawRef) == false) LDrawRefList.Add(LDrawRef);
+                        if (chkShowElementImages.Checked) ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+
+                        index += 1;
+                    }
+                    // ** Get a Collections for this data **
+                    BasePartCollection BasePartCollection = StaticData.GetBasePartData_UsingLDrawRefList(LDrawRefList);
+                    LDrawDetailsCollection LDrawDetailsCollection = StaticData.GetLDrawDetailsData_UsingLDrawRefList(LDrawRefList);
+                    FBXDetailsCollection FBXDetailsCollection = new FBXDetailsCollection();
+                    if (chkShowFBXDetails.Checked) FBXDetailsCollection = StaticData.GetFBXDetailsData_UsingLDrawRefList(LDrawRefList);
                     #endregion
 
-                    // ** Check for official/unoffical part **                    
-                    bool IsOfficial = false;
-                    if (LDrawPartType.Equals("OFFICIAL")) IsOfficial = true;
-
-                    // Get LDrawDetails for part **                    
-                    LDrawDetails LDrawDetails = (from r in LDrawDetailsCollection.LDrawDetailsList
-                                                 where r.LDrawRef.Equals(LDrawRef)
-                                                 select r).FirstOrDefault();
-
-                    // ** GET FBX DETAILS FOR PART MODEL **
-                    //TODO: The below is too slow - needs speeding up!                    
-                    FBXDetails fbxDetails = new FBXDetails();
-                    if (chkShowFBXDetails.Checked)
+                    #region ** CYCLE THROUGH PART NODES AND GENERATE PART ROWS **  
+                    int stepNodeIndex = 0;
+                    int previousStepNo = 1;
+                    foreach (XmlNode partNode in partNodeList)
                     {
-                        fbxDetails = (from r in FBXDetailsCollection.FBXDetailsList
-                                      where r.LDrawRef.Equals(LDrawRef)
-                                      select r).FirstOrDefault();
+                        #region ** GET LDRAW VARIABLES ** 
+                        string SubSetRef = "";
+                        if (partNode.SelectSingleNode("@SubSetRef") != null) SubSetRef = partNode.SelectSingleNode("@SubSetRef").InnerXml;
+                        //string UnityRef = partNode.SelectSingleNode("@UnityRef").InnerXml;
+                        string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;
+                        bool IsSubPart = bool.Parse(partNode.SelectSingleNode("@IsSubPart").InnerXml);
+                        int LDrawColourID = int.Parse(partNode.SelectSingleNode("@LDrawColourID").InnerXml);
+                        string LDrawColourName = (from r in Global_Variables.PartColourCollection.PartColourList
+                                                  where r.LDrawColourID == LDrawColourID
+                                                  select r.LDrawColourName).FirstOrDefault();
+                        string partType = (from r in BasePartCollection.BasePartList
+                                           where r.LDrawRef.Equals(LDrawRef)
+                                           select r.partType.ToString()).FirstOrDefault();
+                        string LDrawDescription = (from r in BasePartCollection.BasePartList
+                                                   where r.LDrawRef.Equals(LDrawRef)
+                                                   select r.LDrawDescription).FirstOrDefault();
+                        string LDrawPartType = (from r in BasePartCollection.BasePartList
+                                                where r.LDrawRef.Equals(LDrawRef)
+                                                select r.lDrawPartType.ToString()).FirstOrDefault();
+                        if (LDrawPartType == null) LDrawPartType = "";
+                        #endregion
+
+                        // ** Check for official/unoffical part **                    
+                        bool IsOfficial = false;
+                        if (LDrawPartType.Equals("OFFICIAL")) IsOfficial = true;
+
+                        // Get LDrawDetails for part **                    
+                        LDrawDetails LDrawDetails = (from r in LDrawDetailsCollection.LDrawDetailsList
+                                                     where r.LDrawRef.Equals(LDrawRef)
+                                                     select r).FirstOrDefault();
+
+                        // ** GET FBX DETAILS FOR PART MODEL **
+                        //TODO: The below is too slow - needs speeding up!                    
+                        FBXDetails fbxDetails = new FBXDetails();
+                        if (chkShowFBXDetails.Checked)
+                        {
+                            fbxDetails = (from r in FBXDetailsCollection.FBXDetailsList
+                                          where r.LDrawRef.Equals(LDrawRef)
+                                          select r).FirstOrDefault();
+                        }
+
+                        // ** Check BasePart Collection **
+                        bool basePartCollection = true;
+                        BasePart BasePart = (from r in BasePartCollection.BasePartList
+                                             where r.LDrawRef.Equals(LDrawRef)
+                                             select r).FirstOrDefault();
+                        if (BasePart == null) basePartCollection = false;
+
+                        // ** GET ELEMENT & PARTCOLOUR IMAGES **
+                        Bitmap elementImage = null;
+                        Bitmap partColourImage = null;
+                        if (chkShowElementImages.Checked) elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });
+                        if (chkShowPartcolourImages.Checked) partColourImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
+
+                        // ** Get Placement Movements **
+                        string placementMovementString = "";
+                        XmlNodeList pmNodeList = partNode.SelectNodes("PlacementMovement");
+                        for (int a = 0; a < pmNodeList.Count; a++)
+                        {
+                            string Axis = pmNodeList[a].SelectSingleNode("@Axis").InnerXml;
+                            string Value = pmNodeList[a].SelectSingleNode("@Value").InnerXml;
+                            if (a == 0) placementMovementString += Axis + "=" + Value;
+                            else placementMovementString += "," + Axis + "=" + Value;
+                        }
+
+                        // ** Get Pos & Rot values **
+                        string PosX = partNode.SelectSingleNode("@PosX").InnerXml;
+                        string PosY = partNode.SelectSingleNode("@PosY").InnerXml;
+                        string PosZ = partNode.SelectSingleNode("@PosZ").InnerXml;
+                        string RotX = partNode.SelectSingleNode("@RotX").InnerXml;
+                        string RotY = partNode.SelectSingleNode("@RotY").InnerXml;
+                        string RotZ = partNode.SelectSingleNode("@RotZ").InnerXml;
+
+                        // ** Get Pure Step No **
+                        //string StepRef = partNode.SelectSingleNode("ancestor::Step/@PureStepNo").InnerXml;
+                        int StepRef = int.Parse(partNode.SelectSingleNode("ancestor::Step/@PureStepNo").InnerXml);
+                        if (StepRef != previousStepNo)
+                        {
+                            stepNodeIndex = 1;
+                            previousStepNo = StepRef;
+                        }
+                        else
+                        {
+                            stepNodeIndex += 1;
+                        }
+
+                        // ** Build row and add to table **                    
+                        DataRow newRow = partTable.NewRow();
+                        newRow["Part Image"] = elementImage;
+                        newRow["LDraw Ref"] = LDrawRef;
+                        newRow["LDraw Colour ID"] = LDrawColourID;
+                        newRow["LDraw Colour Name"] = LDrawColourName;
+                        newRow["Colour Image"] = partColourImage;
+                        newRow["Is Official"] = IsOfficial;
+                        newRow["Unity FBX"] = fbxDetails.AllFBXExist;
+                        newRow["Base Part Collection"] = basePartCollection;
+                        newRow["Part Type"] = partType;
+                        newRow["Is SubPart"] = IsSubPart;
+                        newRow["Step No"] = StepRef;
+                        newRow["Step Node Index"] = stepNodeIndex;
+                        newRow["Placement Movements"] = placementMovementString;
+                        newRow["SubSet Ref"] = SubSetRef;
+                        newRow["PosX"] = PosX;
+                        newRow["PosY"] = PosY;
+                        newRow["PosZ"] = PosZ;
+                        newRow["RotX"] = RotX;
+                        newRow["RotY"] = RotY;
+                        newRow["RotZ"] = RotZ;
+                        newRow["Sub Part Count"] = LDrawDetails.SubPartCount;
+                        newRow["FBX Size"] = fbxDetails.FBXSize;
+                        newRow["FBX Count"] = fbxDetails.FBXCount;
+                        newRow["LDraw Part Type"] = LDrawPartType;
+                        newRow["LDraw Description"] = LDrawDescription;
+                        partTable.Rows.Add(newRow);
                     }
+                    #endregion
 
-                    // ** Check BasePart Collection **
-                    bool basePartCollection = true;                   
-                    BasePart BasePart = (from r in BasePartCollection.BasePartList
-                                        where r.LDrawRef.Equals(LDrawRef)
-                                        select r).FirstOrDefault();
-                    if(BasePart == null) basePartCollection = false;
-                   
-                    // ** GET ELEMENT & PARTCOLOUR IMAGES **
-                    Bitmap elementImage = null;
-                    Bitmap partColourImage = null;
-                    if (chkShowElementImages.Checked) elementImage = ArfaImage.GetImage(ImageType.ELEMENT, new string[] { LDrawRef, LDrawColourID.ToString() });                    
-                    if (chkShowPartcolourImages.Checked) partColourImage = ArfaImage.GetImage(ImageType.PARTCOLOUR, new string[] { LDrawColourID.ToString() });
-
-                    // ** Get Placement Movements **
-                    string placementMovementString = "";
-                    XmlNodeList pmNodeList = partNode.SelectNodes("PlacementMovement");
-                    for (int a = 0; a < pmNodeList.Count; a++)
-                    {
-                        string Axis = pmNodeList[a].SelectSingleNode("@Axis").InnerXml;
-                        string Value = pmNodeList[a].SelectSingleNode("@Value").InnerXml;
-                        if (a == 0) placementMovementString += Axis + "=" + Value;
-                        else placementMovementString += "," + Axis + "=" + Value;
-                    }
-
-                    // ** Get Pos & Rot values **
-                    string PosX = partNode.SelectSingleNode("@PosX").InnerXml;
-                    string PosY = partNode.SelectSingleNode("@PosY").InnerXml;
-                    string PosZ = partNode.SelectSingleNode("@PosZ").InnerXml;
-                    string RotX = partNode.SelectSingleNode("@RotX").InnerXml;
-                    string RotY = partNode.SelectSingleNode("@RotY").InnerXml;
-                    string RotZ = partNode.SelectSingleNode("@RotZ").InnerXml;
-
-                    // ** Get Pure Step No **
-                    //string StepRef = partNode.SelectSingleNode("ancestor::Step/@PureStepNo").InnerXml;
-                    int StepRef = int.Parse(partNode.SelectSingleNode("ancestor::Step/@PureStepNo").InnerXml);
-                    if (StepRef != previousStepNo)
-                    {
-                        stepNodeIndex = 1;
-                        previousStepNo = StepRef;
-                    }
-                    else
-                    {
-                        stepNodeIndex += 1;
-                    }
-
-                    // ** Build row and add to table **                    
-                    DataRow newRow = partTable.NewRow();
-                    newRow["Part Image"] = elementImage;
-                    newRow["LDraw Ref"] = LDrawRef;
-                    newRow["LDraw Colour ID"] = LDrawColourID;
-                    newRow["LDraw Colour Name"] = LDrawColourName;
-                    newRow["Colour Image"] = partColourImage;
-                    newRow["Is Official"] = IsOfficial;
-                    newRow["Unity FBX"] = fbxDetails.AllFBXExist;
-                    newRow["Base Part Collection"] = basePartCollection;
-                    newRow["Part Type"] = partType;
-                    newRow["Is SubPart"] = IsSubPart;
-                    newRow["Step No"] = StepRef;
-                    newRow["Step Node Index"] = stepNodeIndex;
-                    newRow["Placement Movements"] = placementMovementString;
-                    newRow["SubSet Ref"] = SubSetRef;
-                    newRow["PosX"] = PosX;
-                    newRow["PosY"] = PosY;
-                    newRow["PosZ"] = PosZ;
-                    newRow["RotX"] = RotX;
-                    newRow["RotY"] = RotY;
-                    newRow["RotZ"] = RotZ;
-                    newRow["Sub Part Count"] = LDrawDetails.SubPartCount;
-                    newRow["FBX Size"] = fbxDetails.FBXSize;
-                    newRow["FBX Count"] = fbxDetails.FBXCount;
-                    newRow["LDraw Part Type"] = LDrawPartType;
-                    newRow["LDraw Description"] = LDrawDescription;
-                    //newRow["Unity Ref"] = UnityRef;
-                    partTable.Rows.Add(newRow);
                 }
-                #endregion
-
                 return partTable;
             }
             catch (Exception ex)
@@ -4811,7 +4814,6 @@ namespace Generator
 
         #endregion
 
-
         #region ** PART SUMMARY ACCELERATOR FUNCTIONS **
 
         private void fldLDrawRefAc_TextChanged(object sender, EventArgs e)
@@ -5120,265 +5122,46 @@ namespace Generator
             }
         }
 
-
-
-
-
-
-
-        private void SubModelImportPartPosRot()
-        {
-            //try
-            //{
-            //    #region ** VALIDATION **
-            //    if (tvSetSummary.SelectedNode == null)
-            //    {
-            //        throw new Exception("No Model or SubModel node selected...");
-            //    }
-            //    string Type = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[0];
-            //    if (Type != "MODEL" & Type != "SUBMODEL")
-            //    {
-            //        throw new Exception("Can only import data on Model or SubModel nodes");
-            //    }
-            //    #endregion
-
-            //    // ** Get current Model or SubModel **              
-            //    string SubSetRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[1];
-            //    string SubModelRef = tvSetSummary.SelectedNode.Tag.ToString().Split('|')[2];
-            //    string SetRef = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']/ancestor::Set/@Ref").InnerXml;
-
-            //    // ** GET SET PARTS FOR SUB MODEL **                         
-            //    string SetPartXMLString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + SubModelRef + "']/*/Part";
-            //    //string SetPartXMLString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + SubModelRef + "']//Part";
-            //    XmlNodeList setPartNodeList = currentSetXml.SelectNodes(SetPartXMLString);
-
-            //    #region ** GET SUBMODEL PARTS **
-            //    BlobClient blob = new BlobContainerClient(Global_Variables.AzureStorageConnString, "submodel-xmls").GetBlobClient(SubSetRef + "." + SubModelRef + ".xml");
-            //    if (blob.Exists() == false)
-            //    {
-            //        throw new Exception("SubModel XML file " + SubSetRef + "." + SubModelRef + ".xml not found...");
-            //    }
-            //    byte[] fileContent = new byte[blob.GetProperties().Value.ContentLength];
-            //    using (var ms = new MemoryStream(fileContent))
-            //    {
-            //        blob.DownloadTo(ms);
-            //    }
-            //    string xmlString = Encoding.UTF8.GetString(fileContent);
-            //    XmlDocument SubModelXMLDoc = new XmlDocument();
-            //    SubModelXMLDoc.LoadXml(xmlString);
-            //    string SubModelPartXMLString = "//Part";
-            //    //string SubModelPartXMLString = "//Part[@IsSubPart='false']";
-            //    XmlNodeList subModelPartNodeList = SubModelXMLDoc.SelectNodes(SubModelPartXMLString);
-            //    #endregion
-
-            //    #region ** GENERATE SOURCE AND TARGET TABLES **
-            //    DataTable sourceTable = GenerateStepPartTable(setPartNodeList);
-            //    sourceTable.Columns.Add("Matched", typeof(string));
-            //    DataTable targetTable = GenerateStepPartTable(subModelPartNodeList);
-            //    targetTable.Columns.Add("Matched", typeof(string));
-            //    for (int a = 0; a < sourceTable.Rows.Count; a++) sourceTable.Rows[a]["Matched"] = "False";
-            //    for (int a = 0; a < targetTable.Rows.Count; a++) targetTable.Rows[a]["Matched"] = "False";
-            //    #endregion
-
-            //    #region ** RUN MATCHING PROCESS **
-            //    bool overallMatch = true;
-            //    for (int a = 0; a < sourceTable.Rows.Count; a++)
-            //    {
-            //        // ** GET VARIABLES **
-            //        string Set_LDrawRef = sourceTable.Rows[a]["LDraw Ref"].ToString();
-            //        string Set_LDrawColourID = sourceTable.Rows[a]["LDraw Colour ID"].ToString();
-            //        string SubModel_LDrawRef = "";
-            //        string SubModel_LDrawColourID = "";
-            //        if (a < targetTable.Rows.Count)
-            //        {
-            //            SubModel_LDrawRef = targetTable.Rows[a]["LDraw Ref"].ToString();
-            //            SubModel_LDrawColourID = targetTable.Rows[a]["LDraw Colour ID"].ToString();
-            //        }
-            //        bool match = true;
-            //        if (Set_LDrawRef != SubModel_LDrawRef)
-            //        {
-            //            match = false;
-            //        }
-            //        if (Set_LDrawColourID != SubModel_LDrawColourID)
-            //        {
-            //            match = false;
-            //        }
-            //        sourceTable.Rows[a]["Matched"] = match;
-            //        if (a < targetTable.Rows.Count)
-            //        {
-            //            targetTable.Rows[a]["Matched"] = match;
-            //        }
-            //    }
-            //    int SourceUnmatchedCount = (from r in sourceTable.AsEnumerable()
-            //                                where r.Field<string>("Matched").Equals("False")
-            //                                select r).Count();
-            //    int TargetUnmatchedCount = (from r in targetTable.AsEnumerable()
-            //                                where r.Field<string>("Matched").Equals("False")
-            //                                select r).Count();
-            //    if (SourceUnmatchedCount > 0 || TargetUnmatchedCount > 0)
-            //    {
-            //        overallMatch = false;
-            //    }
-            //    #endregion
-
-            //    #region ** IF OVERALL MATCH = FALSE, SHOW Matching Screen **
-            //    if (overallMatch == false)
-            //    {
-            //        // ** REARRANGE SOURCE TABLE COLUMNS **
-            //        string[] columnNames = new string[] { "Step No", "Part Image", "LDraw Ref", "LDraw Colour ID", "LDraw Colour Name", "Colour Image", "Unity FBX", "Base Part Collection", "Part Type", "Is SubPart", "Step Node Index", "Placement Movements", "SuBSet Ref", "PosX", "PosY", "PosZ", "RotX", "RotY", "RotZ" };
-            //        var colIndex = 0;
-            //        foreach (var colName in columnNames)
-            //        {
-            //            sourceTable.Columns[colName].SetOrdinal(colIndex++);
-            //        }
-
-            //        // ** SHOW MATCHING SCREEN **
-            //        MatchingScreen form = new MatchingScreen();
-            //        form.sourceTable = sourceTable;
-            //        form.targetTable = targetTable;
-            //        form.Refresh_Screen();
-            //        form.Visible = true;
-            //        return;
-            //    }
-            //    #endregion
-
-            //    #region ** UPDATE SET XML (IF OVERALL MATCH = TRUE) **
-            //    int PartCount = 0;
-            //    int SubPartCount = 0;
-            //    for (int a = 0; a < subModelPartNodeList.Count; a++)
-            //    {
-            //        string Set_LDrawRef = subModelPartNodeList[a].SelectSingleNode("@LDrawRef").InnerXml;
-            //        string Set_LDrawColourID = subModelPartNodeList[a].SelectSingleNode("@LDrawColourID").InnerXml;
-            //        bool IsSubPart = bool.Parse(subModelPartNodeList[a].SelectSingleNode("@IsSubPart").InnerXml);
-            //        if (IsSubPart == false)
-            //        {
-            //            PartCount += 1;
-            //        }
-            //        else
-            //        {
-            //            SubPartCount += 1;
-            //        }
-            //        string PosX = subModelPartNodeList[a].SelectSingleNode("@PosX").InnerXml;
-            //        string PosY = subModelPartNodeList[a].SelectSingleNode("@PosY").InnerXml;
-            //        string PosZ = subModelPartNodeList[a].SelectSingleNode("@PosZ").InnerXml;
-            //        string RotX = subModelPartNodeList[a].SelectSingleNode("@RotX").InnerXml;
-            //        string RotY = subModelPartNodeList[a].SelectSingleNode("@RotY").InnerXml;
-            //        string RotZ = subModelPartNodeList[a].SelectSingleNode("@RotZ").InnerXml;
-            //        setPartNodeList[a].SelectSingleNode("@PosX").InnerXml = PosX;
-            //        setPartNodeList[a].SelectSingleNode("@PosY").InnerXml = PosY;
-            //        setPartNodeList[a].SelectSingleNode("@PosZ").InnerXml = PosZ;
-            //        setPartNodeList[a].SelectSingleNode("@RotX").InnerXml = RotX;
-            //        setPartNodeList[a].SelectSingleNode("@RotY").InnerXml = RotY;
-            //        setPartNodeList[a].SelectSingleNode("@RotZ").InnerXml = RotZ;
-            //    }
-
-            //    // ** Refresh screen **
-            //    RefreshScreen();
-
-            //    // ** SHOW CONFIRMATION **
-            //    MessageBox.Show("Successfully updated " + PartCount + " Part(s) and " + SubPartCount + " Sub Part(s)...");
-
-            //    #endregion
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-        }
-
-
-        private void btnUnitySubModelsRefresh_Click(object sender, EventArgs e)
-        {
-            RefreshSetSubModels();
-        }
-
-
-        private void RefreshSetSubModels()
-        {
-
-            // ** Validation Checks **
-            if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
-            string SetRef = fldCurrentSetRef.Text;
-
-            // ** Clear existing data **
-            tvSetSubModels.Nodes.Clear();
-            //tvUnitySubModels.Nodes.Clear();
-            gpUnitySubModelParts.Text = "Unity SubModel Parts";
-            dgSetSubModelPartSummary.DataSource = null;
-            dgUnitySubModelPartSummary.DataSource = null;
-            lblSetSubModelPartCount.Text = "";
-            lblUnitySubModelPartCount.Text = "";
-
-
-            // ** Populate Summary Treeview with data **
-            //watch.Reset(); watch.Start();
-            Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Generating Treeview...");
-            Delegates.TreeView_AddNodes(this, tvSetSubModels, Set.GetSetTreeViewFromSetXML(currentSetXml, false, false, false, false));
-            //watch.Stop(); perfLog += "Populate Summary Treeview with data:\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
-
-
-            
-
-
-            // Get all SetInstructions that match the Set
-            //SetInstructionsCollection coll = StaticData.GetAllSubModelSetInstructions(SetRef);
-
-            // Get list of SubSets from SubModel names **
-            //List<string> SubSetList = new List<string>();
-            //foreach (SetInstructions si in coll.SetInstructionsList)
-            //{
-            //    string SubSetRef = si.Ref.Split('.')[0];
-            //    if (SubSetList.Contains(SubSetRef) == false) SubSetList.Add(SubSetRef);                
-            //}
-
-
-
-
-
-            // Turn those Set Instructions into a Treeview
-            //TreeNode SetTN = new TreeNode() { Text = SetRef, Tag = "SET|" + SetRef, ImageIndex = 0, SelectedImageIndex = 0 };
-            //foreach (string SubSetRef in SubSetList)
-            //{
-            //    // ** Post SuBSet details **               
-            //    TreeNode SubSetTN = new TreeNode() { Text = SubSetRef, Tag = "SUBSET|" + SubSetRef, ImageIndex = 1, SelectedImageIndex = 1 };
-            //    SetTN.Nodes.Add(SubSetTN);
-
-            //    // ** Post model details **
-            //    foreach (SetInstructions si in coll.SetInstructionsList)
-            //    {
-            //        string si_SubSetRef = si.Ref.Split('.')[0];
-            //        string si_ModelRef = si.Ref.Split('.')[1];
-            //        if (SubSetRef.Equals(si_SubSetRef))
-            //        {
-            //            TreeNode modelTN = new TreeNode(si_ModelRef);
-            //            modelTN.Tag = "MODEL|" + si_SubSetRef + "|" + si_ModelRef;
-            //            int imageIndex = 2;
-            //            //if (ModelType.Equals("MINIFIG")) imageIndex = 7;
-            //            modelTN.ImageIndex = imageIndex;
-            //            modelTN.SelectedImageIndex = imageIndex;
-            //            SubSetTN.Nodes.Add(modelTN);
-            //        }
-            //    }
-            //}
-            //Delegates.TreeView_AddNodes(this, tvUnitySubModels, SetTN);
-
-
-
-
-           
-
-
-
-
-
-        }
-
-
+        #region ** REFRESH UNITY SUBMODEL FUNCTIONS **
 
         private DataTable dgSetSubModelPartSummaryTable_Orig;
         private DataTable dgUnitySubModelPartSummaryTable_Orig;
 
+        private void RefreshSetSubModels()
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new MethodInvoker(() => RefreshSetSubModels()));
+            }
+            else
+            {
+                try
+                {
+                    // ** Validation **
+                    if (fldCurrentSetRef.Text.Equals("")) throw new Exception("No Set Ref entered...");
+                    string SetRef = fldCurrentSetRef.Text;
+
+                    // ** Clear existing data **
+                    tvSetSubModels.Nodes.Clear();
+                    //Delegates.TreeView_ClearNodes(this, tvSetSubModels);
+                    gpUnitySubModelParts.Text = "Unity SubModel Parts";
+                    dgSetSubModelPartSummary.DataSource = null;
+                    dgUnitySubModelPartSummary.DataSource = null;
+                    lblSetSubModelPartCount.Text = "";
+                    lblUnitySubModelPartCount.Text = "";
+
+                    // ** Populate Summary Treeview with data **
+                    //watch.Reset(); watch.Start();
+                    //Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Generating Treeview...");
+                    Delegates.TreeView_AddNodes(this, tvSetSubModels, Set.GetSetTreeViewFromSetXML(currentSetXml, false, false, false, false));
+                    //watch.Stop(); perfLog += "Populate Summary Treeview with data:\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
 
         private void tvSetSubModels_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -5389,36 +5172,43 @@ namespace Generator
             lblSetSubModelPartCount.Text = "";
             lblUnitySubModelPartCount.Text = "";
 
-
             // ** Determine type of model selected **
             string Type = tvSetSubModels.SelectedNode.Tag.ToString().Split('|')[0];
-            if (Type.Equals("MODEL"))
+            if (Type.Equals("MODEL") || Type.Equals("SUBMODEL"))
             {
                 // ** Get variables **
                 string SubSetRef = tvSetSubModels.SelectedNode.Tag.ToString().Split('|')[1];
                 string ModelRef = tvSetSubModels.SelectedNode.Tag.ToString().Split('|')[2];
-                string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']//Part";
+                string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']/*/Part";
                 xmlString += "[@IsSubPart='false']";
 
                 // ** Get Set SubModel data **
-                XmlNodeList partNodeList = fullSetXml.SelectNodes(xmlString);
-                dgSetSubModelPartSummaryTable_Orig = GenerateStepPartTable(partNodeList);
+                //XmlNodeList partNodeList = fullSetXml.SelectNodes(xmlString);
+                XmlNodeList partNodeList = currentSetXml.SelectNodes(xmlString);
+                dgSetSubModelPartSummaryTable_Orig = StaticData.GeneratePartTable(partNodeList, true, true, false);
 
                 // ** Get Unity SubModel data **
                 string UnitySubModelRef = SubSetRef + "." + ModelRef;
                 SetInstructions si = StaticData.GetSetInstructions(UnitySubModelRef);
-                XmlDocument UnitySubModelXML = new XmlDocument();
-                UnitySubModelXML.LoadXml(si.Data);
-                XmlNodeList UnitypartNodeList = UnitySubModelXML.SelectNodes(xmlString);
-                dgUnitySubModelPartSummaryTable_Orig = GenerateStepPartTable(UnitypartNodeList);
+                XmlNodeList UnitypartNodeList = null;
+                if (si != null)
+                {
+                    XmlDocument UnitySubModelXML = new XmlDocument();
+                    UnitySubModelXML.LoadXml(si.Data);
+                    UnitypartNodeList = UnitySubModelXML.SelectNodes(xmlString);
+                    dgUnitySubModelPartSummaryTable_Orig = GenerateStepPartTable(UnitypartNodeList);
+                }
+                dgUnitySubModelPartSummaryTable_Orig = StaticData.GeneratePartTable(UnitypartNodeList, true, true, false);
 
                 // ** Run matching **                
                 dgSetSubModelPartSummaryTable_Orig.Columns.Add("Matched", typeof(bool));
                 dgUnitySubModelPartSummaryTable_Orig.Columns.Add("Matched", typeof(bool));
-                for(int a = 0; a < dgSetSubModelPartSummaryTable_Orig.Rows.Count;a++)
+                foreach (DataRow row in dgSetSubModelPartSummaryTable_Orig.Rows) row["Matched"] = false;                
+                foreach (DataRow row in dgUnitySubModelPartSummaryTable_Orig.Rows) row["Matched"] = false;                
+                for (int a = 0; a < dgSetSubModelPartSummaryTable_Orig.Rows.Count; a++)
                 {
-                    if(a >= dgUnitySubModelPartSummaryTable_Orig.Rows.Count) break;
-                   
+                    if (a >= dgUnitySubModelPartSummaryTable_Orig.Rows.Count) break;
+
                     // ** Check variables **
                     string set_LDrawRef = (string)dgSetSubModelPartSummaryTable_Orig.Rows[a]["LDraw Ref"];
                     string unity_LDrawRef = (string)dgUnitySubModelPartSummaryTable_Orig.Rows[a]["LDraw Ref"];
@@ -5434,28 +5224,18 @@ namespace Generator
                     }
                 }
 
-
-
-
-                // ** Show summary data **
+                // ** Show Set summary data **
                 dgSetSubModelPartSummary.DataSource = dgSetSubModelPartSummaryTable_Orig;
-                AdjustPartSummaryRowFormatting(dgSetSubModelPartSummary);
                 AdjustSubModelMatchingSummaryRowFormatting(dgSetSubModelPartSummary);
-                //ProcessPartSummaryFilter();
                 lblSetSubModelPartCount.Text = dgSetSubModelPartSummaryTable_Orig.Rows.Count.ToString("#,##0") + " Part(s)";
 
+                // ** Show Unity summary data **
                 gpUnitySubModelParts.Text = "Unity SubModel Parts | " + UnitySubModelRef;
                 dgUnitySubModelPartSummary.DataSource = dgUnitySubModelPartSummaryTable_Orig;
-                AdjustPartSummaryRowFormatting(dgUnitySubModelPartSummary);
                 AdjustSubModelMatchingSummaryRowFormatting(dgUnitySubModelPartSummary);
                 lblUnitySubModelPartCount.Text = dgUnitySubModelPartSummary.Rows.Count.ToString("#,##0") + " Part(s)";
             }
-
-
         }
-
-
-
 
         private void AdjustSubModelMatchingSummaryRowFormatting(DataGridView dg)
         {
@@ -5466,19 +5246,27 @@ namespace Generator
             else
             {
                 // ** Format columns **                
-                //dg.Columns["Part Image"].HeaderText = "";
-                //((DataGridViewImageColumn)dg.Columns["Part Image"]).ImageLayout = DataGridViewImageCellLayout.Zoom;
-                //dg.Columns["Colour Image"].HeaderText = "";
-                //((DataGridViewImageColumn)dg.Columns["Colour Image"]).ImageLayout = DataGridViewImageCellLayout.Zoom;
-                //dg.AutoResizeColumns();
-                //dg.Columns["Step Node Index"].DefaultCellStyle.Format = "#,###";
-                //dg.Columns["FBX Size"].DefaultCellStyle.Format = "#,##0";
+                dg.Columns["Part Image"].HeaderText = "";
+                ((DataGridViewImageColumn)dg.Columns["Part Image"]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+                dg.Columns["Colour Image"].HeaderText = "";
+                ((DataGridViewImageColumn)dg.Columns["Colour Image"]).ImageLayout = DataGridViewImageCellLayout.Zoom;
+                dg.AutoResizeColumns();
+                dg.Columns["Step Node Index"].DefaultCellStyle.Format = "#,###";
+                dg.Columns["FBX Size"].DefaultCellStyle.Format = "#,##0";
 
+                // ** Change colours of rows **
+                foreach (DataGridViewRow row in dg.Rows)
+                {
+                    if (row.Cells["Is SubPart"].Value.ToString().ToUpper().Equals("TRUE"))
+                    {
+                        row.DefaultCellStyle.Font = new System.Drawing.Font(this.Font, FontStyle.Italic);
+                        row.DefaultCellStyle.ForeColor = Color.Gray;
+                    }                    
+                }
 
+                // ** Hide certain columns **
                 List<string> ColumnList = new List<string>() {"Is Official", "Unity FBX", "Base Part Collection", "FBX Count", "FBX Size", "Step Node Index", "LDraw Part Type", "LDraw Description" };
                 foreach(string ColumnName in ColumnList) dg.Columns[ColumnName].Visible = false;
-               
-
 
                 // ** Change colours of rows **
                 foreach (DataGridViewRow row in dg.Rows)
@@ -5486,10 +5274,87 @@ namespace Generator
                     if (row.Cells["Matched"].Value.ToString().ToUpper().Equals("FALSE"))
                     {
                         row.DefaultCellStyle.BackColor = Color.LightSalmon;
-                    }                    
+                    }
                 }
             }
         }
+
+        #endregion
+
+        private void SyncSubModelPositions()
+        {
+            try
+            {
+                // ** Validations **
+                if (tvSetSubModels.SelectedNode == null) throw new Exception("No Model or SubModel node selected...");               
+                if(dgUnitySubModelPartSummaryTable_Orig.Rows.Count == 0) throw new Exception("Unity SubModel has no parts...");
+
+                // Check whether all parts between the models match
+                //foreach(DataRow row in dgSetSubModelPartSummaryTable_Orig.Rows)
+                //{
+                //    bool matched = (bool)row["Matched"];
+                //    if(matched == false) throw new Exception("Not all parts match...");               
+                //}
+
+                // ** Get variables **
+                string SubSetRef = tvSetSubModels.SelectedNode.Tag.ToString().Split('|')[1];
+                string ModelRef = tvSetSubModels.SelectedNode.Tag.ToString().Split('|')[2];
+                string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']/*/Part";
+                xmlString += "[@IsSubPart='false']";
+
+                // ** Get Set SubModel data **
+                XmlNodeList SetSubModelPartNodeList = currentSetXml.SelectNodes(xmlString);
+
+                // ** Update Set XML **
+                int PartCount = 0;
+                int SubPartCount = 0;
+                int IgnoredPartCount = 0;                
+                for (int a = 0; a < dgSetSubModelPartSummaryTable_Orig.Rows.Count; a++)
+                {
+                    string Set_LDrawRef = (string)dgSetSubModelPartSummaryTable_Orig.Rows[a]["LDraw Ref"];
+                    int Set_LDrawColourID = (int)dgSetSubModelPartSummaryTable_Orig.Rows[a]["LDraw Colour ID"];
+                    bool IsSubPart = (bool)dgSetSubModelPartSummaryTable_Orig.Rows[a]["Is SubPart"];
+                    bool Matched = (bool)dgSetSubModelPartSummaryTable_Orig.Rows[a]["Matched"];
+                    if(Matched == false)
+                    {
+                        IgnoredPartCount += 1;
+                        continue;
+                    }
+                    else
+                    {
+                        if (IsSubPart == false)
+                        {
+                            PartCount += 1;
+                        }
+                        else
+                        {
+                            SubPartCount += 1;
+                        }
+                        string PosX = (string)dgUnitySubModelPartSummaryTable_Orig.Rows[a]["PosX"];
+                        string PosY = (string)dgUnitySubModelPartSummaryTable_Orig.Rows[a]["PosY"];
+                        string PosZ = (string)dgUnitySubModelPartSummaryTable_Orig.Rows[a]["PosZ"];
+                        string RotX = (string)dgUnitySubModelPartSummaryTable_Orig.Rows[a]["RotX"];
+                        string RotY = (string)dgUnitySubModelPartSummaryTable_Orig.Rows[a]["RotY"];
+                        string RotZ = (string)dgUnitySubModelPartSummaryTable_Orig.Rows[a]["RotZ"];
+                        SetSubModelPartNodeList[a].SelectSingleNode("@PosX").InnerXml = PosX;
+                        SetSubModelPartNodeList[a].SelectSingleNode("@PosY").InnerXml = PosY;
+                        SetSubModelPartNodeList[a].SelectSingleNode("@PosZ").InnerXml = PosZ;
+                        SetSubModelPartNodeList[a].SelectSingleNode("@RotX").InnerXml = RotX;
+                        SetSubModelPartNodeList[a].SelectSingleNode("@RotY").InnerXml = RotY;
+                        SetSubModelPartNodeList[a].SelectSingleNode("@RotZ").InnerXml = RotZ;
+                    }
+                }
+
+                // ** Refresh & Tidy Up **
+                RefreshSetSubModels();
+                MessageBox.Show("Successfully updated " + PartCount + " Part(s) and " + SubPartCount + " Sub Part(s). " + IgnoredPartCount + " Part(s) were ignored...");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
 
 
 

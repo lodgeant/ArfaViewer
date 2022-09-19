@@ -64,8 +64,6 @@
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.tsShowMiniFigSet = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsSubModelImportPartPosRot = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
             this.tsAddSet = new System.Windows.Forms.ToolStripMenuItem();
             this.tsAddSubSet = new System.Windows.Forms.ToolStripMenuItem();
             this.tsAddModel = new System.Windows.Forms.ToolStripMenuItem();
@@ -282,29 +280,14 @@
             this.btnPartListRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.btnCompareWithRebrickable = new System.Windows.Forms.ToolStripButton();
-            this.chkShowPages = new System.Windows.Forms.CheckBox();
-            this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
-            this.chkShowElementImages = new System.Windows.Forms.CheckBox();
-            this.chkShowFBXDetails = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.toolStrip17 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tvSetSubModels = new System.Windows.Forms.TreeView();
+            this.toolStrip10 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
-            this.gpUnitySubModelParts = new System.Windows.Forms.GroupBox();
-            this.dgUnitySubModelPartSummary = new System.Windows.Forms.DataGridView();
-            this.statusStrip6 = new System.Windows.Forms.StatusStrip();
-            this.lblUnitySubModelPartCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblUnitySubModelPartSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStrip18 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel42 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox3 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel43 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox4 = new System.Windows.Forms.ToolStripTextBox();
-            this.btnUnitySubModelsRefresh = new System.Windows.Forms.ToolStripButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgSetSubModelPartSummary = new System.Windows.Forms.DataGridView();
             this.statusStrip5 = new System.Windows.Forms.StatusStrip();
@@ -317,11 +300,26 @@
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel41 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tvSetSubModels = new System.Windows.Forms.TreeView();
-            this.toolStrip10 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.gpUnitySubModelParts = new System.Windows.Forms.GroupBox();
+            this.dgUnitySubModelPartSummary = new System.Windows.Forms.DataGridView();
+            this.statusStrip6 = new System.Windows.Forms.StatusStrip();
+            this.lblUnitySubModelPartCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblUnitySubModelPartSummaryItemFilteredCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStrip18 = new System.Windows.Forms.ToolStrip();
+            this.btnSyncSubModelPositions = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel42 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox3 = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripLabel43 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox4 = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStrip17 = new System.Windows.Forms.ToolStrip();
+            this.btnUnitySubModelsRefresh = new System.Windows.Forms.ToolStripButton();
+            this.chkShowPages = new System.Windows.Forms.CheckBox();
+            this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
+            this.chkShowElementImages = new System.Windows.Forms.CheckBox();
+            this.chkShowFBXDetails = new System.Windows.Forms.CheckBox();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -387,25 +385,25 @@
             this.statusStrip3.SuspendLayout();
             this.tsPartListHeader.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.toolStrip17.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
             this.splitContainer5.Panel1.SuspendLayout();
             this.splitContainer5.Panel2.SuspendLayout();
             this.splitContainer5.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.toolStrip10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
             this.splitContainer7.Panel1.SuspendLayout();
             this.splitContainer7.Panel2.SuspendLayout();
             this.splitContainer7.SuspendLayout();
-            this.gpUnitySubModelParts.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgUnitySubModelPartSummary)).BeginInit();
-            this.statusStrip6.SuspendLayout();
-            this.toolStrip18.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSetSubModelPartSummary)).BeginInit();
             this.statusStrip5.SuspendLayout();
             this.toolStrip16.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.toolStrip10.SuspendLayout();
+            this.gpUnitySubModelParts.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgUnitySubModelPartSummary)).BeginInit();
+            this.statusStrip6.SuspendLayout();
+            this.toolStrip18.SuspendLayout();
+            this.toolStrip17.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -539,8 +537,6 @@
             this.toolStripSeparator13,
             this.tsShowMiniFigSet,
             this.toolStripSeparator16,
-            this.tsSubModelImportPartPosRot,
-            this.toolStripSeparator20,
             this.tsAddSet,
             this.tsAddSubSet,
             this.tsAddModel,
@@ -548,7 +544,7 @@
             this.tsRecalulatePartList,
             this.tsRecalulateSubSetRefs});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 546);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 518);
             // 
             // tsAddStepToEnd
             // 
@@ -705,19 +701,6 @@
             // 
             this.toolStripSeparator16.Name = "toolStripSeparator16";
             this.toolStripSeparator16.Size = new System.Drawing.Size(237, 6);
-            // 
-            // tsSubModelImportPartPosRot
-            // 
-            this.tsSubModelImportPartPosRot.Image = ((System.Drawing.Image)(resources.GetObject("tsSubModelImportPartPosRot.Image")));
-            this.tsSubModelImportPartPosRot.Name = "tsSubModelImportPartPosRot";
-            this.tsSubModelImportPartPosRot.Size = new System.Drawing.Size(240, 22);
-            this.tsSubModelImportPartPosRot.Text = "Import Part Pos/Rot";
-            this.tsSubModelImportPartPosRot.Click += new System.EventHandler(this.tsSubModelImportPartPosRot_Click);
-            // 
-            // toolStripSeparator20
-            // 
-            this.toolStripSeparator20.Name = "toolStripSeparator20";
-            this.toolStripSeparator20.Size = new System.Drawing.Size(237, 6);
             // 
             // tsAddSet
             // 
@@ -2651,51 +2634,6 @@
             this.btnCompareWithRebrickable.Text = "Compare with Rebrickable";
             this.btnCompareWithRebrickable.Click += new System.EventHandler(this.btnCompareWithRebrickable_Click);
             // 
-            // chkShowPages
-            // 
-            this.chkShowPages.AutoSize = true;
-            this.chkShowPages.Location = new System.Drawing.Point(1569, 12);
-            this.chkShowPages.Name = "chkShowPages";
-            this.chkShowPages.Size = new System.Drawing.Size(86, 17);
-            this.chkShowPages.TabIndex = 76;
-            this.chkShowPages.Text = "Show Pages";
-            this.chkShowPages.UseVisualStyleBackColor = false;
-            this.chkShowPages.CheckedChanged += new System.EventHandler(this.chkShowPages_CheckedChanged);
-            // 
-            // chkShowPartcolourImages
-            // 
-            this.chkShowPartcolourImages.AutoSize = true;
-            this.chkShowPartcolourImages.Checked = true;
-            this.chkShowPartcolourImages.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkShowPartcolourImages.Location = new System.Drawing.Point(1085, 27);
-            this.chkShowPartcolourImages.Name = "chkShowPartcolourImages";
-            this.chkShowPartcolourImages.Size = new System.Drawing.Size(141, 17);
-            this.chkShowPartcolourImages.TabIndex = 110;
-            this.chkShowPartcolourImages.Text = "Show Partcolour Images";
-            this.chkShowPartcolourImages.UseVisualStyleBackColor = false;
-            // 
-            // chkShowElementImages
-            // 
-            this.chkShowElementImages.AutoSize = true;
-            this.chkShowElementImages.Checked = true;
-            this.chkShowElementImages.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkShowElementImages.Location = new System.Drawing.Point(1232, 20);
-            this.chkShowElementImages.Name = "chkShowElementImages";
-            this.chkShowElementImages.Size = new System.Drawing.Size(131, 17);
-            this.chkShowElementImages.TabIndex = 111;
-            this.chkShowElementImages.Text = "Show Element Images";
-            this.chkShowElementImages.UseVisualStyleBackColor = false;
-            // 
-            // chkShowFBXDetails
-            // 
-            this.chkShowFBXDetails.AutoSize = true;
-            this.chkShowFBXDetails.Location = new System.Drawing.Point(1246, 2);
-            this.chkShowFBXDetails.Name = "chkShowFBXDetails";
-            this.chkShowFBXDetails.Size = new System.Drawing.Size(111, 17);
-            this.chkShowFBXDetails.TabIndex = 112;
-            this.chkShowFBXDetails.Text = "Show FBX Details";
-            this.chkShowFBXDetails.UseVisualStyleBackColor = false;
-            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.splitContainer5);
@@ -2706,32 +2644,6 @@
             this.tabPage2.TabIndex = 7;
             this.tabPage2.Text = "Unity SubModels";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // toolStrip17
-            // 
-            this.toolStrip17.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnUnitySubModelsRefresh,
-            this.toolStripSeparator26,
-            this.toolStripButton5});
-            this.toolStrip17.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip17.Name = "toolStrip17";
-            this.toolStrip17.Size = new System.Drawing.Size(1485, 25);
-            this.toolStrip17.TabIndex = 29;
-            this.toolStrip17.Text = "toolStrip17";
-            // 
-            // toolStripButton5
-            // 
-            this.toolStripButton5.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(160, 22);
-            this.toolStripButton5.Text = "Sync SubModel Positions";
-            // 
-            // toolStripSeparator26
-            // 
-            this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(6, 25);
             // 
             // splitContainer5
             // 
@@ -2750,6 +2662,61 @@
             this.splitContainer5.SplitterDistance = 376;
             this.splitContainer5.TabIndex = 30;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tvSetSubModels);
+            this.groupBox1.Controls.Add(this.toolStrip10);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(376, 651);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Set SubModels";
+            // 
+            // tvSetSubModels
+            // 
+            this.tvSetSubModels.ContextMenuStrip = this.contextMenuStrip1;
+            this.tvSetSubModels.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvSetSubModels.HideSelection = false;
+            this.tvSetSubModels.ImageIndex = 6;
+            this.tvSetSubModels.ImageList = this.imageList1;
+            this.tvSetSubModels.Location = new System.Drawing.Point(3, 41);
+            this.tvSetSubModels.Name = "tvSetSubModels";
+            this.tvSetSubModels.SelectedImageIndex = 0;
+            this.tvSetSubModels.Size = new System.Drawing.Size(370, 607);
+            this.tvSetSubModels.TabIndex = 85;
+            this.tvSetSubModels.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvSetSubModels_AfterSelect);
+            // 
+            // toolStrip10
+            // 
+            this.toolStrip10.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton2,
+            this.toolStripButton3});
+            this.toolStrip10.Location = new System.Drawing.Point(3, 16);
+            this.toolStrip10.Name = "toolStrip10";
+            this.toolStrip10.Size = new System.Drawing.Size(370, 25);
+            this.toolStrip10.TabIndex = 28;
+            this.toolStrip10.Text = "toolStrip10";
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.BackColor = System.Drawing.Color.Pink;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton2.ToolTipText = "Collapse";
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.BackColor = System.Drawing.Color.Pink;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton3.ToolTipText = "Expand All";
+            // 
             // splitContainer7
             // 
             this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2767,119 +2734,6 @@
             this.splitContainer7.Size = new System.Drawing.Size(1105, 651);
             this.splitContainer7.SplitterDistance = 297;
             this.splitContainer7.TabIndex = 0;
-            // 
-            // gpUnitySubModelParts
-            // 
-            this.gpUnitySubModelParts.Controls.Add(this.dgUnitySubModelPartSummary);
-            this.gpUnitySubModelParts.Controls.Add(this.statusStrip6);
-            this.gpUnitySubModelParts.Controls.Add(this.toolStrip18);
-            this.gpUnitySubModelParts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gpUnitySubModelParts.Location = new System.Drawing.Point(0, 0);
-            this.gpUnitySubModelParts.Name = "gpUnitySubModelParts";
-            this.gpUnitySubModelParts.Size = new System.Drawing.Size(1105, 350);
-            this.gpUnitySubModelParts.TabIndex = 4;
-            this.gpUnitySubModelParts.TabStop = false;
-            this.gpUnitySubModelParts.Text = "Unity SubModel Parts";
-            // 
-            // dgUnitySubModelPartSummary
-            // 
-            this.dgUnitySubModelPartSummary.BackgroundColor = System.Drawing.Color.White;
-            this.dgUnitySubModelPartSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgUnitySubModelPartSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgUnitySubModelPartSummary.Location = new System.Drawing.Point(3, 41);
-            this.dgUnitySubModelPartSummary.Name = "dgUnitySubModelPartSummary";
-            this.dgUnitySubModelPartSummary.Size = new System.Drawing.Size(1099, 284);
-            this.dgUnitySubModelPartSummary.TabIndex = 78;
-            // 
-            // statusStrip6
-            // 
-            this.statusStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblUnitySubModelPartCount,
-            this.lblUnitySubModelPartSummaryItemFilteredCount});
-            this.statusStrip6.Location = new System.Drawing.Point(3, 325);
-            this.statusStrip6.Name = "statusStrip6";
-            this.statusStrip6.Size = new System.Drawing.Size(1099, 22);
-            this.statusStrip6.TabIndex = 68;
-            this.statusStrip6.Text = "statusStrip2";
-            // 
-            // lblUnitySubModelPartCount
-            // 
-            this.lblUnitySubModelPartCount.Name = "lblUnitySubModelPartCount";
-            this.lblUnitySubModelPartCount.Size = new System.Drawing.Size(156, 17);
-            this.lblUnitySubModelPartCount.Text = "lblUnitySubModelPartCount";
-            // 
-            // lblUnitySubModelPartSummaryItemFilteredCount
-            // 
-            this.lblUnitySubModelPartSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblUnitySubModelPartSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
-            this.lblUnitySubModelPartSummaryItemFilteredCount.Name = "lblUnitySubModelPartSummaryItemFilteredCount";
-            this.lblUnitySubModelPartSummaryItemFilteredCount.Size = new System.Drawing.Size(285, 17);
-            this.lblUnitySubModelPartSummaryItemFilteredCount.Text = "lblUnitySubModelPartSummaryItemFilteredCount";
-            // 
-            // toolStrip18
-            // 
-            this.toolStrip18.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton6,
-            this.toolStripSeparator28,
-            this.toolStripLabel42,
-            this.toolStripTextBox3,
-            this.toolStripLabel43,
-            this.toolStripTextBox4});
-            this.toolStrip18.Location = new System.Drawing.Point(3, 16);
-            this.toolStrip18.Name = "toolStrip18";
-            this.toolStrip18.Size = new System.Drawing.Size(1099, 25);
-            this.toolStrip18.TabIndex = 28;
-            this.toolStrip18.Text = "toolStrip4";
-            // 
-            // toolStripButton6
-            // 
-            this.toolStripButton6.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(124, 22);
-            this.toolStripButton6.Text = "Copy to Clipboard";
-            // 
-            // toolStripSeparator28
-            // 
-            this.toolStripSeparator28.Name = "toolStripSeparator28";
-            this.toolStripSeparator28.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel42
-            // 
-            this.toolStripLabel42.Name = "toolStripLabel42";
-            this.toolStripLabel42.Size = new System.Drawing.Size(63, 22);
-            this.toolStripLabel42.Text = "LDraw Ref:";
-            // 
-            // toolStripTextBox3
-            // 
-            this.toolStripTextBox3.BackColor = System.Drawing.Color.Wheat;
-            this.toolStripTextBox3.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox3.Name = "toolStripTextBox3";
-            this.toolStripTextBox3.Size = new System.Drawing.Size(100, 25);
-            // 
-            // toolStripLabel43
-            // 
-            this.toolStripLabel43.Name = "toolStripLabel43";
-            this.toolStripLabel43.Size = new System.Drawing.Size(117, 22);
-            this.toolStripLabel43.Text = "LDraw Colour Name:";
-            // 
-            // toolStripTextBox4
-            // 
-            this.toolStripTextBox4.BackColor = System.Drawing.Color.Wheat;
-            this.toolStripTextBox4.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox4.Name = "toolStripTextBox4";
-            this.toolStripTextBox4.Size = new System.Drawing.Size(125, 25);
-            // 
-            // btnUnitySubModelsRefresh
-            // 
-            this.btnUnitySubModelsRefresh.BackColor = System.Drawing.Color.Yellow;
-            this.btnUnitySubModelsRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnUnitySubModelsRefresh.Image")));
-            this.btnUnitySubModelsRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnUnitySubModelsRefresh.Name = "btnUnitySubModelsRefresh";
-            this.btnUnitySubModelsRefresh.Size = new System.Drawing.Size(66, 22);
-            this.btnUnitySubModelsRefresh.Text = "Refresh";
-            this.btnUnitySubModelsRefresh.Click += new System.EventHandler(this.btnUnitySubModelsRefresh_Click);
             // 
             // groupBox2
             // 
@@ -2984,60 +2838,188 @@
             this.toolStripTextBox2.Name = "toolStripTextBox2";
             this.toolStripTextBox2.Size = new System.Drawing.Size(125, 25);
             // 
-            // groupBox1
+            // gpUnitySubModelParts
             // 
-            this.groupBox1.Controls.Add(this.tvSetSubModels);
-            this.groupBox1.Controls.Add(this.toolStrip10);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(376, 651);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Set SubModels";
+            this.gpUnitySubModelParts.Controls.Add(this.dgUnitySubModelPartSummary);
+            this.gpUnitySubModelParts.Controls.Add(this.statusStrip6);
+            this.gpUnitySubModelParts.Controls.Add(this.toolStrip18);
+            this.gpUnitySubModelParts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpUnitySubModelParts.Location = new System.Drawing.Point(0, 0);
+            this.gpUnitySubModelParts.Name = "gpUnitySubModelParts";
+            this.gpUnitySubModelParts.Size = new System.Drawing.Size(1105, 350);
+            this.gpUnitySubModelParts.TabIndex = 4;
+            this.gpUnitySubModelParts.TabStop = false;
+            this.gpUnitySubModelParts.Text = "Unity SubModel Parts";
             // 
-            // tvSetSubModels
+            // dgUnitySubModelPartSummary
             // 
-            this.tvSetSubModels.ContextMenuStrip = this.contextMenuStrip1;
-            this.tvSetSubModels.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tvSetSubModels.HideSelection = false;
-            this.tvSetSubModels.ImageIndex = 6;
-            this.tvSetSubModels.ImageList = this.imageList1;
-            this.tvSetSubModels.Location = new System.Drawing.Point(3, 41);
-            this.tvSetSubModels.Name = "tvSetSubModels";
-            this.tvSetSubModels.SelectedImageIndex = 0;
-            this.tvSetSubModels.Size = new System.Drawing.Size(370, 607);
-            this.tvSetSubModels.TabIndex = 85;
-            this.tvSetSubModels.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvSetSubModels_AfterSelect);
+            this.dgUnitySubModelPartSummary.BackgroundColor = System.Drawing.Color.White;
+            this.dgUnitySubModelPartSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgUnitySubModelPartSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgUnitySubModelPartSummary.Location = new System.Drawing.Point(3, 41);
+            this.dgUnitySubModelPartSummary.Name = "dgUnitySubModelPartSummary";
+            this.dgUnitySubModelPartSummary.Size = new System.Drawing.Size(1099, 284);
+            this.dgUnitySubModelPartSummary.TabIndex = 78;
             // 
-            // toolStrip10
+            // statusStrip6
             // 
-            this.toolStrip10.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton2,
-            this.toolStripButton3});
-            this.toolStrip10.Location = new System.Drawing.Point(3, 16);
-            this.toolStrip10.Name = "toolStrip10";
-            this.toolStrip10.Size = new System.Drawing.Size(370, 25);
-            this.toolStrip10.TabIndex = 28;
-            this.toolStrip10.Text = "toolStrip10";
+            this.statusStrip6.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblUnitySubModelPartCount,
+            this.lblUnitySubModelPartSummaryItemFilteredCount});
+            this.statusStrip6.Location = new System.Drawing.Point(3, 325);
+            this.statusStrip6.Name = "statusStrip6";
+            this.statusStrip6.Size = new System.Drawing.Size(1099, 22);
+            this.statusStrip6.TabIndex = 68;
+            this.statusStrip6.Text = "statusStrip2";
             // 
-            // toolStripButton2
+            // lblUnitySubModelPartCount
             // 
-            this.toolStripButton2.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.ToolTipText = "Collapse";
+            this.lblUnitySubModelPartCount.Name = "lblUnitySubModelPartCount";
+            this.lblUnitySubModelPartCount.Size = new System.Drawing.Size(156, 17);
+            this.lblUnitySubModelPartCount.Text = "lblUnitySubModelPartCount";
             // 
-            // toolStripButton3
+            // lblUnitySubModelPartSummaryItemFilteredCount
             // 
-            this.toolStripButton3.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton3.ToolTipText = "Expand All";
+            this.lblUnitySubModelPartSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblUnitySubModelPartSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
+            this.lblUnitySubModelPartSummaryItemFilteredCount.Name = "lblUnitySubModelPartSummaryItemFilteredCount";
+            this.lblUnitySubModelPartSummaryItemFilteredCount.Size = new System.Drawing.Size(285, 17);
+            this.lblUnitySubModelPartSummaryItemFilteredCount.Text = "lblUnitySubModelPartSummaryItemFilteredCount";
+            // 
+            // toolStrip18
+            // 
+            this.toolStrip18.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnSyncSubModelPositions,
+            this.toolStripSeparator18,
+            this.toolStripButton6,
+            this.toolStripSeparator28,
+            this.toolStripLabel42,
+            this.toolStripTextBox3,
+            this.toolStripLabel43,
+            this.toolStripTextBox4});
+            this.toolStrip18.Location = new System.Drawing.Point(3, 16);
+            this.toolStrip18.Name = "toolStrip18";
+            this.toolStrip18.Size = new System.Drawing.Size(1099, 25);
+            this.toolStrip18.TabIndex = 28;
+            this.toolStrip18.Text = "toolStrip4";
+            // 
+            // btnSyncSubModelPositions
+            // 
+            this.btnSyncSubModelPositions.Image = ((System.Drawing.Image)(resources.GetObject("btnSyncSubModelPositions.Image")));
+            this.btnSyncSubModelPositions.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSyncSubModelPositions.Name = "btnSyncSubModelPositions";
+            this.btnSyncSubModelPositions.Size = new System.Drawing.Size(160, 22);
+            this.btnSyncSubModelPositions.Text = "Sync SubModel Positions";
+            this.btnSyncSubModelPositions.Click += new System.EventHandler(this.btnSyncSubModelPositions_Click);
+            // 
+            // toolStripSeparator18
+            // 
+            this.toolStripSeparator18.Name = "toolStripSeparator18";
+            this.toolStripSeparator18.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton6
+            // 
+            this.toolStripButton6.BackColor = System.Drawing.Color.Pink;
+            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
+            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton6.Name = "toolStripButton6";
+            this.toolStripButton6.Size = new System.Drawing.Size(124, 22);
+            this.toolStripButton6.Text = "Copy to Clipboard";
+            // 
+            // toolStripSeparator28
+            // 
+            this.toolStripSeparator28.Name = "toolStripSeparator28";
+            this.toolStripSeparator28.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel42
+            // 
+            this.toolStripLabel42.Name = "toolStripLabel42";
+            this.toolStripLabel42.Size = new System.Drawing.Size(63, 22);
+            this.toolStripLabel42.Text = "LDraw Ref:";
+            // 
+            // toolStripTextBox3
+            // 
+            this.toolStripTextBox3.BackColor = System.Drawing.Color.Wheat;
+            this.toolStripTextBox3.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripTextBox3.Name = "toolStripTextBox3";
+            this.toolStripTextBox3.Size = new System.Drawing.Size(100, 25);
+            // 
+            // toolStripLabel43
+            // 
+            this.toolStripLabel43.Name = "toolStripLabel43";
+            this.toolStripLabel43.Size = new System.Drawing.Size(117, 22);
+            this.toolStripLabel43.Text = "LDraw Colour Name:";
+            // 
+            // toolStripTextBox4
+            // 
+            this.toolStripTextBox4.BackColor = System.Drawing.Color.Wheat;
+            this.toolStripTextBox4.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripTextBox4.Name = "toolStripTextBox4";
+            this.toolStripTextBox4.Size = new System.Drawing.Size(125, 25);
+            // 
+            // toolStrip17
+            // 
+            this.toolStrip17.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnUnitySubModelsRefresh});
+            this.toolStrip17.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip17.Name = "toolStrip17";
+            this.toolStrip17.Size = new System.Drawing.Size(1485, 25);
+            this.toolStrip17.TabIndex = 29;
+            this.toolStrip17.Text = "toolStrip17";
+            // 
+            // btnUnitySubModelsRefresh
+            // 
+            this.btnUnitySubModelsRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnUnitySubModelsRefresh.Image")));
+            this.btnUnitySubModelsRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUnitySubModelsRefresh.Name = "btnUnitySubModelsRefresh";
+            this.btnUnitySubModelsRefresh.Size = new System.Drawing.Size(66, 22);
+            this.btnUnitySubModelsRefresh.Text = "Refresh";
+            this.btnUnitySubModelsRefresh.Click += new System.EventHandler(this.btnUnitySubModelsRefresh_Click);
+            // 
+            // chkShowPages
+            // 
+            this.chkShowPages.AutoSize = true;
+            this.chkShowPages.Location = new System.Drawing.Point(1569, 12);
+            this.chkShowPages.Name = "chkShowPages";
+            this.chkShowPages.Size = new System.Drawing.Size(86, 17);
+            this.chkShowPages.TabIndex = 76;
+            this.chkShowPages.Text = "Show Pages";
+            this.chkShowPages.UseVisualStyleBackColor = false;
+            this.chkShowPages.CheckedChanged += new System.EventHandler(this.chkShowPages_CheckedChanged);
+            // 
+            // chkShowPartcolourImages
+            // 
+            this.chkShowPartcolourImages.AutoSize = true;
+            this.chkShowPartcolourImages.Checked = true;
+            this.chkShowPartcolourImages.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowPartcolourImages.Location = new System.Drawing.Point(1085, 27);
+            this.chkShowPartcolourImages.Name = "chkShowPartcolourImages";
+            this.chkShowPartcolourImages.Size = new System.Drawing.Size(141, 17);
+            this.chkShowPartcolourImages.TabIndex = 110;
+            this.chkShowPartcolourImages.Text = "Show Partcolour Images";
+            this.chkShowPartcolourImages.UseVisualStyleBackColor = false;
+            // 
+            // chkShowElementImages
+            // 
+            this.chkShowElementImages.AutoSize = true;
+            this.chkShowElementImages.Checked = true;
+            this.chkShowElementImages.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowElementImages.Location = new System.Drawing.Point(1232, 20);
+            this.chkShowElementImages.Name = "chkShowElementImages";
+            this.chkShowElementImages.Size = new System.Drawing.Size(131, 17);
+            this.chkShowElementImages.TabIndex = 111;
+            this.chkShowElementImages.Text = "Show Element Images";
+            this.chkShowElementImages.UseVisualStyleBackColor = false;
+            // 
+            // chkShowFBXDetails
+            // 
+            this.chkShowFBXDetails.AutoSize = true;
+            this.chkShowFBXDetails.Location = new System.Drawing.Point(1246, 2);
+            this.chkShowFBXDetails.Name = "chkShowFBXDetails";
+            this.chkShowFBXDetails.Size = new System.Drawing.Size(111, 17);
+            this.chkShowFBXDetails.TabIndex = 112;
+            this.chkShowFBXDetails.Text = "Show FBX Details";
+            this.chkShowFBXDetails.UseVisualStyleBackColor = false;
             // 
             // InstructionViewer
             // 
@@ -3159,23 +3141,18 @@
             this.tsPartListHeader.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            this.toolStrip17.ResumeLayout(false);
-            this.toolStrip17.PerformLayout();
             this.splitContainer5.Panel1.ResumeLayout(false);
             this.splitContainer5.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
             this.splitContainer5.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.toolStrip10.ResumeLayout(false);
+            this.toolStrip10.PerformLayout();
             this.splitContainer7.Panel1.ResumeLayout(false);
             this.splitContainer7.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
             this.splitContainer7.ResumeLayout(false);
-            this.gpUnitySubModelParts.ResumeLayout(false);
-            this.gpUnitySubModelParts.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgUnitySubModelPartSummary)).EndInit();
-            this.statusStrip6.ResumeLayout(false);
-            this.statusStrip6.PerformLayout();
-            this.toolStrip18.ResumeLayout(false);
-            this.toolStrip18.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSetSubModelPartSummary)).EndInit();
@@ -3183,10 +3160,15 @@
             this.statusStrip5.PerformLayout();
             this.toolStrip16.ResumeLayout(false);
             this.toolStrip16.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.toolStrip10.ResumeLayout(false);
-            this.toolStrip10.PerformLayout();
+            this.gpUnitySubModelParts.ResumeLayout(false);
+            this.gpUnitySubModelParts.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgUnitySubModelPartSummary)).EndInit();
+            this.statusStrip6.ResumeLayout(false);
+            this.statusStrip6.PerformLayout();
+            this.toolStrip18.ResumeLayout(false);
+            this.toolStrip18.PerformLayout();
+            this.toolStrip17.ResumeLayout(false);
+            this.toolStrip17.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3367,7 +3349,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsSubModelDuplicateToEnd;
         private System.Windows.Forms.ToolStripMenuItem tsSubModelDuplicateToBefore;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
-        private System.Windows.Forms.ToolStripMenuItem tsSubModelImportPartPosRot;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
         private System.Windows.Forms.ToolStripLabel toolStripLabel37;
         private System.Windows.Forms.ToolStripTextBox fldModelRotX;
@@ -3386,7 +3367,6 @@
         private System.Windows.Forms.ToolStripTextBox fldLDrawSize;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
         private System.Windows.Forms.ToolStripButton btnGenerateDatFile;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
         private System.Windows.Forms.ToolStripMenuItem tsAddSet;
         private System.Windows.Forms.ToolStripMenuItem tsAddSubSet;
         private System.Windows.Forms.ToolStripMenuItem tsAddModel;
@@ -3452,8 +3432,6 @@
         private System.Windows.Forms.ToolStripStatusLabel lblPartListStatus;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ToolStrip toolStrip17;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
         private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.SplitContainer splitContainer7;
         private System.Windows.Forms.GroupBox gpUnitySubModelParts;
@@ -3486,6 +3464,8 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel41;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox2;
+        private System.Windows.Forms.ToolStripButton btnSyncSubModelPositions;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
     }
 }
 
