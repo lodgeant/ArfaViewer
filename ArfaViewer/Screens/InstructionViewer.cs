@@ -85,14 +85,14 @@ namespace Generator
                 #region ** ADD MAIN HEADER LINE TOOLSTRIP ITEMS **
                 toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
                                 btnExit,
-                                toolStripSeparator1,
-                                toolStripSeparator2,
+                                toolStripSeparator1,                                
                                 lblSetRef,
                                 fldCurrentSetRef,
                                 btnLoadSet,
                                 btnSaveSet,                                                                                         
                                 new ToolStripControlHost(chkShowSubParts),
-                                new ToolStripControlHost(chkShowPages),                                
+                                new ToolStripControlHost(chkShowPages),
+                                toolStripSeparator2,
                                 btnOpenSetURLs,
                                 btnOpenSetInstructions,
                                 toolStripSeparator22,

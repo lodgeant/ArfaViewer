@@ -499,6 +499,11 @@ namespace Generator
             SetInstructions_Delete();
         }
 
+        private void fldSetInstructionsRefAc_TextChanged(object sender, EventArgs e)
+        {
+            ProcessSetInstructionsSummaryFilter();
+        }
+
         #endregion
 
         #region ** SCINTILLA FUNCTIONS **
@@ -2151,6 +2156,58 @@ namespace Generator
             }
         }
 
+        private void ProcessSetInstructionsSummaryFilter()
+        {
+            try
+            {
+                if (dgSetInstructionsSummaryTable_Orig.Rows.Count > 0)
+                {
+                    // ** Reset summaey screen **
+                    lblSetInstructionsSummaryItemFilteredCount.Text = "";
+                    Delegates.DataGridView_SetDataSource(this, dgSetInstructionsSummary, dgSetInstructionsSummaryTable_Orig);
+                    AdjustSetInstructionsSummaryRowFormatting(dgSetInstructionsSummary);
+
+                    // ** Determine what filters have been applied **
+                    if (fldSetInstructionsRefAc.Text != "")
+                    {
+                        List<DataRow> filteredRows = dgSetInstructionsSummaryTable_Orig.AsEnumerable().CopyToDataTable().AsEnumerable().ToList();
+
+                        #region ** Apply filtering for Ref **
+                        if (filteredRows.Count > 0)
+                        {
+                            //if (chkFilesUnityFbxFilenameAcEquals.Checked)
+                            //{
+                            //    filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                            //                                .Where(row => row.Field<string>("Ref").ToUpper().Equals(fldSetInstructionsRefAc.Text.ToUpper()))
+                            //                                .ToList();
+                            //}
+                            //else
+                            {
+                                filteredRows = filteredRows.CopyToDataTable().AsEnumerable()
+                                                            .Where(row => row.Field<string>("Ref").ToUpper().Contains(fldSetInstructionsRefAc.Text.ToUpper()))
+                                                            .ToList();
+                            }
+                        }
+                        #endregion
+
+                        #region ** Apply filters **
+                        Delegates.DataGridView_SetDataSource(this, dgSetInstructionsSummary, null);
+                        if (filteredRows.Count > 0)
+                        {
+                            Delegates.DataGridView_SetDataSource(this, dgSetInstructionsSummary, filteredRows.CopyToDataTable());
+                            AdjustSetInstructionsSummaryRowFormatting(dgSetInstructionsSummary);
+                        }
+                        lblSetInstructionsSummaryItemFilteredCount.Text = filteredRows.Count + " filtered item(s)";
+                        #endregion
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         #endregion
 
         #region ** BASEPART FUNCTIONS **
@@ -2814,11 +2871,6 @@ namespace Generator
             }
         }
 
-
-
-
-
-        
        
     }
 }
