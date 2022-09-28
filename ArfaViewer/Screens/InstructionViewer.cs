@@ -1194,7 +1194,7 @@ namespace Generator
                     // ** Populate Summary Treeview with data **
                     watch.Reset(); watch.Start();
                     Delegates.ToolStripLabel_SetText(this, lblStatus, "Refreshing - Generating Treeview...");
-                    Delegates.TreeView_AddNodes(this, tvSetSummary, Set.GetSetTreeViewFromSetXML(currentSetXml, false, true, true, true));
+                    Delegates.TreeView_AddNodes(this, tvSetSummary, Set.GetSetTreeViewFromSetXML(currentSetXml, chkShowPages.Checked, true, true, true));
                     watch.Stop(); perfLog += "Populate Summary Treeview with data:\t" + watch.ElapsedMilliseconds + "ms" + Environment.NewLine;
 
                     // ** Update Set XML areas **

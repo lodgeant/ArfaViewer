@@ -184,19 +184,16 @@ namespace BaseClasses
                             string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
                             //string parentSubModelRef = xmlNode.SelectSingleNode("parent::SubModel/@Ref").InnerXml;
 
-                            String StepBook = "";
-                            String StepPage = "";
-                            String extraString = "";
+                            string StepBook = "";
+                            string StepPage = "";
+                            string extraString = "";
                             if (showPages)
                             {
                                 if (xmlNode.SelectSingleNode("@StepBook") != null)
                                 {
                                     StepBook = xmlNode.SelectSingleNode("@StepBook").InnerXml;
                                     StepPage = xmlNode.SelectSingleNode("@StepPage").InnerXml;
-                                    if (StepBook != "0" && StepPage != "0")
-                                    {
-                                        extraString = " [b" + StepBook + ".p" + StepPage + "]";
-                                    }
+                                    if (StepBook != "0" && StepPage != "0") extraString = " [b" + StepBook + ".p" + StepPage + "]";                                    
                                 }
                             }                            
                             treeNode = new TreeNode() { Text = PureStepNo + extraString, Tag = nodeType + "|" + parentSubSetRef + "|" + parentModelRef + "|" + PureStepNo, ImageIndex = 4, SelectedImageIndex = 4 };
@@ -210,7 +207,7 @@ namespace BaseClasses
                         if (showParts)
                         {
                             string LDrawRef = xmlNode.SelectSingleNode("@LDrawRef").InnerXml;
-                            String LDrawColourID = xmlNode.SelectSingleNode("@LDrawColourID").InnerXml;
+                            string LDrawColourID = xmlNode.SelectSingleNode("@LDrawColourID").InnerXml;
                             string parentSubSetRef = xmlNode.SelectSingleNode("ancestor::SubSet/@Ref").InnerXml;
                             string parentModelRef = xmlNode.SelectSingleNode("ancestor::SubModel[@SubModelLevel=1]/@Ref").InnerXml;
                             string parentPureStepNo = xmlNode.SelectSingleNode("ancestor::Step/@PureStepNo").InnerXml;
