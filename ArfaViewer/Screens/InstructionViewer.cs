@@ -65,8 +65,8 @@ namespace Generator
                     dgv.MultiSelect = true;
                     dgv.CellBorderStyle = DataGridViewCellBorderStyle.None;
                     dgv.EnableHeadersVisualStyles = false;
-                    //dgv.SelectionMode = DataGridViewSelectionMode.CellSelect;
-                    dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    dgv.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                    //dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                     dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
                     dgv.ColumnHeadersHeight = 30;
                 }
@@ -178,7 +178,7 @@ namespace Generator
                 //fldCurrentSetRef.Text = "621-2";
                 //fldCurrentSetRef.Text = "41621-1";
                 //fldCurrentSetRef.Text = "TEST-1";
-                //fldCurrentSetRef.Text = "7305-1";
+                fldCurrentSetRef.Text = "7305-1";
 
             }
             catch (Exception ex)
@@ -1761,6 +1761,7 @@ namespace Generator
                 gpModel.Enabled = false;
                 gpStep.Enabled = false;
                 gbPartDetails.Enabled = false;
+                ClearPartSummaryFields();
 
                 // ** Update treeview node highlighting **
                 if (lastSelectedNode != null)
@@ -3674,7 +3675,7 @@ namespace Generator
 
         #endregion
 
-        #region ** PART SUMMARY FUNCTIONS **
+        #region ** PART SUMMARY FUNCTIONS CLICK **
 
         private void Handle_dgPartSummary_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -3682,38 +3683,40 @@ namespace Generator
             {
                 if (e.ColumnIndex == 0 || e.ColumnIndex == 4)
                 {
-                    Bitmap image = (Bitmap)dgPartSummary.SelectedRows[0].Cells[e.ColumnIndex].Value;
+                    //Bitmap image = (Bitmap)dgPartSummary.SelectedRows[0].Cells[e.ColumnIndex].Value;                   
+                    Bitmap image = (Bitmap)dgPartSummary.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                     PartViewer.image = image;
                     PartViewer form = new PartViewer();
                     form.Visible = true;
                 }
                 else
-                {
+                {                   
                     // ** Get variables **
-                    string pureStepNo = fldPureStepNo.Text;
-                    string parentSubSetRef = fldStepParentSubSetRef.Text;
-                    string parentSubModelRef = fldStepParentModelRef.Text;
+                    //string pureStepNo = fldPureStepNo.Text;
+                    //string pureStepNo = dgPartSummary.Rows[e.RowIndex].Cells["Step No"].Value.ToString();
+                    //string parentSubSetRef = fldStepParentSubSetRef.Text;
+                    //string parentSubModelRef = fldStepParentModelRef.Text;
+                    string PartSubSetRef = (string)dgPartSummary.Rows[e.RowIndex].Cells["SubSet Ref"].Value;
 
                     // ** Get Part Xml node **                
-                    string xmlString = "";
-                    if (chkShowSubParts.Checked)
-                    {
-                        xmlString = "(//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']//Part)[" + (e.RowIndex + 1) + "]";
-                    }
-                    else
-                    {
-                        xmlString = "(//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']/./Part)[" + (e.RowIndex + 1) + "]";
-                    }
-                    XmlNode partNode = fullSetXml.SelectSingleNode(xmlString);
+                    //string xmlString = "";
+                    //if (chkShowSubParts.Checked)
+                    //{
+                    //    xmlString = "(//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']//Part)[" + (e.RowIndex + 1) + "]";                        
+                    //}
+                    //else
+                    //{
+                    //    //xmlString = "(//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']/./Part)[" + (e.RowIndex + 1) + "]";
+                    //    //xmlString = "(//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Part)[@SubSetRef='" + PartSubSetRef + "']";
+                    //    xmlString = "//Part[@SubSetRef='" + PartSubSetRef + "']";
+                    //}
+                    string xmlString = "//Part[@SubSetRef='" + PartSubSetRef + "']";
+                    XmlNode partNode = fullSetXml.SelectSingleNode(xmlString);                    
                     if (partNode != null)
                     {
-                        // ** Update UI based on whether part is Sub Part or not **
-                        //bool IsSubPart = bool.Parse(partNode.SelectSingleNode("@IsSubPart").InnerXml);
+                        // ** Update UI based on whether part is Sub Part or not **                        
                         bool IsSubPart = false;
-                        if (partNode.SelectSingleNode("@IsSubPart") != null)
-                        {
-                            IsSubPart = bool.Parse(partNode.SelectSingleNode("@IsSubPart").InnerXml);
-                        }
+                        if (partNode.SelectSingleNode("@IsSubPart") != null) IsSubPart = bool.Parse(partNode.SelectSingleNode("@IsSubPart").InnerXml);                       
                         bool IsMiniFig = false;
                         if (partNode.SelectSingleNode("@IsMiniFig") != null) IsMiniFig = bool.Parse(partNode.SelectSingleNode("@IsMiniFig").InnerXml);
                         if (IsSubPart || IsMiniFig)
@@ -3730,8 +3733,7 @@ namespace Generator
                         }
 
                         // ** Post variables **
-                        fldLDrawRef.Text = partNode.SelectSingleNode("@LDrawRef").InnerXml;
-                        fldLDrawRef_Leave(null, null);
+                        fldLDrawRef.Text = partNode.SelectSingleNode("@LDrawRef").InnerXml;                       
                         fldLDrawColourID.Text = partNode.SelectSingleNode("@LDrawColourID").InnerXml;
 
                         // ** Get Placement Movements **
@@ -3746,9 +3748,6 @@ namespace Generator
                         }
                         fldPlacementMovements.Text = placementMovementString;
 
-                        // ** trigger LDraw Colour ID field lookup **
-                        ProcessLDrawColourID_Leave();
-
                         // ** Post Part Positions & Rotations **
                         fldPartPosX.Text = partNode.SelectSingleNode("@PosX").InnerXml;
                         fldPartPosY.Text = partNode.SelectSingleNode("@PosY").InnerXml;
@@ -3761,6 +3760,10 @@ namespace Generator
                         string LDrawRef = partNode.SelectSingleNode("@LDrawRef").InnerXml;                        
                         int LDrawSize = StaticData.GetLDrawSize(LDrawRef);                        
                         if (LDrawSize > 0) fldLDrawSize.Text = LDrawSize.ToString();
+
+                        // ** Trigger leave functions **                        
+                        ProcessLDrawRef_Leave();
+                        ProcessLDrawColourID_Leave();
                     }
                 }
             }
@@ -4236,8 +4239,7 @@ namespace Generator
                     Part newPart = new Part();
                     newPart.LDrawRef = LDrawRef;
                     newPart.LDrawColourID = LDrawColourID;
-                    newPart.SubSetRef = parentSubSetRef + "|" + SubSetIndex;
-                    //newPart.UnityRef = "";
+                    newPart.SubSetRef = parentSubSetRef + "|" + SubSetIndex;                    
                     newPart.state = Part.PartState.NOT_COMPLETED;
 
                     // ** Add PlacementMovements to Part **
@@ -4254,18 +4256,14 @@ namespace Generator
                     #endregion
 
                     #region ** ADD SUB PARTS TO NEW PART **
-                    //CompositePartCollection coll = StaticData.GetCompositePartData_UsingParentLDrawRefList(LDrawRef);
                     SubPartMappingCollection coll = StaticData.GetSubPartMappingData_UsingParentLDrawRef(LDrawRef);
                     foreach (SubPartMapping compPart in coll.SubPartMappingList)
-                    //foreach (CompositePart compPart in coll.CompositePartList)
                     {
                         // ** Generate subPart and add to SubPartList **
                         Part subPart = new Part();
-                        //subPart.LDrawRef = compPart.LDrawRef;
                         subPart.LDrawRef = compPart.SubPartLDrawRef;
                         subPart.LDrawColourID = compPart.LDrawColourID;
-                        subPart.SubSetRef = parentSubSetRef + "|" + SubSetIndex;    //TODO: Check whether this data is even used? This is data is used but the value doesn't seem to be populated correctly for Sub Parts.
-                        //subPart.UnityRef = "";
+                        subPart.SubSetRef = parentSubSetRef + "|" + SubSetIndex;
                         subPart.state = Part.PartState.NOT_COMPLETED;
                         subPart.IsSubPart = true;
                         subPart.PosX = compPart.PosX;
@@ -4293,10 +4291,8 @@ namespace Generator
                 // ** Update PartList **                
                 RecalculatePartList(currentSetXml);
 
-                // ** CLEAR ALL Part Summary FIELDS **
+                // ** CLEAR UP **
                 ClearPartSummaryFields();
-
-                // ** Refresh screen **
                 RefreshScreen();
             }
             catch (Exception ex)
@@ -4310,19 +4306,19 @@ namespace Generator
             try
             {
                 #region ** VALIDATION CHECKS **               
-                if (currentSetXml == null) throw new Exception("No Set active...");               
-                if (fldPureStepNo.Text.Equals("")) throw new Exception("No Step selected");                
-                if (fldLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");               
-                if (fldLDrawColourID.Text.Equals("")) throw new Exception("No LDraw Colour ID entered...");               
+                if (currentSetXml == null) throw new Exception("No Set active...");
+                if (fldPureStepNo.Text.Equals("")) throw new Exception("No Step selected");
+                if (fldLDrawRef.Text.Equals("")) throw new Exception("No LDraw Ref entered...");
+                if (fldLDrawColourID.Text.Equals("")) throw new Exception("No LDraw Colour ID entered...");
                 if (fldPlacementMovements.Text.Equals("")) throw new Exception("No Placement Movement(s) entered...");
                 string LDrawRef = fldLDrawRef.Text;
                 int LDrawColourID = int.Parse(fldLDrawColourID.Text);
 
                 // ** CHECK IF PART IS IN BASE PART COLLECTION **                
                 if (StaticData.CheckIfBasePartExists(LDrawRef) == false) throw new Exception("Part not found in BasePart Collection");
-                
+
                 // ** IF PART IS COMPOSITE, CHECK WHETHER SUB PARTS HAVE BEEN SET UP **
-                string partType = StaticData.GetPartType(fldLDrawRef.Text);                
+                string partType = StaticData.GetPartType(fldLDrawRef.Text);
                 if (partType.Equals("COMPOSITE") && StaticData.CheckIfSubPartMappingPartsExist(LDrawRef) == false)
                 {
                     throw new Exception("SubParts for Part not found in Composite Part Collection");
@@ -4330,10 +4326,12 @@ namespace Generator
                 #endregion
 
                 // ** GET VARIABLES **
-                string pureStepNo = fldPureStepNo.Text;
-                string parentSubSetRef = fldStepParentSubSetRef.Text;
-                string parentSubModelRef = fldStepParentModelRef.Text;               
-                int nodeIndex = (int)dgPartSummary.SelectedRows[0].Cells["Step Node Index"].Value;
+                //string pureStepNo = fldPureStepNo.Text;
+                //string parentSubSetRef = fldStepParentSubSetRef.Text;
+                //string parentSubModelRef = fldStepParentModelRef.Text;
+                //int nodeIndex = (int)dgPartSummary.SelectedRows[0].Cells["Step Node Index"].Value;
+                //string pureStepNo = dgPartSummary.SelectedCells[0].OwningRow.Cells["Step No"].Value.ToString();
+                string PartSubSetRef = dgPartSummary.SelectedCells[0].OwningRow.Cells["SubSet Ref"].Value.ToString();
                 float posX = 0; if (fldPartPosX.Text != "") posX = float.Parse(fldPartPosX.Text);
                 float posY = 0; if (fldPartPosY.Text != "") posY = float.Parse(fldPartPosY.Text);
                 float posZ = 0; if (fldPartPosZ.Text != "") posZ = float.Parse(fldPartPosZ.Text);
@@ -4342,24 +4340,23 @@ namespace Generator
                 float rotZ = 0; if (fldPartRotZ.Text != "") rotZ = float.Parse(fldPartRotZ.Text);
 
                 // ** GET OLD PART NODE **                
-                string xmlString = "";
-                if (chkShowSubParts.Checked)
-                {
-                    xmlString = "(//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']//Part)[" + nodeIndex + "]";
-                }
-                else
-                {
-                    xmlString = "(//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']/./Part)[" + nodeIndex + "]";
-                }
+                //string xmlString = "";
+                //if (chkShowSubParts.Checked)
+                //{
+                //    xmlString = "(//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']//Part)[" + nodeIndex + "]";
+                //}
+                //else
+                //{
+                //    xmlString = "(//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']/./Part)[" + nodeIndex + "]";
+                //}
+                string xmlString = "//Part[@SubSetRef='" + PartSubSetRef + "']";
                 XmlNode oldNode = currentSetXml.SelectSingleNode(xmlString);
-                //string oldUnityRef = oldNode.SelectSingleNode("@UnityRef").InnerXml;
                 string oldSubSetRef = oldNode.SelectSingleNode("@SubSetRef").InnerXml;
                 
                 #region ** GENERATE NEW PART **
                 Part newPart = new Part();
                 newPart.LDrawRef = LDrawRef;
-                newPart.LDrawColourID = LDrawColourID;
-                //newPart.UnityRef = "";
+                newPart.LDrawColourID = LDrawColourID;                
                 newPart.SubSetRef = oldSubSetRef;
                 newPart.state = Part.PartState.NOT_COMPLETED;
                 newPart.PosX = posX;
@@ -4381,18 +4378,14 @@ namespace Generator
                 newPart.placementMovementList = pmList;
                 #endregion
 
-                #region ** ADD SUB PARTS TO NEW PART **
-                //CompositePartCollection coll = StaticData.GetCompositePartData_UsingParentLDrawRefList(LDrawRef);
-                //foreach (CompositePart compPart in coll.CompositePartList)
+                #region ** ADD SUB PARTS TO NEW PART **               
                 SubPartMappingCollection coll = StaticData.GetSubPartMappingData_UsingParentLDrawRef(LDrawRef);
                 foreach (SubPartMapping compPart in coll.SubPartMappingList)
                 {
                     // ** Generate subPart and add to SubPartList **
-                    Part subPart = new Part();
-                    //subPart.LDrawRef = compPart.LDrawRef;
+                    Part subPart = new Part();                    
                     subPart.LDrawRef = compPart.SubPartLDrawRef;
-                    subPart.LDrawColourID = compPart.LDrawColourID;
-                    //subPart.UnityRef = "";
+                    subPart.LDrawColourID = compPart.LDrawColourID;                    
                     subPart.state = Part.PartState.NOT_COMPLETED;
                     subPart.IsSubPart = true;
                     subPart.PosX = compPart.PosX;
@@ -4416,10 +4409,8 @@ namespace Generator
                 // ** UPDATE PartList **                
                 RecalculatePartList(currentSetXml);
                 
-                // ** CLEAR ALL Part Summary FIELDS **
-                ClearPartSummaryFields();
-                
-                // ** Refresh screen **
+                // ** TIDY UP **
+                ClearPartSummaryFields();                
                 RefreshScreen();
             }
             catch (Exception ex)
@@ -4433,21 +4424,23 @@ namespace Generator
             try
             {
                 // ** GET VARIABLES **
-                string pureStepNo = fldPureStepNo.Text;
-                string parentSubSetRef = fldStepParentSubSetRef.Text;
-                string parentSubModelRef = fldStepParentModelRef.Text;                
-                int nodeIndex = (int)dgPartSummary.SelectedRows[0].Cells["Step Node Index"].Value;
+                //string pureStepNo = fldPureStepNo.Text;
+                //string parentSubSetRef = fldStepParentSubSetRef.Text;
+                //string parentSubModelRef = fldStepParentModelRef.Text;                
+                //int nodeIndex = (int)dgPartSummary.SelectedRows[0].Cells["Step Node Index"].Value;
+                string PartSubSetRef = dgPartSummary.SelectedCells[0].OwningRow.Cells["SubSet Ref"].Value.ToString();
 
                 #region ** REMOVE DELETED NODE FROM XML **                
-                string xmlString = "";
-                if (chkShowSubParts.Checked)
-                {                    
-                    xmlString = "(//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']//Part)[" + nodeIndex + "]";
-                }
-                else
-                {                    
-                    xmlString = "(//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']/./Part)[" + nodeIndex + "]";
-                }
+                //string xmlString = "";
+                //if (chkShowSubParts.Checked)
+                //{                    
+                //    xmlString = "(//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']//Part)[" + nodeIndex + "]";
+                //}
+                //else
+                //{                    
+                //    xmlString = "(//SubSet[@Ref='" + parentSubSetRef + "']//SubModel[@Ref='" + parentSubModelRef + "']//Step[@PureStepNo='" + pureStepNo + "']/./Part)[" + nodeIndex + "]";
+                //}
+                string xmlString = "//Part[@SubSetRef='" + PartSubSetRef + "']";
                 XmlNode removalNode = currentSetXml.SelectSingleNode(xmlString);
                 XmlNode parentNode = removalNode.ParentNode;
                 parentNode.RemoveChild(removalNode);
@@ -4456,10 +4449,8 @@ namespace Generator
                 // ** UPDATE PartList & UnityRefs **                
                 RecalculatePartList(currentSetXml);
                 
-                // ** CLEAR ALL Part Summary FIELDS **
+                // ** TIDY UP **
                 ClearPartSummaryFields();
-
-                // ** Refresh screen **
                 RefreshScreen();                
             }
             catch (Exception ex)
