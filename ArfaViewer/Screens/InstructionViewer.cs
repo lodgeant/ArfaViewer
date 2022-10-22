@@ -178,7 +178,8 @@ namespace Generator
                 //fldCurrentSetRef.Text = "621-2";
                 //fldCurrentSetRef.Text = "41621-1";
                 //fldCurrentSetRef.Text = "TEST-1";
-                fldCurrentSetRef.Text = "7305-1";
+                //fldCurrentSetRef.Text = "7305-1";
+                fldCurrentSetRef.Text = "8092-1";
 
             }
             catch (Exception ex)
@@ -516,6 +517,11 @@ namespace Generator
         private void tsAdd5StepsToEnd_Click(object sender, EventArgs e)
         {            
             InsertStep(5, "END");
+        }
+
+        private void tsAdd3Steps_Click(object sender, EventArgs e)
+        {
+            InsertStep(3, "END");
         }
 
         private void tsInsertStepBefore_Click(object sender, EventArgs e)
@@ -3196,6 +3202,7 @@ namespace Generator
 
         #endregion
 
+        
         #region ** FIELD LEAVE FUNCTIONS **
 
         private void fldLDrawColourName_Leave(object sender, EventArgs e)
@@ -3225,8 +3232,11 @@ namespace Generator
                 // ** Lookup LDraw Colour ID **
                 if(fldLDrawColourName.Text != "")
                 {                    
-                    string LDrawColourID = StaticData.GetLDrawColourID(fldLDrawColourName.Text);
-                    fldLDrawColourID.Text = LDrawColourID.ToString();
+                    //string LDrawColourID = StaticData.GetLDrawColourID(fldLDrawColourName.Text);
+                    string LDrawColourID = (from r in Global_Variables.PartColourCollection.PartColourList
+                                              where r.LDrawColourName.ToUpper().Equals(fldLDrawColourName.Text.ToUpper())
+                                              select r.LDrawColourID).FirstOrDefault().ToString();
+                    fldLDrawColourID.Text = LDrawColourID;
                 }
             }
             catch (Exception ex)
@@ -3242,7 +3252,10 @@ namespace Generator
                 // ** Lookup LDraw Colour ID **
                 if (fldLDrawColourID.Text != "")
                 {
-                    string LDrawColourName = StaticData.GetLDrawColourName(fldLDrawColourID.Text);
+                    //string LDrawColourName = StaticData.GetLDrawColourName(fldLDrawColourID.Text);
+                    string LDrawColourName = (from r in Global_Variables.PartColourCollection.PartColourList
+                                              where r.LDrawColourID == int.Parse(fldLDrawColourID.Text)
+                                              select r.LDrawColourName).FirstOrDefault();
                     fldLDrawColourName.Text = LDrawColourName;
                 }
             }
@@ -5167,13 +5180,18 @@ namespace Generator
             string Type = tvSetSubModels.SelectedNode.Tag.ToString().Split('|')[0];
             if (Type.Equals("MODEL") || Type.Equals("SUBMODEL"))
             {
+
                 // ** Get variables **
                 string SubSetRef = tvSetSubModels.SelectedNode.Tag.ToString().Split('|')[1];
                 string ModelRef = tvSetSubModels.SelectedNode.Tag.ToString().Split('|')[2];
-                string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']/*/Part";
-                xmlString += "[@IsSubPart='false']";
+                string SubModelLevel = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']/@SubModelLevel").InnerXml;
 
                 // ** Get Set SubModel data **
+                //string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']/*/Part";
+                //xmlString += "[@IsSubPart='false']";
+                //string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']//Part[parent::SubModel/@Ref='" + ModelRef + "']";
+                //string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//Part[parent::SubModel/@Ref='" + ModelRef + "']";
+                string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//Part[ancestor::SubModel/@Ref='" + ModelRef + "' and ancestor::Step/@StepLevel='" + SubModelLevel + "']";
                 //XmlNodeList partNodeList = fullSetXml.SelectNodes(xmlString);
                 XmlNodeList partNodeList = currentSetXml.SelectNodes(xmlString);
                 dgSetSubModelPartSummaryTable_Orig = StaticData.GeneratePartTable(partNodeList, true, true, false);
@@ -5186,6 +5204,7 @@ namespace Generator
                 {
                     XmlDocument UnitySubModelXML = new XmlDocument();
                     UnitySubModelXML.LoadXml(si.Data);
+                    xmlString = "//Part";
                     UnitypartNodeList = UnitySubModelXML.SelectNodes(xmlString);
                     dgUnitySubModelPartSummaryTable_Orig = GenerateStepPartTable(UnitypartNodeList);
                 }
@@ -5193,9 +5212,9 @@ namespace Generator
 
                 // ** Run matching **                
                 dgSetSubModelPartSummaryTable_Orig.Columns.Add("Matched", typeof(bool));
+                foreach (DataRow row in dgSetSubModelPartSummaryTable_Orig.Rows) row["Matched"] = false;
                 dgUnitySubModelPartSummaryTable_Orig.Columns.Add("Matched", typeof(bool));
-                foreach (DataRow row in dgSetSubModelPartSummaryTable_Orig.Rows) row["Matched"] = false;                
-                foreach (DataRow row in dgUnitySubModelPartSummaryTable_Orig.Rows) row["Matched"] = false;                
+                foreach (DataRow row in dgUnitySubModelPartSummaryTable_Orig.Rows) row["Matched"] = false;
                 for (int a = 0; a < dgSetSubModelPartSummaryTable_Orig.Rows.Count; a++)
                 {
                     if (a >= dgUnitySubModelPartSummaryTable_Orig.Rows.Count) break;
@@ -5205,12 +5224,21 @@ namespace Generator
                     string unity_LDrawRef = (string)dgUnitySubModelPartSummaryTable_Orig.Rows[a]["LDraw Ref"];
                     string set_LDrawColourID = dgSetSubModelPartSummaryTable_Orig.Rows[a]["LDraw Colour ID"].ToString();
                     string unity_LDrawColourID = dgUnitySubModelPartSummaryTable_Orig.Rows[a]["LDraw Colour ID"].ToString();
+                    bool IsSubPart = (bool)dgUnitySubModelPartSummaryTable_Orig.Rows[a]["Is SubPart"];
                     if (set_LDrawRef.Equals(unity_LDrawRef))
                     {
-                        if (set_LDrawColourID.Equals(unity_LDrawColourID))
+                        if (IsSubPart == true)
                         {
                             dgSetSubModelPartSummaryTable_Orig.Rows[a]["Matched"] = true;
                             dgUnitySubModelPartSummaryTable_Orig.Rows[a]["Matched"] = true;
+                        }
+                        else
+                        {
+                            if (set_LDrawColourID.Equals(unity_LDrawColourID))
+                            {
+                                dgSetSubModelPartSummaryTable_Orig.Rows[a]["Matched"] = true;
+                                dgUnitySubModelPartSummaryTable_Orig.Rows[a]["Matched"] = true;
+                            }
                         }
                     }
                 }
@@ -5290,10 +5318,13 @@ namespace Generator
                 // ** Get variables **
                 string SubSetRef = tvSetSubModels.SelectedNode.Tag.ToString().Split('|')[1];
                 string ModelRef = tvSetSubModels.SelectedNode.Tag.ToString().Split('|')[2];
-                string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']/*/Part";
-                xmlString += "[@IsSubPart='false']";
+                string SubModelLevel = currentSetXml.SelectSingleNode("//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']/@SubModelLevel").InnerXml;
+                //string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']/*/Part";
+                //string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//SubModel[@Ref='" + ModelRef + "']//Part";
+                //xmlString += "[@IsSubPart='false']";
+                string xmlString = "//SubSet[@Ref='" + SubSetRef + "']//Part[ancestor::SubModel/@Ref='" + ModelRef + "' and ancestor::Step/@StepLevel='" + SubModelLevel + "']";
 
-                // ** Get Set SubModel data **
+                // ** Get Set SubModel Parts **
                 XmlNodeList SetSubModelPartNodeList = currentSetXml.SelectNodes(xmlString);
 
                 // ** Update Set XML **
@@ -5346,9 +5377,7 @@ namespace Generator
             }
         }
 
-
-
-
+        
     }
 
 

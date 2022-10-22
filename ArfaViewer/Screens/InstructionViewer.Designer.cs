@@ -320,6 +320,7 @@
             this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
             this.chkShowElementImages = new System.Windows.Forms.CheckBox();
             this.chkShowFBXDetails = new System.Windows.Forms.CheckBox();
+            this.tsAdd3Steps = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -517,6 +518,7 @@
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsAddStepToEnd,
+            this.tsAdd3Steps,
             this.tsAdd5Steps,
             this.tsInsertStepBefore,
             this.tsInsertStepAfter,
@@ -544,7 +546,7 @@
             this.tsRecalulatePartList,
             this.tsRecalulateSubSetRefs});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 518);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 562);
             // 
             // tsAddStepToEnd
             // 
@@ -3021,6 +3023,14 @@
             this.chkShowFBXDetails.Text = "Show FBX Details";
             this.chkShowFBXDetails.UseVisualStyleBackColor = false;
             // 
+            // tsAdd3Steps
+            // 
+            this.tsAdd3Steps.Image = ((System.Drawing.Image)(resources.GetObject("tsAdd3Steps.Image")));
+            this.tsAdd3Steps.Name = "tsAdd3Steps";
+            this.tsAdd3Steps.Size = new System.Drawing.Size(240, 22);
+            this.tsAdd3Steps.Text = "Step - Add 3 at End";
+            this.tsAdd3Steps.Click += new System.EventHandler(this.tsAdd3Steps_Click);
+            // 
             // InstructionViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3466,6 +3476,7 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox2;
         private System.Windows.Forms.ToolStripButton btnSyncSubModelPositions;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
+        private System.Windows.Forms.ToolStripMenuItem tsAdd3Steps;
     }
 }
 
