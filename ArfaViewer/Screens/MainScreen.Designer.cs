@@ -101,7 +101,7 @@
             this.statusStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pbStatus,
             this.lblStatus});
-            this.statusStrip2.Location = new System.Drawing.Point(0, 210);
+            this.statusStrip2.Location = new System.Drawing.Point(0, 209);
             this.statusStrip2.Name = "statusStrip2";
             this.statusStrip2.Size = new System.Drawing.Size(696, 22);
             this.statusStrip2.TabIndex = 36;
@@ -258,7 +258,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(696, 232);
+            this.ClientSize = new System.Drawing.Size(696, 231);
             this.Controls.Add(this.btnShowStaticDataScreen);
             this.Controls.Add(this.fldImageType);
             this.Controls.Add(this.label2);

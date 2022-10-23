@@ -44,6 +44,7 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsAddStepToEnd = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsAdd3Steps = new System.Windows.Forms.ToolStripMenuItem();
             this.tsAdd5Steps = new System.Windows.Forms.ToolStripMenuItem();
             this.tsInsertStepBefore = new System.Windows.Forms.ToolStripMenuItem();
             this.tsInsertStepAfter = new System.Windows.Forms.ToolStripMenuItem();
@@ -320,7 +321,6 @@
             this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
             this.chkShowElementImages = new System.Windows.Forms.CheckBox();
             this.chkShowFBXDetails = new System.Windows.Forms.CheckBox();
-            this.tsAdd3Steps = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -546,7 +546,7 @@
             this.tsRecalulatePartList,
             this.tsRecalulateSubSetRefs});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 562);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 540);
             // 
             // tsAddStepToEnd
             // 
@@ -555,6 +555,14 @@
             this.tsAddStepToEnd.Size = new System.Drawing.Size(240, 22);
             this.tsAddStepToEnd.Text = "Step - Add at End";
             this.tsAddStepToEnd.Click += new System.EventHandler(this.tsAddStepToEnd_Click);
+            // 
+            // tsAdd3Steps
+            // 
+            this.tsAdd3Steps.Image = ((System.Drawing.Image)(resources.GetObject("tsAdd3Steps.Image")));
+            this.tsAdd3Steps.Name = "tsAdd3Steps";
+            this.tsAdd3Steps.Size = new System.Drawing.Size(240, 22);
+            this.tsAdd3Steps.Text = "Step - Add 3 at End";
+            this.tsAdd3Steps.Click += new System.EventHandler(this.tsAdd3Steps_Click);
             // 
             // tsAdd5Steps
             // 
@@ -3022,14 +3030,6 @@
             this.chkShowFBXDetails.TabIndex = 112;
             this.chkShowFBXDetails.Text = "Show FBX Details";
             this.chkShowFBXDetails.UseVisualStyleBackColor = false;
-            // 
-            // tsAdd3Steps
-            // 
-            this.tsAdd3Steps.Image = ((System.Drawing.Image)(resources.GetObject("tsAdd3Steps.Image")));
-            this.tsAdd3Steps.Name = "tsAdd3Steps";
-            this.tsAdd3Steps.Size = new System.Drawing.Size(240, 22);
-            this.tsAdd3Steps.Text = "Step - Add 3 at End";
-            this.tsAdd3Steps.Click += new System.EventHandler(this.tsAdd3Steps_Click);
             // 
             // InstructionViewer
             // 
