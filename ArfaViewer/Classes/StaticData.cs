@@ -701,6 +701,26 @@ namespace Generator
         }
 
 
+        // ** RecentSetMapping functions **
+
+        public static RecentSetMappingCollection GetRecentSetMappingData_UsingUserIDList(List<string> IDList)
+        {
+            string url = Global_Variables.APIUrl + "RecentSetMapping/GetRecentSetMappingData_UsingUserIDList?";
+            foreach (string id in IDList) url += "IDList=" + id + "&";
+            string JSONString = GetJSONResponseFromURL(url);
+            RecentSetMappingCollection coll = Newtonsoft.Json.JsonConvert.DeserializeObject<RecentSetMappingCollection>(JSONString);
+            return coll;
+        }
+
+
+        public static void AddRecentSetMapping(RecentSetMapping spm)
+        {
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(spm);
+            string url = Global_Variables.APIUrl + "RecentSetMapping/AddRecentSetMapping";
+            PostJSONRequestFromURL(url, json);
+        }
+
+
 
 
 

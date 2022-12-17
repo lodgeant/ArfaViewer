@@ -12,7 +12,7 @@ namespace Generator
         public static PartColourCollection PartColourCollection = new PartColourCollection();
 
         public static string APIUrl = "https://arfabrickviewer.azurewebsites.net/";
-        public static string currentUser = "LODGEANT";       
+        public static string CurrentUserID = "LODGEANT";       
         public static string UnityFBXLocation = @"C:\Unity Projects\Lego Unity Viewer\Assets\Resources\Lego Part Models";
 
     }

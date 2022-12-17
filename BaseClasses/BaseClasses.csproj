@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\RecentSetMappingCollection.cs" />
+    <Compile Include="Core\RecentSetMapping.cs" />
     <Compile Include="Core\FileDetailsCollection.cs" />
     <Compile Include="Core\FileDetails.cs" />
     <Compile Include="Core\PartListPartCollection.cs" />

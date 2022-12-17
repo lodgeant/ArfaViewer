@@ -85,7 +85,8 @@ namespace Generator
                 #region ** ADD MAIN HEADER LINE TOOLSTRIP ITEMS **
                 toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
                                 btnExit,
-                                toolStripSeparator1,                                
+                                toolStripSeparator1,
+                                fldSetRecent,
                                 lblSetRef,
                                 fldCurrentSetRef,
                                 btnLoadSet,
@@ -172,6 +173,12 @@ namespace Generator
                 // ** REFRESH STATIC DATA **    
                 RefreshLDrawColourNameDropdown();
 
+                // ** Populate the Recent set items **
+                fldSetRecent.DropDownItems.Clear();
+                RecentSetMappingCollection RecentSetMappingCollection = StaticData.GetRecentSetMappingData_UsingUserIDList(new List<string>() { Global_Variables.CurrentUserID });
+                foreach (RecentSetMapping rsm in RecentSetMappingCollection.RecentSetMappingList) fldSetRecent.DropDownItems.Add(rsm.SetRef + "|" + rsm.SetDescription);
+
+
                 // ** UPDATE LABELS **                
                 //fldCurrentSetRef.Text = "621-1";
                 //fldCurrentSetRef.Text = "7327-1";
@@ -180,6 +187,7 @@ namespace Generator
                 //fldCurrentSetRef.Text = "TEST-1";
                 //fldCurrentSetRef.Text = "7305-1";
                 //fldCurrentSetRef.Text = "8092-1";
+
 
             }
             catch (Exception ex)
@@ -868,9 +876,20 @@ namespace Generator
                 if(setDetails != null)
                 {
                     mode = "EDIT";
-                    if (setDetails.AssignedTo != Global_Variables.currentUser) mode = "READ-ONLY";
-                }                
-               
+                    if (setDetails.AssignedTo != Global_Variables.CurrentUserID) mode = "READ-ONLY";
+                }
+
+
+                // UPDATE RECENT_SET_MAPPING FOR USER
+                RecentSetMapping rsm = new RecentSetMapping();
+                rsm.UserID = Global_Variables.CurrentUserID;
+                rsm.CreatedTS = DateTime.Now;
+                rsm.SetRef = SetRef;
+                rsm.SetDescription = setDetails.Description;
+                StaticData.AddRecentSetMapping(rsm);
+
+
+
                 // ** Tidy Up **
                 ClearAllFields();
                 RefreshScreen();
@@ -5315,7 +5334,20 @@ namespace Generator
             }
         }
 
-        
+
+
+
+        private void fldSetRecent_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            HandleRecentSetClick(e);
+        }
+
+        private void HandleRecentSetClick(ToolStripItemClickedEventArgs e)
+        {
+            fldCurrentSetRef.Text = e.ClickedItem.Text.Split('|')[0];
+            LoadSet();
+        }
+
     }
 
 

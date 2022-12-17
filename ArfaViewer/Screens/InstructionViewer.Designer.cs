@@ -34,7 +34,6 @@
             this.btnExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.lblSetRef = new System.Windows.Forms.ToolStripLabel();
-            this.fldCurrentSetRef = new System.Windows.Forms.ToolStripTextBox();
             this.btnLoadSet = new System.Windows.Forms.ToolStripButton();
             this.btnSaveSet = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -321,6 +320,8 @@
             this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
             this.chkShowElementImages = new System.Windows.Forms.CheckBox();
             this.chkShowFBXDetails = new System.Windows.Forms.CheckBox();
+            this.fldCurrentSetRef = new System.Windows.Forms.ToolStripTextBox();
+            this.fldSetRecent = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -412,6 +413,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnExit,
             this.toolStripSeparator1,
+            this.fldSetRecent,
             this.lblSetRef,
             this.fldCurrentSetRef,
             this.btnLoadSet,
@@ -445,13 +447,6 @@
             this.lblSetRef.Name = "lblSetRef";
             this.lblSetRef.Size = new System.Drawing.Size(46, 22);
             this.lblSetRef.Text = "Set Ref:";
-            // 
-            // fldCurrentSetRef
-            // 
-            this.fldCurrentSetRef.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldCurrentSetRef.Name = "fldCurrentSetRef";
-            this.fldCurrentSetRef.Size = new System.Drawing.Size(100, 25);
-            this.fldCurrentSetRef.Text = "TEST";
             // 
             // btnLoadSet
             // 
@@ -3031,6 +3026,23 @@
             this.chkShowFBXDetails.Text = "Show FBX Details";
             this.chkShowFBXDetails.UseVisualStyleBackColor = false;
             // 
+            // fldCurrentSetRef
+            // 
+            this.fldCurrentSetRef.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldCurrentSetRef.Name = "fldCurrentSetRef";
+            this.fldCurrentSetRef.Size = new System.Drawing.Size(75, 25);
+            this.fldCurrentSetRef.Text = "TEST";
+            // 
+            // fldSetRecent
+            // 
+            this.fldSetRecent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.fldSetRecent.Image = ((System.Drawing.Image)(resources.GetObject("fldSetRecent.Image")));
+            this.fldSetRecent.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fldSetRecent.Name = "fldSetRecent";
+            this.fldSetRecent.Size = new System.Drawing.Size(56, 22);
+            this.fldSetRecent.Text = "Recent";
+            this.fldSetRecent.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.fldSetRecent_DropDownItemClicked);
+            // 
             // InstructionViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3190,7 +3202,6 @@
         private System.Windows.Forms.ToolStripButton btnExit;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel lblSetRef;
-        private System.Windows.Forms.ToolStripTextBox fldCurrentSetRef;
         private System.Windows.Forms.ToolStripButton btnSaveSet;
         private System.Windows.Forms.ToolStripButton btnLoadSet;
         private System.Windows.Forms.ImageList imageList1;
@@ -3477,6 +3488,8 @@
         private System.Windows.Forms.ToolStripButton btnSyncSubModelPositions;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
         private System.Windows.Forms.ToolStripMenuItem tsAdd3Steps;
+        private System.Windows.Forms.ToolStripDropDownButton fldSetRecent;
+        private System.Windows.Forms.ToolStripTextBox fldCurrentSetRef;
     }
 }
 

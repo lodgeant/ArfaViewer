@@ -50,6 +50,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.fldImageType = new System.Windows.Forms.ComboBox();
             this.btnShowStaticDataScreen = new System.Windows.Forms.Button();
+            this.btnDownloader = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -101,7 +102,7 @@
             this.statusStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pbStatus,
             this.lblStatus});
-            this.statusStrip2.Location = new System.Drawing.Point(0, 209);
+            this.statusStrip2.Location = new System.Drawing.Point(0, 241);
             this.statusStrip2.Name = "statusStrip2";
             this.statusStrip2.Size = new System.Drawing.Size(696, 22);
             this.statusStrip2.TabIndex = 36;
@@ -254,11 +255,22 @@
             this.btnShowStaticDataScreen.UseVisualStyleBackColor = false;
             this.btnShowStaticDataScreen.Click += new System.EventHandler(this.btnShowStaticDataScreen_Click);
             // 
+            // btnDownloader
+            // 
+            this.btnDownloader.Location = new System.Drawing.Point(12, 204);
+            this.btnDownloader.Name = "btnDownloader";
+            this.btnDownloader.Size = new System.Drawing.Size(210, 31);
+            this.btnDownloader.TabIndex = 65;
+            this.btnDownloader.Text = "Downloader";
+            this.btnDownloader.UseVisualStyleBackColor = false;
+            this.btnDownloader.Click += new System.EventHandler(this.btnDownloader_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(696, 231);
+            this.ClientSize = new System.Drawing.Size(696, 263);
+            this.Controls.Add(this.btnDownloader);
             this.Controls.Add(this.btnShowStaticDataScreen);
             this.Controls.Add(this.fldImageType);
             this.Controls.Add(this.label2);
@@ -310,5 +322,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox fldImageType;
         private System.Windows.Forms.Button btnShowStaticDataScreen;
+        private System.Windows.Forms.Button btnDownloader;
     }
 }

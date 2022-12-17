@@ -1435,6 +1435,10 @@ namespace Generator
             }
         }
 
-       
+        private void btnDownloader_Click(object sender, EventArgs e)
+        {
+            Downloader form = new Downloader();
+            form.Visible = true;
+        }
     }
 }
