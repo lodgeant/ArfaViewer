@@ -51,6 +51,7 @@
             this.fldImageType = new System.Windows.Forms.ComboBox();
             this.btnShowStaticDataScreen = new System.Windows.Forms.Button();
             this.btnDownloader = new System.Windows.Forms.Button();
+            this.btnOrderScreens = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -89,9 +90,9 @@
             // btnTest
             // 
             this.btnTest.BackColor = System.Drawing.Color.Yellow;
-            this.btnTest.Location = new System.Drawing.Point(12, 167);
+            this.btnTest.Location = new System.Drawing.Point(120, 166);
             this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(210, 31);
+            this.btnTest.Size = new System.Drawing.Size(102, 31);
             this.btnTest.TabIndex = 29;
             this.btnTest.Text = "Test";
             this.btnTest.UseVisualStyleBackColor = false;
@@ -102,7 +103,7 @@
             this.statusStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pbStatus,
             this.lblStatus});
-            this.statusStrip2.Location = new System.Drawing.Point(0, 241);
+            this.statusStrip2.Location = new System.Drawing.Point(0, 244);
             this.statusStrip2.Name = "statusStrip2";
             this.statusStrip2.Size = new System.Drawing.Size(696, 22);
             this.statusStrip2.TabIndex = 36;
@@ -257,7 +258,7 @@
             // 
             // btnDownloader
             // 
-            this.btnDownloader.Location = new System.Drawing.Point(12, 204);
+            this.btnDownloader.Location = new System.Drawing.Point(13, 203);
             this.btnDownloader.Name = "btnDownloader";
             this.btnDownloader.Size = new System.Drawing.Size(210, 31);
             this.btnDownloader.TabIndex = 65;
@@ -265,11 +266,22 @@
             this.btnDownloader.UseVisualStyleBackColor = false;
             this.btnDownloader.Click += new System.EventHandler(this.btnDownloader_Click);
             // 
+            // btnOrderScreens
+            // 
+            this.btnOrderScreens.Location = new System.Drawing.Point(13, 166);
+            this.btnOrderScreens.Name = "btnOrderScreens";
+            this.btnOrderScreens.Size = new System.Drawing.Size(101, 31);
+            this.btnOrderScreens.TabIndex = 66;
+            this.btnOrderScreens.Text = "Order Screens";
+            this.btnOrderScreens.UseVisualStyleBackColor = false;
+            this.btnOrderScreens.Click += new System.EventHandler(this.btnOrderScreens_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(696, 263);
+            this.ClientSize = new System.Drawing.Size(696, 266);
+            this.Controls.Add(this.btnOrderScreens);
             this.Controls.Add(this.btnDownloader);
             this.Controls.Add(this.btnShowStaticDataScreen);
             this.Controls.Add(this.fldImageType);
@@ -323,5 +335,6 @@
         private System.Windows.Forms.ComboBox fldImageType;
         private System.Windows.Forms.Button btnShowStaticDataScreen;
         private System.Windows.Forms.Button btnDownloader;
+        private System.Windows.Forms.Button btnOrderScreens;
     }
 }

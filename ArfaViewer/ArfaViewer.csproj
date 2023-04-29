@@ -26,7 +26,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>https://lodgeaccount.blob.core.windows.net/click-once/ArfaViewer/</InstallUrl>
-    <ApplicationRevision>108</ApplicationRevision>
+    <ApplicationRevision>109</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -308,6 +308,8 @@
   <ItemGroup>
     <Content Include="config.xml" />
     <Content Include="SQL\RECENT_SET_MAPPING_Create_Table.sql" />
+    <Content Include="SQL\GLOBAL_MAP_DATA_Create_Table.sql" />
+    <Content Include="SQL\GLOBAL_MAP_DATA_Populate_Table.sql" />
     <Content Include="SQL\SUB_PART_MAPPING_Create_Table.sql" />
     <Content Include="SQL\SET_INSTRUCTIONS_Create_Table.sql" />
     <Content Include="SQL\TICKBACK_Create_Table.sql" />

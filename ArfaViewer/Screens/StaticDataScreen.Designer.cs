@@ -248,7 +248,7 @@
             this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
             this.lblFilesUnityFbxFilenameAc = new System.Windows.Forms.ToolStripLabel();
             this.fldFilesUnityFbxFilenameAc = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.tsFBXHeader = new System.Windows.Forms.ToolStrip();
             this.btnFBXRefreshAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSyncFBSFiles = new System.Windows.Forms.ToolStripButton();
@@ -278,6 +278,8 @@
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.btnSetInstructionsShowDataInNotePadPlus = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            this.chkShowFBXDifs = new System.Windows.Forms.CheckBox();
+            this.toolStripSeparator27 = new System.Windows.Forms.ToolStripSeparator();
             this.tsHeader.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -343,7 +345,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgFilesUnityFbxSummary)).BeginInit();
             this.statusStrip5.SuspendLayout();
             this.tsFilesUnityFbxHeader.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
+            this.tsFBXHeader.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).BeginInit();
             this.splitContainer8.Panel1.SuspendLayout();
@@ -632,6 +634,7 @@
             // fldBasePartLDrawRef
             // 
             this.fldBasePartLDrawRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldBasePartLDrawRef.Name = "fldBasePartLDrawRef";
             this.fldBasePartLDrawRef.Size = new System.Drawing.Size(100, 25);
             this.fldBasePartLDrawRef.Leave += new System.EventHandler(this.fldBasePartLDrawRef_Leave);
@@ -653,6 +656,7 @@
             // fldBasePartLDrawDescription
             // 
             this.fldBasePartLDrawDescription.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartLDrawDescription.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldBasePartLDrawDescription.Name = "fldBasePartLDrawDescription";
             this.fldBasePartLDrawDescription.Size = new System.Drawing.Size(200, 25);
             // 
@@ -665,6 +669,7 @@
             // fldBasePartLDrawSize
             // 
             this.fldBasePartLDrawSize.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartLDrawSize.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldBasePartLDrawSize.Name = "fldBasePartLDrawSize";
             this.fldBasePartLDrawSize.Size = new System.Drawing.Size(30, 25);
             // 
@@ -702,6 +707,7 @@
             // fldBasePartOffsetX
             // 
             this.fldBasePartOffsetX.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartOffsetX.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldBasePartOffsetX.Name = "fldBasePartOffsetX";
             this.fldBasePartOffsetX.Size = new System.Drawing.Size(50, 25);
             // 
@@ -715,6 +721,7 @@
             // fldBasePartOffsetY
             // 
             this.fldBasePartOffsetY.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartOffsetY.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldBasePartOffsetY.Name = "fldBasePartOffsetY";
             this.fldBasePartOffsetY.Size = new System.Drawing.Size(50, 25);
             // 
@@ -728,6 +735,7 @@
             // fldBasePartOffsetZ
             // 
             this.fldBasePartOffsetZ.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartOffsetZ.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldBasePartOffsetZ.Name = "fldBasePartOffsetZ";
             this.fldBasePartOffsetZ.Size = new System.Drawing.Size(50, 25);
             // 
@@ -741,6 +749,7 @@
             // fldBasePartSubPartCount
             // 
             this.fldBasePartSubPartCount.BackColor = System.Drawing.Color.LightGray;
+            this.fldBasePartSubPartCount.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldBasePartSubPartCount.Name = "fldBasePartSubPartCount";
             this.fldBasePartSubPartCount.Size = new System.Drawing.Size(25, 25);
             // 
@@ -839,6 +848,7 @@
             // fldBasePartLDrawRefAc
             // 
             this.fldBasePartLDrawRefAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldBasePartLDrawRefAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldBasePartLDrawRefAc.Name = "fldBasePartLDrawRefAc";
             this.fldBasePartLDrawRefAc.Size = new System.Drawing.Size(100, 25);
             this.fldBasePartLDrawRefAc.TextChanged += new System.EventHandler(this.fldBasePartLDrawRefAc_TextChanged);
@@ -852,6 +862,7 @@
             // fldBasePartLDrawDescriptionAc
             // 
             this.fldBasePartLDrawDescriptionAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldBasePartLDrawDescriptionAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldBasePartLDrawDescriptionAc.Name = "fldBasePartLDrawDescriptionAc";
             this.fldBasePartLDrawDescriptionAc.Size = new System.Drawing.Size(300, 25);
             this.fldBasePartLDrawDescriptionAc.TextChanged += new System.EventHandler(this.fldBasePartLDrawDescriptionAc_TextChanged);
@@ -865,6 +876,7 @@
             // fldBasePartPartTypeAc
             // 
             this.fldBasePartPartTypeAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldBasePartPartTypeAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldBasePartPartTypeAc.Name = "fldBasePartPartTypeAc";
             this.fldBasePartPartTypeAc.Size = new System.Drawing.Size(100, 25);
             this.fldBasePartPartTypeAc.TextChanged += new System.EventHandler(this.fldBasePartPartTypeAc_TextChanged);
@@ -878,6 +890,7 @@
             // fldBasePartOffsetXAc
             // 
             this.fldBasePartOffsetXAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldBasePartOffsetXAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldBasePartOffsetXAc.Name = "fldBasePartOffsetXAc";
             this.fldBasePartOffsetXAc.Size = new System.Drawing.Size(100, 25);
             this.fldBasePartOffsetXAc.TextChanged += new System.EventHandler(this.fldBasePartOffsetXAc_TextChanged);
@@ -1076,6 +1089,7 @@
             // fldLDrawDetailsLDrawRef
             // 
             this.fldLDrawDetailsLDrawRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawDetailsLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawDetailsLDrawRef.Name = "fldLDrawDetailsLDrawRef";
             this.fldLDrawDetailsLDrawRef.Size = new System.Drawing.Size(100, 25);
             this.fldLDrawDetailsLDrawRef.Leave += new System.EventHandler(this.fldLDrawDetailsLDrawRef_Leave);
@@ -1097,6 +1111,7 @@
             // fldLDrawDetailsLDrawDescription
             // 
             this.fldLDrawDetailsLDrawDescription.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawDetailsLDrawDescription.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawDetailsLDrawDescription.Name = "fldLDrawDetailsLDrawDescription";
             this.fldLDrawDetailsLDrawDescription.Size = new System.Drawing.Size(200, 25);
             // 
@@ -1134,6 +1149,7 @@
             // fldLDrawDetailsSubPartCount
             // 
             this.fldLDrawDetailsSubPartCount.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawDetailsSubPartCount.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawDetailsSubPartCount.Name = "fldLDrawDetailsSubPartCount";
             this.fldLDrawDetailsSubPartCount.Size = new System.Drawing.Size(25, 25);
             // 
@@ -1147,6 +1163,7 @@
             // fldLDrawDetailsLDrawRefList
             // 
             this.fldLDrawDetailsLDrawRefList.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawDetailsLDrawRefList.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawDetailsLDrawRefList.Name = "fldLDrawDetailsLDrawRefList";
             this.fldLDrawDetailsLDrawRefList.Size = new System.Drawing.Size(100, 25);
             // 
@@ -1241,6 +1258,7 @@
             // fldLDrawDetailsLDrawRefAc
             // 
             this.fldLDrawDetailsLDrawRefAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldLDrawDetailsLDrawRefAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawDetailsLDrawRefAc.Name = "fldLDrawDetailsLDrawRefAc";
             this.fldLDrawDetailsLDrawRefAc.Size = new System.Drawing.Size(100, 25);
             this.fldLDrawDetailsLDrawRefAc.TextChanged += new System.EventHandler(this.fldLDrawDetailsLDrawRefAc_TextChanged);
@@ -1254,6 +1272,7 @@
             // fldLDrawDetailsLDrawDescriptionAc
             // 
             this.fldLDrawDetailsLDrawDescriptionAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldLDrawDetailsLDrawDescriptionAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawDetailsLDrawDescriptionAc.Name = "fldLDrawDetailsLDrawDescriptionAc";
             this.fldLDrawDetailsLDrawDescriptionAc.Size = new System.Drawing.Size(300, 25);
             this.fldLDrawDetailsLDrawDescriptionAc.TextChanged += new System.EventHandler(this.fldLDrawDetailsLDrawDescriptionAc_TextChanged);
@@ -1416,6 +1435,7 @@
             // fldSubPartMappingParentLDrawRef
             // 
             this.fldSubPartMappingParentLDrawRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingParentLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingParentLDrawRef.Name = "fldSubPartMappingParentLDrawRef";
             this.fldSubPartMappingParentLDrawRef.Size = new System.Drawing.Size(100, 25);
             // 
@@ -1435,6 +1455,7 @@
             // fldSubPartMappingSubPartLDrawRef
             // 
             this.fldSubPartMappingSubPartLDrawRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingSubPartLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingSubPartLDrawRef.Name = "fldSubPartMappingSubPartLDrawRef";
             this.fldSubPartMappingSubPartLDrawRef.Size = new System.Drawing.Size(100, 25);
             // 
@@ -1455,6 +1476,7 @@
             // fldSubPartMappingSubPartID
             // 
             this.fldSubPartMappingSubPartID.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingSubPartID.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingSubPartID.Name = "fldSubPartMappingSubPartID";
             this.fldSubPartMappingSubPartID.Size = new System.Drawing.Size(25, 25);
             // 
@@ -1467,6 +1489,7 @@
             // fldSubPartMappingSubPartLDrawColourID
             // 
             this.fldSubPartMappingSubPartLDrawColourID.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingSubPartLDrawColourID.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingSubPartLDrawColourID.Name = "fldSubPartMappingSubPartLDrawColourID";
             this.fldSubPartMappingSubPartLDrawColourID.Size = new System.Drawing.Size(25, 25);
             // 
@@ -1480,6 +1503,7 @@
             // fldSubPartMappingPosX
             // 
             this.fldSubPartMappingPosX.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingPosX.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingPosX.Name = "fldSubPartMappingPosX";
             this.fldSubPartMappingPosX.Size = new System.Drawing.Size(50, 25);
             // 
@@ -1493,6 +1517,7 @@
             // fldSubPartMappingPosY
             // 
             this.fldSubPartMappingPosY.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingPosY.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingPosY.Name = "fldSubPartMappingPosY";
             this.fldSubPartMappingPosY.Size = new System.Drawing.Size(50, 25);
             // 
@@ -1506,6 +1531,7 @@
             // fldSubPartMappingPosZ
             // 
             this.fldSubPartMappingPosZ.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingPosZ.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingPosZ.Name = "fldSubPartMappingPosZ";
             this.fldSubPartMappingPosZ.Size = new System.Drawing.Size(50, 25);
             // 
@@ -1519,6 +1545,7 @@
             // fldSubPartMappingRotX
             // 
             this.fldSubPartMappingRotX.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingRotX.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingRotX.Name = "fldSubPartMappingRotX";
             this.fldSubPartMappingRotX.Size = new System.Drawing.Size(50, 25);
             // 
@@ -1532,6 +1559,7 @@
             // fldSubPartMappingRotY
             // 
             this.fldSubPartMappingRotY.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingRotY.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingRotY.Name = "fldSubPartMappingRotY";
             this.fldSubPartMappingRotY.Size = new System.Drawing.Size(50, 25);
             // 
@@ -1545,6 +1573,7 @@
             // fldSubPartMappingRotZ
             // 
             this.fldSubPartMappingRotZ.BackColor = System.Drawing.Color.LightGray;
+            this.fldSubPartMappingRotZ.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingRotZ.Name = "fldSubPartMappingRotZ";
             this.fldSubPartMappingRotZ.Size = new System.Drawing.Size(50, 25);
             // 
@@ -1637,6 +1666,7 @@
             // fldSubPartMappingParentLDrawRefAc
             // 
             this.fldSubPartMappingParentLDrawRefAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldSubPartMappingParentLDrawRefAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSubPartMappingParentLDrawRefAc.Name = "fldSubPartMappingParentLDrawRefAc";
             this.fldSubPartMappingParentLDrawRefAc.Size = new System.Drawing.Size(100, 25);
             this.fldSubPartMappingParentLDrawRefAc.TextChanged += new System.EventHandler(this.fldSubPartMappingParentLDrawRefAc_TextChanged);
@@ -1662,8 +1692,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.chkShowFBXDifs);
             this.tabPage3.Controls.Add(this.splitContainer5);
-            this.tabPage3.Controls.Add(this.toolStrip2);
+            this.tabPage3.Controls.Add(this.tsFBXHeader);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(1754, 773);
@@ -1862,6 +1893,7 @@
             // fldLDrawRef
             // 
             this.fldLDrawRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawRef.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawRef.Name = "fldLDrawRef";
             this.fldLDrawRef.Size = new System.Drawing.Size(100, 25);
             this.fldLDrawRef.Leave += new System.EventHandler(this.fldLDrawRef_Leave);
@@ -1943,6 +1975,7 @@
             // fldLDrawSize
             // 
             this.fldLDrawSize.BackColor = System.Drawing.Color.LightGray;
+            this.fldLDrawSize.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldLDrawSize.Name = "fldLDrawSize";
             this.fldLDrawSize.Size = new System.Drawing.Size(25, 25);
             // 
@@ -2008,6 +2041,7 @@
             // fldFilesDatFilenameAc
             // 
             this.fldFilesDatFilenameAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldFilesDatFilenameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldFilesDatFilenameAc.Name = "fldFilesDatFilenameAc";
             this.fldFilesDatFilenameAc.Size = new System.Drawing.Size(200, 25);
             this.fldFilesDatFilenameAc.TextChanged += new System.EventHandler(this.fldFilesDatFilenameAc_TextChanged);
@@ -2154,6 +2188,7 @@
             // fldFilesFbxFilenameAc
             // 
             this.fldFilesFbxFilenameAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldFilesFbxFilenameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldFilesFbxFilenameAc.Name = "fldFilesFbxFilenameAc";
             this.fldFilesFbxFilenameAc.Size = new System.Drawing.Size(200, 25);
             this.fldFilesFbxFilenameAc.TextChanged += new System.EventHandler(this.fldFilesFbxFilenameAc_TextChanged);
@@ -2283,21 +2318,23 @@
             // fldFilesUnityFbxFilenameAc
             // 
             this.fldFilesUnityFbxFilenameAc.BackColor = System.Drawing.Color.Wheat;
+            this.fldFilesUnityFbxFilenameAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldFilesUnityFbxFilenameAc.Name = "fldFilesUnityFbxFilenameAc";
             this.fldFilesUnityFbxFilenameAc.Size = new System.Drawing.Size(200, 25);
             this.fldFilesUnityFbxFilenameAc.TextChanged += new System.EventHandler(this.fldFilesUnityFbxFilenameAc_TextChanged);
             // 
-            // toolStrip2
+            // tsFBXHeader
             // 
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsFBXHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnFBXRefreshAll,
             this.toolStripSeparator21,
-            this.btnSyncFBSFiles});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(1754, 25);
-            this.toolStrip2.TabIndex = 29;
-            this.toolStrip2.Text = "toolStrip4";
+            this.btnSyncFBSFiles,
+            this.toolStripSeparator27});
+            this.tsFBXHeader.Location = new System.Drawing.Point(0, 0);
+            this.tsFBXHeader.Name = "tsFBXHeader";
+            this.tsFBXHeader.Size = new System.Drawing.Size(1754, 25);
+            this.tsFBXHeader.TabIndex = 29;
+            this.tsFBXHeader.Text = "toolStrip4";
             // 
             // btnFBXRefreshAll
             // 
@@ -2399,7 +2436,7 @@
             this.lblSetInstructionsSummaryItemFilteredCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblSetInstructionsSummaryItemFilteredCount.ForeColor = System.Drawing.Color.Blue;
             this.lblSetInstructionsSummaryItemFilteredCount.Name = "lblSetInstructionsSummaryItemFilteredCount";
-            this.lblSetInstructionsSummaryItemFilteredCount.Size = new System.Drawing.Size(261, 15);
+            this.lblSetInstructionsSummaryItemFilteredCount.Size = new System.Drawing.Size(261, 17);
             this.lblSetInstructionsSummaryItemFilteredCount.Text = "lblSetInstructionsSummaryItemFilteredCount";
             // 
             // toolStrip6
@@ -2426,6 +2463,7 @@
             // fldSetInstructionsRef
             // 
             this.fldSetInstructionsRef.BackColor = System.Drawing.Color.LightGray;
+            this.fldSetInstructionsRef.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSetInstructionsRef.Name = "fldSetInstructionsRef";
             this.fldSetInstructionsRef.Size = new System.Drawing.Size(100, 25);
             // 
@@ -2506,7 +2544,7 @@
             this.fldSetInstructionsRefAc.BackColor = System.Drawing.Color.Wheat;
             this.fldSetInstructionsRefAc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.fldSetInstructionsRefAc.Name = "fldSetInstructionsRefAc";
-            this.fldSetInstructionsRefAc.Size = new System.Drawing.Size(100, 25);            
+            this.fldSetInstructionsRefAc.Size = new System.Drawing.Size(100, 25);
             this.fldSetInstructionsRefAc.TextChanged += new System.EventHandler(this.fldSetInstructionsRefAc_TextChanged);
             // 
             // groupBox1
@@ -2553,6 +2591,22 @@
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
             this.toolStripSeparator13.Size = new System.Drawing.Size(6, 25);
+            // 
+            // chkShowFBXDifs
+            // 
+            this.chkShowFBXDifs.AutoSize = true;
+            this.chkShowFBXDifs.BackColor = System.Drawing.Color.Yellow;
+            this.chkShowFBXDifs.Location = new System.Drawing.Point(241, 3);
+            this.chkShowFBXDifs.Name = "chkShowFBXDifs";
+            this.chkShowFBXDifs.Size = new System.Drawing.Size(97, 17);
+            this.chkShowFBXDifs.TabIndex = 87;
+            this.chkShowFBXDifs.Text = "Show FBX Difs";
+            this.chkShowFBXDifs.UseVisualStyleBackColor = false;
+            // 
+            // toolStripSeparator27
+            // 
+            this.toolStripSeparator27.Name = "toolStripSeparator27";
+            this.toolStripSeparator27.Size = new System.Drawing.Size(6, 25);
             // 
             // StaticDataScreen
             // 
@@ -2658,8 +2712,8 @@
             this.statusStrip5.PerformLayout();
             this.tsFilesUnityFbxHeader.ResumeLayout(false);
             this.tsFilesUnityFbxHeader.PerformLayout();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
+            this.tsFBXHeader.ResumeLayout(false);
+            this.tsFBXHeader.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.splitContainer8.Panel1.ResumeLayout(false);
             this.splitContainer8.Panel1.PerformLayout();
@@ -2789,7 +2843,7 @@
         private System.Windows.Forms.SplitContainer splitContainer6;
         private System.Windows.Forms.GroupBox gpFilesFbx;
         private System.Windows.Forms.GroupBox gpFilesUnityFbx;
-        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStrip tsFBXHeader;
         private System.Windows.Forms.ToolStripButton btnFBXRefreshAll;
         private System.Windows.Forms.DataGridView dgFilesFbxSummary;
         private System.Windows.Forms.StatusStrip statusStrip4;
@@ -2933,5 +2987,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
         private System.Windows.Forms.ToolStripButton btnSetInstructionsSave;
         private System.Windows.Forms.ToolStripButton btnSetInstructionsDelete;
+        private System.Windows.Forms.CheckBox chkShowFBXDifs;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator27;
     }
 }

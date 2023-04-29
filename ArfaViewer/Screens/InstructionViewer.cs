@@ -174,9 +174,10 @@ namespace Generator
                 RefreshLDrawColourNameDropdown();
 
                 // ** Populate the Recent set items **
-                fldSetRecent.DropDownItems.Clear();
-                RecentSetMappingCollection RecentSetMappingCollection = StaticData.GetRecentSetMappingData_UsingUserIDList(new List<string>() { Global_Variables.CurrentUserID });
-                foreach (RecentSetMapping rsm in RecentSetMappingCollection.RecentSetMappingList) fldSetRecent.DropDownItems.Add(rsm.SetRef + "|" + rsm.SetDescription);
+                // #### DOESN'T CURRENTLY WORK - NEED TO INVESTIGATE ####
+                //fldSetRecent.DropDownItems.Clear();
+                //RecentSetMappingCollection RecentSetMappingCollection = StaticData.GetRecentSetMappingData_UsingUserIDList(new List<string>() { Global_Variables.CurrentUserID });
+                //foreach (RecentSetMapping rsm in RecentSetMappingCollection.RecentSetMappingList) fldSetRecent.DropDownItems.Add(rsm.SetRef + "|" + rsm.SetDescription);
 
 
                 // ** UPDATE LABELS **                

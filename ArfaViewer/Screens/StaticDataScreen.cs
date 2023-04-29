@@ -182,6 +182,17 @@ namespace Generator
                 });
                 #endregion
 
+                #region ** ADD FBX HEADER TOOLSTRIP ITEMS **
+                tsFBXHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+                {
+                    btnFBXRefreshAll,
+                    toolStripSeparator21,
+                    btnSyncFBSFiles,
+                    toolStripSeparator27,
+                    new ToolStripControlHost(chkShowFBXDifs)
+                });
+                #endregion
+
                 #region ** ADD FILES DAT HEADER TOOLSTRIP ITEMS **
                 tsFilesDatHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
                 {
@@ -209,7 +220,7 @@ namespace Generator
                 });
                 #endregion
 
-                #region ** ADD FILES FBX HEADER TOOLSTRIP ITEMS **
+                #region ** ADD FILES UNITY HEADER TOOLSTRIP ITEMS **
                 tsFilesUnityFbxHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
                 {
                     btnFilesUnityFbxRefresh,

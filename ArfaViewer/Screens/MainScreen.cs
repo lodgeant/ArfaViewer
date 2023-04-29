@@ -20,6 +20,7 @@ using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Xml.Linq;
 using Newtonsoft.Json;
+using System.Runtime.InteropServices;
 
 
 
@@ -28,7 +29,8 @@ namespace Generator
     public partial class MainScreen : Form
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        
+
+
         public MainScreen()
         {
             InitializeComponent();
@@ -45,13 +47,21 @@ namespace Generator
                 Global_Variables.PartColourCollection = StaticData.GetPartColourData_All();
 
                 // ** Copy BaseClasses.dll to Unity directory **
+                List<string> TargetPathList = new List<string>();
+                TargetPathList.Add(@"C:\Unity Projects\Lego Unity Viewer\Assets\Scripts\BaseClasses.dll");
+                TargetPathList.Add(@"C:\Unity Projects\Settlers\Assets\Scripts\BaseClasses.dll");
                 try
                 {
-                    string SourcePath = @"C:\Source Code\CS\Arfa Viewer\BaseClasses\bin\Debug\BaseClasses.dll";
-                    string TargetPath = @"C:\Unity Projects\Lego Unity Viewer\Assets\Scripts\BaseClasses.dll";
-                    File.Copy(SourcePath, TargetPath, true);
+                    string SourcePath = @"C:\Source Code\CS\Arfa Viewer\BaseClasses\bin\Debug\BaseClasses.dll";                   
+                    foreach(string targetPath in TargetPathList) File.Copy(SourcePath, targetPath, true);                   
                 }
                 catch (Exception) { }
+
+
+                
+
+
+               
 
 
 
@@ -79,10 +89,14 @@ namespace Generator
                 //ImageObject io = StaticData.GetImageObject_UsingContainerAndBlobName(Container, BlobName);
                 //Bitmap image = null;
                 //using (var ms = new MemoryStream(io.Data)) image = new Bitmap(ms);
-                
+
+                //SettlerTest();
+
+                //AsyncTest();
 
 
-                //string test = "";
+
+                string test = "";
 
 
             }
@@ -176,10 +190,91 @@ namespace Generator
 
 
 
+        private void SettlerTest()
+        {
+            try
+            {
+
+                Woodcutter wc = new Woodcutter();
+                wc.ObjectRef = "WOODCUTTER.1";
+                wc.ObjectType = "SETTLER";
+                wc.ObjectSubType = "WOODCUTTER";
+                wc.RelatedBuildingRef = "WOODCUTTER_HUT.1";
+
+                wc.TargetPosition = new Vect(0, 0, 0);
+
+                string xmlString_wc = wc.SerializeToString(false);
+
+
+                //Tree t1 = new Tree();
+                //t1.ObjectRef = "TREE.1";
+                //t1.ObjectType = "FLORA";
+                //t1.ObjectSubType = "TREE";
+                //t1.TreeSize = "LARGE";
+                //t1.TreeType = "T1";
+                //t1.State = "IDLE";
+                //t1.LastTransitionTime = 0f;
+                //t1.TransitionDelay = 10f;
+                //t1.FallRate = 0f;
+
+                GameMap gm = new GameMap();
+                gm.SettlerObjectList.Items.Add(wc);
+
+                //zzz_MapTemplate mt = new zzz_MapTemplate();
+                //mt.Name = "Tree_Test";
+                //mt.Description = "Test of new code using single tree";
+                //mt.ObjList.Add(wc);
+                //mt.ObjList.Add(t1);
+
+
+                string xmlString = gm.SerializeToString(false);
+
+                
+
+                //MapTemplate mt2 = new MapTemplate().DeserialiseFromXMLString(xmlString);
+
+
+                string test = "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private async Task AsyncTest()
+        {
+            try
+            {
+                Task<int> downloading = DownloadDocsMainPageAsync();
+                Console.WriteLine($"{nameof(AsyncTest)}: Launched downloading.");
+
+                int bytesLoaded = await downloading;
+                Console.WriteLine($"{nameof(AsyncTest)}: Downloaded {bytesLoaded} bytes.");
 
 
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
+
+        private static async Task<int> DownloadDocsMainPageAsync()
+        {
+            Console.WriteLine($"{nameof(DownloadDocsMainPageAsync)}: About to start downloading.");
+
+            var client = new HttpClient();
+            byte[] content = await client.GetByteArrayAsync("https://docs.microsoft.com/en-us/");
+
+            System.Threading.Thread.Sleep(5000);
+
+
+            Console.WriteLine($"{nameof(DownloadDocsMainPageAsync)}: Finished downloading.");
+            return content.Length;
+        }
 
 
 
@@ -1323,7 +1418,9 @@ namespace Generator
         private void btnTest_Click(object sender, EventArgs e)
         {
             //GetRebrickableData();
-            GetRebrickablePrice();
+            //GetRebrickablePrice();
+            //SettlerTest();
+            AsyncTest();
         }
 
         //private async void GetRebrickableData()
@@ -1440,5 +1537,157 @@ namespace Generator
             Downloader form = new Downloader();
             form.Visible = true;
         }
+
+        private void btnOrderScreens_Click(object sender, EventArgs e)
+        {
+            OrderScreens();
+        }
+
+
+
+
+
+        #region ** ORDER SCREENS FUNCTIONS **
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+        const uint SWP_NOSIZE = 0x0001;
+        const uint SWP_NOZORDER = 0x0004;
+
+        private delegate bool EnumWindowsProc(IntPtr hWnd, int lParam);
+
+        [DllImport("USER32.DLL")]
+        private static extern bool EnumWindows(EnumWindowsProc enumFunc, int lParam);
+
+        [DllImport("USER32.DLL")]
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("USER32.DLL")]
+        private static extern int GetWindowTextLength(IntPtr hWnd);
+
+        [DllImport("USER32.DLL")]
+        private static extern bool IsWindowVisible(IntPtr hWnd);
+
+        [DllImport("USER32.DLL")]
+        private static extern IntPtr GetShellWindow();
+
+        public static IDictionary<IntPtr, string> GetOpenWindows()
+        {
+            IntPtr shellWindow = GetShellWindow();
+            Dictionary<IntPtr, string> windows = new Dictionary<IntPtr, string>();
+
+            EnumWindows(delegate (IntPtr hWnd, int lParam)
+            {
+                if (hWnd == shellWindow) return true;
+                if (!IsWindowVisible(hWnd)) return true;
+
+                int length = GetWindowTextLength(hWnd);
+                if (length == 0) return true;
+
+                StringBuilder builder = new StringBuilder(length);
+                GetWindowText(hWnd, builder, length + 1);
+
+                windows[hWnd] = builder.ToString();
+                return true;
+
+            }, 0);
+
+            return windows;
+        }
+
+        //IntPtr hWnd = FindWindow("Notepad", null);
+        //IntPtr hWnd = FindWindow(null, "Untitled - Notepad");
+        //string windowName = GetWindowTitle(hWnd);
+        // If found, position it.
+        //if (hWnd != IntPtr.Zero)
+        //{
+        //    // Move the window to (0,0) without changing its size or position in the Z order.
+        //    int xPos = 2000;
+        //    int yPos = -500;
+        //    SetWindowPos(hWnd, IntPtr.Zero, xPos, yPos, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+        //}
+
+        private void OrderScreens()
+        {
+            try
+            {
+                IDictionary<IntPtr, string> test1 = GetOpenWindows();
+                foreach (KeyValuePair<IntPtr, string> window in GetOpenWindows())
+                {
+                    IntPtr handle = window.Key;
+                    string title = window.Value;
+
+                    if (title.Contains("Rebrickable"))
+                    {
+                        int xPos = 1920;
+                        int yPos = -500;
+                        int width = 1100;
+                        int height = 2100;
+                        //SetWindowPos(handle, IntPtr.Zero, xPos, yPos, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+                        SetWindowPos(handle, IntPtr.Zero, xPos, yPos, width, height, 0);
+                    }
+
+                    if (title.Contains(".pdf"))
+                    {
+                        int xPos = 3010;
+                        int yPos = -500;
+                        int width = 1080;
+                        int height = 2100;
+                        SetWindowPos(handle, IntPtr.Zero, xPos, yPos, width, height, 0);
+                    }
+
+                    if (title.Contains("Blender"))
+                    {
+                        int xPos = 1920;
+                        int yPos = -1000;
+                        int width = 1100;
+                        int height = 500;
+                        SetWindowPos(handle, IntPtr.Zero, xPos, yPos, width, height, 0);
+                    }
+
+                    if (title.Contains("Lego Unity Viewer"))
+                    {
+                        int xPos = 3010;
+                        int yPos = -1000;
+                        int width = 1080;
+                        int height = 500;
+                        SetWindowPos(handle, IntPtr.Zero, xPos, yPos, width, height, 0);
+                    }
+
+                    if (title.Contains("ArfaViewer Wiki"))
+                    {
+                        int xPos = 1920;
+                        int yPos = -2100;
+                        int width = 1100;
+                        int height = 1100;
+                        SetWindowPos(handle, IntPtr.Zero, xPos, yPos, width, height, 0);
+                    }
+
+
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+
+
+        #endregion
+
+
+
+
+
+
+
     }
 }
