@@ -5349,6 +5349,24 @@ namespace Generator
             LoadSet();
         }
 
+
+
+
+
+        private void btnUnitySubModelsCollapseNodes_Click(object sender, EventArgs e)
+        {
+            if (tvSetSubModels.Nodes.Count > 0) tvSetSubModels.Nodes[0].Collapse(false);
+        }
+
+        private void btnUnitySubModelsExpandAll_Click(object sender, EventArgs e)
+        {
+            if (tvSetSubModels.Nodes.Count > 0) tvSetSubModels.Nodes[0].ExpandAll();
+        }
+
+
+
+
+
     }
 
 

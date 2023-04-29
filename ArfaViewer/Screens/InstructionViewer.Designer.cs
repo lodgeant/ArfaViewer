@@ -33,7 +33,9 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnExit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.fldSetRecent = new System.Windows.Forms.ToolStripDropDownButton();
             this.lblSetRef = new System.Windows.Forms.ToolStripLabel();
+            this.fldCurrentSetRef = new System.Windows.Forms.ToolStripTextBox();
             this.btnLoadSet = new System.Windows.Forms.ToolStripButton();
             this.btnSaveSet = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -285,8 +287,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tvSetSubModels = new System.Windows.Forms.TreeView();
             this.toolStrip10 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.btnUnitySubModelsCollapseNodes = new System.Windows.Forms.ToolStripButton();
+            this.btnUnitySubModelsExpandAll = new System.Windows.Forms.ToolStripButton();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgSetSubModelPartSummary = new System.Windows.Forms.DataGridView();
@@ -320,8 +322,6 @@
             this.chkShowPartcolourImages = new System.Windows.Forms.CheckBox();
             this.chkShowElementImages = new System.Windows.Forms.CheckBox();
             this.chkShowFBXDetails = new System.Windows.Forms.CheckBox();
-            this.fldCurrentSetRef = new System.Windows.Forms.ToolStripTextBox();
-            this.fldSetRecent = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
@@ -442,11 +442,28 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
+            // fldSetRecent
+            // 
+            this.fldSetRecent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.fldSetRecent.Image = ((System.Drawing.Image)(resources.GetObject("fldSetRecent.Image")));
+            this.fldSetRecent.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.fldSetRecent.Name = "fldSetRecent";
+            this.fldSetRecent.Size = new System.Drawing.Size(56, 22);
+            this.fldSetRecent.Text = "Recent";
+            this.fldSetRecent.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.fldSetRecent_DropDownItemClicked);
+            // 
             // lblSetRef
             // 
             this.lblSetRef.Name = "lblSetRef";
             this.lblSetRef.Size = new System.Drawing.Size(46, 22);
             this.lblSetRef.Text = "Set Ref:";
+            // 
+            // fldCurrentSetRef
+            // 
+            this.fldCurrentSetRef.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.fldCurrentSetRef.Name = "fldCurrentSetRef";
+            this.fldCurrentSetRef.Size = new System.Drawing.Size(75, 25);
+            this.fldCurrentSetRef.Text = "TEST";
             // 
             // btnLoadSet
             // 
@@ -2696,31 +2713,31 @@
             // toolStrip10
             // 
             this.toolStrip10.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton2,
-            this.toolStripButton3});
+            this.btnUnitySubModelsCollapseNodes,
+            this.btnUnitySubModelsExpandAll});
             this.toolStrip10.Location = new System.Drawing.Point(3, 16);
             this.toolStrip10.Name = "toolStrip10";
             this.toolStrip10.Size = new System.Drawing.Size(370, 25);
             this.toolStrip10.TabIndex = 28;
             this.toolStrip10.Text = "toolStrip10";
             // 
-            // toolStripButton2
+            // btnUnitySubModelsCollapseNodes
             // 
-            this.toolStripButton2.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.ToolTipText = "Collapse";
+            this.btnUnitySubModelsCollapseNodes.Image = ((System.Drawing.Image)(resources.GetObject("btnUnitySubModelsCollapseNodes.Image")));
+            this.btnUnitySubModelsCollapseNodes.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUnitySubModelsCollapseNodes.Name = "btnUnitySubModelsCollapseNodes";
+            this.btnUnitySubModelsCollapseNodes.Size = new System.Drawing.Size(23, 22);
+            this.btnUnitySubModelsCollapseNodes.ToolTipText = "Collapse";
+            this.btnUnitySubModelsCollapseNodes.Click += new System.EventHandler(this.btnUnitySubModelsCollapseNodes_Click);
             // 
-            // toolStripButton3
+            // btnUnitySubModelsExpandAll
             // 
-            this.toolStripButton3.BackColor = System.Drawing.Color.Pink;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton3.ToolTipText = "Expand All";
+            this.btnUnitySubModelsExpandAll.Image = ((System.Drawing.Image)(resources.GetObject("btnUnitySubModelsExpandAll.Image")));
+            this.btnUnitySubModelsExpandAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUnitySubModelsExpandAll.Name = "btnUnitySubModelsExpandAll";
+            this.btnUnitySubModelsExpandAll.Size = new System.Drawing.Size(23, 22);
+            this.btnUnitySubModelsExpandAll.ToolTipText = "Expand All";
+            this.btnUnitySubModelsExpandAll.Click += new System.EventHandler(this.btnUnitySubModelsExpandAll_Click);
             // 
             // splitContainer7
             // 
@@ -3025,23 +3042,6 @@
             this.chkShowFBXDetails.TabIndex = 112;
             this.chkShowFBXDetails.Text = "Show FBX Details";
             this.chkShowFBXDetails.UseVisualStyleBackColor = false;
-            // 
-            // fldCurrentSetRef
-            // 
-            this.fldCurrentSetRef.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.fldCurrentSetRef.Name = "fldCurrentSetRef";
-            this.fldCurrentSetRef.Size = new System.Drawing.Size(75, 25);
-            this.fldCurrentSetRef.Text = "TEST";
-            // 
-            // fldSetRecent
-            // 
-            this.fldSetRecent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.fldSetRecent.Image = ((System.Drawing.Image)(resources.GetObject("fldSetRecent.Image")));
-            this.fldSetRecent.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.fldSetRecent.Name = "fldSetRecent";
-            this.fldSetRecent.Size = new System.Drawing.Size(56, 22);
-            this.fldSetRecent.Text = "Recent";
-            this.fldSetRecent.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.fldSetRecent_DropDownItemClicked);
             // 
             // InstructionViewer
             // 
@@ -3471,8 +3471,8 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TreeView tvSetSubModels;
         private System.Windows.Forms.ToolStrip toolStrip10;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton btnUnitySubModelsCollapseNodes;
+        private System.Windows.Forms.ToolStripButton btnUnitySubModelsExpandAll;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView dgSetSubModelPartSummary;
         private System.Windows.Forms.StatusStrip statusStrip5;
