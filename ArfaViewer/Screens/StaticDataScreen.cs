@@ -204,9 +204,9 @@ namespace Generator
                     new ToolStripControlHost(chkFilesDatFilenameAcEquals),
                     fldFilesDatFilenameAc,
                     new ToolStripControlHost(chkFilesDatLock),
-                    toolStripSeparator28,
-                    btnFBXDatArchiveAll,
-                    btnFBXDatArchiveSelected
+                    toolStripSeparator28,                    
+                    btnFBXDatArchiveSelected,
+                    btnFBXDatArchiveAll
                 });
                 #endregion
 

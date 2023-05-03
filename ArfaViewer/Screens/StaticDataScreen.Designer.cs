@@ -2069,7 +2069,6 @@
             // 
             // btnFBXDatArchiveAll
             // 
-            this.btnFBXDatArchiveAll.BackColor = System.Drawing.Color.Yellow;
             this.btnFBXDatArchiveAll.Image = ((System.Drawing.Image)(resources.GetObject("btnFBXDatArchiveAll.Image")));
             this.btnFBXDatArchiveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnFBXDatArchiveAll.Name = "btnFBXDatArchiveAll";
@@ -2079,7 +2078,6 @@
             // 
             // btnFBXDatArchiveSelected
             // 
-            this.btnFBXDatArchiveSelected.BackColor = System.Drawing.Color.Yellow;
             this.btnFBXDatArchiveSelected.Image = ((System.Drawing.Image)(resources.GetObject("btnFBXDatArchiveSelected.Image")));
             this.btnFBXDatArchiveSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnFBXDatArchiveSelected.Name = "btnFBXDatArchiveSelected";
