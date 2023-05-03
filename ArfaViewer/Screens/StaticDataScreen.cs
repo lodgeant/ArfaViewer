@@ -204,6 +204,9 @@ namespace Generator
                     new ToolStripControlHost(chkFilesDatFilenameAcEquals),
                     fldFilesDatFilenameAc,
                     new ToolStripControlHost(chkFilesDatLock),
+                    toolStripSeparator28,
+                    btnFBXDatArchiveAll,
+                    btnFBXDatArchiveSelected
                 });
                 #endregion
 
@@ -2882,6 +2885,91 @@ namespace Generator
             }
         }
 
-       
+        private void btnFBXDatArchiveAll_Click(object sender, EventArgs e)
+        {
+            ArchiveAll();
+        }
+
+        private void btnFBXDatArchiveSelected_Click(object sender, EventArgs e)
+        {
+            ArchiveSelected();
+        }
+
+
+
+        #region ** .DAT ARCHIVING FUNCTIONS **
+
+        private void ArchiveAll()
+        {
+            try
+            {
+                // ** Validation Checks **
+                //if (dgFilesDatSummary.SelectedRows.Count == 0) throw new Exception("No file(s) selected...");
+                //string Ref = dgSetInstructionsSummary.SelectedRows[0].Cells["Ref"].Value.ToString();
+                if (dgFilesDatSummary.Rows.Count == 0) throw new Exception("No files available for archiving...");
+
+                // ** Get filename list **
+                List<string> fileNameList = new List<string>();
+                foreach(DataGridViewRow row in dgFilesDatSummary.Rows)
+                {
+                    string fileName = row.Cells["Name"].Value.ToString();
+                    fileNameList.Add(fileName);
+                }
+
+                // ** Send list to API for archiving **
+                string response = StaticData.ArchiveDATFiles(fileNameList);
+                if (response != "SUCCESS") throw new Exception(response);
+
+
+                // ** Show confirmation message **
+                string msg = "Archived the following files:" + Environment.NewLine;
+                foreach(string fileName in fileNameList) msg += fileName + Environment.NewLine;                
+                MessageBox.Show(msg);
+
+                // ** Refresh Screen **
+                RefreshFilesDat();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ArchiveSelected()
+        {
+            try
+            {
+                // ** Validation Checks **
+                if (dgFilesDatSummary.SelectedRows.Count == 0) throw new Exception("No files selected for archiving...");
+
+                // ** Get filename list **
+                List<string> fileNameList = new List<string>();
+                foreach (DataGridViewRow row in dgFilesDatSummary.SelectedRows)
+                {
+                    string fileName = row.Cells["Name"].Value.ToString();
+                    fileNameList.Add(fileName);
+                }
+
+                // ** Send list to API for archiving **
+                string response = StaticData.ArchiveDATFiles(fileNameList);
+                if (response != "SUCCESS") throw new Exception(response);
+
+                // ** Show confirmation message **
+                string msg = "Archived the following files:" + Environment.NewLine;
+                foreach (string fileName in fileNameList) msg += fileName + Environment.NewLine;
+                MessageBox.Show(msg);
+
+                // ** Refresh Screen **
+                RefreshFilesDat();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
+
     }
 }

@@ -321,6 +321,24 @@ namespace Generator
         }
 
 
+        public static string ArchiveDATFiles(List<string> IDList)
+        {
+            string url = Global_Variables.APIUrl + "FBXDetails/ArchiveDATFiles?";
+            foreach (string id in IDList) url += "IDList=" + id + "&";
+            string JSONString = GetJSONResponseFromURL(url).Replace("\"", "");
+            return JSONString;
+        }
+
+
+
+
+
+
+
+
+
+
+
         // ** ThemeDetails Functions **
 
         public static ThemeDetailsCollection GetThemeDetailsData_UsingThemeList(List<string> IDList)
@@ -719,6 +737,10 @@ namespace Generator
             string url = Global_Variables.APIUrl + "RecentSetMapping/AddRecentSetMapping";
             PostJSONRequestFromURL(url, json);
         }
+
+
+
+        
 
 
 
